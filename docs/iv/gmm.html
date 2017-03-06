@@ -1,0 +1,594 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GMM Weight and Covariance Estimation &mdash; linearmodels 0+untagged.54.gd4306d4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.gd4306d4 documentation" href="../index.html"/>
+        <link rel="up" title="Instrumental Variable Module Reference" href="reference.html"/>
+        <link rel="next" title="Mathematical Formulas" href="estimators.html"/>
+        <link rel="prev" title="Instrumental Variable Covariance Estimation" href="covariance.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> linearmodels
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.+
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="iv.html">Instrumental Variable Model Estimation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference.html">Instrumental Variable Module Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="methods.html">Estimation Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html">Estimation Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="covariance.html">Instrumental Variable Covariance Estimation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">GMM Weight and Covariance Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="estimators.html">Mathematical Formulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../panel/panel.html">Panel Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plan.html">Module Plans</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">linearmodels</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="reference.html">Instrumental Variable Module Reference</a> &raquo;</li>
+        
+      <li>GMM Weight and Covariance Estimation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/iv/gmm.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-linearmodels.iv.gmm">
+<span id="gmm-weight-and-covariance-estimation"></span><h1>GMM Weight and Covariance Estimation<a class="headerlink" href="#module-linearmodels.iv.gmm" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="linearmodels.iv.gmm.IVGMMCovariance">
+<em class="property">class </em><code class="descname">IVGMMCovariance</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em>, <em>params</em>, <em>w</em>, <em>cov_type='robust'</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#IVGMMCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.IVGMMCovariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance estimation for GMM models</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<em>ndarray</em>) &#8211; Model regressors (nobs by nvar)</li>
+<li><strong>y</strong> (<em>ndarray</em>) &#8211; Series ,modeled (nobs by 1)</li>
+<li><strong>z</strong> (<em>ndarray</em>) &#8211; Instruments used for endogensou regressors (nobs by ninstr)</li>
+<li><strong>params</strong> (<em>ndarray</em>) &#8211; Estimated model parameters (nvar by 1)</li>
+<li><strong>w</strong> (<em>ndarray</em>) &#8211; Weighting matrix used in GMM estimation</li>
+<li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; <p>Covariance estimator to use  Valid choices are</p>
+<ul>
+<li>&#8216;unadjusted&#8217;, &#8216;homoskedastic&#8217; - Assumes moment conditions are
+homoskedastic</li>
+<li>&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Allows for heterosedasticity by not
+autocorrelation</li>
+<li>&#8216;kernel&#8217; - Allows for heteroskedasticity and autocorrelation</li>
+<li>&#8216;cluster&#8217; - Allows for one-way cluster dependence</li>
+</ul>
+</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debias the covariance estimator</li>
+<li><strong>cov_config</strong> &#8211; Optional keyword arguments that are specific to a particular cov_type</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Optional keyword argument for specific covariance estimators:</p>
+<p><strong>kernel</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">kernel</span></code>: Name of kernel to use.  See
+linearmodel.covariance.KernelCovariance for details on available
+kernels</li>
+<li><code class="docutils literal"><span class="pre">bandwidth</span></code>: Bandwidth to use when computing the weight.  If not
+provided, nobs - 2 is used.</li>
+</ul>
+</div></blockquote>
+<p><strong>cluster</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">clusters</span></code>: Array containing the cluster indices.  See
+linearmodel.covariance.OneWayClusteredCovariance</li>
+</ul>
+</div></blockquote>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="covariance.html#linearmodels.iv.covariance.HomoskedasticCovariance" title="linearmodels.iv.covariance.HomoskedasticCovariance"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.iv.covariance.HomoskedasticCovariance</span></code></a>, <a class="reference internal" href="covariance.html#linearmodels.iv.covariance.HeteroskedasticCovariance" title="linearmodels.iv.covariance.HeteroskedasticCovariance"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.iv.covariance.HeteroskedasticCovariance</span></code></a>, <a class="reference internal" href="covariance.html#linearmodels.iv.covariance.KernelCovariance" title="linearmodels.iv.covariance.KernelCovariance"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.iv.covariance.KernelCovariance</span></code></a>, <a class="reference internal" href="covariance.html#linearmodels.iv.covariance.OneWayClusteredCovariance" title="linearmodels.iv.covariance.OneWayClusteredCovariance"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.iv.covariance.OneWayClusteredCovariance</span></code></a></p>
+</div>
+<dl class="attribute">
+<dt id="linearmodels.iv.gmm.IVGMMCovariance.debiased">
+<code class="descname">debiased</code><a class="headerlink" href="#linearmodels.iv.gmm.IVGMMCovariance.debiased" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating whether to debias</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.gmm.IVGMMCovariance.s">
+<code class="descname">s</code><a class="headerlink" href="#linearmodels.iv.gmm.IVGMMCovariance.s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Score covariance estimate</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.gmm.IVGMMCovariance.s2">
+<code class="descname">s2</code><a class="headerlink" href="#linearmodels.iv.gmm.IVGMMCovariance.s2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimated variance of residuals. Small-sample adjusted if debiased.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="linearmodels.iv.gmm.HomoskedasticWeightMatrix">
+<em class="property">class </em><code class="descname">HomoskedasticWeightMatrix</code><span class="sig-paren">(</span><em>center=False</em>, <em>debiased=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#HomoskedasticWeightMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.HomoskedasticWeightMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Homoskedastic (unadjusted) weight estimation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to center the moment conditions by subtracting
+the mean before computing the weight matrix.</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to use small-sample adjustments</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The weight matrix estimator is</p>
+<div class="math">
+\[\begin{split}s^{2} &amp; =n^{-1}\sum_{i=1}^{n}(\epsilon_i-\bar{\epsilon})^2 \\
+W &amp; =n^{-1}s^{2}\sum_{i=1}^{n}z_i'z_i\end{split}\]</div>
+<p>where <span class="math">\(z_i\)</span> contains both the exogensou regressors and instruments.</p>
+<p><code class="docutils literal"><span class="pre">center</span></code> has no effect on this estimator since it is always centered.</p>
+<dl class="attribute">
+<dt id="linearmodels.iv.gmm.HomoskedasticWeightMatrix.config">
+<code class="descname">config</code><a class="headerlink" href="#linearmodels.iv.gmm.HomoskedasticWeightMatrix.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Weight estimator configuration</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>config</strong> &#8211; Dictionary containing weight estimator configuration information</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.iv.gmm.HomoskedasticWeightMatrix.weight_matrix">
+<code class="descname">weight_matrix</code><span class="sig-paren">(</span><em>x</em>, <em>z</em>, <em>eps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#HomoskedasticWeightMatrix.weight_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.HomoskedasticWeightMatrix.weight_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>ndarray</em>) &#8211; Model regressors (exog and endog), (nobs by nvar)</li>
+<li><strong>z</strong> (<em>ndarray</em>) &#8211; Model instruments (exog and instruments), (nobs by ninstr)</li>
+<li><strong>eps</strong> (<em>ndarray</em>) &#8211; Model errors (nobs by 1)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>weight</strong> &#8211; Covariance of GMM moment conditions.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="linearmodels.iv.gmm.HeteroskedasticWeightMatrix">
+<em class="property">class </em><code class="descname">HeteroskedasticWeightMatrix</code><span class="sig-paren">(</span><em>center=False</em>, <em>debiased=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#HeteroskedasticWeightMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.HeteroskedasticWeightMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Heteroskedasticity robust weight estimation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to center the moment conditions by subtracting
+the mean before computing the weight matrix.</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to use small-sample adjustments</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The weight matrix estimator is</p>
+<div class="math">
+\[\begin{split}g_i &amp; =z_i\epsilon_i\\
+W &amp; =n^{-1}\sum_{i=1}^{n}g'_ig_i\end{split}\]</div>
+<p>where <span class="math">\(z_i\)</span> contains both the exogenous regressors and instruments.</p>
+<dl class="attribute">
+<dt id="linearmodels.iv.gmm.HeteroskedasticWeightMatrix.config">
+<code class="descname">config</code><a class="headerlink" href="#linearmodels.iv.gmm.HeteroskedasticWeightMatrix.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Weight estimator configuration</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>config</strong> &#8211; Dictionary containing weight estimator configuration information</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.iv.gmm.HeteroskedasticWeightMatrix.weight_matrix">
+<code class="descname">weight_matrix</code><span class="sig-paren">(</span><em>x</em>, <em>z</em>, <em>eps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#HeteroskedasticWeightMatrix.weight_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.HeteroskedasticWeightMatrix.weight_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>ndarray</em>) &#8211; Model regressors (exog and endog), (nobs by nvar)</li>
+<li><strong>z</strong> (<em>ndarray</em>) &#8211; Model instruments (exog and instruments), (nobs by ninstr)</li>
+<li><strong>eps</strong> (<em>ndarray</em>) &#8211; Model errors (nobs by 1)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>weight</strong> &#8211; Covariance of GMM moment conditions.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="linearmodels.iv.gmm.KernelWeightMatrix">
+<em class="property">class </em><code class="descname">KernelWeightMatrix</code><span class="sig-paren">(</span><em>kernel='bartlett'</em>, <em>bandwidth=None</em>, <em>center=False</em>, <em>debiased=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#KernelWeightMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.KernelWeightMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Heteroskedasticity, autocorrelation robust weight estimation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>kernel</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name of kernel weighting function to use</li>
+<li><strong>bandwidth</strong> (<em>{int</em><em>, </em><em>None}</em><em>, </em><em>optional</em>) &#8211; Bandwidth to use when computing kernel weights</li>
+<li><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to center the moment conditions by subtracting
+the mean before computing the weight matrix.</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to use small-sample adjustments</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Supported kernels:</p>
+<blockquote>
+<div><ul class="simple">
+<li>&#8216;bartlett&#8217;, &#8216;newey-west&#8217; - Bartlett&#8217;s kernel</li>
+<li>&#8216;parzen&#8217;, &#8216;gallant&#8217; - Parzen&#8217;s kernel</li>
+<li>&#8216;qs&#8217;, &#8216;quadratic-spectral&#8217;, &#8216;andrews&#8217; - The quadratic spectral kernel</li>
+</ul>
+</div></blockquote>
+<div class="math">
+\[\begin{split}g_i &amp; =z_i \epsilon_i \\
+W &amp; =n^{-1}(\Gamma_0+\sum_{j=1}^{n-1}k(j)(\Gamma_j+\Gamma_j')) \\
+\Gamma_j &amp; =\sum_{i=j+1}^n g'_i g_{j-j}\end{split}\]</div>
+<p>where <span class="math">\(k(j)\)</span> is the kernel weight for lag j and <span class="math">\(z_i\)</span>
+contains both the exogensou regressors and instruments..</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="covariance.html#linearmodels.iv.covariance.kernel_weight_bartlett" title="linearmodels.iv.covariance.kernel_weight_bartlett"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.iv.covariance.kernel_weight_bartlett</span></code></a>, <a class="reference internal" href="covariance.html#linearmodels.iv.covariance.kernel_weight_parzen" title="linearmodels.iv.covariance.kernel_weight_parzen"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.iv.covariance.kernel_weight_parzen</span></code></a>, <a class="reference internal" href="covariance.html#linearmodels.iv.covariance.kernel_weight_quadratic_spectral" title="linearmodels.iv.covariance.kernel_weight_quadratic_spectral"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.iv.covariance.kernel_weight_quadratic_spectral</span></code></a></p>
+</div>
+<dl class="attribute">
+<dt id="linearmodels.iv.gmm.KernelWeightMatrix.config">
+<code class="descname">config</code><a class="headerlink" href="#linearmodels.iv.gmm.KernelWeightMatrix.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Weight estimator configuration</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>config</strong> &#8211; Dictionary containing weight estimator configuration information</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.iv.gmm.KernelWeightMatrix.weight_matrix">
+<code class="descname">weight_matrix</code><span class="sig-paren">(</span><em>x</em>, <em>z</em>, <em>eps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#KernelWeightMatrix.weight_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.KernelWeightMatrix.weight_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>ndarray</em>) &#8211; Model regressors (exog and endog), (nobs by nvar)</li>
+<li><strong>z</strong> (<em>ndarray</em>) &#8211; Model instruments (exog and instruments), (nobs by ninstr)</li>
+<li><strong>eps</strong> (<em>ndarray</em>) &#8211; Model errors (nobs by 1)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>weight</strong> &#8211; Covariance of GMM moment conditions.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="linearmodels.iv.gmm.OneWayClusteredWeightMatrix">
+<em class="property">class </em><code class="descname">OneWayClusteredWeightMatrix</code><span class="sig-paren">(</span><em>clusters</em>, <em>center=False</em>, <em>debiased=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#OneWayClusteredWeightMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.OneWayClusteredWeightMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clustered (one-way) weight estimation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>clusters</strong> (<em>ndarray</em>) &#8211; Array indicating cluster membership</li>
+<li><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to center the moment conditions by subtracting
+the mean before computing the weight matrix.</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to use small-sample adjustments</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="linearmodels.iv.gmm.OneWayClusteredWeightMatrix.config">
+<code class="descname">config</code><a class="headerlink" href="#linearmodels.iv.gmm.OneWayClusteredWeightMatrix.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Weight estimator configuration</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>config</strong> &#8211; Dictionary containing weight estimator configuration information</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.iv.gmm.OneWayClusteredWeightMatrix.weight_matrix">
+<code class="descname">weight_matrix</code><span class="sig-paren">(</span><em>x</em>, <em>z</em>, <em>eps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#OneWayClusteredWeightMatrix.weight_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.OneWayClusteredWeightMatrix.weight_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>ndarray</em>) &#8211; Model regressors (exog and endog), (nobs by nvar)</li>
+<li><strong>z</strong> (<em>ndarray</em>) &#8211; Model instruments (exog and instruments), (nobs by ninstr)</li>
+<li><strong>eps</strong> (<em>ndarray</em>) &#8211; Model errors (nobs by 1)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>weight</strong> &#8211; Covariance of GMM moment conditions.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="estimators.html" class="btn btn-neutral float-right" title="Mathematical Formulas" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="covariance.html" class="btn btn-neutral" title="Instrumental Variable Covariance Estimation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin Sheppard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0+untagged.54.gd4306d4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

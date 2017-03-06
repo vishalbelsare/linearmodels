@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Instrumental Variable Model Estimation &mdash; linearmodels 0+untagged.54.gd4306d4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.gd4306d4 documentation" href="../index.html"/>
+        <link rel="next" title="Instrumental Variable Module Reference" href="reference.html"/>
+        <link rel="prev" title="Linear Model Estimation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> linearmodels
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.+
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Instrumental Variable Model Estimation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#two-stage-least-squares">Two stage-least squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#limited-information-maximum-likelihood-liml-and-k-class-estiamtion">Limited Information Maximum Likelihood (LIML) and k-class Estiamtion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generalized-method-of-moments-gmm-estimation">Generalized Method of Moments (GMM) Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#continuously-updating-gmm-estimation">Continuously Updating GMM Estimation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Instrumental Variable Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../panel/panel.html">Panel Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plan.html">Module Plans</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">linearmodels</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Instrumental Variable Model Estimation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/iv/iv.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="instrumental-variable-model-estimation">
+<h1>Instrumental Variable Model Estimation<a class="headerlink" href="#instrumental-variable-model-estimation" title="Permalink to this headline">¶</a></h1>
+<p>Instrumental variable models are used when regressors are endogenous
+or there is measurement error on the variable.  These models make use of
+instruments which are correlated with the endogenous variable but not
+with the model error. All model estimated by this package can be described
+as</p>
+<div class="math">
+\[\begin{split}y_i    &amp; = x_{1i}\beta_1 + x_{2i}\beta_2 + \epsilon_i \\
+x_{2i} &amp; = x_{1i}\delta + z_{i}\gamma + \nu_i\end{split}\]</div>
+<p>In this expression, <span class="math">\(x_{1i}\)</span> is a set of <span class="math">\(k_1\)</span> regressors that
+are exogenous while <span class="math">\(x_{2i}\)</span> is a set of <span class="math">\(k_2\)</span> regressors that are
+endogenous in the sense that <span class="math">\(Cov(x_{2i},\epsilon_i)\neq 0\)</span>. The <span class="math">\(p\)</span>
+element vector <span class="math">\(z_i\)</span> are instruments that explain <span class="math">\(x_{2i}\)</span> but not
+<span class="math">\(y_i\)</span>.</p>
+<p>There are four estimation methods available to fit models of this type.  All accept the
+same four required inputs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">endog</span></code> - The variable to be modeled, <span class="math">\(y_i\)</span> in the model</li>
+<li><code class="docutils literal"><span class="pre">exog</span></code> - The exogenous regressors, <span class="math">\(x_{1i}\)</span> in the model</li>
+<li><code class="docutils literal"><span class="pre">instrumented</span></code> - The endogenous regressors, <span class="math">\(x_{2i}\)</span> in the model</li>
+<li><code class="docutils literal"><span class="pre">instruments</span></code> - The instruments, <span class="math">\(z_i\)</span> in the model</li>
+</ul>
+</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s1">&#39;hsng.dta&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">linearmodels.iv</span> <span class="kn">import</span> <span class="n">IV2SLS</span>
+<span class="n">endog</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rent</span>
+<span class="n">exog</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">pcturban</span><span class="p">)</span>
+<span class="n">instd</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">hsngval</span>
+<span class="n">instr</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;faminc&#39;</span><span class="p">,</span><span class="s1">&#39;region&#39;</span><span class="p">]]</span>
+
+<span class="n">mod</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">instd</span><span class="p">,</span> <span class="n">instr</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linearmodels.iv</span> <span class="kn">import</span> <span class="n">IV2SLS</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">instrumented</span><span class="p">,</span> <span class="n">instruments</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The usage is similar in spirit to <a class="reference external" href="http://www.statsmodels.org/dev/generated/statsmodels.regression.linear_model.OLS.html#statsmodels.regression.linear_model.OLS" title="(in statsmodels v0.8.0)"><code class="xref py py-class docutils literal"><span class="pre">statsmodels.regression.linear_model.OLS</span></code></a>.
+The estimator will reduce to OLS when <code class="docutils literal"><span class="pre">instruments</span></code> is equal to <code class="docutils literal"><span class="pre">instrumented</span></code>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linearmodels.iv</span> <span class="kn">import</span> <span class="n">IV2SLS</span>
+<span class="n">ols_mod</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">instrumented</span><span class="p">,</span> <span class="n">instrumented</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">ols_mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="two-stage-least-squares">
+<h2>Two stage-least squares<a class="headerlink" href="#two-stage-least-squares" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="limited-information-maximum-likelihood-liml-and-k-class-estiamtion">
+<h2>Limited Information Maximum Likelihood (LIML) and k-class Estiamtion<a class="headerlink" href="#limited-information-maximum-likelihood-liml-and-k-class-estiamtion" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="generalized-method-of-moments-gmm-estimation">
+<h2>Generalized Method of Moments (GMM) Estimation<a class="headerlink" href="#generalized-method-of-moments-gmm-estimation" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="continuously-updating-gmm-estimation">
+<h2>Continuously Updating GMM Estimation<a class="headerlink" href="#continuously-updating-gmm-estimation" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reference.html" class="btn btn-neutral float-right" title="Instrumental Variable Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral" title="Linear Model Estimation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin Sheppard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0+untagged.54.gd4306d4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

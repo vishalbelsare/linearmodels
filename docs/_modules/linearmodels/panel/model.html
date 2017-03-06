@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.54.gd4306d4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.gd4306d4 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> linearmodels
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.+
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../iv/iv.html">Instrumental Variable Model Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../iv/reference.html">Instrumental Variable Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../panel/panel.html">Panel Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plan.html">Module Plans</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">linearmodels</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>linearmodels.panel.model</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for linearmodels.panel.model</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">pinv</span>
+
+<span class="kn">from</span> <span class="nn">.data</span> <span class="k">import</span> <span class="n">PanelData</span>
+<span class="kn">from</span> <span class="nn">.fixed_effects</span> <span class="k">import</span> <span class="n">EntityEffect</span><span class="p">,</span> <span class="n">TimeEffect</span>
+
+
+<div class="viewcode-block" id="PooledOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PooledOLS">[docs]</a><span class="k">class</span> <span class="nc">PooledOLS</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimation of linear model with pooled parameters</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    endog: array-like</span>
+<span class="sd">        Endogenous or left-hand-side variable (entities by time)</span>
+<span class="sd">    exog: array-like</span>
+<span class="sd">        Exogenous or right-hand-side variables (entities by time by variable). Should not contain</span>
+<span class="sd">        an intercept or have a constant column in the column span.</span>
+<span class="sd">    intercept : bool, optional</span>
+<span class="sd">        Flag whether to include an intercept in the model</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The model is given by</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        y_{it}=\alpha+\beta^{\prime}x_{it}+\epsilon_{it}</span>
+
+<span class="sd">    where :math:`\alpha` is omitted if ``intercept`` is ``False``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endog</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">endog</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exog</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">exog</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span class="o">=</span> <span class="n">intercept</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">asnumpy2d</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">asnumpy2d</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">x</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">pinv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="PanelOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PanelOLS">[docs]</a><span class="k">class</span> <span class="nc">PanelOLS</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    endog: array-like</span>
+<span class="sd">        Endogenous or left-hand-side variable (entities by time)</span>
+<span class="sd">    exog: array-like</span>
+<span class="sd">        Exogenous or right-hand-side variables (entities by time by variable). Should not contain</span>
+<span class="sd">        an intercept or have a constant column in the column span.</span>
+<span class="sd">    intercept : bool, optional</span>
+<span class="sd">        Flag whether to include an intercept in the model</span>
+<span class="sd">    entity_effect : bool, optional</span>
+<span class="sd">        Flag whether to include an intercept in the model</span>
+<span class="sd">    time_effect : bool, optional</span>
+<span class="sd">        Flag whether to include an intercept in the model</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The model is given by</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        y_{it}=\alpha_i + \gamma_t +\beta^{\prime}x_{it}+\epsilon_{it}</span>
+
+<span class="sd">    where :math:`\alpha_i` is omitted if ``entity_effect`` is ``False`` and</span>
+<span class="sd">    :math:`\gamma_i` is omitted if ``time_effect`` is ``False``. If both ``entity_effect``  and</span>
+<span class="sd">    ``time_effect`` are ``False``, the model reduces to :class:`PooledOLS`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">entity_effect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">time_effect</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PanelOLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="n">intercept</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">intercept</span> <span class="ow">and</span> <span class="p">(</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="n">time_effect</span><span class="p">):</span>
+            <span class="kn">import</span> <span class="nn">warnings</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Intercept must be False when using entity or time effects.&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="o">=</span> <span class="n">entity_effect</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span> <span class="o">=</span> <span class="n">time_effect</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">asnumpy2d</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">asnumpy2d</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">x</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">EntityEffect</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">orthogonalize</span><span class="p">()</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">EntityEffect</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">orthogonalize</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">TimeEffect</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">orthogonalize</span><span class="p">()</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">TimeEffect</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">orthogonalize</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">pinv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="BetweenOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.BetweenOLS">[docs]</a><span class="k">class</span> <span class="nc">BetweenOLS</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    endog: array-like</span>
+<span class="sd">        Endogenous or left-hand-side variable (entities by time)</span>
+<span class="sd">    exog: array-like</span>
+<span class="sd">        Exogenous or right-hand-side variables (entities by time by variable). Should not contain</span>
+<span class="sd">        an intercept or have a constant column in the column span.</span>
+<span class="sd">    intercept : bool, optional</span>
+<span class="sd">        Flag whether to include an intercept in the model</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The model is given by</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \bar{y}_{i}=\alpha + \beta^{\prime}\bar{x}_{i}+\bar{\epsilon}_{i}</span>
+
+<span class="sd">    where :math:`\alpha` is omitted if ``intercept`` is ``False`` and</span>
+<span class="sd">    :math:`\bar{z}` is the time-average.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BetweenOLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="n">intercept</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">asnumpy3d</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">asnumpy3d</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">x</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">pinv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="FirstDifferenceOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.FirstDifferenceOLS">[docs]</a><span class="k">class</span> <span class="nc">FirstDifferenceOLS</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    endog: array-like</span>
+<span class="sd">        Endogenous or left-hand-side variable (entities by time)</span>
+<span class="sd">    exog: array-like</span>
+<span class="sd">        Exogenous or right-hand-side variables (entities by time by variable). Should not contain</span>
+<span class="sd">        an intercept or have a constant column in the column span.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The model is given by</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \Delta y_{it}=\beta^{\prime}\Delta x_{it}+\Delta\epsilon_{it}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FirstDifferenceOLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="n">intercept</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">asnumpy3d</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">asnumpy3d</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">k</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">k</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">pinv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin Sheppard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0+untagged.54.gd4306d4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

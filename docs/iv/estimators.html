@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Mathematical Formulas &mdash; linearmodels 0+untagged.54.gd4306d4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.gd4306d4 documentation" href="../index.html"/>
+        <link rel="up" title="Instrumental Variable Module Reference" href="reference.html"/>
+        <link rel="next" title="Panel Module Reference" href="../panel/panel.html"/>
+        <link rel="prev" title="GMM Weight and Covariance Estimation" href="gmm.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> linearmodels
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.+
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="iv.html">Instrumental Variable Model Estimation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference.html">Instrumental Variable Module Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="methods.html">Estimation Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html">Estimation Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="covariance.html">Instrumental Variable Covariance Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gmm.html">GMM Weight and Covariance Estimation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Mathematical Formulas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#notation">Notation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameter-estimation">Parameter Estimation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#two-stage-least-squares-2sls">Two-stage Least Squares (2SLS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#limited-information-maximum-likelihood-and-k-class-estimators">Limited Information Maximum Likelihood and k-class Estimators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generalized-method-of-moments-gmm">Generalized Method of Moments (GMM)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#variance-estimation">Variance Estimation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../panel/panel.html">Panel Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plan.html">Module Plans</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">linearmodels</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="reference.html">Instrumental Variable Module Reference</a> &raquo;</li>
+        
+      <li>Mathematical Formulas</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/iv/estimators.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mathematical-formulas">
+<h1>Mathematical Formulas<a class="headerlink" href="#mathematical-formulas" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="notation">
+<h2>Notation<a class="headerlink" href="#notation" title="Permalink to this headline">¶</a></h2>
+<p>Interest is in recovering the parameter vector from the model</p>
+<div class="math">
+\[y_{i}=x_{i}\beta+\epsilon_{i}\]</div>
+<p>The regressors <span class="math">\(x_{i}\)</span> are <span class="math">\(k\)</span> by 1 and <span class="math">\(\beta\)</span> is
+<span class="math">\(k\)</span> by 1. The regressors <span class="math">\(x_{i}\)</span> can be separated in two
+types of regressors, <span class="math">\(x_{1i}\)</span> which is <span class="math">\(k_{1}\)</span> by <span class="math">\(1\)</span>
+and <span class="math">\(x_{2i}\)</span> which is <span class="math">\(k_{2}\)</span> by 1. <span class="math">\(x_{1i}\)</span> are
+exogenous regressors in the sense that
+<span class="math">\(E\left[x_{1i}\epsilon_{i}\right]=0\)</span>. <span class="math">\(x_{2i}\)</span> are
+endogenous regressors. A set of <span class="math">\(p\)</span> instruments is available that
+satisfy the requirements for validity where <span class="math">\(p\geq k_{2}\)</span>. The
+extended model can be written as</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+y_{i} &amp; =\beta_{1}^{\prime}x_{1i}+\beta_{2}^{\prime}x_{2i}+\epsilon_{i}\\
+x_{2i} &amp; =\gamma_{1}^{\prime}x_{1i}+\gamma_{2}^{\prime}z_{i}+u_{i}\end{aligned}\end{split}\]</div>
+<p><span class="math">\(z_{i}\)</span> is <span class="math">\(p\)</span> by 1. There are <span class="math">\(n\)</span> observations for
+all variables. <span class="math">\(k_{c}=1\)</span> if the model contains a constant (either
+explicit or implicit, i.e., including all dummy variables). The
+constant, if included, is in <span class="math">\(x_{1i}\)</span>. <span class="math">\(X\)</span> is the <span class="math">\(n\)</span>
+by <span class="math">\(k\)</span> matrix if regressors where row <span class="math">\(i\)</span> of <span class="math">\(X\)</span> is
+<span class="math">\(x_{i}^{\prime}\)</span>. <span class="math">\(X\)</span> can be partitioned into
+<span class="math">\(\left[X_{1}\;X_{2}\right]\)</span>. <span class="math">\(Z\)</span> is the <span class="math">\(n\)</span> by
+<span class="math">\(p\)</span> matrix of instruments. The vector <span class="math">\(y\)</span> is <span class="math">\(n\)</span> by 1.
+Projection matrices for <span class="math">\(X\)</span> is defined
+<span class="math">\(P_{X}=X\left(X^{\prime}X\right)^{-1}X^{\prime}\)</span>. The projection
+matrix for <span class="math">\(Z\)</span> is similarly defined only using <span class="math">\(Z\)</span>. The
+annihilator matrix for <span class="math">\(X\)</span> is <span class="math">\(M_{X}=I-P_{X}\)</span>.</p>
+</div>
+<div class="section" id="parameter-estimation">
+<h2>Parameter Estimation<a class="headerlink" href="#parameter-estimation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="two-stage-least-squares-2sls">
+<h3>Two-stage Least Squares (2SLS)<a class="headerlink" href="#two-stage-least-squares-2sls" title="Permalink to this headline">¶</a></h3>
+<p>The 2SLS estimator is</p>
+<div class="math">
+\[\hat{\beta}_{2SLS}=\left(X^{\prime}P_{Z}X^{\prime}\right)\left(X^{\prime}P_{Z}y^{\prime}\right)\]</div>
+</div>
+<div class="section" id="limited-information-maximum-likelihood-and-k-class-estimators">
+<h3>Limited Information Maximum Likelihood and k-class Estimators<a class="headerlink" href="#limited-information-maximum-likelihood-and-k-class-estimators" title="Permalink to this headline">¶</a></h3>
+<p>The LIML or other k-class estimator is</p>
+<div class="math">
+\[\hat{\beta}_{\kappa}=\left(X^{\prime}\left(I-\kappa M_{Z}\right)X^{\prime}\right)\left(X^{\prime}\left(I-\kappa M_{Z}\right)y^{\prime}\right)\]</div>
+<p>where <span class="math">\(\kappa\)</span> is the parameter of the class. When <span class="math">\(\kappa=1\)</span> the 2SLS estimator is recovered. When <span class="math">\(\kappa=0\)</span>,
+the OLS estimator is recovered. The LIML estimator is recovered for
+<span class="math">\(\kappa\)</span> set to TODO</p>
+</div>
+<div class="section" id="generalized-method-of-moments-gmm">
+<h3>Generalized Method of Moments (GMM)<a class="headerlink" href="#generalized-method-of-moments-gmm" title="Permalink to this headline">¶</a></h3>
+<p>The GMM estimator is defined as</p>
+<div class="math">
+\[\hat{\beta}_{GMM}=\left(X^{\prime}ZWZ^{\prime}X\right)^{-1}\left(X^{\prime}ZWZ^{\prime}y\right)\]</div>
+<p>where <span class="math">\(W\)</span> is a positive definite weighting matrix.</p>
+</div>
+</div>
+<div class="section" id="variance-estimation">
+<h2>Variance Estimation<a class="headerlink" href="#variance-estimation" title="Permalink to this headline">¶</a></h2>
+<div class="math">
+\[n^{-1}s^{2}\Sigma_{xx}^{-1}\]</div>
+<p>or</p>
+<div class="math">
+\[\left(n-k\right)^{-1}s^{2}\Sigma_{xx}^{-1}\]</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../panel/panel.html" class="btn btn-neutral float-right" title="Panel Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gmm.html" class="btn btn-neutral" title="GMM Weight and Covariance Estimation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin Sheppard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0+untagged.54.gd4306d4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

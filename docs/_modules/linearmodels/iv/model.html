@@ -1,0 +1,963 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>linearmodels.iv.model &mdash; linearmodels 0+untagged.54.gd4306d4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.gd4306d4 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> linearmodels
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.+
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../iv/iv.html">Instrumental Variable Model Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../iv/reference.html">Instrumental Variable Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../panel/panel.html">Panel Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plan.html">Module Plans</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">linearmodels</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>linearmodels.iv.model</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for linearmodels.iv.model</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Instrumental variable estimators</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span>
+
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">asarray</span><span class="p">,</span> <span class="n">c_</span><span class="p">,</span> <span class="n">isscalar</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">eigvalsh</span><span class="p">,</span> <span class="n">inv</span><span class="p">,</span> <span class="n">matrix_rank</span><span class="p">,</span> <span class="n">pinv</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="k">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">minimize</span>
+
+<span class="kn">from</span> <span class="nn">linearmodels.iv.covariance</span> <span class="k">import</span> <span class="p">(</span><span class="n">HeteroskedasticCovariance</span><span class="p">,</span>
+                                        <span class="n">HomoskedasticCovariance</span><span class="p">,</span> <span class="n">KernelCovariance</span><span class="p">,</span>
+                                        <span class="n">OneWayClusteredCovariance</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">linearmodels.iv.data</span> <span class="k">import</span> <span class="n">DataHandler</span>
+<span class="kn">from</span> <span class="nn">linearmodels.iv.gmm</span> <span class="k">import</span> <span class="p">(</span><span class="n">HeteroskedasticWeightMatrix</span><span class="p">,</span>
+                                 <span class="n">HomoskedasticWeightMatrix</span><span class="p">,</span> <span class="n">IVGMMCovariance</span><span class="p">,</span>
+                                 <span class="n">KernelWeightMatrix</span><span class="p">,</span> <span class="n">OneWayClusteredWeightMatrix</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">linearmodels.iv.results</span> <span class="k">import</span> <span class="n">IVGMMResults</span><span class="p">,</span> <span class="n">IVResults</span><span class="p">,</span> <span class="n">OLSResults</span>
+<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">WaldTestStatistic</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> <span class="n">inv_sqrth</span>
+
+<span class="n">COVARIANCE_ESTIMATORS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;homoskedastic&#39;</span><span class="p">:</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;unadjusted&#39;</span><span class="p">:</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;HomoskedasticCovariance&#39;</span><span class="p">:</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;homo&#39;</span><span class="p">:</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;robust&#39;</span><span class="p">:</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">:</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;HeteroskedasticCovariance&#39;</span><span class="p">:</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;hccm&#39;</span><span class="p">:</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;kernel&#39;</span><span class="p">:</span> <span class="n">KernelCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;KernelCovariance&#39;</span><span class="p">:</span> <span class="n">KernelCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;one-way&#39;</span><span class="p">:</span> <span class="n">OneWayClusteredCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;clustered&#39;</span><span class="p">:</span> <span class="n">OneWayClusteredCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;OneWayClusteredCovariance&#39;</span><span class="p">:</span> <span class="n">OneWayClusteredCovariance</span><span class="p">}</span>
+
+<span class="n">WEIGHT_MATRICES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">:</span> <span class="n">HomoskedasticWeightMatrix</span><span class="p">,</span>
+                   <span class="s1">&#39;homoskedastic&#39;</span><span class="p">:</span> <span class="n">HomoskedasticWeightMatrix</span><span class="p">,</span>
+                   <span class="s1">&#39;robust&#39;</span><span class="p">:</span> <span class="n">HeteroskedasticWeightMatrix</span><span class="p">,</span>
+                   <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">:</span> <span class="n">HeteroskedasticWeightMatrix</span><span class="p">,</span>
+                   <span class="s1">&#39;kernel&#39;</span><span class="p">:</span> <span class="n">KernelWeightMatrix</span><span class="p">,</span>
+                   <span class="s1">&#39;clustered&#39;</span><span class="p">:</span> <span class="n">OneWayClusteredWeightMatrix</span><span class="p">,</span>
+                   <span class="s1">&#39;one-way&#39;</span><span class="p">:</span> <span class="n">OneWayClusteredWeightMatrix</span><span class="p">,</span> <span class="p">}</span>
+
+
+<div class="viewcode-block" id="IVLIML"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVLIML">[docs]</a><span class="k">class</span> <span class="nc">IVLIML</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Limited information ML and k-class estimation of IV models</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dependent : array-like</span>
+<span class="sd">        Endogenous variables (nobs by 1)</span>
+<span class="sd">    exog : array-like</span>
+<span class="sd">        Exogenous regressors  (nobs by nexog)</span>
+<span class="sd">    endog : array-like</span>
+<span class="sd">        Endogenous regressors (nobs by nendog)</span>
+<span class="sd">    instruments : array-like</span>
+<span class="sd">        Instrumental variables (nobs by ninstr)</span>
+<span class="sd">    fuller : float, optional</span>
+<span class="sd">        Fuller&#39;s alpha to modify LIML estimator. Default returns unmodified</span>
+<span class="sd">        LIML estimator.</span>
+<span class="sd">    kappa : float, optional</span>
+<span class="sd">        Parameter value for k-class estimation.  If not provided, computed to</span>
+<span class="sd">        produce LIML parameter estimate.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    ``kappa`` and ``fuller`` should not be used simultaneously since Fuller&#39;s</span>
+<span class="sd">    alpha applies an adjustment to ``kappa``, and so the same result can be</span>
+<span class="sd">    computed using only ``kappa``. Fuller&#39;s alpha is used to adjust the </span>
+<span class="sd">    LIML estimate of :math:`\kappa`, which is computed whenever ``kappa``</span>
+<span class="sd">    is not provided.</span>
+<span class="sd">    </span>
+<span class="sd">    The LIML estimator is defined as </span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">    </span>
+<span class="sd">      \hat{\beta}_{\kappa} &amp; =(X(I-\kappa M_{z})X)^{-1}X(I-\kappa M_{z})Y\\</span>
+<span class="sd">      M_{z} &amp; =I-P_{z}\\</span>
+<span class="sd">      P_{z} &amp; =Z(Z&#39;Z)^{-1}Z&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    where :math:`Z` contains both the exogenous regressors and the instruments.</span>
+<span class="sd">    :math:`\kappa` is estimated as part of the LIML estimator.</span>
+<span class="sd">    </span>
+<span class="sd">    When using Fuller&#39;s :math:`\alpha`, the value used is modified to </span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">    </span>
+<span class="sd">      \kappa-\alpha/(n-n_{instr})  </span>
+
+<span class="sd">    .. todo::</span>
+
+<span class="sd">        * VCV: bootstrap</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">,</span> <span class="n">fuller</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_container</span> <span class="o">=</span> <span class="n">IVResults</span>
+        <span class="k">if</span> <span class="n">endog</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">instruments</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_result_container</span> <span class="o">=</span> <span class="n">OLSResults</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span> <span class="o">=</span> <span class="n">DataHandler</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;dependent&#39;</span><span class="p">)</span>
+        <span class="n">nobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exog</span> <span class="o">=</span> <span class="n">DataHandler</span><span class="p">(</span><span class="n">exog</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;exog&#39;</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endog</span> <span class="o">=</span> <span class="n">DataHandler</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;endog&#39;</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instruments</span> <span class="o">=</span> <span class="n">DataHandler</span><span class="p">(</span><span class="n">instruments</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;instruments&#39;</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">)</span>
+
+        <span class="c1"># dependent variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="c1"># model regressors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+        <span class="c1"># first-stage regressors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_z</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_has_constant</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_regressor_is_exog</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
+                                        <span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">cols</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">cols</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_instr_columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">cols</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">cols</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">rows</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_inputs</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">=</span> <span class="s1">&#39;liml&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kappa</span> <span class="o">=</span> <span class="n">kappa</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fuller</span> <span class="o">=</span> <span class="n">fuller</span>
+        <span class="k">if</span> <span class="n">kappa</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">isscalar</span><span class="p">(</span><span class="n">kappa</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;kappa must be None or a scalar&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isscalar</span><span class="p">(</span><span class="n">fuller</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;fuller must be None or a scalar&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kappa</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">fuller</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">warnings</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;kappa and fuller should not normally be used &#39;</span>
+                          <span class="s1">&#39;simulaneously.  Identical results can be computed &#39;</span>
+                          <span class="s1">&#39;using kappa only&#39;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">=</span> <span class="s1">&#39;liml&#39;</span>
+        <span class="n">additional</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">fuller</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">additional</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;fuller(alpha=</span><span class="si">{0}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fuller</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">kappa</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">additional</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;kappa=</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fuller</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">additional</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">+=</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">additional</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_validate_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span>
+        <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Model must contain at least one regressor.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The number of instruments (</span><span class="si">{0}</span><span class="s1">) must be at least &#39;</span>
+                             <span class="s1">&#39;as large as the number of endogenous regressors&#39;</span>
+                             <span class="s1">&#39; (</span><span class="si">{1}</span><span class="s1">).&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                              <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">matrix_rank</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;regressors [exog endog] not have full &#39;</span>
+                             <span class="s1">&#39;column rank&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">matrix_rank</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;instruments [exog insruments]  do not have full &#39;</span>
+                             <span class="s1">&#39;column rank&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_has_constant</span> <span class="o">=</span> <span class="n">has_constant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="IVLIML.estimate_parameters"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVLIML.estimate_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">estimate_parameters</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">kappa</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameter estimation without error checking</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : ndarray</span>
+<span class="sd">            Regressor matrix (nobs by nvar)</span>
+<span class="sd">        y : ndarray</span>
+<span class="sd">            Regressand matrix (nobs by 1)</span>
+<span class="sd">        z : ndarray</span>
+<span class="sd">            Instrument matrix (nobs by ninstr)</span>
+<span class="sd">        kappa : scalar</span>
+<span class="sd">            Parameter value for k-class esimtator</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        params : ndarray</span>
+<span class="sd">            Estimated parameters (nvar by 1)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Exposed as a static method to facilitate estimation with other data,</span>
+<span class="sd">        e.g., bootstrapped samples.  Performs no error checking.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pinvz</span> <span class="o">=</span> <span class="n">pinv</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">kappa</span><span class="p">)</span> <span class="o">+</span> <span class="n">kappa</span> <span class="o">*</span> <span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">z</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">pinvz</span> <span class="o">@</span> <span class="n">x</span><span class="p">))</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">kappa</span><span class="p">)</span> <span class="o">+</span> <span class="n">kappa</span> <span class="o">*</span> <span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">z</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">pinvz</span> <span class="o">@</span> <span class="n">y</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">inv</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span> <span class="o">@</span> <span class="n">p2</span></div>
+
+    <span class="k">def</span> <span class="nf">_estimate_kappa</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span>
+        <span class="n">is_exog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_regressor_is_exog</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">[:,</span> <span class="o">~</span><span class="n">is_exog</span><span class="p">]]</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">is_exog</span><span class="p">]</span>
+
+        <span class="n">ez</span> <span class="o">=</span> <span class="n">e</span> <span class="o">-</span> <span class="n">z</span> <span class="o">@</span> <span class="p">(</span><span class="n">pinv</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">@</span> <span class="n">e</span><span class="p">)</span>
+        <span class="n">ex1</span> <span class="o">=</span> <span class="n">e</span> <span class="o">-</span> <span class="n">x1</span> <span class="o">@</span> <span class="p">(</span><span class="n">pinv</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="o">@</span> <span class="n">e</span><span class="p">)</span>
+
+        <span class="n">vpmzv_sqinv</span> <span class="o">=</span> <span class="n">inv_sqrth</span><span class="p">(</span><span class="n">ez</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">ez</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">vpmzv_sqinv</span> <span class="o">@</span> <span class="p">(</span><span class="n">ex1</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">ex1</span><span class="p">)</span> <span class="o">@</span> <span class="n">vpmzv_sqinv</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+
+<div class="viewcode-block" id="IVLIML.fit"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVLIML.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate model parameters</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cov_type : str, optional</span>
+<span class="sd">            Name of covariance estimator to use</span>
+<span class="sd">        **cov_config</span>
+<span class="sd">            Additional parameters to pass to covariance estimator</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        results : IVResults</span>
+<span class="sd">            Results container</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Additional covariance parameters depend on specific covariance used.</span>
+<span class="sd">        The see the docstring of specific covariance estimator for a list of</span>
+<span class="sd">        supported options. Defaults are used if no covariance configuration</span>
+<span class="sd">        is provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span>
+        <span class="n">liml_kappa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimate_kappa</span><span class="p">()</span>
+        <span class="n">kappa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kappa</span>
+        <span class="k">if</span> <span class="n">kappa</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kappa</span> <span class="o">=</span> <span class="n">liml_kappa</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fuller</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">nobs</span><span class="p">,</span> <span class="n">ninstr</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span>
+            <span class="n">kappa</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fuller</span> <span class="o">/</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">ninstr</span><span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_parameters</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">kappa</span><span class="p">)</span>
+
+        <span class="n">cov_estimator</span> <span class="o">=</span> <span class="n">COVARIANCE_ESTIMATORS</span><span class="p">[</span><span class="n">cov_type</span><span class="p">]</span>
+        <span class="n">cov_config</span><span class="p">[</span><span class="s1">&#39;kappa&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kappa</span>
+        <span class="n">cov_estimator</span> <span class="o">=</span> <span class="n">cov_estimator</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;kappa&#39;</span><span class="p">:</span> <span class="n">kappa</span><span class="p">,</span>
+                   <span class="s1">&#39;liml_kappa&#39;</span><span class="p">:</span> <span class="n">liml_kappa</span><span class="p">}</span>
+        <span class="n">pe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post_estimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov_estimator</span><span class="p">,</span> <span class="n">cov_type</span><span class="p">)</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pe</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_container</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IVLIML.resids"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVLIML.resids">[docs]</a>    <span class="k">def</span> <span class="nf">resids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute model residuals</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        params : ndarray</span>
+<span class="sd">            Model parameters (nvar by 1)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        resids : ndarray</span>
+<span class="sd">            Model residuals</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">@</span> <span class="n">params</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Flag indicating the model includes a constant or equivalent&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_constant</span>
+
+    <span class="k">def</span> <span class="nf">_f_statistic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">):</span>
+        <span class="n">non_const</span> <span class="o">=</span> <span class="o">~</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">test_params</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">non_const</span><span class="p">]</span>
+        <span class="n">test_cov</span> <span class="o">=</span> <span class="n">cov</span><span class="p">[</span><span class="n">non_const</span><span class="p">][:,</span> <span class="n">non_const</span><span class="p">]</span>
+        <span class="n">test_stat</span> <span class="o">=</span> <span class="n">test_params</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">inv</span><span class="p">(</span><span class="n">test_cov</span><span class="p">)</span> <span class="o">@</span> <span class="n">test_params</span>
+        <span class="n">test_stat</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">test_stat</span><span class="p">)</span>
+        <span class="n">nobs</span><span class="p">,</span> <span class="n">nvar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;All parameters ex. constant not zero&#39;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">test_params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">debiased</span><span class="p">:</span>
+            <span class="n">wald</span> <span class="o">=</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">test_stat</span> <span class="o">/</span> <span class="n">df</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">nobs</span> <span class="o">-</span> <span class="n">nvar</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">wald</span> <span class="o">=</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">test_stat</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">wald</span>
+
+    <span class="k">def</span> <span class="nf">_post_estimation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_estimator</span><span class="p">,</span> <span class="n">cov_type</span><span class="p">):</span>
+        <span class="nb">vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resids</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">cov</span> <span class="o">=</span> <span class="n">cov_estimator</span><span class="o">.</span><span class="n">cov</span>
+        <span class="n">debiased</span> <span class="o">=</span> <span class="n">cov_estimator</span><span class="o">.</span><span class="n">debiased</span>
+
+        <span class="n">residual_ss</span> <span class="o">=</span> <span class="p">(</span><span class="n">eps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">eps</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">total_ss</span> <span class="o">=</span> <span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">mu</span><span class="p">))</span>
+        <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">residual_ss</span> <span class="o">/</span> <span class="n">total_ss</span>
+
+        <span class="n">fstat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f_statistic</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="n">Series</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="nb">vars</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;parameter&#39;</span><span class="p">),</span>
+               <span class="s1">&#39;eps&#39;</span><span class="p">:</span> <span class="n">Series</span><span class="p">(</span><span class="n">eps</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;residual&#39;</span><span class="p">),</span>
+               <span class="s1">&#39;cov&#39;</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">cov</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="nb">vars</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">vars</span><span class="p">),</span>
+               <span class="s1">&#39;s2&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">cov_estimator</span><span class="o">.</span><span class="n">s2</span><span class="p">),</span>
+               <span class="s1">&#39;debiased&#39;</span><span class="p">:</span> <span class="n">debiased</span><span class="p">,</span>
+               <span class="s1">&#39;residual_ss&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">residual_ss</span><span class="p">),</span>
+               <span class="s1">&#39;total_ss&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">total_ss</span><span class="p">),</span>
+               <span class="s1">&#39;r2&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">r2</span><span class="p">),</span>
+               <span class="s1">&#39;fstat&#39;</span><span class="p">:</span> <span class="n">fstat</span><span class="p">,</span>
+               <span class="s1">&#39;vars&#39;</span><span class="p">:</span> <span class="nb">vars</span><span class="p">,</span>
+               <span class="s1">&#39;instruments&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instr_columns</span><span class="p">,</span>
+               <span class="s1">&#39;cov_config&#39;</span><span class="p">:</span> <span class="n">cov_estimator</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
+               <span class="s1">&#39;cov_type&#39;</span><span class="p">:</span> <span class="n">cov_type</span><span class="p">,</span>
+               <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method</span><span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="IV2SLS"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IV2SLS">[docs]</a><span class="k">class</span> <span class="nc">IV2SLS</span><span class="p">(</span><span class="n">IVLIML</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimation of IV models using two-stage least squares</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dependent : array-like</span>
+<span class="sd">        Endogenous variables (nobs by 1)</span>
+<span class="sd">    exog : array-like</span>
+<span class="sd">        Exogenous regressors  (nobs by nexog)</span>
+<span class="sd">    endog : array-like</span>
+<span class="sd">        Endogenous regressors (nobs by nendog)</span>
+<span class="sd">    instruments : array-like</span>
+<span class="sd">        Instrumental variables (nobs by ninstr)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The 2SLS estimator is defined</span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">    </span>
+<span class="sd">      \hat{\beta}_{2SLS} &amp; =(X&#39;Z(Z&#39;Z)^{-1}Z&#39;X)^{-1}X&#39;Z(Z&#39;Z)^{-1}Z&#39;Y\\</span>
+<span class="sd">                         &amp; =(\hat{X}&#39;\hat{X})^{-1}\hat{X}Y\\</span>
+<span class="sd">                 \hat{X} &amp; =Z(Z&#39;Z)^{-1}Z&#39;X</span>
+<span class="sd">    </span>
+<span class="sd">    The 2SLS estimator is a special case of a k-class estimator with</span>
+<span class="sd">    :math:`\kappa=1`,</span>
+<span class="sd">    </span>
+<span class="sd">    .. todo::</span>
+
+<span class="sd">        * VCV: bootstrap</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IV2SLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">,</span>
+                                     <span class="n">fuller</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">=</span> <span class="s1">&#39;2sls&#39;</span></div>
+
+
+<div class="viewcode-block" id="IVGMM"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMM">[docs]</a><span class="k">class</span> <span class="nc">IVGMM</span><span class="p">(</span><span class="n">IVLIML</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimation of IV models using the generalized method of moments (GMM)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dependent : array-like</span>
+<span class="sd">        Endogenous variables (nobs by 1)</span>
+<span class="sd">    exog : array-like</span>
+<span class="sd">        Exogenous regressors  (nobs by nexog)</span>
+<span class="sd">    endog : array-like</span>
+<span class="sd">        Endogenous regressors (nobs by nendog)</span>
+<span class="sd">    instruments : array-like</span>
+<span class="sd">        Instrumental variables (nobs by ninstr)</span>
+<span class="sd">    weight_type : str</span>
+<span class="sd">        Name of weight function to use.</span>
+<span class="sd">    **weight_config</span>
+<span class="sd">        Additional keyword arguments to pass to the weight function.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Available weight functions are:</span>
+
+<span class="sd">      * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are </span>
+<span class="sd">        homoskedastic</span>
+<span class="sd">      * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heterosedasticity by not </span>
+<span class="sd">        autocorrelation</span>
+<span class="sd">      * &#39;kernel&#39; - Allows for heteroskedasticity and autocorrelation</span>
+<span class="sd">      * &#39;cluster&#39; - Allows for one-way cluster dependence</span>
+<span class="sd">    </span>
+<span class="sd">    The estimator is defined as </span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">    </span>
+<span class="sd">      \hat{\beta}_{gmm}=(X&#39;ZW^{-1}Z&#39;X)^{-1}X&#39;ZW^{-1}Z&#39;Y</span>
+<span class="sd">    </span>
+<span class="sd">    where :math:`W` is a positive definite weight matrix and :math:`Z` </span>
+<span class="sd">    contains both the exogenous regressors and the instruments.</span>
+
+<span class="sd">    .. todo:</span>
+
+<span class="sd">         * VCV: bootstrap</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">,</span> <span class="n">weight_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">weight_config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IVGMM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">)</span>
+        <span class="n">weight_matrix_estimator</span> <span class="o">=</span> <span class="n">WEIGHT_MATRICES</span><span class="p">[</span><span class="n">weight_type</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weight</span> <span class="o">=</span> <span class="n">weight_matrix_estimator</span><span class="p">(</span><span class="o">**</span><span class="n">weight_config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weight_type</span> <span class="o">=</span> <span class="n">weight_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weight_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weight</span><span class="o">.</span><span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">=</span> <span class="s1">&#39;gmm&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_container</span> <span class="o">=</span> <span class="n">IVGMMResults</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="IVGMM.estimate_parameters"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMM.estimate_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">estimate_parameters</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : ndarray</span>
+<span class="sd">            Regressor matrix (nobs by nvar)</span>
+<span class="sd">        y : ndarray</span>
+<span class="sd">            Regressand matrix (nobs by 1)</span>
+<span class="sd">        z : ndarray</span>
+<span class="sd">            Instrument matrix (nobs by ninstr)</span>
+<span class="sd">        w : ndarray</span>
+<span class="sd">            GMM weight matrix (ninstr by ninstr)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        params : ndarray</span>
+<span class="sd">            Estimated parameters (nvar by 1)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Exposed as a static method to facilitate estimation with other data,</span>
+<span class="sd">        e.g., bootstrapped samples.  Performs no error checking.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xpz</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">z</span>
+        <span class="n">zpy</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span>
+        <span class="k">return</span> <span class="n">inv</span><span class="p">(</span><span class="n">xpz</span> <span class="o">@</span> <span class="n">w</span> <span class="o">@</span> <span class="n">xpz</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">xpz</span> <span class="o">@</span> <span class="n">w</span> <span class="o">@</span> <span class="n">zpy</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IVGMM.fit"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMM.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iter_limit</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate model parameters</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iter_limit : int, optional</span>
+<span class="sd">            Maximum number of iterations.  Default is 2, which produces</span>
+<span class="sd">            two-step efficient GMM estimates.  Larger values can be used</span>
+<span class="sd">            to iterate between parameter estimation and optimal weight</span>
+<span class="sd">            matrix estimation until convergence.</span>
+<span class="sd">        tol : float, optional</span>
+<span class="sd">            Convergence criteria.  Measured as covariance normalized change in</span>
+<span class="sd">            parameters across iterations where the covariance estimator is</span>
+<span class="sd">            based on the first step parameter estimates.</span>
+<span class="sd">        cov_type : str, optional</span>
+<span class="sd">                Name of covariance estimator to use</span>
+<span class="sd">        **cov_config</span>
+<span class="sd">            Additional parameters to pass to covariance estimator</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        results : IVGMMResults</span>
+<span class="sd">            Results container</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Additional covariance parameters depend on specific covariance used.</span>
+<span class="sd">        The see the docstring of specific covariance estimator for a list of</span>
+<span class="sd">        supported options. Defaults are used if no covariance configuration</span>
+<span class="sd">        is provided.</span>
+<span class="sd">        </span>
+<span class="sd">        Available covariance functions are:</span>
+<span class="sd">    </span>
+<span class="sd">          * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are </span>
+<span class="sd">            homoskedastic</span>
+<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heterosedasticity by not </span>
+<span class="sd">            autocorrelation</span>
+<span class="sd">          * &#39;kernel&#39; - Allows for heteroskedasticity and autocorrelation</span>
+<span class="sd">          * &#39;cluster&#39; - Allows for one-way cluster dependence</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span>
+        <span class="n">nobs</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">weight_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weight</span><span class="o">.</span><span class="n">weight_matrix</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">z</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span>
+        <span class="n">_params</span> <span class="o">=</span> <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_parameters</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
+
+        <span class="n">iters</span><span class="p">,</span> <span class="n">norm</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">tol</span>
+        <span class="k">while</span> <span class="n">iters</span> <span class="o">&lt;</span> <span class="n">iter_limit</span> <span class="ow">and</span> <span class="n">norm</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">:</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">weight_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">eps</span><span class="p">))</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_parameters</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+            <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
+            <span class="n">delta</span> <span class="o">=</span> <span class="n">params</span> <span class="o">-</span> <span class="n">_params</span>
+            <span class="n">xpz</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">z</span> <span class="o">/</span> <span class="n">nobs</span>
+            <span class="k">if</span> <span class="n">iters</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="n">xpz</span> <span class="o">@</span> <span class="n">w</span> <span class="o">@</span> <span class="n">xpz</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="n">nobs</span>
+                <span class="n">vinv</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">_params</span> <span class="o">=</span> <span class="n">params</span>
+            <span class="n">norm</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">vinv</span> <span class="o">@</span> <span class="n">delta</span>
+            <span class="n">iters</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">cov_estimator</span> <span class="o">=</span> <span class="n">IVGMMCovariance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span>
+                                        <span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post_estimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov_estimator</span><span class="p">,</span> <span class="n">cov_type</span><span class="p">)</span>
+        <span class="n">gmm_pe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gmm_post_estimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">iters</span><span class="p">)</span>
+
+        <span class="n">results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">gmm_pe</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_container</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_gmm_post_estimation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">weight_mat</span><span class="p">,</span> <span class="n">iters</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;GMM-specific post-estimation results&quot;&quot;&quot;</span>
+        <span class="n">instr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instr_columns</span>
+        <span class="n">gmm_specific</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;weight_mat&#39;</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">weight_mat</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">instr</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">instr</span><span class="p">),</span>
+                        <span class="s1">&#39;weight_type&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weight_type</span><span class="p">,</span>
+                        <span class="s1">&#39;weight_config&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weight_type</span><span class="p">,</span>
+                        <span class="s1">&#39;iterations&#39;</span><span class="p">:</span> <span class="n">iters</span><span class="p">,</span>
+                        <span class="s1">&#39;j_stat&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_statistic</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">weight_mat</span><span class="p">)}</span>
+
+        <span class="k">return</span> <span class="n">gmm_specific</span>
+
+    <span class="k">def</span> <span class="nf">_j_statistic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">weight_mat</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;J-stat and test&quot;&quot;&quot;</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span>
+        <span class="n">nobs</span><span class="p">,</span> <span class="n">nvar</span><span class="p">,</span> <span class="n">ninstr</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
+        <span class="n">g_bar</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span> <span class="o">*</span> <span class="n">eps</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">stat</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">nobs</span> <span class="o">*</span> <span class="n">g_bar</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">weight_mat</span> <span class="o">@</span> <span class="n">g_bar</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;Expected moment conditions are equal to 0&#39;</span>
+        <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">ninstr</span> <span class="o">-</span> <span class="n">nvar</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IVGMMCUE"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMMCUE">[docs]</a><span class="k">class</span> <span class="nc">IVGMMCUE</span><span class="p">(</span><span class="n">IVGMM</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimation of IV models using continuously updating GMM</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dependent : array-like</span>
+<span class="sd">        Endogenous variables (nobs by 1)</span>
+<span class="sd">    exog : array-like</span>
+<span class="sd">        Exogenous regressors  (nobs by nexog)</span>
+<span class="sd">    endog : array-like</span>
+<span class="sd">        Endogenous regressors (nobs by nendog)</span>
+<span class="sd">    instruments : array-like</span>
+<span class="sd">        Instrumental variables (nobs by ninstr)</span>
+<span class="sd">    weight_type : str</span>
+<span class="sd">        Name of weight function to use.</span>
+<span class="sd">    **weight_config</span>
+<span class="sd">        Additional keyword arguments to pass to the weight function.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Available weight functions are:</span>
+
+<span class="sd">      * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are </span>
+<span class="sd">        homoskedastic</span>
+<span class="sd">      * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heterosedasticity by not </span>
+<span class="sd">        autocorrelation</span>
+<span class="sd">      * &#39;kernel&#39; - Allows for heteroskedasticity and autocorrelation</span>
+<span class="sd">      * &#39;cluster&#39; - Allows for one-way cluster dependence</span>
+<span class="sd">    </span>
+<span class="sd">    In most circumstances, the ``center`` weight option should be ``True`` to</span>
+<span class="sd">    avoid starting value dependence.</span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">     </span>
+<span class="sd">      \hat{\beta}_{cue} &amp; =\min_{\beta}\bar{g}(\beta)&#39;W(\beta)^{-1}g(\beta)\\</span>
+<span class="sd">      g(\beta) &amp; =n^{-1}\sum_{i=1}^{n}z_{i}(y_{i}-x_{i}\beta)</span>
+<span class="sd">    </span>
+<span class="sd">    where :math:`W(\beta)` is a weight matrix that depends on :math:`\beta`</span>
+<span class="sd">    through :math:`\epsilon_i = y_i - x_i\beta`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">,</span> <span class="n">weight_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">weight_config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IVGMMCUE</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">,</span> <span class="n">weight_type</span><span class="p">,</span>
+                                       <span class="o">**</span><span class="n">weight_config</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;center&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">weight_config</span><span class="p">:</span>
+            <span class="n">weight_config</span><span class="p">[</span><span class="s1">&#39;center&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">=</span> <span class="s1">&#39;gmm-cue&#39;</span>
+
+<div class="viewcode-block" id="IVGMMCUE.j"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMMCUE.j">[docs]</a>    <span class="k">def</span> <span class="nf">j</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Optimization target </span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        params : ndarray</span>
+<span class="sd">            Parameter vector (nvar,)</span>
+<span class="sd">        x : ndarray</span>
+<span class="sd">            Regressor matrix (nobs by nvar)</span>
+<span class="sd">        y : ndarray</span>
+<span class="sd">            Regressand matrix (nobs by 1)</span>
+<span class="sd">        z : ndarray</span>
+<span class="sd">            Instrument matrix (nobs by ninstr)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        j : float</span>
+<span class="sd">            GMM objective function, also known as the J-statistic</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        </span>
+<span class="sd">        The GMM objective function is defined as</span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">        </span>
+<span class="sd">          J(\beta) = \bar{g}(\beta)&#39;W(\beta)^{-1}\bar{g}(\beta)</span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`\bar{g}(\beta)` is the average of the moment </span>
+<span class="sd">        conditions, :math:`z_i \hat{\epsilon}_i`, where </span>
+<span class="sd">        :math:`\hat{\epsilon}_i = y_i - x_i\beta`.  The weighting matrix</span>
+<span class="sd">        is some estimator of the long-run variance of the moment conditions.</span>
+<span class="sd">        </span>
+<span class="sd">        Unlike tradition GMM, the weighting matrix is simulteneously computed </span>
+<span class="sd">        with the moment conditions, and so has explicit dependence on </span>
+<span class="sd">        :math:`\beta`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nobs</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">weight_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weight</span><span class="o">.</span><span class="n">weight_matrix</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">weight_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">eps</span><span class="p">))</span>
+        <span class="n">g_bar</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span> <span class="o">*</span> <span class="n">eps</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">nobs</span> <span class="o">*</span> <span class="n">g_bar</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">w</span> <span class="o">@</span> <span class="n">g_bar</span><span class="o">.</span><span class="n">T</span></div>
+
+<div class="viewcode-block" id="IVGMMCUE.estimate_parameters"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMMCUE.estimate_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">estimate_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">starting</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        starting : ndarray</span>
+<span class="sd">            Starting values for the optimization</span>
+<span class="sd">        x : ndarray</span>
+<span class="sd">            Regressor matrix (nobs by nvar)</span>
+<span class="sd">        y : ndarray</span>
+<span class="sd">            Regressand matrix (nobs by 1)</span>
+<span class="sd">        z : ndarray</span>
+<span class="sd">            Instrument matrix (nobs by ninstr)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        params : ndarray</span>
+<span class="sd">            Estimated parameters (nvar by 1)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Exposed to facilitate estimation with other data, e.g., bootstrapped</span>
+<span class="sd">        samples.  Performs no error checking.</span>
+<span class="sd">        </span>
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        scipy.optimize.minimize</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">,</span> <span class="n">starting</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;disp&#39;</span><span class="p">:</span> <span class="n">display</span><span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">res</span><span class="o">.</span><span class="n">nit</span></div>
+
+<div class="viewcode-block" id="IVGMMCUE.fit"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMMCUE.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">starting</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate model parameters</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        starting : ndarray, optional</span>
+<span class="sd">            Starting values to use in optimization.  If not provided, 2SLS </span>
+<span class="sd">            estimates are used.</span>
+<span class="sd">        display : bool, optional</span>
+<span class="sd">            Flag indicating whether to display optimization output</span>
+<span class="sd">        cov_type : str, optional</span>
+<span class="sd">            Name of covariance estimator to use</span>
+<span class="sd">        **cov_config</span>
+<span class="sd">            Additional parameters to pass to covariance estimator</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        results : IVGMMResults</span>
+<span class="sd">            Results container</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Additional covariance parameters depend on specific covariance used.</span>
+<span class="sd">        The see the docstring of specific covariance estimator for a list of</span>
+<span class="sd">        supported options. Defaults are used if no covariance configuration</span>
+<span class="sd">        is provided.</span>
+<span class="sd">        </span>
+<span class="sd">        Starting values are computed by IV2SLS.</span>
+
+<span class="sd">        .. todo::</span>
+
+<span class="sd">          * Expose method to pass optimization options</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span>
+        <span class="n">weight_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weight</span><span class="o">.</span><span class="n">weight_matrix</span>
+        <span class="k">if</span> <span class="n">starting</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instruments</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+            <span class="n">starting</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">starting</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="n">starting</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">starting</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;starting does not have the correct number &#39;</span>
+                                 <span class="s1">&#39;of values&#39;</span><span class="p">)</span>
+        <span class="n">params</span><span class="p">,</span> <span class="n">iters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_parameters</span><span class="p">(</span><span class="n">starting</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">display</span><span class="p">)</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">weight_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">eps</span><span class="p">))</span>
+
+        <span class="n">cov_estimator</span> <span class="o">=</span> <span class="n">IVGMMCovariance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post_estimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov_estimator</span><span class="p">,</span> <span class="n">cov_type</span><span class="p">)</span>
+        <span class="n">gmm_pe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gmm_post_estimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">iters</span><span class="p">)</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">gmm_pe</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_container</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">_OLS</span><span class="p">(</span><span class="n">IVLIML</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes OLS estimated when required</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Uses IV2SLS internaly by setting endog and instruments to None</span>
+<span class="sd">    </span>
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    statsmodels.regression.linear_model.OLS,</span>
+<span class="sd">    statsmodels.regression.linear_model.GLS</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_OLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result_container</span> <span class="o">=</span> <span class="n">OLSResults</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin Sheppard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0+untagged.54.gd4306d4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
