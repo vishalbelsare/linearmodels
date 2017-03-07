@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.results &mdash; linearmodels 0+untagged.54.gd4306d4 documentation</title>
+  <title>linearmodels.iv.results &mdash; linearmodels 0+untagged.54.gd8decff documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.54.gd4306d4 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.gd8decff documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../iv/iv.html">Instrumental Variable Model Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../iv/reference.html">Instrumental Variable Module Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../panel/panel.html">Panel Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utility.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plan.html">Module Plans</a></li>
 </ul>
 
@@ -159,13 +160,14 @@
            <div itemprop="articleBody">
             
   <h1>Source code for linearmodels.iv.results</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="p">(</span><span class="n">InvalidTestStatistic</span><span class="p">,</span> <span class="n">WaldTestStatistic</span><span class="p">,</span>
+                                  <span class="n">_annihilate</span><span class="p">,</span> <span class="n">_proj</span><span class="p">,</span> <span class="n">cached_property</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">c_</span><span class="p">,</span> <span class="n">diag</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">ones</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">empty</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">inv</span><span class="p">,</span> <span class="n">pinv</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="k">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
-
-<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="p">(</span><span class="n">InvalidTestStatistic</span><span class="p">,</span> <span class="n">WaldTestStatistic</span><span class="p">,</span>
-                                  <span class="n">_annihilate</span><span class="p">,</span> <span class="n">_proj</span><span class="p">,</span> <span class="n">cached_property</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="OLSResults"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.OLSResults">[docs]</a><span class="k">class</span> <span class="nc">OLSResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -173,7 +175,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_resid</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cov</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;cov&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_r2</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;r2&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cov_type</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;cov_type&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_rss</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;residual_ss&#39;</span><span class="p">]</span>
@@ -185,6 +187,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_cov_config</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;cov_config&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_kappa</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;kappa&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">as_text</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">id: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">_repr_html_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">as_html</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;&lt;br/&gt;id: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">cov_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -214,22 +226,22 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">nobs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Number of observations&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">df_resid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Residual degree of freedom&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nobs</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nobs</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">df_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Model degree of freedom&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">has_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Flag indicating the model includes a constant or equivalent&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">has_constant</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">has_constant</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">kappa</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -327,7 +339,131 @@
         <span class="n">q</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">([(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">level</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">level</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
         <span class="n">ci</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">q</span>
-        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="s1">&#39;upper&#39;</span><span class="p">])</span></div></div>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="s1">&#39;upper&#39;</span><span class="p">])</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">f_stat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Model F-statistic</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        f : WaldTestStatistic</span>
+<span class="sd">            Test statistic for null all coefficients excluding constant terms </span>
+<span class="sd">            are zero.</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Despite name, always implemented using a quadratic-form test based on </span>
+<span class="sd">        estimated parameter covariance. Default is to use a chi2 distribution </span>
+<span class="sd">        to compute p-values. If ``debiased`` is True, uses an F-distribution.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span><span class="p">:</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_const_loc</span>
+            <span class="n">ex</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">))</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">loc</span><span class="p">]</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">ex</span><span class="p">]</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">ex</span><span class="p">][:,</span> <span class="n">ex</span><span class="p">]</span>
+        <span class="n">stat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">inv</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">@</span> <span class="n">p</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_config</span><span class="p">[</span><span class="s1">&#39;debiased&#39;</span><span class="p">]:</span>
+            <span class="n">df_denom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="s1">&#39;All coefficients ex. const are 0&#39;</span><span class="p">,</span>
+                                     <span class="n">df</span><span class="p">,</span> <span class="n">df_denom</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Model F-statistic&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="s1">&#39;All coefficients ex. const are 0&#39;</span><span class="p">,</span>
+                                 <span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Model F-statistic&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Summary table of model estimation results&quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">float4</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0:5.5g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="ow">and</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;0&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">6</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="k">def</span> <span class="nf">pval_format</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{0:4.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="kn">from</span> <span class="nn">statsmodels.iolib.summary</span> <span class="k">import</span> <span class="n">Summary</span><span class="p">,</span> <span class="n">fmt_2cols</span><span class="p">,</span> \
+            <span class="n">SimpleTable</span><span class="p">,</span> <span class="n">fmt_params</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">+</span> <span class="s1">&#39; Estimation Summary&#39;</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
+        <span class="n">top_left</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Dep. Variable:&#39;</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                    <span class="p">(</span><span class="s1">&#39;No. Observations:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nobs</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;Date:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%a, %b </span><span class="si">%d</span><span class="s1"> %Y&#39;</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s1">&#39;Time:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)]</span>
+
+        <span class="n">top_right</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;R-squared:&#39;</span><span class="p">,</span> <span class="n">float4</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsquared</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="s1">&#39;Adj. R-squared:&#39;</span><span class="p">,</span> <span class="n">float4</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsquared_adj</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="s1">&#39;F-statistic:&#39;</span><span class="p">,</span> <span class="n">float4</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic</span><span class="o">.</span><span class="n">stat</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="s1">&#39;F-stat dist:&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic</span><span class="o">.</span><span class="n">dist_name</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="s1">&#39;F-stat p-value:&#39;</span><span class="p">,</span> <span class="n">pval_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic</span><span class="o">.</span><span class="n">pval</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)]</span>
+
+        <span class="n">stubs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">stub</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">top_left</span><span class="p">:</span>
+            <span class="n">stubs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stub</span><span class="p">)</span>
+            <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">val</span><span class="p">])</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">SimpleTable</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">txt_fmt</span><span class="o">=</span><span class="n">fmt_2cols</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">stubs</span><span class="o">=</span><span class="n">stubs</span><span class="p">)</span>
+
+        <span class="c1"># create summary table instance</span>
+        <span class="n">smry</span> <span class="o">=</span> <span class="n">Summary</span><span class="p">()</span>
+        <span class="c1"># Top Table</span>
+        <span class="c1"># Parameter table</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt_2cols</span>
+        <span class="n">fmt</span><span class="p">[</span><span class="s1">&#39;data_fmts&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%18s</span><span class="s1">&#39;</span>
+
+        <span class="n">top_right</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;</span><span class="si">%-21s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;  &#39;</span> <span class="o">+</span> <span class="n">k</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">top_right</span><span class="p">]</span>
+        <span class="n">stubs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">stub</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">top_right</span><span class="p">:</span>
+            <span class="n">stubs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stub</span><span class="p">)</span>
+            <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">val</span><span class="p">])</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">extend_right</span><span class="p">(</span><span class="n">SimpleTable</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">stubs</span><span class="o">=</span><span class="n">stubs</span><span class="p">))</span>
+        <span class="n">smry</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+
+        <span class="n">param_data</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">std_errors</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">tstats</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">pvalues</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">conf_int</span><span class="p">()]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">param_data</span><span class="p">:</span>
+            <span class="n">txt_row</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="n">float4</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">f</span> <span class="o">=</span> <span class="n">pval_format</span>
+                <span class="n">txt_row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">txt_row</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">row</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">row</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;]&#39;</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Parameter Estimates&#39;</span>
+        <span class="n">table_stubs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Parameters&#39;</span><span class="p">,</span> <span class="s1">&#39;Std. Err.&#39;</span><span class="p">,</span> <span class="s1">&#39;T-stat&#39;</span><span class="p">,</span> <span class="s1">&#39;P-value&#39;</span><span class="p">,</span> <span class="s1">&#39;Lower CI&#39;</span><span class="p">,</span> <span class="s1">&#39;Upper CI&#39;</span><span class="p">]</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">SimpleTable</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+                            <span class="n">stubs</span><span class="o">=</span><span class="n">table_stubs</span><span class="p">,</span>
+                            <span class="n">txt_fmt</span><span class="o">=</span><span class="n">fmt_params</span><span class="p">,</span>
+                            <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
+                            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">smry</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+
+        <span class="n">instruments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span>
+        <span class="n">extra_text</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">instruments</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">endog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span>
+            <span class="n">extra_text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Instrumented: &#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">endog</span><span class="o">.</span><span class="n">cols</span><span class="p">))</span>
+            <span class="n">extra_text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Instruments: &#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">instruments</span><span class="o">.</span><span class="n">cols</span><span class="p">))</span>
+        <span class="n">extra_text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Covariance estimator: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov_type</span><span class="p">))</span>
+        <span class="n">smry</span><span class="o">.</span><span class="n">add_extra_txt</span><span class="p">(</span><span class="n">extra_text</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">smry</span></div>
 
 
 <span class="k">class</span> <span class="nc">_CommonIVResults</span><span class="p">(</span><span class="n">OLSResults</span><span class="p">):</span>
@@ -355,8 +491,8 @@
 <span class="sd">        first : FirstStageResults</span>
 <span class="sd">            Object containing results for diagnosing instrument relevance issues.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">FirstStageResults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">exog</span><span class="p">,</span>
-                                 <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">instruments</span><span class="p">,</span>
+        <span class="k">return</span> <span class="n">FirstStageResults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="p">,</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span><span class="p">,</span>
                                  <span class="bp">self</span><span class="o">.</span><span class="n">_cov_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_config</span><span class="p">)</span>
 
 
@@ -405,16 +541,16 @@
 <span class="sd">        </span>
 <span class="sd">          v = n_{instr} - n_{exog} </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">ndarray</span>
         <span class="n">nobs</span><span class="p">,</span> <span class="n">ninstr</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span>
-        <span class="n">nendog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">nendog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Sargan</span><span class="se">\&#39;</span><span class="s1">s test of overidentification&#39;</span>
         <span class="k">if</span> <span class="n">ninstr</span> <span class="o">-</span> <span class="n">nendog</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">InvalidTestStatistic</span><span class="p">(</span><span class="s1">&#39;Test requires more instruments than &#39;</span>
                                         <span class="s1">&#39;endogenous variables.&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
         <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resids</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
-        <span class="n">u</span> <span class="o">=</span> <span class="n">_annihilate</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_z</span><span class="p">)</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">_annihilate</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_z</span><span class="p">)</span>
         <span class="n">stat</span> <span class="o">=</span> <span class="n">nobs</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">u</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">eps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">eps</span><span class="p">))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
         <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;The model is not overidentified.&#39;</span>
 
@@ -451,7 +587,7 @@
 <span class="sd">        </span>
 <span class="sd">          v = n_{instr} - n_{exog} </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">mod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
         <span class="n">ninstr</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">nobs</span><span class="p">,</span> <span class="n">nendog</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">nz</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">_z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -468,31 +604,31 @@
         <span class="sd">&quot;&quot;&quot;Setup function for some endogeneity tests&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">vars</span><span class="p">]</span>
-        <span class="n">nobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">nobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">e2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resids</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">nendog</span><span class="p">,</span> <span class="n">nexog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">nendog</span><span class="p">,</span> <span class="n">nexog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">assumed_exog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">ndarray</span>
-            <span class="n">aug_exog</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">assumed_exog</span><span class="p">]</span>
+            <span class="n">assumed_exog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">ndarray</span>
+            <span class="n">aug_exog</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">assumed_exog</span><span class="p">]</span>
             <span class="n">still_endog</span> <span class="o">=</span> <span class="n">empty</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">assumed_exog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-            <span class="n">ex</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">]</span>
-            <span class="n">still_endog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[</span><span class="n">ex</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-            <span class="n">aug_exog</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">assumed_exog</span><span class="p">]</span>
+            <span class="n">assumed_exog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">ex</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">]</span>
+            <span class="n">still_endog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[</span><span class="n">ex</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">aug_exog</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">assumed_exog</span><span class="p">]</span>
             <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;Variables </span><span class="si">{0}</span><span class="s1"> are exogenous&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">vars</span><span class="p">))</span>
         <span class="n">ntested</span> <span class="o">=</span> <span class="n">assumed_exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="kn">from</span> <span class="nn">linearmodels.iv</span> <span class="k">import</span> <span class="n">IV2SLS</span>
-        <span class="n">mod</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="n">aug_exog</span><span class="p">,</span> <span class="n">still_endog</span><span class="p">,</span>
-                     <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">instruments</span><span class="p">)</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="n">aug_exog</span><span class="p">,</span> <span class="n">still_endog</span><span class="p">,</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span><span class="p">)</span>
         <span class="n">e0</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">resids</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
 
-        <span class="n">z2</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+        <span class="n">z2</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
         <span class="n">z1</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="n">z2</span><span class="p">,</span> <span class="n">assumed_exog</span><span class="p">]</span>
 
         <span class="n">e1</span> <span class="o">=</span> <span class="n">_proj</span><span class="p">(</span><span class="n">e0</span><span class="p">,</span> <span class="n">z1</span><span class="p">)</span>
-        <span class="n">e2</span> <span class="o">=</span> <span class="n">_proj</span><span class="p">(</span><span class="n">e2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="n">e2</span> <span class="o">=</span> <span class="n">_proj</span><span class="p">(</span><span class="n">e2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">e0</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">nexog</span><span class="p">,</span> <span class="n">nendog</span><span class="p">,</span> <span class="n">ntested</span>
 
 <div class="viewcode-block" id="IVResults.durbin"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults.durbin">[docs]</a>    <span class="k">def</span> <span class="nf">durbin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -606,12 +742,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">linearmodels.iv.model</span> <span class="k">import</span> <span class="n">_OLS</span>
 
-        <span class="n">e</span> <span class="o">=</span> <span class="n">_annihilate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_x</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">_annihilate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_z</span><span class="p">)</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">_annihilate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_x</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">_annihilate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_z</span><span class="p">)</span>
         <span class="n">nobs</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">_OLS</span><span class="p">(</span><span class="n">ones</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">r</span> <span class="o">*</span> <span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">)</span>
         <span class="n">stat</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">res</span><span class="o">.</span><span class="n">resid_ss</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;Endogenous variables are exogenous&#39;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Wooldridge</span><span class="se">\&#39;</span><span class="s1">s score test of exogeneity&#39;</span>
         <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
@@ -646,11 +782,11 @@
 <span class="sd">        identical to the covariance estimator used with ``fit``. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">linearmodels.iv.model</span> <span class="k">import</span> <span class="n">_OLS</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">_annihilate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_z</span><span class="p">)</span>
-        <span class="n">augx</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="n">r</span><span class="p">]</span>
-        <span class="n">mod</span> <span class="o">=</span> <span class="n">_OLS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="n">augx</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">_annihilate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_z</span><span class="p">)</span>
+        <span class="n">augx</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="n">r</span><span class="p">]</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">_OLS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="n">augx</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">cov_config</span><span class="p">)</span>
-        <span class="n">norig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">norig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">test_params</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">norig</span><span class="p">:]</span>
         <span class="n">test_cov</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">norig</span><span class="p">:,</span> <span class="n">norig</span><span class="p">:]</span>
         <span class="n">stat</span> <span class="o">=</span> <span class="n">test_params</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">inv</span><span class="p">(</span><span class="n">test_cov</span><span class="p">)</span> <span class="o">@</span> <span class="n">test_params</span>
@@ -689,8 +825,8 @@
 <span class="sd">        The order of the instruments does not affect this test.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">linearmodels.iv.model</span> <span class="k">import</span> <span class="n">_OLS</span>
-        <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">exog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span>
-        <span class="n">instruments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">instruments</span>
+        <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span>
+        <span class="n">instruments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span>
         <span class="n">nobs</span><span class="p">,</span> <span class="n">nendog</span> <span class="o">=</span> <span class="n">endog</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">ninstr</span> <span class="o">=</span> <span class="n">instruments</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">ninstr</span> <span class="o">-</span> <span class="n">nendog</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -702,7 +838,7 @@
 
         <span class="n">endog_hat</span> <span class="o">=</span> <span class="n">_proj</span><span class="p">(</span><span class="n">endog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">c_</span><span class="p">[</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">instruments</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">instruments</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[:,</span> <span class="p">:(</span><span class="n">ninstr</span> <span class="o">-</span> <span class="n">nendog</span><span class="p">)]</span>
-        <span class="n">q_res</span> <span class="o">=</span> <span class="n">_annihilate</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">endog_hat</span><span class="p">])</span>
+        <span class="n">q_res</span> <span class="o">=</span> <span class="n">_annihilate</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">endog_hat</span><span class="p">])</span>
         <span class="n">test_functions</span> <span class="o">=</span> <span class="n">q_res</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">resids</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">_OLS</span><span class="p">(</span><span class="n">ones</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">test_functions</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">)</span>
 
@@ -734,8 +870,8 @@
 <span class="sd">        </span>
 <span class="sd">        where :math:`q = n_{instr} - n_{endog}`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">nobs</span><span class="p">,</span> <span class="n">ninstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">shape</span>
-        <span class="n">nendog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">nobs</span><span class="p">,</span> <span class="n">ninstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">nendog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Anderson-Rubin test of overidentification&#39;</span>
         <span class="k">if</span> <span class="n">ninstr</span> <span class="o">-</span> <span class="n">nendog</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">InvalidTestStatistic</span><span class="p">(</span><span class="s1">&#39;Test requires more instruments than &#39;</span>
@@ -767,8 +903,8 @@
 <span class="sd">        </span>
 <span class="sd">        where :math:`q = n_{instr} - n_{endog}`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">nobs</span><span class="p">,</span> <span class="n">ninstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">shape</span>
-        <span class="n">nendog</span><span class="p">,</span> <span class="n">nexog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">nobs</span><span class="p">,</span> <span class="n">ninstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">nendog</span><span class="p">,</span> <span class="n">nexog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Basmann</span><span class="se">\&#39;</span><span class="s1"> F  test of overidentification&#39;</span>
         <span class="k">if</span> <span class="n">ninstr</span> <span class="o">-</span> <span class="n">nendog</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">InvalidTestStatistic</span><span class="p">(</span><span class="s1">&#39;Test requires more instruments than &#39;</span>
@@ -789,8 +925,6 @@
 <span class="sd">    .. todo::</span>
 
 <span class="sd">        * Hypothesis testing</span>
-<span class="sd">        * C test</span>
-<span class="sd">        * Summary</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
@@ -850,7 +984,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_stat</span>
 
 <div class="viewcode-block" id="IVGMMResults.c_stat"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVGMMResults.c_stat">[docs]</a>    <span class="k">def</span> <span class="nf">c_stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        C-test of endogeneity</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
@@ -866,10 +1000,37 @@
 <span class="sd">        </span>
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        ToDo</span>
+<span class="sd">        The C statistic tests the difference between the model estimated by </span>
+<span class="sd">        assuming one or more of the endogenous variables is actually </span>
+<span class="sd">        exogenous.  The test is implemented as the difference between the </span>
+<span class="sd">        J-statistics of two GMM estimations where both use the same weighting</span>
+<span class="sd">        matrix.  The use of a common weighting matrix is required for the C</span>
+<span class="sd">        statistic to be positive.  </span>
+<span class="sd">        </span>
+<span class="sd">        The first model is a estimated uses GMM estimation where one or more</span>
+<span class="sd">        of the endogenous variables are assumed to be endogenous.  The model</span>
+<span class="sd">        would be relatively efficient if the assumption were true, and two </span>
+<span class="sd">        quantities are computed, the J statistic, :math:`J_e`, and the </span>
+<span class="sd">        moment weighting matrix, :math:`W_e`. </span>
+<span class="sd">        </span>
+<span class="sd">        WLOG assume the q variables tested are in the final q positions so that</span>
+<span class="sd">        the first :math:`n_{exog} + n_{instr}` rows and columns correspond to </span>
+<span class="sd">        the moment conditions in the original model. The second J statistic is </span>
+<span class="sd">        computed using parameters estimated using the original moment </span>
+<span class="sd">        conditions along with the upper left block of :math:`W_e`.  Denote this</span>
+<span class="sd">        values as :math:`J_c` where the c is used to indicate consistent. </span>
+<span class="sd">        </span>
+<span class="sd">        The test statistic is then </span>
+<span class="sd">        </span>
+<span class="sd">        .. math ::</span>
+<span class="sd">        </span>
+<span class="sd">          J_e - J_c \sim \chi^2_{m}</span>
+<span class="sd">          </span>
+<span class="sd">        where :math:`m` is the number of variables whose exogeneity is being </span>
+<span class="sd">        tested.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dependent</span><span class="p">,</span> <span class="n">instruments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">instruments</span>
-        <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">exog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">endog</span>
+        <span class="n">dependent</span><span class="p">,</span> <span class="n">instruments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span>
+        <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span>
         <span class="k">if</span> <span class="nb">vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">exog_e</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">endog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
             <span class="n">nobs</span> <span class="o">=</span> <span class="n">exog_e</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -887,13 +1048,13 @@
         <span class="n">res_e</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">cov_config</span><span class="p">)</span>
         <span class="n">j_e</span> <span class="o">=</span> <span class="n">res_e</span><span class="o">.</span><span class="n">j_stat</span><span class="o">.</span><span class="n">stat</span>
 
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_x</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_y</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_z</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_x</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_y</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_z</span>
         <span class="n">nz</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">weight_mat_c</span> <span class="o">=</span> <span class="n">res_e</span><span class="o">.</span><span class="n">weight_matrix</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="n">nz</span><span class="p">,</span> <span class="p">:</span><span class="n">nz</span><span class="p">]</span>
         <span class="n">params_c</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">estimate_parameters</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">weight_mat_c</span><span class="p">)</span>
-        <span class="n">j_c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">_j_statistic</span><span class="p">(</span><span class="n">params_c</span><span class="p">,</span> <span class="n">weight_mat_c</span><span class="p">)</span><span class="o">.</span><span class="n">stat</span>
+        <span class="n">j_c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_j_statistic</span><span class="p">(</span><span class="n">params_c</span><span class="p">,</span> <span class="n">weight_mat_c</span><span class="p">)</span><span class="o">.</span><span class="n">stat</span>
 
         <span class="n">stat</span> <span class="o">=</span> <span class="n">j_e</span> <span class="o">-</span> <span class="n">j_c</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">exog_e</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -1039,7 +1200,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.54.gd4306d4',
+            VERSION:'0+untagged.54.gd8decff',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

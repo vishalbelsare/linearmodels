@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Estimation Results &mdash; linearmodels 0+untagged.54.gd4306d4 documentation</title>
+  <title>Estimation Results &mdash; linearmodels 0+untagged.54.gd8decff documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.54.gd4306d4 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.gd8decff documentation" href="../index.html"/>
         <link rel="up" title="Instrumental Variable Module Reference" href="reference.html"/>
         <link rel="next" title="Instrumental Variable Covariance Estimation" href="covariance.html"/>
         <link rel="prev" title="Estimation Methods" href="methods.html"/> 
@@ -103,6 +103,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../panel/panel.html">Panel Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plan.html">Module Plans</a></li>
 </ul>
 
@@ -192,7 +193,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">WaldTestStatistic</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
@@ -215,7 +216,7 @@ indicate the model is not overidentified. The test statistic is</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">WaldTestStatistic</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
@@ -244,7 +245,7 @@ endogenous regressors.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">WaldTestStatistic</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
@@ -330,7 +331,7 @@ are jointly tested.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">WaldTestStatistic</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
@@ -340,6 +341,27 @@ squared IV residuals where each set of residuals has been projected
 onto the set of instruments in teh IV model.</p>
 <div class="math">
 \[TODO\]</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.results.IVResults.f_stat">
+<code class="descname">f_stat</code><a class="headerlink" href="#linearmodels.iv.results.IVResults.f_stat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model F-statistic</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>f</strong> &#8211; Test statistic for null all coefficients excluding constant terms
+are zero.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Despite name, always implemented using a quadratic-form test based on
+estimated parameter covariance. Default is to use a chi2 distribution
+to compute p-values. If <code class="docutils literal"><span class="pre">debiased</span></code> is True, uses an F-distribution.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -446,7 +468,7 @@ onto the set of instruments in teh IV model.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">WaldTestStatistic</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
@@ -471,6 +493,12 @@ of instruments and the number of endogenous regressors.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="linearmodels.iv.results.IVResults.summary">
+<code class="descname">summary</code><a class="headerlink" href="#linearmodels.iv.results.IVResults.summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summary table of model estimation results</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="linearmodels.iv.results.IVResults.total_ss">
 <code class="descname">total_ss</code><a class="headerlink" href="#linearmodels.iv.results.IVResults.total_ss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Total sum of squares</p>
@@ -492,7 +520,7 @@ of instruments and the number of endogenous regressors.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">WaldTestStatistic</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
@@ -521,7 +549,7 @@ variables.  The test is computed as a regression</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">WaldTestStatistic</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
@@ -550,7 +578,7 @@ identical to the covariance estimator used with <code class="docutils literal"><
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">WaldTestStatistic</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
@@ -581,7 +609,7 @@ are jointly tested.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">WaldTestStatistic</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
@@ -602,8 +630,6 @@ are jointly tested.</td>
 <p class="first admonition-title">Todo</p>
 <ul class="last simple">
 <li>Hypothesis testing</li>
-<li>C test</li>
-<li>Summary</li>
 </ul>
 </div>
 <dl class="method">
@@ -619,12 +645,33 @@ are jointly tested.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">WaldTestStatistic</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>ToDo</p>
+<p>The C statistic tests the difference between the model estimated by
+assuming one or more of the endogenous variables is actually
+exogenous.  The test is implemented as the difference between the
+J-statistics of two GMM estimations where both use the same weighting
+matrix.  The use of a common weighting matrix is required for the C
+statistic to be positive.</p>
+<p>The first model is a estimated uses GMM estimation where one or more
+of the endogenous variables are assumed to be endogenous.  The model
+would be relatively efficient if the assumption were true, and two
+quantities are computed, the J statistic, <span class="math">\(J_e\)</span>, and the
+moment weighting matrix, <span class="math">\(W_e\)</span>.</p>
+<p>WLOG assume the q variables tested are in the final q positions so that
+the first <span class="math">\(n_{exog} + n_{instr}\)</span> rows and columns correspond to
+the moment conditions in the original model. The second J statistic is
+computed using parameters estimated using the original moment
+conditions along with the upper left block of <span class="math">\(W_e\)</span>.  Denote this
+values as <span class="math">\(J_c\)</span> where the c is used to indicate consistent.</p>
+<p>The test statistic is then</p>
+<div class="math">
+\[J_e - J_c \sim \chi^2_{m}\]</div>
+<p>where <span class="math">\(m\)</span> is the number of variables whose exogeneity is being
+tested.</p>
 </dd></dl>
 
 <dl class="method">
@@ -688,6 +735,27 @@ are jointly tested.</td>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="linearmodels.iv.results.IVGMMResults.f_stat">
+<code class="descname">f_stat</code><a class="headerlink" href="#linearmodels.iv.results.IVGMMResults.f_stat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model F-statistic</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>f</strong> &#8211; Test statistic for null all coefficients excluding constant terms
+are zero.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Despite name, always implemented using a quadratic-form test based on
+estimated parameter covariance. Default is to use a chi2 distribution
+to compute p-values. If <code class="docutils literal"><span class="pre">debiased</span></code> is True, uses an F-distribution.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="linearmodels.iv.results.IVGMMResults.f_statistic">
 <code class="descname">f_statistic</code><a class="headerlink" href="#linearmodels.iv.results.IVGMMResults.f_statistic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Joint test of significance for non-constant regressors</p>
@@ -731,7 +799,7 @@ are jointly tested.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>j</strong> &#8211; J-statistic test of overidentifying restrictions</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">WaldTestStatistic</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
@@ -818,6 +886,12 @@ freedom is <span class="math">\(q = n_{instr} - n_{endog}\)</span>.</p>
 <dt id="linearmodels.iv.results.IVGMMResults.std_errors">
 <code class="descname">std_errors</code><a class="headerlink" href="#linearmodels.iv.results.IVGMMResults.std_errors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimated parameter standard errors</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.results.IVGMMResults.summary">
+<code class="descname">summary</code><a class="headerlink" href="#linearmodels.iv.results.IVGMMResults.summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summary table of model estimation results</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -916,6 +990,27 @@ freedom is <span class="math">\(q = n_{instr} - n_{endog}\)</span>.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="linearmodels.iv.results.OLSResults.f_stat">
+<code class="descname">f_stat</code><a class="headerlink" href="#linearmodels.iv.results.OLSResults.f_stat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model F-statistic</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>f</strong> &#8211; Test statistic for null all coefficients excluding constant terms
+are zero.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Despite name, always implemented using a quadratic-form test based on
+estimated parameter covariance. Default is to use a chi2 distribution
+to compute p-values. If <code class="docutils literal"><span class="pre">debiased</span></code> is True, uses an F-distribution.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="linearmodels.iv.results.OLSResults.f_statistic">
 <code class="descname">f_statistic</code><a class="headerlink" href="#linearmodels.iv.results.OLSResults.f_statistic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Joint test of significance for non-constant regressors</p>
@@ -997,6 +1092,12 @@ freedom is <span class="math">\(q = n_{instr} - n_{endog}\)</span>.</p>
 <dt id="linearmodels.iv.results.OLSResults.std_errors">
 <code class="descname">std_errors</code><a class="headerlink" href="#linearmodels.iv.results.OLSResults.std_errors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimated parameter standard errors</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.results.OLSResults.summary">
+<code class="descname">summary</code><a class="headerlink" href="#linearmodels.iv.results.OLSResults.summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summary table of model estimation results</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1123,7 +1224,7 @@ the variable names of the endogenous regressors.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.54.gd4306d4',
+            VERSION:'0+untagged.54.gd8decff',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

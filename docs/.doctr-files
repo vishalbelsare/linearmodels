@@ -5,6 +5,7 @@ docs/_modules/linearmodels/iv/model.html
 docs/_modules/linearmodels/iv/results.html
 docs/_modules/linearmodels/panel/covariance.html
 docs/_modules/linearmodels/panel/model.html
+docs/_modules/linearmodels/utility.html
 docs/_sources/index.rst.txt
 docs/_sources/iv/covariance.rst.txt
 docs/_sources/iv/estimators.rst.txt
@@ -17,6 +18,7 @@ docs/_sources/panel/covariance.rst.txt
 docs/_sources/panel/models.rst.txt
 docs/_sources/panel/panel.rst.txt
 docs/_sources/plan.rst.txt
+docs/_sources/utility.rst.txt
 docs/_static/ajax-loader.gif
 docs/_static/basic.css
 docs/_static/comment-bright.png
@@ -68,3 +70,4 @@ docs/plan.html
 docs/py-modindex.html
 docs/search.html
 docs/searchindex.js
+docs/utility.html
