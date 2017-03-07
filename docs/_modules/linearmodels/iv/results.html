@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.results &mdash; linearmodels 0+untagged.54.gd8decff documentation</title>
+  <title>linearmodels.iv.results &mdash; linearmodels 0+untagged.54.g9dd9ea0 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.54.gd8decff documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.g9dd9ea0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -160,14 +160,19 @@
            <div itemprop="articleBody">
             
   <h1>Source code for linearmodels.iv.results</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
-
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Results containers and post-estimation diagnostics for IV models</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
-<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="p">(</span><span class="n">InvalidTestStatistic</span><span class="p">,</span> <span class="n">WaldTestStatistic</span><span class="p">,</span>
-                                  <span class="n">_annihilate</span><span class="p">,</span> <span class="n">_proj</span><span class="p">,</span> <span class="n">cached_property</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">c_</span><span class="p">,</span> <span class="n">diag</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">ones</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">empty</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">inv</span><span class="p">,</span> <span class="n">pinv</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="k">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
+<span class="kn">from</span> <span class="nn">statsmodels.iolib.summary</span> <span class="k">import</span> <span class="n">SimpleTable</span><span class="p">,</span> <span class="n">Summary</span><span class="p">,</span> <span class="n">fmt_2cols</span><span class="p">,</span> \
+    <span class="n">fmt_params</span>
+
+<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="p">(</span><span class="n">InvalidTestStatistic</span><span class="p">,</span> <span class="n">WaldTestStatistic</span><span class="p">,</span>
+                                  <span class="n">_annihilate</span><span class="p">,</span> <span class="n">_proj</span><span class="p">,</span> <span class="n">cached_property</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="OLSResults"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.OLSResults">[docs]</a><span class="k">class</span> <span class="nc">OLSResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -278,7 +283,7 @@
     <span class="nd">@cached_property</span>
 <div class="viewcode-block" id="OLSResults.pvalues"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.OLSResults.pvalues">[docs]</a>    <span class="k">def</span> <span class="nf">pvalues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parameter p-vals. Uses t(df_resid) if debiased is True, other normal.</span>
+<span class="sd">        Parameter p-vals. Uses t(df_resid) if ``debiased`` is True, else normal</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debiased</span><span class="p">:</span>
             <span class="n">pvals</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tstats</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_resid</span><span class="p">)</span>
@@ -335,8 +340,16 @@
 <span class="sd">        -------</span>
 <span class="sd">        ci : DataFrame</span>
 <span class="sd">            Confidence interval of the form [lower, upper] for each parameters</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        ----- </span>
+<span class="sd">        Uses a t(df_resid) if ``debiased`` is True, else normal.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">([(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">level</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">level</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="n">ci_quantiles</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">level</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">level</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debiased</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">ci_quantiles</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">df_resid</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">ci_quantiles</span><span class="p">)</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
         <span class="n">ci</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">q</span>
         <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_vars</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="s1">&#39;upper&#39;</span><span class="p">])</span></div>
@@ -356,7 +369,8 @@
 <span class="sd">        -----</span>
 <span class="sd">        Despite name, always implemented using a quadratic-form test based on </span>
 <span class="sd">        estimated parameter covariance. Default is to use a chi2 distribution </span>
-<span class="sd">        to compute p-values. If ``debiased`` is True, uses an F-distribution.</span>
+<span class="sd">        to compute p-values. If ``debiased`` is True, divides statistic by </span>
+<span class="sd">        number of parameters tested and uses an F-distribution.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
         <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">values</span>
@@ -367,16 +381,17 @@
             <span class="n">c</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">ex</span><span class="p">][:,</span> <span class="n">ex</span><span class="p">]</span>
         <span class="n">stat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">inv</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">@</span> <span class="n">p</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;All coefficients ex. const are 0&#39;</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Model F-statistic&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_config</span><span class="p">[</span><span class="s1">&#39;debiased&#39;</span><span class="p">]:</span>
             <span class="n">df_denom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="s1">&#39;All coefficients ex. const are 0&#39;</span><span class="p">,</span>
-                                     <span class="n">df</span><span class="p">,</span> <span class="n">df_denom</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Model F-statistic&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="s1">&#39;All coefficients ex. const are 0&#39;</span><span class="p">,</span>
-                                 <span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Model F-statistic&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">df_denom</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Summary table of model estimation results&quot;&quot;&quot;</span>
+
         <span class="k">def</span> <span class="nf">float4</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
             <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0:5.5g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="ow">and</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
@@ -386,8 +401,6 @@
         <span class="k">def</span> <span class="nf">pval_format</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
             <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{0:4.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
-        <span class="kn">from</span> <span class="nn">statsmodels.iolib.summary</span> <span class="k">import</span> <span class="n">Summary</span><span class="p">,</span> <span class="n">fmt_2cols</span><span class="p">,</span> \
-            <span class="n">SimpleTable</span><span class="p">,</span> <span class="n">fmt_params</span>
         <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">+</span> <span class="s1">&#39; Estimation Summary&#39;</span>
         <span class="n">mod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
         <span class="n">top_left</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Dep. Variable:&#39;</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
@@ -519,7 +532,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
-<span class="sd">            Object containing test statistic, pvalue, distribution and null</span>
+<span class="sd">            Object containing test statistic, p-value, distribution and null</span>
 <span class="sd">        </span>
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -564,7 +577,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
-<span class="sd">            Object containing test statistic, pvalue, distribution and null</span>
+<span class="sd">            Object containing test statistic, p-value, distribution and null</span>
 <span class="sd">        </span>
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -644,19 +657,35 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
-<span class="sd">            Object containing test statistic, pvalue, distribution and null</span>
+<span class="sd">            Object containing test statistic, p-value, distribution and null</span>
 <span class="sd">        </span>
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        </span>
 <span class="sd">        Test statistic is difference between sum of squared OLS and sum of </span>
 <span class="sd">        squared IV residuals where each set of residuals has been projected </span>
 <span class="sd">        onto the set of instruments in teh IV model.  </span>
 <span class="sd">        </span>
+<span class="sd">        Start by defining </span>
+<span class="sd">        </span>
 <span class="sd">        .. math ::</span>
 <span class="sd">        </span>
-<span class="sd">          TODO </span>
-
+<span class="sd">          \delta &amp; = \hat{\epsilon}&#39;_e P_{[z,w]} \hat{\epsilon}_e </span>
+<span class="sd">                   - \hat{\epsilon}&#39;_c P_{z} \hat{\epsilon}_c \\</span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`\hat{\epsilon}_e` are the regression residuals from a </span>
+<span class="sd">        model where ``vars`` are treated as exogenous, </span>
+<span class="sd">        :math:`\hat{\epsilon}_c` are the regression residuals from the model </span>
+<span class="sd">        leaving ``vars`` as endogenous, :math:`P_{[z,w]}` is a projection </span>
+<span class="sd">        matrix onto the exogenous variables and instruments (`z`) as well as </span>
+<span class="sd">        ``vars``, and :math:`P_{z}` is a projection matrix only onto `z`.</span>
+<span class="sd">        </span>
+<span class="sd">        The test statistic is then </span>
+<span class="sd">        </span>
+<span class="sd">        .. math ::</span>
+<span class="sd">        </span>
+<span class="sd">            \delta / (\hat{\epsilon}&#39;_e\hat{\epsilon}_e) / n \sim \chi^2_{q}</span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`q` is the number of variables tested.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;All endogenous variables are exogenous&#39;</span>
         <span class="k">if</span> <span class="nb">vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -683,17 +712,37 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
-<span class="sd">            Object containing test statistic, pvalue, distribution and null</span>
+<span class="sd">            Object containing test statistic, p-value, distribution and null</span>
 <span class="sd">        </span>
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
+<span class="sd">        Test statistic is difference between sum of squared OLS and sum of </span>
+<span class="sd">        squared IV residuals where each set of residuals has been projected </span>
+<span class="sd">        onto the set of instruments in teh IV model.  </span>
 <span class="sd">        </span>
-<span class="sd">        Test statistic is based on the difference between ...</span>
+<span class="sd">        Start by defining </span>
 <span class="sd">        </span>
 <span class="sd">        .. math ::</span>
 <span class="sd">        </span>
-<span class="sd">          TODO </span>
-
+<span class="sd">          \delta &amp; = \hat{\epsilon}&#39;_e P_{[z,w]} \hat{\epsilon}_e </span>
+<span class="sd">                   - \hat{\epsilon}&#39;_c P_{z} \hat{\epsilon}_c \\</span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`\hat{\epsilon}_e` are the regression residuals from a </span>
+<span class="sd">        model where ``vars`` are treated as exogenous, </span>
+<span class="sd">        :math:`\hat{\epsilon}_c` are the regression residuals from the model </span>
+<span class="sd">        leaving ``vars`` as endogenous, :math:`P_{[z,w]}` is a projection </span>
+<span class="sd">        matrix onto the exogenous variables and instruments (`z`) as well as </span>
+<span class="sd">        ``vars``, and :math:`P_{z}` is a projection matrix only onto `z`.</span>
+<span class="sd">        </span>
+<span class="sd">        The test statistic is then </span>
+<span class="sd">        </span>
+<span class="sd">        .. math ::</span>
+<span class="sd">        </span>
+<span class="sd">            \frac{\delta / q}{(\hat{\epsilon}&#39;_e\hat{\epsilon}_e - \delta) / v}</span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`q` is the number of variables tests, </span>
+<span class="sd">        :math:`v = n - n_{endog} - n_{exog} - q`. The test statistic has a </span>
+<span class="sd">        :math:`F_{q, v}` distribution.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;All endogenous variables are exogenous&#39;</span>
         <span class="k">if</span> <span class="nb">vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -719,7 +768,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
-<span class="sd">            Object containing test statistic, pvalue, distribution and null</span>
+<span class="sd">            Object containing test statistic, p-value, distribution and null</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -760,7 +809,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
-<span class="sd">            Object containing test statistic, pvalue, distribution and null</span>
+<span class="sd">            Object containing test statistic, p-value, distribution and null</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -803,7 +852,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
-<span class="sd">            Object containing test statistic, pvalue, distribution and null</span>
+<span class="sd">            Object containing test statistic, p-value, distribution and null</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -856,7 +905,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
-<span class="sd">            Object containing test statistic, pvalue, distribution and null</span>
+<span class="sd">            Object containing test statistic, p-value, distribution and null</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -889,7 +938,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
-<span class="sd">            Object containing test statistic, pvalue, distribution and null</span>
+<span class="sd">            Object containing test statistic, p-value, distribution and null</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -976,7 +1025,7 @@
 <span class="sd">          n \bar{g}&#39;W^{-1}\bar{g} \sim \chi^2_q</span>
 <span class="sd">        </span>
 <span class="sd">        where :math:`\bar{g} = n^{-1}\sum \hat{\epsilon}_i z_i` where </span>
-<span class="sd">        :math:`z_i` includes both the exogensou variables and instruments and</span>
+<span class="sd">        :math:`z_i` includes both the exogenous variables and instruments and</span>
 <span class="sd">        :math:`\hat{\epsilon}_i` are the model residuals. :math:`W` is a consistent</span>
 <span class="sd">        estimator of the variance of :math:`\sqrt{n}\bar{g}`. The degree of </span>
 <span class="sd">        freedom is :math:`q = n_{instr} - n_{endog}`. </span>
@@ -996,7 +1045,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
-<span class="sd">            Object containing test statistic, pvalue, distribution and null</span>
+<span class="sd">            Object containing test statistic, p-value, distribution and null</span>
 <span class="sd">        </span>
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -1092,21 +1141,21 @@
 <span class="sd">            DataFrame where each endogenous variable appears as a row and</span>
 <span class="sd">            the columns contain alternative measures.  The columns are:</span>
 
-<span class="sd">            * rsquared - Rsquared from regression of endogenous on exogenous</span>
+<span class="sd">            * rsquared - R-squared from regression of endogenous on exogenous</span>
 <span class="sd">              and instruments</span>
-<span class="sd">            * partial.rsquared - Rsquared from regression of the exogenous</span>
+<span class="sd">            * partial.rsquared - R-squared from regression of the exogenous</span>
 <span class="sd">              variable on instruments where both the exogenous variable and</span>
 <span class="sd">              the instrument have been orthogonalized to the exogenous</span>
 <span class="sd">              regressors in the model.   </span>
 <span class="sd">            * f.stat - Test that all coefficients are zero in the model</span>
-<span class="sd">              used to estimate the partial rsquared. Uses a standard F-test</span>
-<span class="sd">              when the covariance estimtor is unadjusted - otherwise uses a</span>
+<span class="sd">              used to estimate the partial R-squared. Uses a standard F-test</span>
+<span class="sd">              when the covariance estimator is unadjusted - otherwise uses a</span>
 <span class="sd">              Wald test statistic with a chi2 distribution.</span>
 <span class="sd">            * f.pval - P-value of the test that all coefficients are zero</span>
-<span class="sd">              in the model used to estimate the partial rsquared</span>
+<span class="sd">              in the model used to estimate the partial R-squared</span>
 <span class="sd">            * shea.rsquared - Shea&#39;s r-squared which measures the correlation</span>
 <span class="sd">              between the projected and orthogonalized instrument on the</span>
-<span class="sd">              orthogonoalized endogenous regressor where the orthogonalization</span>
+<span class="sd">              orthogonalized endogenous regressor where the orthogonalization</span>
 <span class="sd">              is with respect to the other included variables in the model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">linearmodels.iv.model</span> <span class="k">import</span> <span class="n">_OLS</span><span class="p">,</span> <span class="n">IV2SLS</span>
@@ -1116,10 +1165,10 @@
         <span class="n">px</span> <span class="o">=</span> <span class="n">x</span> <span class="o">@</span> <span class="n">pinv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">ez</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">px</span> <span class="o">@</span> <span class="n">z</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">individal_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">individual</span>
+        <span class="n">individual_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">individual</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">:</span>
             <span class="n">inner</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="n">inner</span><span class="p">[</span><span class="s1">&#39;rsquared&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">individal_results</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">rsquared</span>
+            <span class="n">inner</span><span class="p">[</span><span class="s1">&#39;rsquared&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">individual_results</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">rsquared</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[[</span><span class="n">col</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
             <span class="n">ey</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">px</span> <span class="o">@</span> <span class="n">y</span>
             <span class="n">mod</span> <span class="o">=</span> <span class="n">_OLS</span><span class="p">(</span><span class="n">ey</span><span class="p">,</span> <span class="n">ez</span><span class="p">)</span>
@@ -1200,7 +1249,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.54.gd8decff',
+            VERSION:'0+untagged.54.g9dd9ea0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

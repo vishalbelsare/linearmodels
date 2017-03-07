@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Estimation Methods &mdash; linearmodels 0+untagged.54.gd8decff documentation</title>
+  <title>Estimation Methods &mdash; linearmodels 0+untagged.54.g9dd9ea0 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.54.gd8decff documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.g9dd9ea0 documentation" href="../index.html"/>
         <link rel="up" title="Instrumental Variable Module Reference" href="reference.html"/>
         <link rel="next" title="Estimation Results" href="results.html"/>
         <link rel="prev" title="Instrumental Variable Module Reference" href="reference.html"/> 
@@ -194,7 +194,7 @@
 <p>The 2SLS estimator is defined</p>
 <div class="math">
 \[\begin{split}\hat{\beta}_{2SLS} &amp; =(X'Z(Z'Z)^{-1}Z'X)^{-1}X'Z(Z'Z)^{-1}Z'Y\\
-                   &amp; =(\hat{X}'\hat{X})^{-1}\hat{X}Y\\
+                   &amp; =(\hat{X}'\hat{X})^{-1}\hat{X}'Y\\
            \hat{X} &amp; =Z(Z'Z)^{-1}Z'X\end{split}\]</div>
 <p>The 2SLS estimator is a special case of a k-class estimator with
 <span class="math">\(\kappa=1\)</span>,</p>
@@ -203,6 +203,10 @@
 <ul class="last simple">
 <li>VCV: bootstrap</li>
 </ul>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#linearmodels.iv.model.IVLIML" title="linearmodels.iv.model.IVLIML"><code class="xref py py-class docutils literal"><span class="pre">IVLIML</span></code></a>, <a class="reference internal" href="#linearmodels.iv.model.IVGMM" title="linearmodels.iv.model.IVGMM"><code class="xref py py-class docutils literal"><span class="pre">IVGMM</span></code></a>, <a class="reference internal" href="#linearmodels.iv.model.IVGMMCUE" title="linearmodels.iv.model.IVGMMCUE"><code class="xref py py-class docutils literal"><span class="pre">IVGMMCUE</span></code></a></p>
 </div>
 <dl class="method">
 <dt id="linearmodels.iv.model.IV2SLS.estimate_parameters">
@@ -216,7 +220,7 @@
 <li><strong>x</strong> (<em>ndarray</em>) &#8211; Regressor matrix (nobs by nvar)</li>
 <li><strong>y</strong> (<em>ndarray</em>) &#8211; Regressand matrix (nobs by 1)</li>
 <li><strong>z</strong> (<em>ndarray</em>) &#8211; Instrument matrix (nobs by ninstr)</li>
-<li><strong>kappa</strong> (<em>scalar</em>) &#8211; Parameter value for k-class esimtator</li>
+<li><strong>kappa</strong> (<em>scalar</em>) &#8211; Parameter value for k-class estimator</li>
 </ul>
 </td>
 </tr>
@@ -332,6 +336,10 @@ P_{z} &amp; =Z(Z'Z)^{-1}Z'\end{split}\]</div>
 <li>VCV: bootstrap</li>
 </ul>
 </div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#linearmodels.iv.model.IV2SLS" title="linearmodels.iv.model.IV2SLS"><code class="xref py py-class docutils literal"><span class="pre">IV2SLS</span></code></a>, <a class="reference internal" href="#linearmodels.iv.model.IVGMM" title="linearmodels.iv.model.IVGMM"><code class="xref py py-class docutils literal"><span class="pre">IVGMM</span></code></a>, <a class="reference internal" href="#linearmodels.iv.model.IVGMMCUE" title="linearmodels.iv.model.IVGMMCUE"><code class="xref py py-class docutils literal"><span class="pre">IVGMMCUE</span></code></a></p>
+</div>
 <dl class="staticmethod">
 <dt id="linearmodels.iv.model.IVLIML.estimate_parameters">
 <em class="property">static </em><code class="descname">estimate_parameters</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em>, <em>kappa</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVLIML.estimate_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVLIML.estimate_parameters" title="Permalink to this definition">¶</a></dt>
@@ -344,7 +352,7 @@ P_{z} &amp; =Z(Z'Z)^{-1}Z'\end{split}\]</div>
 <li><strong>x</strong> (<em>ndarray</em>) &#8211; Regressor matrix (nobs by nvar)</li>
 <li><strong>y</strong> (<em>ndarray</em>) &#8211; Regressand matrix (nobs by 1)</li>
 <li><strong>z</strong> (<em>ndarray</em>) &#8211; Instrument matrix (nobs by ninstr)</li>
-<li><strong>kappa</strong> (<em>scalar</em>) &#8211; Parameter value for k-class esimtator</li>
+<li><strong>kappa</strong> (<em>scalar</em>) &#8211; Parameter value for k-class estimator</li>
 </ul>
 </td>
 </tr>
@@ -442,7 +450,7 @@ is provided.</p>
 <div><ul class="simple">
 <li>&#8216;unadjusted&#8217;, &#8216;homoskedastic&#8217; - Assumes moment conditions are
 homoskedastic</li>
-<li>&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Allows for heterosedasticity by not
+<li>&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Allows for heteroskedasticity by not
 autocorrelation</li>
 <li>&#8216;kernel&#8217; - Allows for heteroskedasticity and autocorrelation</li>
 <li>&#8216;cluster&#8217; - Allows for one-way cluster dependence</li>
@@ -453,6 +461,10 @@ autocorrelation</li>
 \[\hat{\beta}_{gmm}=(X'ZW^{-1}Z'X)^{-1}X'ZW^{-1}Z'Y\]</div>
 <p>where <span class="math">\(W\)</span> is a positive definite weight matrix and <span class="math">\(Z\)</span>
 contains both the exogenous regressors and the instruments.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#linearmodels.iv.model.IV2SLS" title="linearmodels.iv.model.IV2SLS"><code class="xref py py-class docutils literal"><span class="pre">IV2SLS</span></code></a>, <a class="reference internal" href="#linearmodels.iv.model.IVLIML" title="linearmodels.iv.model.IVLIML"><code class="xref py py-class docutils literal"><span class="pre">IVLIML</span></code></a>, <a class="reference internal" href="#linearmodels.iv.model.IVGMMCUE" title="linearmodels.iv.model.IVGMMCUE"><code class="xref py py-class docutils literal"><span class="pre">IVGMMCUE</span></code></a></p>
+</div>
 <dl class="staticmethod">
 <dt id="linearmodels.iv.model.IVGMM.estimate_parameters">
 <em class="property">static </em><code class="descname">estimate_parameters</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em>, <em>w</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVGMM.estimate_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVGMM.estimate_parameters" title="Permalink to this definition">¶</a></dt>
@@ -483,7 +495,7 @@ e.g., bootstrapped samples.  Performs no error checking.</p>
 
 <dl class="method">
 <dt id="linearmodels.iv.model.IVGMM.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>iter_limit=2</em>, <em>tol=0.0001</em>, <em>cov_type='robust'</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVGMM.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVGMM.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>iter_limit=2</em>, <em>tol=0.0001</em>, <em>initial_weight=None</em>, <em>cov_type='robust'</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVGMM.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVGMM.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -497,6 +509,9 @@ matrix estimation until convergence.</li>
 <li><strong>tol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) &#8211; Convergence criteria.  Measured as covariance normalized change in
 parameters across iterations where the covariance estimator is
 based on the first step parameter estimates.</li>
+<li><strong>initial_weight</strong> (<em>ndarray</em><em>, </em><em>optional</em>) &#8211; Initial weighting matrix to use in the first step.  If not
+specified, uses the average outer-product of the set containing
+the exogenous variables and instruments.</li>
 <li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name of covariance estimator to use</li>
 <li><strong>**cov_config</strong> &#8211; Additional parameters to pass to covariance estimator</li>
 </ul>
@@ -520,7 +535,7 @@ is provided.</p>
 <div><ul class="simple">
 <li>&#8216;unadjusted&#8217;, &#8216;homoskedastic&#8217; - Assumes moment conditions are
 homoskedastic</li>
-<li>&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Allows for heterosedasticity by not
+<li>&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Allows for heteroskedasticity by not
 autocorrelation</li>
 <li>&#8216;kernel&#8217; - Allows for heteroskedasticity and autocorrelation</li>
 <li>&#8216;cluster&#8217; - Allows for one-way cluster dependence</li>
@@ -580,7 +595,7 @@ autocorrelation</li>
 <div><ul class="simple">
 <li>&#8216;unadjusted&#8217;, &#8216;homoskedastic&#8217; - Assumes moment conditions are
 homoskedastic</li>
-<li>&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Allows for heterosedasticity by not
+<li>&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Allows for heteroskedasticity by not
 autocorrelation</li>
 <li>&#8216;kernel&#8217; - Allows for heteroskedasticity and autocorrelation</li>
 <li>&#8216;cluster&#8217; - Allows for one-way cluster dependence</li>
@@ -593,6 +608,10 @@ avoid starting value dependence.</p>
 g(\beta) &amp; =n^{-1}\sum_{i=1}^{n}z_{i}(y_{i}-x_{i}\beta)\end{split}\]</div>
 <p>where <span class="math">\(W(\beta)\)</span> is a weight matrix that depends on <span class="math">\(\beta\)</span>
 through <span class="math">\(\epsilon_i = y_i - x_i\beta\)</span>.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#linearmodels.iv.model.IV2SLS" title="linearmodels.iv.model.IV2SLS"><code class="xref py py-class docutils literal"><span class="pre">IV2SLS</span></code></a>, <a class="reference internal" href="#linearmodels.iv.model.IVLIML" title="linearmodels.iv.model.IVLIML"><code class="xref py py-class docutils literal"><span class="pre">IVLIML</span></code></a>, <a class="reference internal" href="#linearmodels.iv.model.IVGMM" title="linearmodels.iv.model.IVGMM"><code class="xref py py-class docutils literal"><span class="pre">IVGMM</span></code></a></p>
+</div>
 <dl class="method">
 <dt id="linearmodels.iv.model.IVGMMCUE.estimate_parameters">
 <code class="descname">estimate_parameters</code><span class="sig-paren">(</span><em>starting</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>display=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVGMMCUE.estimate_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVGMMCUE.estimate_parameters" title="Permalink to this definition">¶</a></dt>
@@ -655,7 +674,7 @@ estimates are used.</li>
 The see the docstring of specific covariance estimator for a list of
 supported options. Defaults are used if no covariance configuration
 is provided.</p>
-<p>Starting values are computed by IV2SLS.</p>
+<p>Starting values are computed by IVGMM.</p>
 <div class="admonition-todo admonition" id="index-2">
 <p class="first admonition-title">Todo</p>
 <ul class="last simple">
@@ -679,7 +698,7 @@ is provided.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>params</strong> (<em>ndarray</em>) &#8211; Parameter vector (nvar,)</li>
+<li><strong>params</strong> (<em>ndarray</em>) &#8211; Parameter vector (nvar)</li>
 <li><strong>x</strong> (<em>ndarray</em>) &#8211; Regressor matrix (nobs by nvar)</li>
 <li><strong>y</strong> (<em>ndarray</em>) &#8211; Regressand matrix (nobs by 1)</li>
 <li><strong>z</strong> (<em>ndarray</em>) &#8211; Instrument matrix (nobs by ninstr)</li>
@@ -702,7 +721,7 @@ is provided.</p>
 conditions, <span class="math">\(z_i \hat{\epsilon}_i\)</span>, where
 <span class="math">\(\hat{\epsilon}_i = y_i - x_i\beta\)</span>.  The weighting matrix
 is some estimator of the long-run variance of the moment conditions.</p>
-<p>Unlike tradition GMM, the weighting matrix is simulteneously computed
+<p>Unlike tradition GMM, the weighting matrix is simultaneously computed
 with the moment conditions, and so has explicit dependence on
 <span class="math">\(\beta\)</span>.</p>
 </dd></dl>
@@ -773,7 +792,7 @@ with the moment conditions, and so has explicit dependence on
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.54.gd8decff',
+            VERSION:'0+untagged.54.g9dd9ea0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

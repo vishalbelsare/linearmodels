@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Instrumental Variable Covariance Estimation &mdash; linearmodels 0+untagged.54.gd8decff documentation</title>
+  <title>Instrumental Variable Covariance Estimation &mdash; linearmodels 0+untagged.54.g9dd9ea0 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.54.gd8decff documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.g9dd9ea0 documentation" href="../index.html"/>
         <link rel="up" title="Instrumental Variable Module Reference" href="reference.html"/>
         <link rel="next" title="GMM Weight and Covariance Estimation" href="gmm.html"/>
         <link rel="prev" title="Estimation Results" href="results.html"/> 
@@ -216,7 +216,7 @@
 <dl class="attribute">
 <dt id="linearmodels.iv.covariance.HomoskedasticCovariance.debiased">
 <code class="descname">debiased</code><a class="headerlink" href="#linearmodels.iv.covariance.HomoskedasticCovariance.debiased" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flag indicating whether to debias</p>
+<dd><p>Flag indicating if covariance is debiased</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -244,7 +244,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>x</strong> (<em>ndarray</em>) &#8211; Model regressors (nobs by nvar)</li>
 <li><strong>y</strong> (<em>ndarray</em>) &#8211; Series ,modeled (nobs by 1)</li>
-<li><strong>z</strong> (<em>ndarray</em>) &#8211; Instruments used for endogensou regressors (nobs by ninstr)</li>
+<li><strong>z</strong> (<em>ndarray</em>) &#8211; Instruments used for endogenous regressors (nobs by ninstr)</li>
 <li><strong>params</strong> (<em>ndarray</em>) &#8211; Estimated model parameters (nvar by 1)</li>
 <li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to use a small-sample adjustment</li>
 <li><strong>kappa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) &#8211; Value of kappa in k-class estimator</li>
@@ -276,7 +276,7 @@
 <dl class="attribute">
 <dt id="linearmodels.iv.covariance.HeteroskedasticCovariance.debiased">
 <code class="descname">debiased</code><a class="headerlink" href="#linearmodels.iv.covariance.HeteroskedasticCovariance.debiased" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flag indicating whether to debias</p>
+<dd><p>Flag indicating if covariance is debiased</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -304,7 +304,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>x</strong> (<em>ndarray</em>) &#8211; Model regressors (nobs by nvar)</li>
 <li><strong>y</strong> (<em>ndarray</em>) &#8211; Series ,modeled (nobs by 1)</li>
-<li><strong>z</strong> (<em>ndarray</em>) &#8211; Instruments used for endogensou regressors (nobs by ninstr)</li>
+<li><strong>z</strong> (<em>ndarray</em>) &#8211; Instruments used for endogenous regressors (nobs by ninstr)</li>
 <li><strong>params</strong> (<em>ndarray</em>) &#8211; Estimated model parameters (nvar by 1)</li>
 <li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to use a small-sample adjustment</li>
 <li><strong>clusters</strong> (<em>ndarray</em><em>, </em><em>optional</em>) &#8211; Cluster group assignment.  If not provided, uses clusters of 1</li>
@@ -340,7 +340,7 @@ of groups..</p>
 <dl class="attribute">
 <dt id="linearmodels.iv.covariance.OneWayClusteredCovariance.debiased">
 <code class="descname">debiased</code><a class="headerlink" href="#linearmodels.iv.covariance.OneWayClusteredCovariance.debiased" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flag indicating whether to debias</p>
+<dd><p>Flag indicating if covariance is debiased</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -368,7 +368,7 @@ of groups..</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>x</strong> (<em>ndarray</em>) &#8211; Model regressors (nobs by nvar)</li>
 <li><strong>y</strong> (<em>ndarray</em>) &#8211; Series ,modeled (nobs by 1)</li>
-<li><strong>z</strong> (<em>ndarray</em>) &#8211; Instruments used for endogensou regressors (nobs by ninstr)</li>
+<li><strong>z</strong> (<em>ndarray</em>) &#8211; Instruments used for endogenous regressors (nobs by ninstr)</li>
 <li><strong>params</strong> (<em>ndarray</em>) &#8211; Estimated model parameters (nvar by 1)</li>
 <li><strong>kernel</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; <p>Kernel name. Supported kernels are:</p>
 <ul>
@@ -419,7 +419,7 @@ by n / (n-k).</p>
 <dl class="attribute">
 <dt id="linearmodels.iv.covariance.KernelCovariance.debiased">
 <code class="descname">debiased</code><a class="headerlink" href="#linearmodels.iv.covariance.KernelCovariance.debiased" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flag indicating whether to debias</p>
+<dd><p>Flag indicating if covariance is debiased</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -505,7 +505,7 @@ w_i &amp;  = 2(1-z_i)^3, z &gt; 0.5\end{split}\]</div>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>Unlink the Barrlett or Parzen kernels, the QS kernel is not truncated at
+<p>Unlike the Barrlett or Parzen kernels, the QS kernel is not truncated at
 a specific lag, and so weights are computed for all available lags in
 the sample.</p>
 <div class="math">
@@ -561,7 +561,7 @@ w_i &amp;  = 3(\sin(z_i)/z_i - cos(z_i))/z_i^ 2, \, i \geq 1\end{split}\]</div>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.54.gd8decff',
+            VERSION:'0+untagged.54.g9dd9ea0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

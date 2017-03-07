@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.gmm &mdash; linearmodels 0+untagged.54.gd8decff documentation</title>
+  <title>linearmodels.iv.gmm &mdash; linearmodels 0+untagged.54.g9dd9ea0 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.54.gd8decff documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.g9dd9ea0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -161,7 +161,7 @@
             
   <h1>Source code for linearmodels.iv.gmm</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Covariance and weight estiamtion for GMM IV estimators</span>
+<span class="sd">Covariance and weight estimation for GMM IV estimators</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span>
 
@@ -193,7 +193,7 @@
 <span class="sd">      s^{2} &amp; =n^{-1}\sum_{i=1}^{n}(\epsilon_i-\bar{\epsilon})^2 \\</span>
 <span class="sd">      W &amp; =n^{-1}s^{2}\sum_{i=1}^{n}z_i&#39;z_i</span>
 <span class="sd">    </span>
-<span class="sd">    where :math:`z_i` contains both the exogensou regressors and instruments.</span>
+<span class="sd">    where :math:`z_i` contains both the exogenous regressors and instruments.</span>
 <span class="sd">    </span>
 <span class="sd">    ``center`` has no effect on this estimator since it is always centered.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -324,7 +324,7 @@
 <span class="sd">      \Gamma_j &amp; =\sum_{i=j+1}^n g&#39;_i g_{j-j}</span>
 <span class="sd">    </span>
 <span class="sd">    where :math:`k(j)` is the kernel weight for lag j and :math:`z_i` </span>
-<span class="sd">    contains both the exogensou regressors and instruments..</span>
+<span class="sd">    contains both the exogenous regressors and instruments..</span>
 <span class="sd">      </span>
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -471,7 +471,7 @@
 <span class="sd">    y : ndarray</span>
 <span class="sd">        Series ,modeled (nobs by 1)</span>
 <span class="sd">    z : ndarray</span>
-<span class="sd">        Instruments used for endogensou regressors (nobs by ninstr)</span>
+<span class="sd">        Instruments used for endogenous regressors (nobs by ninstr)</span>
 <span class="sd">    params : ndarray</span>
 <span class="sd">        Estimated model parameters (nvar by 1)</span>
 <span class="sd">    w : ndarray</span>
@@ -481,7 +481,7 @@
 
 <span class="sd">        * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are </span>
 <span class="sd">          homoskedastic</span>
-<span class="sd">        * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heterosedasticity by not </span>
+<span class="sd">        * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heteroskedasticity by not </span>
 <span class="sd">          autocorrelation</span>
 <span class="sd">        * &#39;kernel&#39; - Allows for heteroskedasticity and autocorrelation</span>
 <span class="sd">        * &#39;cluster&#39; - Allows for one-way cluster dependence</span>
@@ -498,7 +498,7 @@
 <span class="sd">    **kernel**</span>
 <span class="sd">    </span>
 <span class="sd">      * ``kernel``: Name of kernel to use.  See </span>
-<span class="sd">        linearmodel.covariance.KernelCovariance for details on available </span>
+<span class="sd">        linearmodels.covariance.KernelCovariance for details on available </span>
 <span class="sd">        kernels </span>
 <span class="sd">      * ``bandwidth``: Bandwidth to use when computing the weight.  If not </span>
 <span class="sd">        provided, nobs - 2 is used.</span>
@@ -506,7 +506,7 @@
 <span class="sd">    **cluster**</span>
 <span class="sd">    </span>
 <span class="sd">      * ``clusters``: Array containing the cluster indices.  See </span>
-<span class="sd">        linearmodel.covariance.OneWayClusteredCovariance</span>
+<span class="sd">        linearmodels.covariance.OneWayClusteredCovariance</span>
 <span class="sd">    </span>
 <span class="sd">    See also</span>
 <span class="sd">    --------</span>
@@ -592,7 +592,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.54.gd8decff',
+            VERSION:'0+untagged.54.g9dd9ea0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.model &mdash; linearmodels 0+untagged.54.gd8decff documentation</title>
+  <title>linearmodels.iv.model &mdash; linearmodels 0+untagged.54.g9dd9ea0 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.54.gd8decff documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.g9dd9ea0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -251,6 +251,10 @@
 <span class="sd">    .. todo::</span>
 
 <span class="sd">        * VCV: bootstrap</span>
+<span class="sd">    </span>
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    IV2SLS, IVGMM, IVGMMCUE</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">,</span> <span class="n">fuller</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -314,7 +318,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;regressors [exog endog] not have full &#39;</span>
                              <span class="s1">&#39;column rank&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">matrix_rank</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;instruments [exog insruments]  do not have full &#39;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;instruments [exog instruments]  do not have full &#39;</span>
                              <span class="s1">&#39;column rank&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_has_constant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_const_loc</span> <span class="o">=</span> <span class="n">has_constant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
@@ -332,7 +336,7 @@
 <span class="sd">        z : ndarray</span>
 <span class="sd">            Instrument matrix (nobs by ninstr)</span>
 <span class="sd">        kappa : scalar</span>
-<span class="sd">            Parameter value for k-class esimtator</span>
+<span class="sd">            Parameter value for k-class estimator</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -501,7 +505,7 @@
 <span class="sd">    .. math::</span>
 <span class="sd">    </span>
 <span class="sd">      \hat{\beta}_{2SLS} &amp; =(X&#39;Z(Z&#39;Z)^{-1}Z&#39;X)^{-1}X&#39;Z(Z&#39;Z)^{-1}Z&#39;Y\\</span>
-<span class="sd">                         &amp; =(\hat{X}&#39;\hat{X})^{-1}\hat{X}Y\\</span>
+<span class="sd">                         &amp; =(\hat{X}&#39;\hat{X})^{-1}\hat{X}&#39;Y\\</span>
 <span class="sd">                 \hat{X} &amp; =Z(Z&#39;Z)^{-1}Z&#39;X</span>
 <span class="sd">    </span>
 <span class="sd">    The 2SLS estimator is a special case of a k-class estimator with</span>
@@ -510,6 +514,10 @@
 <span class="sd">    .. todo::</span>
 
 <span class="sd">        * VCV: bootstrap</span>
+<span class="sd">    </span>
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    IVLIML, IVGMM, IVGMMCUE        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">):</span>
@@ -543,7 +551,7 @@
 
 <span class="sd">      * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are </span>
 <span class="sd">        homoskedastic</span>
-<span class="sd">      * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heterosedasticity by not </span>
+<span class="sd">      * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heteroskedasticity by not </span>
 <span class="sd">        autocorrelation</span>
 <span class="sd">      * &#39;kernel&#39; - Allows for heteroskedasticity and autocorrelation</span>
 <span class="sd">      * &#39;cluster&#39; - Allows for one-way cluster dependence</span>
@@ -560,6 +568,10 @@
 <span class="sd">    .. todo:</span>
 
 <span class="sd">         * VCV: bootstrap</span>
+<span class="sd">    </span>
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    IV2SLS, IVLIML, IVGMMCUE</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">,</span> <span class="n">weight_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span>
@@ -600,7 +612,8 @@
         <span class="n">zpy</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span>
         <span class="k">return</span> <span class="n">inv</span><span class="p">(</span><span class="n">xpz</span> <span class="o">@</span> <span class="n">w</span> <span class="o">@</span> <span class="n">xpz</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">xpz</span> <span class="o">@</span> <span class="n">w</span> <span class="o">@</span> <span class="n">zpy</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="IVGMM.fit"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMM.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iter_limit</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+<div class="viewcode-block" id="IVGMM.fit"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMM.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iter_limit</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">initial_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate model parameters</span>
 
@@ -615,6 +628,10 @@
 <span class="sd">            Convergence criteria.  Measured as covariance normalized change in</span>
 <span class="sd">            parameters across iterations where the covariance estimator is</span>
 <span class="sd">            based on the first step parameter estimates.</span>
+<span class="sd">        initial_weight : ndarray, optional</span>
+<span class="sd">            Initial weighting matrix to use in the first step.  If not </span>
+<span class="sd">            specified, uses the average outer-product of the set containing</span>
+<span class="sd">            the exogenous variables and instruments.</span>
 <span class="sd">        cov_type : str, optional</span>
 <span class="sd">                Name of covariance estimator to use</span>
 <span class="sd">        **cov_config</span>
@@ -636,7 +653,7 @@
 <span class="sd">    </span>
 <span class="sd">          * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are </span>
 <span class="sd">            homoskedastic</span>
-<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heterosedasticity by not </span>
+<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heteroskedasticity by not </span>
 <span class="sd">            autocorrelation</span>
 <span class="sd">          * &#39;kernel&#39; - Allows for heteroskedasticity and autocorrelation</span>
 <span class="sd">          * &#39;cluster&#39; - Allows for one-way cluster dependence</span>
@@ -645,7 +662,7 @@
         <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span>
         <span class="n">nobs</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">weight_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weight</span><span class="o">.</span><span class="n">weight_matrix</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">z</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">z</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span> <span class="k">if</span> <span class="n">initial_weight</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">initial_weight</span>
         <span class="n">_params</span> <span class="o">=</span> <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_parameters</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
         <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
 
@@ -720,7 +737,7 @@
 
 <span class="sd">      * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are </span>
 <span class="sd">        homoskedastic</span>
-<span class="sd">      * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heterosedasticity by not </span>
+<span class="sd">      * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heteroskedasticity by not </span>
 <span class="sd">        autocorrelation</span>
 <span class="sd">      * &#39;kernel&#39; - Allows for heteroskedasticity and autocorrelation</span>
 <span class="sd">      * &#39;cluster&#39; - Allows for one-way cluster dependence</span>
@@ -735,6 +752,10 @@
 <span class="sd">    </span>
 <span class="sd">    where :math:`W(\beta)` is a weight matrix that depends on :math:`\beta`</span>
 <span class="sd">    through :math:`\epsilon_i = y_i - x_i\beta`.</span>
+<span class="sd">    </span>
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    IV2SLS, IVLIML, IVGMM</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">,</span> <span class="n">weight_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span>
@@ -752,7 +773,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        params : ndarray</span>
-<span class="sd">            Parameter vector (nvar,)</span>
+<span class="sd">            Parameter vector (nvar)</span>
 <span class="sd">        x : ndarray</span>
 <span class="sd">            Regressor matrix (nobs by nvar)</span>
 <span class="sd">        y : ndarray</span>
@@ -779,7 +800,7 @@
 <span class="sd">        :math:`\hat{\epsilon}_i = y_i - x_i\beta`.  The weighting matrix</span>
 <span class="sd">        is some estimator of the long-run variance of the moment conditions.</span>
 <span class="sd">        </span>
-<span class="sd">        Unlike tradition GMM, the weighting matrix is simulteneously computed </span>
+<span class="sd">        Unlike tradition GMM, the weighting matrix is simultaneously computed </span>
 <span class="sd">        with the moment conditions, and so has explicit dependence on </span>
 <span class="sd">        :math:`\beta`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -850,7 +871,7 @@
 <span class="sd">        supported options. Defaults are used if no covariance configuration</span>
 <span class="sd">        is provided.</span>
 <span class="sd">        </span>
-<span class="sd">        Starting values are computed by IV2SLS.</span>
+<span class="sd">        Starting values are computed by IVGMM.</span>
 
 <span class="sd">        .. todo::</span>
 
@@ -860,8 +881,9 @@
         <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span>
         <span class="n">weight_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weight</span><span class="o">.</span><span class="n">weight_matrix</span>
         <span class="k">if</span> <span class="n">starting</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="p">,</span>
-                         <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instruments</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">IVGMM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">instruments</span><span class="p">,</span> <span class="n">weight_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_weight_type</span><span class="p">,</span>
+                        <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_weight_config</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
             <span class="n">starting</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">starting</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="n">starting</span><span class="p">)</span>
@@ -886,7 +908,8 @@
 <span class="sd">    </span>
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    Uses IV2SLS internaly by setting endog and instruments to None</span>
+<span class="sd">    Uses IV2SLS internally by setting endog and instruments to None.  </span>
+<span class="sd">    Uses IVLIML with kappa=0 to estimate OLS models. </span>
 <span class="sd">    </span>
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -933,7 +956,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.54.gd8decff',
+            VERSION:'0+untagged.54.g9dd9ea0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

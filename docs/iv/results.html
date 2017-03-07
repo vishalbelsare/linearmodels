@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Estimation Results &mdash; linearmodels 0+untagged.54.gd8decff documentation</title>
+  <title>Estimation Results &mdash; linearmodels 0+untagged.54.g9dd9ea0 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.54.gd8decff documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.54.g9dd9ea0 documentation" href="../index.html"/>
         <link rel="up" title="Instrumental Variable Module Reference" href="reference.html"/>
         <link rel="next" title="Instrumental Variable Covariance Estimation" href="covariance.html"/>
         <link rel="prev" title="Estimation Methods" href="methods.html"/> 
@@ -191,7 +191,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -214,7 +214,7 @@ indicate the model is not overidentified. The test statistic is</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -243,7 +243,7 @@ endogenous regressors.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -274,6 +274,8 @@ indicate the model is not overidentified. The test statistic is</p>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>Uses a t(df_resid) if <code class="docutils literal"><span class="pre">debiased</span></code> is True, else normal.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -329,7 +331,7 @@ indicate the model is not overidentified. The test statistic is</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em></em><em>, </em><em>optional</em>) &#8211; List of variables to test for exogeneity.  If None, all variables
 are jointly tested.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -339,8 +341,20 @@ are jointly tested.</td>
 <p>Test statistic is difference between sum of squared OLS and sum of
 squared IV residuals where each set of residuals has been projected
 onto the set of instruments in teh IV model.</p>
+<p>Start by defining</p>
 <div class="math">
-\[TODO\]</div>
+\[\begin{split}\delta &amp; = \hat{\epsilon}'_e P_{[z,w]} \hat{\epsilon}_e
+         - \hat{\epsilon}'_c P_{z} \hat{\epsilon}_c \\\end{split}\]</div>
+<p>where <span class="math">\(\hat{\epsilon}_e\)</span> are the regression residuals from a
+model where <code class="docutils literal"><span class="pre">vars</span></code> are treated as exogenous,
+<span class="math">\(\hat{\epsilon}_c\)</span> are the regression residuals from the model
+leaving <code class="docutils literal"><span class="pre">vars</span></code> as endogenous, <span class="math">\(P_{[z,w]}\)</span> is a projection
+matrix onto the exogenous variables and instruments (<cite>z</cite>) as well as
+<code class="docutils literal"><span class="pre">vars</span></code>, and <span class="math">\(P_{z}\)</span> is a projection matrix only onto <cite>z</cite>.</p>
+<p>The test statistic is then</p>
+<div class="math">
+\[\delta / (\hat{\epsilon}'_e\hat{\epsilon}_e) / n \sim \chi^2_{q}\]</div>
+<p>where <span class="math">\(q\)</span> is the number of variables tested.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -361,7 +375,8 @@ are zero.</td>
 <p class="rubric">Notes</p>
 <p>Despite name, always implemented using a quadratic-form test based on
 estimated parameter covariance. Default is to use a chi2 distribution
-to compute p-values. If <code class="docutils literal"><span class="pre">debiased</span></code> is True, uses an F-distribution.</p>
+to compute p-values. If <code class="docutils literal"><span class="pre">debiased</span></code> is True, divides statistic by
+number of parameters tested and uses an F-distribution.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -425,7 +440,7 @@ to compute p-values. If <code class="docutils literal"><span class="pre">debiase
 <dl class="attribute">
 <dt id="linearmodels.iv.results.IVResults.pvalues">
 <code class="descname">pvalues</code><a class="headerlink" href="#linearmodels.iv.results.IVResults.pvalues" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parameter p-vals. Uses t(df_resid) if debiased is True, other normal.</p>
+<dd><p>Parameter p-vals. Uses t(df_resid) if <code class="docutils literal"><span class="pre">debiased</span></code> is True, else normal</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -466,7 +481,7 @@ to compute p-values. If <code class="docutils literal"><span class="pre">debiase
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -518,7 +533,7 @@ of instruments and the number of endogenous regressors.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -547,7 +562,7 @@ variables.  The test is computed as a regression</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -576,7 +591,7 @@ identical to the covariance estimator used with <code class="docutils literal"><
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -607,16 +622,32 @@ variable <span class="math">\(x_j\)</span> on the exogenous variables and instru
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em></em><em>, </em><em>optional</em>) &#8211; List of variables to test for exogeneity.  If None, all variables
 are jointly tested.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>Test statistic is based on the difference between ...</p>
+<p>Test statistic is difference between sum of squared OLS and sum of
+squared IV residuals where each set of residuals has been projected
+onto the set of instruments in teh IV model.</p>
+<p>Start by defining</p>
 <div class="math">
-\[TODO\]</div>
+\[\begin{split}\delta &amp; = \hat{\epsilon}'_e P_{[z,w]} \hat{\epsilon}_e
+         - \hat{\epsilon}'_c P_{z} \hat{\epsilon}_c \\\end{split}\]</div>
+<p>where <span class="math">\(\hat{\epsilon}_e\)</span> are the regression residuals from a
+model where <code class="docutils literal"><span class="pre">vars</span></code> are treated as exogenous,
+<span class="math">\(\hat{\epsilon}_c\)</span> are the regression residuals from the model
+leaving <code class="docutils literal"><span class="pre">vars</span></code> as endogenous, <span class="math">\(P_{[z,w]}\)</span> is a projection
+matrix onto the exogenous variables and instruments (<cite>z</cite>) as well as
+<code class="docutils literal"><span class="pre">vars</span></code>, and <span class="math">\(P_{z}\)</span> is a projection matrix only onto <cite>z</cite>.</p>
+<p>The test statistic is then</p>
+<div class="math">
+\[\frac{\delta / q}{(\hat{\epsilon}'_e\hat{\epsilon}_e - \delta) / v}\]</div>
+<p>where <span class="math">\(q\)</span> is the number of variables tests,
+<span class="math">\(v = n - n_{endog} - n_{exog} - q\)</span>. The test statistic has a
+<span class="math">\(F_{q, v}\)</span> distribution.</p>
 </dd></dl>
 
 </dd></dl>
@@ -643,7 +674,7 @@ are jointly tested.</td>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em></em><em>, </em><em>optional</em>) &#8211; List of variables to test for exogeneity.  If None, all variables
 are jointly tested.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, pvalue, distribution and null</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -690,6 +721,8 @@ tested.</p>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>Uses a t(df_resid) if <code class="docutils literal"><span class="pre">debiased</span></code> is True, else normal.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -752,7 +785,8 @@ are zero.</td>
 <p class="rubric">Notes</p>
 <p>Despite name, always implemented using a quadratic-form test based on
 estimated parameter covariance. Default is to use a chi2 distribution
-to compute p-values. If <code class="docutils literal"><span class="pre">debiased</span></code> is True, uses an F-distribution.</p>
+to compute p-values. If <code class="docutils literal"><span class="pre">debiased</span></code> is True, divides statistic by
+number of parameters tested and uses an F-distribution.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -810,7 +844,7 @@ statistic is defined as</p>
 <div class="math">
 \[n \bar{g}'W^{-1}\bar{g} \sim \chi^2_q\]</div>
 <p>where <span class="math">\(\bar{g} = n^{-1}\sum \hat{\epsilon}_i z_i\)</span> where
-<span class="math">\(z_i\)</span> includes both the exogensou variables and instruments and
+<span class="math">\(z_i\)</span> includes both the exogenous variables and instruments and
 <span class="math">\(\hat{\epsilon}_i\)</span> are the model residuals. <span class="math">\(W\)</span> is a consistent
 estimator of the variance of <span class="math">\(\sqrt{n}\bar{g}\)</span>. The degree of
 freedom is <span class="math">\(q = n_{instr} - n_{endog}\)</span>.</p>
@@ -849,7 +883,7 @@ freedom is <span class="math">\(q = n_{instr} - n_{endog}\)</span>.</p>
 <dl class="attribute">
 <dt id="linearmodels.iv.results.IVGMMResults.pvalues">
 <code class="descname">pvalues</code><a class="headerlink" href="#linearmodels.iv.results.IVGMMResults.pvalues" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parameter p-vals. Uses t(df_resid) if debiased is True, other normal.</p>
+<dd><p>Parameter p-vals. Uses t(df_resid) if <code class="docutils literal"><span class="pre">debiased</span></code> is True, else normal</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -945,6 +979,8 @@ freedom is <span class="math">\(q = n_{instr} - n_{endog}\)</span>.</p>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>Uses a t(df_resid) if <code class="docutils literal"><span class="pre">debiased</span></code> is True, else normal.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1007,7 +1043,8 @@ are zero.</td>
 <p class="rubric">Notes</p>
 <p>Despite name, always implemented using a quadratic-form test based on
 estimated parameter covariance. Default is to use a chi2 distribution
-to compute p-values. If <code class="docutils literal"><span class="pre">debiased</span></code> is True, uses an F-distribution.</p>
+to compute p-values. If <code class="docutils literal"><span class="pre">debiased</span></code> is True, divides statistic by
+number of parameters tested and uses an F-distribution.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1055,7 +1092,7 @@ to compute p-values. If <code class="docutils literal"><span class="pre">debiase
 <dl class="attribute">
 <dt id="linearmodels.iv.results.OLSResults.pvalues">
 <code class="descname">pvalues</code><a class="reference internal" href="../_modules/linearmodels/iv/results.html#OLSResults.pvalues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.OLSResults.pvalues" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parameter p-vals. Uses t(df_resid) if debiased is True, other normal.</p>
+<dd><p>Parameter p-vals. Uses t(df_resid) if <code class="docutils literal"><span class="pre">debiased</span></code> is True, else normal</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1134,21 +1171,21 @@ to compute p-values. If <code class="docutils literal"><span class="pre">debiase
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>res</strong> &#8211; DataFrame where each endogenous variable appears as a row and
 the columns contain alternative measures.  The columns are:<ul class="simple">
-<li>rsquared - Rsquared from regression of endogenous on exogenous
+<li>rsquared - R-squared from regression of endogenous on exogenous
 and instruments</li>
-<li>partial.rsquared - Rsquared from regression of the exogenous
+<li>partial.rsquared - R-squared from regression of the exogenous
 variable on instruments where both the exogenous variable and
 the instrument have been orthogonalized to the exogenous
 regressors in the model.</li>
 <li>f.stat - Test that all coefficients are zero in the model
-used to estimate the partial rsquared. Uses a standard F-test
-when the covariance estimtor is unadjusted - otherwise uses a
+used to estimate the partial R-squared. Uses a standard F-test
+when the covariance estimator is unadjusted - otherwise uses a
 Wald test statistic with a chi2 distribution.</li>
 <li>f.pval - P-value of the test that all coefficients are zero
-in the model used to estimate the partial rsquared</li>
+in the model used to estimate the partial R-squared</li>
 <li>shea.rsquared - Shea&#8217;s r-squared which measures the correlation
 between the projected and orthogonalized instrument on the
-orthogonoalized endogenous regressor where the orthogonalization
+orthogonalized endogenous regressor where the orthogonalization
 is with respect to the other included variables in the model.</li>
 </ul>
 </td>
@@ -1224,7 +1261,7 @@ the variable names of the endogenous regressors.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.54.gd8decff',
+            VERSION:'0+untagged.54.g9dd9ea0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
