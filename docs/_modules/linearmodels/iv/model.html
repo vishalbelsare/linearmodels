@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.model &mdash; linearmodels 0+untagged.54.ge9d9ea7 documentation</title>
+  <title>linearmodels.iv.model &mdash; linearmodels 0.1+12.ga25a15c documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.54.ge9d9ea7 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0.1+12.ga25a15c documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.+
+                0.1
               </div>
             
           
@@ -91,8 +91,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../iv/iv.html">Instrumental Variable Model Estimation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../iv/reference.html">Instrumental Variable Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../iv/index.html">Instrumental Variable Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../panel/panel.html">Panel Module Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utility.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plan.html">Module Plans</a></li>
@@ -165,6 +164,11 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span>
 
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">asarray</span><span class="p">,</span> <span class="n">c_</span><span class="p">,</span> <span class="n">isscalar</span><span class="p">,</span> <span class="nb">any</span><span class="p">,</span> <span class="n">logical_not</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">eigvalsh</span><span class="p">,</span> <span class="n">inv</span><span class="p">,</span> <span class="n">matrix_rank</span><span class="p">,</span> <span class="n">pinv</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="k">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">minimize</span>
+
 <span class="kn">from</span> <span class="nn">linearmodels.iv.covariance</span> <span class="k">import</span> <span class="p">(</span><span class="n">HeteroskedasticCovariance</span><span class="p">,</span>
                                         <span class="n">HomoskedasticCovariance</span><span class="p">,</span> <span class="n">KernelCovariance</span><span class="p">,</span>
                                         <span class="n">OneWayClusteredCovariance</span><span class="p">)</span>
@@ -174,10 +178,6 @@
                                  <span class="n">KernelWeightMatrix</span><span class="p">,</span> <span class="n">OneWayClusteredWeightMatrix</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">linearmodels.iv.results</span> <span class="k">import</span> <span class="n">IVGMMResults</span><span class="p">,</span> <span class="n">IVResults</span><span class="p">,</span> <span class="n">OLSResults</span>
 <span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">WaldTestStatistic</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> <span class="n">inv_sqrth</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">asarray</span><span class="p">,</span> <span class="n">c_</span><span class="p">,</span> <span class="n">isscalar</span>
-<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">eigvalsh</span><span class="p">,</span> <span class="n">inv</span><span class="p">,</span> <span class="n">matrix_rank</span><span class="p">,</span> <span class="n">pinv</span>
-<span class="kn">from</span> <span class="nn">pandas</span> <span class="k">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">minimize</span>
 
 <span class="n">COVARIANCE_ESTIMATORS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;homoskedastic&#39;</span><span class="p">:</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span>
                          <span class="s1">&#39;unadjusted&#39;</span><span class="p">:</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span>
@@ -227,31 +227,31 @@
 <span class="sd">    -----</span>
 <span class="sd">    ``kappa`` and ``fuller`` should not be used simultaneously since Fuller&#39;s</span>
 <span class="sd">    alpha applies an adjustment to ``kappa``, and so the same result can be</span>
-<span class="sd">    computed using only ``kappa``. Fuller&#39;s alpha is used to adjust the </span>
+<span class="sd">    computed using only ``kappa``. Fuller&#39;s alpha is used to adjust the</span>
 <span class="sd">    LIML estimate of :math:`\kappa`, which is computed whenever ``kappa``</span>
 <span class="sd">    is not provided.</span>
-<span class="sd">    </span>
-<span class="sd">    The LIML estimator is defined as </span>
-<span class="sd">    </span>
+
+<span class="sd">    The LIML estimator is defined as</span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">    </span>
+
 <span class="sd">      \hat{\beta}_{\kappa} &amp; =(X(I-\kappa M_{z})X)^{-1}X(I-\kappa M_{z})Y\\</span>
 <span class="sd">      M_{z} &amp; =I-P_{z}\\</span>
 <span class="sd">      P_{z} &amp; =Z(Z&#39;Z)^{-1}Z&#39;</span>
-<span class="sd">    </span>
+
 <span class="sd">    where :math:`Z` contains both the exogenous regressors and the instruments.</span>
 <span class="sd">    :math:`\kappa` is estimated as part of the LIML estimator.</span>
-<span class="sd">    </span>
-<span class="sd">    When using Fuller&#39;s :math:`\alpha`, the value used is modified to </span>
-<span class="sd">    </span>
+
+<span class="sd">    When using Fuller&#39;s :math:`\alpha`, the value used is modified to</span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">    </span>
-<span class="sd">      \kappa-\alpha/(n-n_{instr})  </span>
+
+<span class="sd">      \kappa-\alpha/(n-n_{instr})</span>
 
 <span class="sd">    .. todo::</span>
 
 <span class="sd">        * VCV: bootstrap</span>
-<span class="sd">    </span>
+
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    IV2SLS, IVGMM, IVGMMCUE</span>
@@ -266,7 +266,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">exog</span> <span class="o">=</span> <span class="n">DataHandler</span><span class="p">(</span><span class="n">exog</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;exog&#39;</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">endog</span> <span class="o">=</span> <span class="n">DataHandler</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;endog&#39;</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">instruments</span> <span class="o">=</span> <span class="n">DataHandler</span><span class="p">(</span><span class="n">instruments</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;instruments&#39;</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">)</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">_drop_locs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_drop_missing</span><span class="p">()</span>
         <span class="c1"># dependent variable</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">ndarray</span>
         <span class="c1"># model regressors</span>
@@ -280,6 +280,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">cols</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">cols</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_instr_columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">cols</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">cols</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">rows</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_inputs</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">=</span> <span class="s1">&#39;IV-LIML&#39;</span>
 
@@ -315,12 +316,28 @@
                              <span class="s1">&#39; (</span><span class="si">{1}</span><span class="s1">).&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                                               <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
         <span class="k">if</span> <span class="n">matrix_rank</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;regressors [exog endog] not have full &#39;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;regressors [exog endog] do not have full &#39;</span>
                              <span class="s1">&#39;column rank&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">matrix_rank</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;instruments [exog instruments]  do not have full &#39;</span>
-                             <span class="s1">&#39;column rank&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;instruments [exog instruments]  do not have &#39;</span>
+                             <span class="s1">&#39;full column rank&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_has_constant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_const_loc</span> <span class="o">=</span> <span class="n">has_constant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_drop_missing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">instruments</span><span class="p">)</span>
+        <span class="n">missing</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">c_</span><span class="p">[[</span><span class="n">dh</span><span class="o">.</span><span class="n">isnull</span> <span class="k">for</span> <span class="n">dh</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;All observations contain missing data. &#39;</span>
+                                 <span class="s1">&#39;Model cannot be estimated.&#39;</span><span class="p">)</span>
+            <span class="kn">import</span> <span class="nn">warnings</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Inputs contain missing values&#39;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">missing</span>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="IVLIML.estimate_parameters"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVLIML.estimate_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">estimate_parameters</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">kappa</span><span class="p">):</span>
@@ -433,6 +450,16 @@
         <span class="sd">&quot;&quot;&quot;Flag indicating the model includes a constant or equivalent&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_constant</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">isnull</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Locations of observations with missing values&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_drop_locs</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">notnull</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Locations of observations included in estimation&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">logical_not</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_drop_locs</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_f_statistic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">):</span>
         <span class="n">non_const</span> <span class="o">=</span> <span class="o">~</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">test_params</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">non_const</span><span class="p">]</span>
@@ -501,23 +528,23 @@
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    The 2SLS estimator is defined</span>
-<span class="sd">    </span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">    </span>
+
 <span class="sd">      \hat{\beta}_{2SLS} &amp; =(X&#39;Z(Z&#39;Z)^{-1}Z&#39;X)^{-1}X&#39;Z(Z&#39;Z)^{-1}Z&#39;Y\\</span>
 <span class="sd">                         &amp; =(\hat{X}&#39;\hat{X})^{-1}\hat{X}&#39;Y\\</span>
 <span class="sd">                 \hat{X} &amp; =Z(Z&#39;Z)^{-1}Z&#39;X</span>
-<span class="sd">    </span>
+
 <span class="sd">    The 2SLS estimator is a special case of a k-class estimator with</span>
 <span class="sd">    :math:`\kappa=1`,</span>
-<span class="sd">    </span>
+
 <span class="sd">    .. todo::</span>
 
 <span class="sd">        * VCV: bootstrap</span>
-<span class="sd">    </span>
+
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
-<span class="sd">    IVLIML, IVGMM, IVGMMCUE        </span>
+<span class="sd">    IVLIML, IVGMM, IVGMMCUE</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">):</span>
@@ -549,26 +576,26 @@
 <span class="sd">    -----</span>
 <span class="sd">    Available weight functions are:</span>
 
-<span class="sd">      * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are </span>
+<span class="sd">      * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are</span>
 <span class="sd">        homoskedastic</span>
-<span class="sd">      * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heteroskedasticity by not </span>
+<span class="sd">      * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heteroskedasticity by not</span>
 <span class="sd">        autocorrelation</span>
 <span class="sd">      * &#39;kernel&#39; - Allows for heteroskedasticity and autocorrelation</span>
 <span class="sd">      * &#39;cluster&#39; - Allows for one-way cluster dependence</span>
-<span class="sd">    </span>
-<span class="sd">    The estimator is defined as </span>
-<span class="sd">    </span>
+
+<span class="sd">    The estimator is defined as</span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">    </span>
+
 <span class="sd">      \hat{\beta}_{gmm}=(X&#39;ZW^{-1}Z&#39;X)^{-1}X&#39;ZW^{-1}Z&#39;Y</span>
-<span class="sd">    </span>
-<span class="sd">    where :math:`W` is a positive definite weight matrix and :math:`Z` </span>
+
+<span class="sd">    where :math:`W` is a positive definite weight matrix and :math:`Z`</span>
 <span class="sd">    contains both the exogenous regressors and the instruments.</span>
 
 <span class="sd">    .. todo:</span>
 
 <span class="sd">         * VCV: bootstrap</span>
-<span class="sd">    </span>
+
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    IV2SLS, IVLIML, IVGMMCUE</span>
@@ -629,7 +656,7 @@
 <span class="sd">            parameters across iterations where the covariance estimator is</span>
 <span class="sd">            based on the first step parameter estimates.</span>
 <span class="sd">        initial_weight : ndarray, optional</span>
-<span class="sd">            Initial weighting matrix to use in the first step.  If not </span>
+<span class="sd">            Initial weighting matrix to use in the first step.  If not</span>
 <span class="sd">            specified, uses the average outer-product of the set containing</span>
 <span class="sd">            the exogenous variables and instruments.</span>
 <span class="sd">        cov_type : str, optional</span>
@@ -648,12 +675,12 @@
 <span class="sd">        The see the docstring of specific covariance estimator for a list of</span>
 <span class="sd">        supported options. Defaults are used if no covariance configuration</span>
 <span class="sd">        is provided.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Available covariance functions are:</span>
-<span class="sd">    </span>
-<span class="sd">          * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are </span>
+
+<span class="sd">          * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are</span>
 <span class="sd">            homoskedastic</span>
-<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heteroskedasticity by not </span>
+<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heteroskedasticity by not</span>
 <span class="sd">            autocorrelation</span>
 <span class="sd">          * &#39;kernel&#39; - Allows for heteroskedasticity and autocorrelation</span>
 <span class="sd">          * &#39;cluster&#39; - Allows for one-way cluster dependence</span>
@@ -735,24 +762,24 @@
 <span class="sd">    -----</span>
 <span class="sd">    Available weight functions are:</span>
 
-<span class="sd">      * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are </span>
+<span class="sd">      * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are</span>
 <span class="sd">        homoskedastic</span>
-<span class="sd">      * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heteroskedasticity by not </span>
+<span class="sd">      * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heteroskedasticity by not</span>
 <span class="sd">        autocorrelation</span>
 <span class="sd">      * &#39;kernel&#39; - Allows for heteroskedasticity and autocorrelation</span>
 <span class="sd">      * &#39;cluster&#39; - Allows for one-way cluster dependence</span>
-<span class="sd">    </span>
+
 <span class="sd">    In most circumstances, the ``center`` weight option should be ``True`` to</span>
 <span class="sd">    avoid starting value dependence.</span>
-<span class="sd">    </span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">     </span>
+
 <span class="sd">      \hat{\beta}_{cue} &amp; =\min_{\beta}\bar{g}(\beta)&#39;W(\beta)^{-1}g(\beta)\\</span>
 <span class="sd">      g(\beta) &amp; =n^{-1}\sum_{i=1}^{n}z_{i}(y_{i}-x_{i}\beta)</span>
-<span class="sd">    </span>
+
 <span class="sd">    where :math:`W(\beta)` is a weight matrix that depends on :math:`\beta`</span>
 <span class="sd">    through :math:`\epsilon_i = y_i - x_i\beta`.</span>
-<span class="sd">    </span>
+
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    IV2SLS, IVLIML, IVGMM</span>
@@ -768,8 +795,8 @@
 
 <div class="viewcode-block" id="IVGMMCUE.j"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMMCUE.j">[docs]</a>    <span class="k">def</span> <span class="nf">j</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Optimization target </span>
-<span class="sd">        </span>
+<span class="sd">        Optimization target</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        params : ndarray</span>
@@ -780,28 +807,28 @@
 <span class="sd">            Regressand matrix (nobs by 1)</span>
 <span class="sd">        z : ndarray</span>
 <span class="sd">            Instrument matrix (nobs by ninstr)</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        j : float</span>
 <span class="sd">            GMM objective function, also known as the J-statistic</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        </span>
+
 <span class="sd">        The GMM objective function is defined as</span>
-<span class="sd">        </span>
+
 <span class="sd">        .. math::</span>
-<span class="sd">        </span>
+
 <span class="sd">          J(\beta) = \bar{g}(\beta)&#39;W(\beta)^{-1}\bar{g}(\beta)</span>
-<span class="sd">        </span>
-<span class="sd">        where :math:`\bar{g}(\beta)` is the average of the moment </span>
-<span class="sd">        conditions, :math:`z_i \hat{\epsilon}_i`, where </span>
+
+<span class="sd">        where :math:`\bar{g}(\beta)` is the average of the moment</span>
+<span class="sd">        conditions, :math:`z_i \hat{\epsilon}_i`, where</span>
 <span class="sd">        :math:`\hat{\epsilon}_i = y_i - x_i\beta`.  The weighting matrix</span>
 <span class="sd">        is some estimator of the long-run variance of the moment conditions.</span>
-<span class="sd">        </span>
-<span class="sd">        Unlike tradition GMM, the weighting matrix is simultaneously computed </span>
-<span class="sd">        with the moment conditions, and so has explicit dependence on </span>
+
+<span class="sd">        Unlike tradition GMM, the weighting matrix is simultaneously computed</span>
+<span class="sd">        with the moment conditions, and so has explicit dependence on</span>
 <span class="sd">        :math:`\beta`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nobs</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -833,7 +860,7 @@
 <span class="sd">        -----</span>
 <span class="sd">        Exposed to facilitate estimation with other data, e.g., bootstrapped</span>
 <span class="sd">        samples.  Performs no error checking.</span>
-<span class="sd">        </span>
+
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
 <span class="sd">        scipy.optimize.minimize</span>
@@ -850,7 +877,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        starting : ndarray, optional</span>
-<span class="sd">            Starting values to use in optimization.  If not provided, 2SLS </span>
+<span class="sd">            Starting values to use in optimization.  If not provided, 2SLS</span>
 <span class="sd">            estimates are used.</span>
 <span class="sd">        display : bool, optional</span>
 <span class="sd">            Flag indicating whether to display optimization output</span>
@@ -870,7 +897,7 @@
 <span class="sd">        The see the docstring of specific covariance estimator for a list of</span>
 <span class="sd">        supported options. Defaults are used if no covariance configuration</span>
 <span class="sd">        is provided.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Starting values are computed by IVGMM.</span>
 
 <span class="sd">        .. todo::</span>
@@ -905,12 +932,12 @@
 <span class="k">class</span> <span class="nc">_OLS</span><span class="p">(</span><span class="n">IVLIML</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes OLS estimated when required</span>
-<span class="sd">    </span>
+
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    Uses IV2SLS internally by setting endog and instruments to None.  </span>
-<span class="sd">    Uses IVLIML with kappa=0 to estimate OLS models. </span>
-<span class="sd">    </span>
+<span class="sd">    Uses IV2SLS internally by setting endog and instruments to None.</span>
+<span class="sd">    Uses IVLIML with kappa=0 to estimate OLS models.</span>
+
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    statsmodels.regression.linear_model.OLS,</span>
@@ -956,7 +983,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.54.ge9d9ea7',
+            VERSION:'0.1+12.ga25a15c',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

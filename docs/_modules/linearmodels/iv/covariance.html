@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.covariance &mdash; linearmodels 0+untagged.54.ge9d9ea7 documentation</title>
+  <title>linearmodels.iv.covariance &mdash; linearmodels 0.1+12.ga25a15c documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.54.ge9d9ea7 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0.1+12.ga25a15c documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.+
+                0.1
               </div>
             
           
@@ -91,8 +91,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../iv/iv.html">Instrumental Variable Model Estimation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../iv/reference.html">Instrumental Variable Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../iv/index.html">Instrumental Variable Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../panel/panel.html">Panel Module Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utility.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plan.html">Module Plans</a></li>
@@ -168,6 +167,13 @@
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="p">(</span><span class="n">ceil</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">argsort</span><span class="p">,</span> <span class="n">r_</span><span class="p">,</span> <span class="n">unique</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">arange</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span>
                    <span class="n">cos</span><span class="p">,</span> <span class="n">empty</span><span class="p">,</span> <span class="nb">sum</span><span class="p">,</span> <span class="n">asarray</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">pinv</span><span class="p">,</span> <span class="n">inv</span>
+
+<span class="n">CLUSTER_ERR</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">clusters has the wrong nobs. Expected </span><span class="si">{0}</span><span class="s2">, got </span><span class="si">{1}</span><span class="s2">.  Any missing observation</span>
+<span class="s2">in the regression variables have have been dropped.  When using a clustered</span>
+<span class="s2">covariance estimator, drop missing data before estimating the model. The model</span>
+<span class="s2">property `notnull` contains the locations of the observations that have no </span>
+<span class="s2">missing values.&quot;&quot;&quot;</span>
 
 
 <span class="k">def</span> <span class="nf">_cov_cluster</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">clusters</span><span class="p">):</span>
@@ -277,9 +283,9 @@
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    Unlike the Barrlett or Parzen kernels, the QS kernel is not truncated at</span>
-<span class="sd">    a specific lag, and so weights are computed for all available lags in </span>
-<span class="sd">    the sample.  </span>
-<span class="sd">    </span>
+<span class="sd">    a specific lag, and so weights are computed for all available lags in</span>
+<span class="sd">    the sample.</span>
+
 <span class="sd">    .. math::</span>
 
 <span class="sd">       z_i &amp; = 6 \pi (i / bw) / 5                                \\</span>
@@ -347,11 +353,11 @@
 
 <span class="sd">      * Explain mathematics involved</span>
 <span class="sd">      * References</span>
-<span class="sd">    </span>
+
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
-<span class="sd">    linearmodels.iv.covariance.kernel_weight_bartlett, </span>
-<span class="sd">    linearmodels.iv.covariance.kernel_weight_parzen, </span>
+<span class="sd">    linearmodels.iv.covariance.kernel_weight_bartlett,</span>
+<span class="sd">    linearmodels.iv.covariance.kernel_weight_parzen,</span>
 <span class="sd">    linearmodels.iv.covariance.kernel_weight_quadratic_spectral</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -622,11 +628,11 @@
 
 <span class="sd">    where :math:`X` is the matrix of variables included in the model and</span>
 <span class="sd">    :math:`Z` is the matrix of instruments, including exogenous regressors.</span>
-<span class="sd">    </span>
+
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
-<span class="sd">    linearmodels.iv.covariance.kernel_weight_bartlett, </span>
-<span class="sd">    linearmodels.iv.covariance.kernel_weight_parzen, </span>
+<span class="sd">    linearmodels.iv.covariance.kernel_weight_bartlett,</span>
+<span class="sd">    linearmodels.iv.covariance.kernel_weight_parzen,</span>
 <span class="sd">    linearmodels.iv.covariance.kernel_weight_quadratic_spectral</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -732,8 +738,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span> <span class="o">=</span> <span class="n">clusters</span>
         <span class="n">nobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">clusters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">clusters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">nobs</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;clusters has the wrong nobs. Expected </span><span class="si">{0}</span><span class="s1">, &#39;</span>
-                             <span class="s1">&#39;got </span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nobs</span><span class="p">,</span> <span class="n">clusters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">CLUSTER_ERR</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nobs</span><span class="p">,</span> <span class="n">clusters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">s</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -798,7 +803,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.54.ge9d9ea7',
+            VERSION:'0.1+12.ga25a15c',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

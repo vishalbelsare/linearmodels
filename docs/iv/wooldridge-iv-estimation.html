@@ -1,0 +1,845 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Instrumental Variables estimation and two Stage Least Squares &mdash; linearmodels 0.1+12.ga25a15c documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="linearmodels 0.1+12.ga25a15c documentation" href="../index.html"/>
+        <link rel="up" title="Instrumental Variable Estimation" href="index.html"/>
+        <link rel="next" title="Mathematical Formulas" href="estimators.html"/>
+        <link rel="prev" title="Instrumental Variable Estimation" href="instrumental-variable-estimation.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> linearmodels
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Instrumental Variable Estimation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="iv.html">Instrumental Variable Model Specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html">Instrumental Variable Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instrumental-variable-estimation.html">Instrumental Variable Estimation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Instrumental Variables estimation and two Stage Least Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="estimators.html">Mathematical Formulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../panel/panel.html">Panel Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plan.html">Module Plans</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">linearmodels</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Instrumental Variable Estimation</a> &raquo;</li>
+        
+      <li>Instrumental Variables estimation and two Stage Least Squares</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/iv/wooldridge-iv-estimation.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Instrumental-Variables-estimation-and-two-Stage-Least-Squares">
+<h1>Instrumental Variables estimation and two Stage Least Squares<a class="headerlink" href="#Instrumental-Variables-estimation-and-two-Stage-Least-Squares" title="Permalink to this headline">¶</a></h1>
+<p><strong>Chapter 15</strong> <em>Introduction to Econometrics</em>, Jeffrey Wooldridge</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">statsmodels.api</span> <span class="kn">import</span> <span class="n">add_constant</span>
+<span class="kn">from</span> <span class="nn">linearmodels.datasets</span> <span class="kn">import</span> <span class="n">mroz</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">mroz</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">add_constant</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">has_constant</span><span class="o">=</span><span class="s1">&#39;add&#39;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[2]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>const       float64
+inlf          int64
+hours         int64
+kidslt6       int64
+kidsge6       int64
+age           int64
+educ          int64
+wage        float64
+repwage     float64
+hushrs        int64
+husage        int64
+huseduc       int64
+huswage     float64
+faminc        int64
+mtr         float64
+motheduc      int64
+fatheduc      int64
+unem        float64
+city          int64
+exper         int64
+nwifeinc    float64
+lwage       float64
+expersq       int64
+dtype: object
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="kn">import</span> <span class="n">iv</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">wage</span><span class="p">),</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;const&#39;</span><span class="p">,</span><span class="s1">&#39;educ&#39;</span><span class="p">]],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                          IV-2SLS Estimation Summary
+==============================================================================
+Dep. Variable:                   wage   R-squared:                      0.1179
+Estimator:                    IV-2SLS   Adj. R-squared:                 0.1158
+No. Observations:                 428   F-statistic:                    57.196
+Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
+Time:                        20:04:00   Distribution:                  chi2(1)
+Cov. Estimator:            unadjusted
+
+                             Parameter Estimates
+==============================================================================
+           Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+const         -0.1852     0.1848    -1.0022     0.3163     -0.5474      0.1770
+educ           0.1086     0.0144     7.5628     0.0000      0.0805      0.1368
+==============================================================================
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">res_first</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">educ</span><span class="p">,</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;const&#39;</span><span class="p">,</span><span class="s1">&#39;fatheduc&#39;</span><span class="p">]],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res_first</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                          IV-2SLS Estimation Summary
+==============================================================================
+Dep. Variable:                   educ   R-squared:                      0.1726
+Estimator:                    IV-2SLS   Adj. R-squared:                 0.1706
+No. Observations:                 428   F-statistic:                    89.258
+Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
+Time:                        20:04:00   Distribution:                  chi2(1)
+Cov. Estimator:            unadjusted
+
+                             Parameter Estimates
+==============================================================================
+           Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+const          10.237     0.2753     37.186     0.0000      9.6975      10.777
+fatheduc       0.2694     0.0285     9.4476     0.0000      0.2135      0.3253
+==============================================================================
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;educ_hat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">educ</span> <span class="o">-</span> <span class="n">res</span><span class="o">.</span><span class="n">resids</span>
+<span class="n">res_second</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">wage</span><span class="p">),</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;const&#39;</span><span class="p">]],</span> <span class="n">data</span><span class="o">.</span><span class="n">educ</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">fatheduc</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res_second</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                          IV-2SLS Estimation Summary
+==============================================================================
+Dep. Variable:                   wage   R-squared:                      0.0934
+Estimator:                    IV-2SLS   Adj. R-squared:                 0.0913
+No. Observations:                 428   F-statistic:                    2.8487
+Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0914
+Time:                        20:04:00   Distribution:                  chi2(1)
+Cov. Estimator:            unadjusted
+
+                             Parameter Estimates
+==============================================================================
+           Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+const          0.4411     0.4451     0.9911     0.3216     -0.4312      1.3134
+educ           0.0592     0.0351     1.6878     0.0914     -0.0095      0.1279
+==============================================================================
+
+Instrumented: educ
+Instruments: fatheduc
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">linearmodels.datasets</span> <span class="kn">import</span> <span class="n">wage</span>
+<span class="n">men</span> <span class="o">=</span> <span class="n">wage</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">men</span> <span class="o">=</span> <span class="n">men</span><span class="p">[[</span><span class="s1">&#39;educ&#39;</span><span class="p">,</span><span class="s1">&#39;wage&#39;</span><span class="p">,</span><span class="s1">&#39;sibs&#39;</span><span class="p">]]</span>
+<span class="n">men</span> <span class="o">=</span> <span class="n">add_constant</span><span class="p">(</span><span class="n">men</span><span class="p">)</span>
+<span class="n">men</span> <span class="o">=</span> <span class="n">men</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">res_first</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">men</span><span class="o">.</span><span class="n">educ</span><span class="p">,</span> <span class="n">men</span><span class="p">[[</span><span class="s1">&#39;const&#39;</span><span class="p">,</span> <span class="s1">&#39;sibs&#39;</span><span class="p">]],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res_first</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                          IV-2SLS Estimation Summary
+==============================================================================
+Dep. Variable:                   educ   R-squared:                      0.0576
+Estimator:                    IV-2SLS   Adj. R-squared:                 0.0566
+No. Observations:                 934   F-statistic:                    57.107
+Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
+Time:                        20:04:00   Distribution:                  chi2(1)
+Cov. Estimator:            unadjusted
+
+                             Parameter Estimates
+==============================================================================
+           Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+const          14.143     0.1131     125.02     0.0000      13.921      14.365
+sibs          -0.2287     0.0303    -7.5569     0.0000     -0.2880     -0.1694
+==============================================================================
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">men</span><span class="o">.</span><span class="n">wage</span><span class="p">),</span> <span class="n">men</span><span class="o">.</span><span class="n">const</span><span class="p">,</span> <span class="n">men</span><span class="o">.</span><span class="n">educ</span><span class="p">,</span> <span class="n">men</span><span class="o">.</span><span class="n">sibs</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                          IV-2SLS Estimation Summary
+==============================================================================
+Dep. Variable:                   wage   R-squared:                     -0.0090
+Estimator:                    IV-2SLS   Adj. R-squared:                -0.0101
+No. Observations:                 934   F-statistic:                    21.715
+Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
+Time:                        20:04:00   Distribution:                  chi2(1)
+Cov. Estimator:            unadjusted
+
+                             Parameter Estimates
+==============================================================================
+           Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+const          5.1310     0.3539     14.497     0.0000      4.4373      5.8248
+educ           0.1224     0.0263     4.6599     0.0000      0.0709      0.1738
+==============================================================================
+
+Instrumented: educ
+Instruments: sibs
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">linearmodels.datasets</span> <span class="kn">import</span> <span class="n">card</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">add_constant</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">dtypes</span>
+<span class="n">dep</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;wage&#39;</span><span class="p">]</span>
+<span class="n">endog</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;educ&#39;</span><span class="p">]</span>
+<span class="n">exog</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;const&#39;</span><span class="p">,</span><span class="s1">&#39;exper&#39;</span><span class="p">,</span><span class="s1">&#39;expersq&#39;</span><span class="p">,</span><span class="s1">&#39;black&#39;</span><span class="p">,</span><span class="s1">&#39;smsa&#39;</span><span class="p">,</span><span class="s1">&#39;south&#39;</span><span class="p">,</span><span class="s1">&#39;smsa66&#39;</span><span class="p">,</span><span class="s1">&#39;reg662&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;reg663&#39;</span><span class="p">,</span><span class="s1">&#39;reg664&#39;</span><span class="p">,</span><span class="s1">&#39;reg665&#39;</span><span class="p">,</span><span class="s1">&#39;reg666&#39;</span><span class="p">,</span><span class="s1">&#39;reg667&#39;</span><span class="p">,</span><span class="s1">&#39;reg668&#39;</span><span class="p">,</span><span class="s1">&#39;reg669&#39;</span><span class="p">]</span>
+<span class="n">instr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nearc4&#39;</span><span class="p">]</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">dep</span> <span class="o">+</span><span class="n">exog</span><span class="o">+</span><span class="n">endog</span><span class="o">+</span> <span class="n">instr</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">educ</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">instr</span><span class="o">+</span><span class="n">exog</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                          IV-2SLS Estimation Summary
+==============================================================================
+Dep. Variable:                   educ   R-squared:                      0.4771
+Estimator:                    IV-2SLS   Adj. R-squared:                 0.4745
+No. Observations:                3010   F-statistic:                    3693.4
+Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
+Time:                        20:04:00   Distribution:                 chi2(15)
+Cov. Estimator:                robust
+
+                             Parameter Estimates
+==============================================================================
+           Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+nearc4         0.3199     0.0848     3.7702     0.0002      0.1536      0.4862
+const          16.638     0.2148     77.456     0.0000      16.217      17.059
+exper         -0.4125     0.0320    -12.896     0.0000     -0.4752     -0.3498
+expersq        0.0009     0.0017     0.5100     0.6100     -0.0025      0.0042
+black         -0.9355     0.0923    -10.138     0.0000     -1.1164     -0.7547
+smsa           0.4022     0.1109     3.6255     0.0003      0.1848      0.6196
+south         -0.0516     0.1416    -0.3645     0.7155     -0.3291      0.2259
+smsa66         0.0255     0.1103     0.2309     0.8174     -0.1908      0.2417
+reg662        -0.0786     0.1854    -0.4242     0.6714     -0.4420      0.2847
+reg663        -0.0279     0.1789    -0.1562     0.8759     -0.3785      0.3226
+reg664         0.1172     0.2070     0.5660     0.5714     -0.2886      0.5230
+reg665        -0.2726     0.2237    -1.2186     0.2230     -0.7111      0.1659
+reg666        -0.3028     0.2361    -1.2826     0.1996     -0.7656      0.1599
+reg667        -0.2168     0.2389    -0.9077     0.3640     -0.6850      0.2513
+reg668         0.5239     0.2562     2.0449     0.0409      0.0218      1.0260
+reg669         0.2103     0.1988     1.0575     0.2903     -0.1794      0.6000
+==============================================================================
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">wage</span><span class="p">),</span> <span class="n">data</span><span class="p">[</span><span class="n">exog</span><span class="o">+</span><span class="n">endog</span><span class="p">],</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                          IV-2SLS Estimation Summary
+==============================================================================
+Dep. Variable:                   wage   R-squared:                      0.2998
+Estimator:                    IV-2SLS   Adj. R-squared:                 0.2963
+No. Observations:                3010   F-statistic:                    1377.0
+Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
+Time:                        20:04:01   Distribution:                 chi2(15)
+Cov. Estimator:                robust
+
+                             Parameter Estimates
+==============================================================================
+           Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+const          4.6208     0.0740     62.417     0.0000      4.4757      4.7659
+exper          0.0848     0.0067     12.592     0.0000      0.0716      0.0980
+expersq       -0.0023     0.0003    -7.1798     0.0000     -0.0029     -0.0017
+black         -0.1990     0.0181    -10.985     0.0000     -0.2345     -0.1635
+smsa           0.1364     0.0192     7.1159     0.0000      0.0988      0.1739
+south         -0.1480     0.0280    -5.2917     0.0000     -0.2028     -0.0932
+smsa66         0.0262     0.0185     1.4153     0.1570     -0.0101      0.0626
+reg662         0.0964     0.0350     2.7531     0.0059      0.0278      0.1650
+reg663         0.1445     0.0337     4.2850     0.0000      0.0784      0.2107
+reg664         0.0551     0.0411     1.3402     0.1802     -0.0255      0.1356
+reg665         0.1280     0.0428     2.9912     0.0028      0.0441      0.2119
+reg666         0.1405     0.0450     3.1223     0.0018      0.0523      0.2287
+reg667         0.1180     0.0455     2.5934     0.0095      0.0288      0.2071
+reg668        -0.0564     0.0505    -1.1183     0.2634     -0.1553      0.0425
+reg669         0.1186     0.0387     3.0658     0.0022      0.0428      0.1944
+educ           0.0747     0.0036     20.540     0.0000      0.0676      0.0818
+==============================================================================
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">wage</span><span class="p">),</span> <span class="n">data</span><span class="p">[</span><span class="n">exog</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">endog</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">instr</span><span class="p">])</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                          IV-2SLS Estimation Summary
+==============================================================================
+Dep. Variable:                   wage   R-squared:                      0.2382
+Estimator:                    IV-2SLS   Adj. R-squared:                 0.2343
+No. Observations:                3010   F-statistic:                    840.83
+Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
+Time:                        20:04:01   Distribution:                 chi2(15)
+Cov. Estimator:                robust
+
+                             Parameter Estimates
+==============================================================================
+           Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+const          3.6662     0.9085     4.0352     0.0001      1.8855      5.4468
+exper          0.1083     0.0233     4.6376     0.0000      0.0625      0.1540
+expersq       -0.0023     0.0003    -6.7128     0.0000     -0.0030     -0.0017
+black         -0.1468     0.0524    -2.8031     0.0051     -0.2494     -0.0441
+smsa           0.1118     0.0311     3.5995     0.0003      0.0509      0.1727
+south         -0.1447     0.0291    -4.9775     0.0000     -0.2016     -0.0877
+smsa66         0.0185     0.0205     0.9035     0.3663     -0.0217      0.0587
+reg662         0.1008     0.0365     2.7644     0.0057      0.0293      0.1722
+reg663         0.1483     0.0355     4.1760     0.0000      0.0787      0.2178
+reg664         0.0499     0.0435     1.1471     0.2514     -0.0354      0.1352
+reg665         0.1463     0.0491     2.9794     0.0029      0.0500      0.2425
+reg666         0.1629     0.0516     3.1553     0.0016      0.0617      0.2641
+reg667         0.1346     0.0504     2.6689     0.0076      0.0357      0.2334
+reg668        -0.0831     0.0571    -1.4552     0.1456     -0.1950      0.0288
+reg669         0.1078     0.0410     2.6317     0.0085      0.0275      0.1881
+educ           0.1315     0.0540     2.4353     0.0149      0.0257      0.2373
+==============================================================================
+
+Instrumented: educ
+Instruments: nearc4
+</pre></div></div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="estimators.html" class="btn btn-neutral float-right" title="Mathematical Formulas" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="instrumental-variable-estimation.html" class="btn btn-neutral" title="Instrumental Variable Estimation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Kevin Sheppard.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1+12.ga25a15c',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

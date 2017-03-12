@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.results &mdash; linearmodels 0+untagged.54.ge9d9ea7 documentation</title>
+  <title>linearmodels.iv.results &mdash; linearmodels 0.1+12.ga25a15c documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.54.ge9d9ea7 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0.1+12.ga25a15c documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.+
+                0.1
               </div>
             
           
@@ -91,8 +91,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../iv/iv.html">Instrumental Variable Model Estimation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../iv/reference.html">Instrumental Variable Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../iv/index.html">Instrumental Variable Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../panel/panel.html">Panel Module Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utility.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plan.html">Module Plans</a></li>
@@ -164,8 +163,9 @@
 <span class="sd">Results containers and post-estimation diagnostics for IV models</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+
 <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">c_</span><span class="p">,</span> <span class="n">diag</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">ones</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">empty</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">c_</span><span class="p">,</span> <span class="n">diag</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">ones</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">empty</span><span class="p">,</span> <span class="n">ceil</span><span class="p">,</span> <span class="n">log10</span><span class="p">,</span> <span class="n">asarray</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">inv</span><span class="p">,</span> <span class="n">pinv</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="k">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
 <span class="kn">from</span> <span class="nn">statsmodels.iolib.summary</span> <span class="k">import</span> <span class="n">SimpleTable</span><span class="p">,</span> <span class="n">Summary</span><span class="p">,</span> <span class="n">fmt_2cols</span><span class="p">,</span> \
@@ -340,9 +340,9 @@
 <span class="sd">        -------</span>
 <span class="sd">        ci : DataFrame</span>
 <span class="sd">            Confidence interval of the form [lower, upper] for each parameters</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
-<span class="sd">        ----- </span>
+<span class="sd">        -----</span>
 <span class="sd">        Uses a t(df_resid) if ``debiased`` is True, else normal.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ci_quantiles</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">level</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">level</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
@@ -358,18 +358,18 @@
     <span class="k">def</span> <span class="nf">f_stat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Model F-statistic</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        f : WaldTestStatistic</span>
-<span class="sd">            Test statistic for null all coefficients excluding constant terms </span>
+<span class="sd">            Test statistic for null all coefficients excluding constant terms</span>
 <span class="sd">            are zero.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Despite name, always implemented using a quadratic-form test based on </span>
-<span class="sd">        estimated parameter covariance. Default is to use a chi2 distribution </span>
-<span class="sd">        to compute p-values. If ``debiased`` is True, divides statistic by </span>
+<span class="sd">        Despite name, always implemented using a quadratic-form test based on</span>
+<span class="sd">        estimated parameter covariance. Default is to use a chi2 distribution</span>
+<span class="sd">        to compute p-values. If ``debiased`` is True, divides statistic by</span>
 <span class="sd">        number of parameters tested and uses an F-distribution.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
@@ -392,11 +392,19 @@
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Summary table of model estimation results&quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">float4</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
-            <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0:5.5g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="ow">and</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
-                <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;0&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">6</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">out</span>
+        <span class="k">def</span> <span class="nf">_str</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="n">av</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">digits</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">log10</span><span class="p">(</span><span class="n">av</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">digits</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="ow">or</span> <span class="n">digits</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">4</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{0:8.4g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">digits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">5</span> <span class="o">-</span> <span class="n">digits</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+            <span class="n">format_str</span> <span class="o">=</span> <span class="s1">&#39;{0:&#39;</span> <span class="o">+</span> <span class="s1">&#39;0.</span><span class="si">{0}</span><span class="s1">f&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span>
+            <span class="k">return</span> <span class="n">format_str</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">pval_format</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
             <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{0:4.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
@@ -404,17 +412,19 @@
         <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">+</span> <span class="s1">&#39; Estimation Summary&#39;</span>
         <span class="n">mod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
         <span class="n">top_left</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Dep. Variable:&#39;</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                    <span class="p">(</span><span class="s1">&#39;Estimator:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method</span><span class="p">),</span>
                     <span class="p">(</span><span class="s1">&#39;No. Observations:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nobs</span><span class="p">),</span>
                     <span class="p">(</span><span class="s1">&#39;Date:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%a, %b </span><span class="si">%d</span><span class="s1"> %Y&#39;</span><span class="p">)),</span>
                     <span class="p">(</span><span class="s1">&#39;Time:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">)),</span>
-                    <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;Cov. Estimator:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_type</span><span class="p">),</span>
                     <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)]</span>
 
-        <span class="n">top_right</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;R-squared:&#39;</span><span class="p">,</span> <span class="n">float4</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsquared</span><span class="p">)),</span>
-                     <span class="p">(</span><span class="s1">&#39;Adj. R-squared:&#39;</span><span class="p">,</span> <span class="n">float4</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsquared_adj</span><span class="p">)),</span>
-                     <span class="p">(</span><span class="s1">&#39;F-statistic:&#39;</span><span class="p">,</span> <span class="n">float4</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic</span><span class="o">.</span><span class="n">stat</span><span class="p">)),</span>
-                     <span class="p">(</span><span class="s1">&#39;F-stat dist:&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic</span><span class="o">.</span><span class="n">dist_name</span><span class="p">)),</span>
-                     <span class="p">(</span><span class="s1">&#39;F-stat p-value:&#39;</span><span class="p">,</span> <span class="n">pval_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic</span><span class="o">.</span><span class="n">pval</span><span class="p">)),</span>
+        <span class="n">top_right</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;R-squared:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsquared</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="s1">&#39;Adj. R-squared:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsquared_adj</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="s1">&#39;F-statistic:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic</span><span class="o">.</span><span class="n">stat</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="s1">&#39;P-value (F-stat)&#39;</span><span class="p">,</span> <span class="n">pval_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic</span><span class="o">.</span><span class="n">pval</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="s1">&#39;Distribution:&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic</span><span class="o">.</span><span class="n">dist_name</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
                      <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)]</span>
 
         <span class="n">stubs</span> <span class="o">=</span> <span class="p">[]</span>
@@ -449,14 +459,11 @@
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">param_data</span><span class="p">:</span>
             <span class="n">txt_row</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-                <span class="n">f</span> <span class="o">=</span> <span class="n">float4</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="n">_str</span>
                 <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
                     <span class="n">f</span> <span class="o">=</span> <span class="n">pval_format</span>
                 <span class="n">txt_row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
             <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">txt_row</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="n">row</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
-            <span class="n">row</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;]&#39;</span>
         <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Parameter Estimates&#39;</span>
         <span class="n">table_stubs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
         <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Parameters&#39;</span><span class="p">,</span> <span class="s1">&#39;Std. Err.&#39;</span><span class="p">,</span> <span class="s1">&#39;T-stat&#39;</span><span class="p">,</span> <span class="s1">&#39;P-value&#39;</span><span class="p">,</span> <span class="s1">&#39;Lower CI&#39;</span><span class="p">,</span> <span class="s1">&#39;Upper CI&#39;</span><span class="p">]</span>
@@ -468,15 +475,47 @@
         <span class="n">smry</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
 
         <span class="n">instruments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span>
-        <span class="n">extra_text</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">instruments</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">extra_text</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">endog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span>
             <span class="n">extra_text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Instrumented: &#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">endog</span><span class="o">.</span><span class="n">cols</span><span class="p">))</span>
             <span class="n">extra_text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Instruments: &#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">instruments</span><span class="o">.</span><span class="n">cols</span><span class="p">))</span>
-        <span class="n">extra_text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Covariance estimator: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov_type</span><span class="p">))</span>
-        <span class="n">smry</span><span class="o">.</span><span class="n">add_extra_txt</span><span class="p">(</span><span class="n">extra_text</span><span class="p">)</span>
+            <span class="n">smry</span><span class="o">.</span><span class="n">add_extra_txt</span><span class="p">(</span><span class="n">extra_text</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">smry</span></div>
+        <span class="k">return</span> <span class="n">smry</span>
+
+<div class="viewcode-block" id="OLSResults.test_linear_constraint"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.OLSResults.test_linear_constraint">[docs]</a>    <span class="k">def</span> <span class="nf">test_linear_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">restriction</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test linear equality constraints using a Wald test</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        restriction : {ndarray, DataFrame}</span>
+<span class="sd">            q by nvar array containing linear weights to apply to parameters</span>
+<span class="sd">            when formin the restrictions.</span>
+<span class="sd">        value : {ndarray, Series}</span>
+<span class="sd">            q element array containing the restircted values</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        t: WaldTestStatistic</span>
+<span class="sd">            Test statistic for null that restrictions are valid.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Hypothesis test examines whether :math:`H_0:C\theta=v` where the</span>
+<span class="sd">        matrix C is ``restriction`` and v is ``value``. The test statistic</span>
+<span class="sd">        has a :math:`\chi^2_q` distribution where q is the number of rows in C.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">restriction</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="n">restriction</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="n">value</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">restriction</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">value</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">rcov</span> <span class="o">=</span> <span class="n">restriction</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">@</span> <span class="n">restriction</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">stat</span> <span class="o">=</span> <span class="n">diff</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">rcov</span> <span class="o">@</span> <span class="n">diff</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">restriction</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;Linear equality constraint is valid&#39;</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Linear Equality Hypothesis Test&#39;</span>
+        <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div></div>
 
 
 <span class="k">class</span> <span class="nc">_CommonIVResults</span><span class="p">(</span><span class="n">OLSResults</span><span class="p">):</span>
@@ -512,12 +551,6 @@
 <div class="viewcode-block" id="IVResults"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults">[docs]</a><span class="k">class</span> <span class="nc">IVResults</span><span class="p">(</span><span class="n">_CommonIVResults</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Results from IV estimation</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    .. todo::</span>
-
-<span class="sd">        * Hypothesis testing</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
@@ -528,31 +561,31 @@
 <div class="viewcode-block" id="IVResults.sargan"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults.sargan">[docs]</a>    <span class="k">def</span> <span class="nf">sargan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sargan test of overidentifying restrictions</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
 <span class="sd">            Object containing test statistic, p-value, distribution and null</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        Requires more instruments than endogenous variables</span>
-<span class="sd">        </span>
-<span class="sd">        Tests the ratio of re-projected IV regression residual variance to </span>
+
+<span class="sd">        Tests the ratio of re-projected IV regression residual variance to</span>
 <span class="sd">        variance of the IV residuals.</span>
-<span class="sd">        </span>
+
 <span class="sd">        .. math ::</span>
-<span class="sd">        </span>
+
 <span class="sd">          n (1- \epsilon&#39;M_{z}\epsilon/\epsilon&#39;\epsilon) \sim \chi^2_{v}</span>
-<span class="sd">        </span>
-<span class="sd">        where :math:`M_{z}` is the annihilator matrix where z is the set of </span>
-<span class="sd">        instruments and :math:`\hat{\epsilon}` are the residuals from the IV </span>
+
+<span class="sd">        where :math:`M_{z}` is the annihilator matrix where z is the set of</span>
+<span class="sd">        instruments and :math:`\hat{\epsilon}` are the residuals from the IV</span>
 <span class="sd">        estimator.  The degree of freedom is the difference between the number</span>
 <span class="sd">        of instruments and the number of endogenous regressors.</span>
 
-<span class="sd">        .. math :: </span>
-<span class="sd">        </span>
-<span class="sd">          v = n_{instr} - n_{exog} </span>
+<span class="sd">        .. math ::</span>
+
+<span class="sd">          v = n_{instr} - n_{exog}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">ndarray</span>
         <span class="n">nobs</span><span class="p">,</span> <span class="n">ninstr</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span>
@@ -573,32 +606,32 @@
 <div class="viewcode-block" id="IVResults.basmann"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults.basmann">[docs]</a>    <span class="k">def</span> <span class="nf">basmann</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Basmann&#39;s test of overidentifying restrictions</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
 <span class="sd">            Object containing test statistic, p-value, distribution and null</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        Requires more instruments than endogenous variables</span>
-<span class="sd">        </span>
-<span class="sd">        Tests is a small-sample version of Sargan&#39;s test that has the same </span>
+
+<span class="sd">        Tests is a small-sample version of Sargan&#39;s test that has the same</span>
 <span class="sd">        distribution.</span>
-<span class="sd">        </span>
+
 <span class="sd">        .. math ::</span>
-<span class="sd">        </span>
-<span class="sd">          s (n - n_{instr}) / (n - s) \sim \chi^2_{v} </span>
-<span class="sd">        </span>
+
+<span class="sd">          s (n - n_{instr}) / (n - s) \sim \chi^2_{v}</span>
+
 <span class="sd">        where :math:`n_{instr}` is the number of instruments, :math:`n_{exog}`</span>
-<span class="sd">        is the number of exogenous regressors and :math:`n_{endog}` is the </span>
-<span class="sd">        number of endogenous regressors.  The degree of freedom is the </span>
-<span class="sd">        difference between the number of instruments and the number of </span>
+<span class="sd">        is the number of exogenous regressors and :math:`n_{endog}` is the</span>
+<span class="sd">        number of endogenous regressors.  The degree of freedom is the</span>
+<span class="sd">        difference between the number of instruments and the number of</span>
 <span class="sd">        endogenous regressors.</span>
-<span class="sd">        </span>
-<span class="sd">        .. math :: </span>
-<span class="sd">        </span>
-<span class="sd">          v = n_{instr} - n_{exog} </span>
+
+<span class="sd">        .. math ::</span>
+
+<span class="sd">          v = n_{instr} - n_{exog}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">mod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
         <span class="n">ninstr</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -629,7 +662,6 @@
             <span class="n">ex</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">]</span>
             <span class="n">still_endog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[</span><span class="n">ex</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
             <span class="n">aug_exog</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">assumed_exog</span><span class="p">]</span>
-            <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;Variables </span><span class="si">{0}</span><span class="s1"> are exogenous&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">vars</span><span class="p">))</span>
         <span class="n">ntested</span> <span class="o">=</span> <span class="n">assumed_exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="kn">from</span> <span class="nn">linearmodels.iv</span> <span class="k">import</span> <span class="n">IV2SLS</span>
@@ -647,44 +679,44 @@
 <div class="viewcode-block" id="IVResults.durbin"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults.durbin">[docs]</a>    <span class="k">def</span> <span class="nf">durbin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Durbin&#39;s test of exogeneity</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        vars : list(str), optional</span>
-<span class="sd">            List of variables to test for exogeneity.  If None, all variables </span>
-<span class="sd">            are jointly tested. </span>
+<span class="sd">            List of variables to test for exogeneity.  If None, all variables</span>
+<span class="sd">            are jointly tested.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
 <span class="sd">            Object containing test statistic, p-value, distribution and null</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Test statistic is difference between sum of squared OLS and sum of </span>
-<span class="sd">        squared IV residuals where each set of residuals has been projected </span>
-<span class="sd">        onto the set of instruments in teh IV model.  </span>
-<span class="sd">        </span>
-<span class="sd">        Start by defining </span>
-<span class="sd">        </span>
+<span class="sd">        Test statistic is difference between sum of squared OLS and sum of</span>
+<span class="sd">        squared IV residuals where each set of residuals has been projected</span>
+<span class="sd">        onto the set of instruments in teh IV model.</span>
+
+<span class="sd">        Start by defining</span>
+
 <span class="sd">        .. math ::</span>
-<span class="sd">        </span>
-<span class="sd">          \delta &amp; = \hat{\epsilon}&#39;_e P_{[z,w]} \hat{\epsilon}_e </span>
+
+<span class="sd">          \delta &amp; = \hat{\epsilon}&#39;_e P_{[z,w]} \hat{\epsilon}_e</span>
 <span class="sd">                   - \hat{\epsilon}&#39;_c P_{z} \hat{\epsilon}_c \\</span>
-<span class="sd">        </span>
-<span class="sd">        where :math:`\hat{\epsilon}_e` are the regression residuals from a </span>
-<span class="sd">        model where ``vars`` are treated as exogenous, </span>
-<span class="sd">        :math:`\hat{\epsilon}_c` are the regression residuals from the model </span>
-<span class="sd">        leaving ``vars`` as endogenous, :math:`P_{[z,w]}` is a projection </span>
-<span class="sd">        matrix onto the exogenous variables and instruments (`z`) as well as </span>
+
+<span class="sd">        where :math:`\hat{\epsilon}_e` are the regression residuals from a</span>
+<span class="sd">        model where ``vars`` are treated as exogenous,</span>
+<span class="sd">        :math:`\hat{\epsilon}_c` are the regression residuals from the model</span>
+<span class="sd">        leaving ``vars`` as endogenous, :math:`P_{[z,w]}` is a projection</span>
+<span class="sd">        matrix onto the exogenous variables and instruments (`z`) as well as</span>
 <span class="sd">        ``vars``, and :math:`P_{z}` is a projection matrix only onto `z`.</span>
-<span class="sd">        </span>
-<span class="sd">        The test statistic is then </span>
-<span class="sd">        </span>
+
+<span class="sd">        The test statistic is then</span>
+
 <span class="sd">        .. math ::</span>
-<span class="sd">        </span>
+
 <span class="sd">            \delta / (\hat{\epsilon}&#39;_e\hat{\epsilon}_e) / n \sim \chi^2_{q}</span>
-<span class="sd">        </span>
+
 <span class="sd">        where :math:`q` is the number of variables tested.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;All endogenous variables are exogenous&#39;</span>
@@ -706,42 +738,42 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        vars : list(str), optional</span>
-<span class="sd">            List of variables to test for exogeneity.  If None, all variables </span>
-<span class="sd">            are jointly tested. </span>
+<span class="sd">            List of variables to test for exogeneity.  If None, all variables</span>
+<span class="sd">            are jointly tested.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
 <span class="sd">            Object containing test statistic, p-value, distribution and null</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Test statistic is difference between sum of squared OLS and sum of </span>
-<span class="sd">        squared IV residuals where each set of residuals has been projected </span>
-<span class="sd">        onto the set of instruments in teh IV model.  </span>
-<span class="sd">        </span>
-<span class="sd">        Start by defining </span>
-<span class="sd">        </span>
+<span class="sd">        Test statistic is difference between sum of squared OLS and sum of</span>
+<span class="sd">        squared IV residuals where each set of residuals has been projected</span>
+<span class="sd">        onto the set of instruments in teh IV model.</span>
+
+<span class="sd">        Start by defining</span>
+
 <span class="sd">        .. math ::</span>
-<span class="sd">        </span>
-<span class="sd">          \delta &amp; = \hat{\epsilon}&#39;_e P_{[z,w]} \hat{\epsilon}_e </span>
+
+<span class="sd">          \delta &amp; = \hat{\epsilon}&#39;_e P_{[z,w]} \hat{\epsilon}_e</span>
 <span class="sd">                   - \hat{\epsilon}&#39;_c P_{z} \hat{\epsilon}_c \\</span>
-<span class="sd">        </span>
-<span class="sd">        where :math:`\hat{\epsilon}_e` are the regression residuals from a </span>
-<span class="sd">        model where ``vars`` are treated as exogenous, </span>
-<span class="sd">        :math:`\hat{\epsilon}_c` are the regression residuals from the model </span>
-<span class="sd">        leaving ``vars`` as endogenous, :math:`P_{[z,w]}` is a projection </span>
-<span class="sd">        matrix onto the exogenous variables and instruments (`z`) as well as </span>
+
+<span class="sd">        where :math:`\hat{\epsilon}_e` are the regression residuals from a</span>
+<span class="sd">        model where ``vars`` are treated as exogenous,</span>
+<span class="sd">        :math:`\hat{\epsilon}_c` are the regression residuals from the model</span>
+<span class="sd">        leaving ``vars`` as endogenous, :math:`P_{[z,w]}` is a projection</span>
+<span class="sd">        matrix onto the exogenous variables and instruments (`z`) as well as</span>
 <span class="sd">        ``vars``, and :math:`P_{z}` is a projection matrix only onto `z`.</span>
-<span class="sd">        </span>
-<span class="sd">        The test statistic is then </span>
-<span class="sd">        </span>
+
+<span class="sd">        The test statistic is then</span>
+
 <span class="sd">        .. math ::</span>
-<span class="sd">        </span>
+
 <span class="sd">            \frac{\delta / q}{(\hat{\epsilon}&#39;_e\hat{\epsilon}_e - \delta) / v}</span>
-<span class="sd">        </span>
-<span class="sd">        where :math:`q` is the number of variables tests, </span>
-<span class="sd">        :math:`v = n - n_{endog} - n_{exog} - q`. The test statistic has a </span>
+
+<span class="sd">        where :math:`q` is the number of variables tests,</span>
+<span class="sd">        :math:`v = n - n_{endog} - n_{exog} - q`. The test statistic has a</span>
 <span class="sd">        :math:`F_{q, v}` distribution.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;All endogenous variables are exogenous&#39;</span>
@@ -764,7 +796,7 @@
 <div class="viewcode-block" id="IVResults.wooldridge_score"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults.wooldridge_score">[docs]</a>    <span class="k">def</span> <span class="nf">wooldridge_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Wooldridge&#39;s score test of exogeneity</span>
-<span class="sd">         </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
@@ -773,20 +805,20 @@
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        Wooldridge&#39;s test examines whether there is correlation between the</span>
-<span class="sd">        errors produced when the endogenous variable are treated as </span>
-<span class="sd">        exogenous so that the model can be fit by OLS, and the component of </span>
+<span class="sd">        errors produced when the endogenous variable are treated as</span>
+<span class="sd">        exogenous so that the model can be fit by OLS, and the component of</span>
 <span class="sd">        the endogenous variables that cannot be explained by the instruments.</span>
-<span class="sd">        </span>
+
 <span class="sd">        The test is implemented using a regression,</span>
-<span class="sd">         </span>
+
 <span class="sd">        .. math ::</span>
-<span class="sd">        </span>
-<span class="sd">          1 = \gamma_1 \hat{\epsilon}_1 \hat{v}_{1,i} + \ldots </span>
+
+<span class="sd">          1 = \gamma_1 \hat{\epsilon}_1 \hat{v}_{1,i} + \ldots</span>
 <span class="sd">            + \gamma_p \hat{\epsilon}_1 \hat{v}_{p,i} + \eta_i</span>
-<span class="sd">        </span>
+
 <span class="sd">        where :math:`\hat{v}_{j,i}` is the residual from regressing endogenous</span>
 <span class="sd">        variable :math:`x_j` on the exogenous variables and instruments.</span>
-<span class="sd">        </span>
+
 <span class="sd">        The test is a :math:`n\times R^2 \sim \chi^2_{p}`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">linearmodels.iv.model</span> <span class="k">import</span> <span class="n">_OLS</span>
@@ -804,7 +836,7 @@
     <span class="nd">@cached_property</span>
 <div class="viewcode-block" id="IVResults.wooldridge_regression"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults.wooldridge_regression">[docs]</a>    <span class="k">def</span> <span class="nf">wooldridge_regression</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Wooldridge&#39;s regression test of exogeneity </span>
+<span class="sd">        Wooldridge&#39;s regression test of exogeneity</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -816,19 +848,19 @@
 <span class="sd">        Wooldridge&#39;s test examines whether there is correlation between the</span>
 <span class="sd">        components of the endogenous variables that cannot be explained by</span>
 <span class="sd">        the instruments and the OLS regression residuals.</span>
-<span class="sd">         </span>
-<span class="sd">        The test is implemented as an OLS where </span>
+
+<span class="sd">        The test is implemented as an OLS where</span>
 
 <span class="sd">        .. math ::</span>
 
 <span class="sd">          y_i = x_{1i}\beta_i + x_{2i}\beta_2 + \hat{e}_i\gamma + \epsilon_i</span>
-<span class="sd">        </span>
-<span class="sd">        where :math:`x_{1i}` are the exogenous regressors, :math:`x_{2i}` are </span>
-<span class="sd">        the  endogenous regressors and :math:`\hat{e}_{i}` are the residuals </span>
-<span class="sd">        from regressing the endogenous variables on the exogenous variables </span>
+
+<span class="sd">        where :math:`x_{1i}` are the exogenous regressors, :math:`x_{2i}` are</span>
+<span class="sd">        the  endogenous regressors and :math:`\hat{e}_{i}` are the residuals</span>
+<span class="sd">        from regressing the endogenous variables on the exogenous variables</span>
 <span class="sd">        and instruments. The null is :math:`\gamma=0` and is implemented</span>
 <span class="sd">        using a Wald test.  The covariance estimator used in the test is</span>
-<span class="sd">        identical to the covariance estimator used with ``fit``. </span>
+<span class="sd">        identical to the covariance estimator used with ``fit``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">linearmodels.iv.model</span> <span class="k">import</span> <span class="n">_OLS</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">_annihilate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_z</span><span class="p">)</span>
@@ -847,7 +879,7 @@
     <span class="nd">@cached_property</span>
 <div class="viewcode-block" id="IVResults.wooldridge_overid"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults.wooldridge_overid">[docs]</a>    <span class="k">def</span> <span class="nf">wooldridge_overid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Wooldridge&#39;s score test of overidentification </span>
+<span class="sd">        Wooldridge&#39;s score test of overidentification</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -857,20 +889,20 @@
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        Wooldridge&#39;s test examines whether there is correlation between the</span>
-<span class="sd">        model residuals and the component of the instruments that is </span>
+<span class="sd">        model residuals and the component of the instruments that is</span>
 <span class="sd">        orthogonal to the endogenous variables. Define :math:`\tilde{z}`</span>
 <span class="sd">        to be the residuals of the instruments regressed on the exogenous</span>
-<span class="sd">        variables and the first-stage fitted values of the endogenous </span>
+<span class="sd">        variables and the first-stage fitted values of the endogenous</span>
 <span class="sd">        variables.  The test is computed as a regression</span>
-<span class="sd">        </span>
+
 <span class="sd">        .. math ::</span>
-<span class="sd">        </span>
-<span class="sd">          1 = \gamma_1 \hat{\epsilon}_i \tilde{z}_{i,1} + \ldots + </span>
+
+<span class="sd">          1 = \gamma_1 \hat{\epsilon}_i \tilde{z}_{i,1} + \ldots +</span>
 <span class="sd">              \gamma_q \hat{\epsilon}_i \tilde{z}_{i,q}</span>
-<span class="sd">        </span>
-<span class="sd">        where :math:`q = n_{instr} - n_{endog}`.  The test is a </span>
+
+<span class="sd">        where :math:`q = n_{instr} - n_{endog}`.  The test is a</span>
 <span class="sd">        :math:`n\times R^2 \sim \chi^2_{q}`.</span>
-<span class="sd">        </span>
+
 <span class="sd">        The order of the instruments does not affect this test.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">linearmodels.iv.model</span> <span class="k">import</span> <span class="n">_OLS</span>
@@ -901,7 +933,7 @@
 <div class="viewcode-block" id="IVResults.anderson_rubin"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults.anderson_rubin">[docs]</a>    <span class="k">def</span> <span class="nf">anderson_rubin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Anderson-Rubin test of overidentifying restrictions</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
@@ -910,13 +942,13 @@
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        The Anderson-Rubin test examines whether the value of :math:`\kappa`</span>
-<span class="sd">        computed for the LIML estimator is sufficiently close to one to </span>
+<span class="sd">        computed for the LIML estimator is sufficiently close to one to</span>
 <span class="sd">        indicate the model is not overidentified. The test statistic is</span>
-<span class="sd">        </span>
+
 <span class="sd">        .. math ::</span>
-<span class="sd">        </span>
+
 <span class="sd">          n \ln(\hat{\kappa}) \sim \chi^2_{q}</span>
-<span class="sd">        </span>
+
 <span class="sd">        where :math:`q = n_{instr} - n_{endog}`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nobs</span><span class="p">,</span> <span class="n">ninstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">shape</span>
@@ -934,7 +966,7 @@
 <div class="viewcode-block" id="IVResults.basmann_f"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults.basmann_f">[docs]</a>    <span class="k">def</span> <span class="nf">basmann_f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Basmann&#39;s F test of overidentifying restrictions</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
@@ -943,13 +975,13 @@
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        Banmann&#39;s F test examines whether the value of :math:`\kappa`</span>
-<span class="sd">        computed for the LIML estimator is sufficiently close to one to </span>
+<span class="sd">        computed for the LIML estimator is sufficiently close to one to</span>
 <span class="sd">        indicate the model is not overidentified. The test statistic is</span>
-<span class="sd">        </span>
+
 <span class="sd">        .. math ::</span>
-<span class="sd">        </span>
+
 <span class="sd">          \hat{\kappa} (n -n_{instr})/q \sim F_{q, n - n_{instr}}</span>
-<span class="sd">        </span>
+
 <span class="sd">        where :math:`q = n_{instr} - n_{endog}`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nobs</span><span class="p">,</span> <span class="n">ninstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">shape</span>
@@ -968,12 +1000,6 @@
 <div class="viewcode-block" id="IVGMMResults"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVGMMResults">[docs]</a><span class="k">class</span> <span class="nc">IVGMMResults</span><span class="p">(</span><span class="n">_CommonIVResults</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Results from GMM estimation of IV models</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    .. todo::</span>
-
-<span class="sd">        * Hypothesis testing</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
@@ -1008,74 +1034,74 @@
     <span class="k">def</span> <span class="nf">j_stat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        J-test of overidentifying restrictions</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        j : WaldTestStatistic</span>
 <span class="sd">            J-statistic test of overidentifying restrictions</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        The J-statistic tests whether the moment conditions are sufficiently </span>
+<span class="sd">        The J-statistic tests whether the moment conditions are sufficiently</span>
 <span class="sd">        close to zero to indicate that the model is not overidentified. The</span>
-<span class="sd">        statistic is defined as </span>
-<span class="sd">        </span>
+<span class="sd">        statistic is defined as</span>
+
 <span class="sd">        .. math ::</span>
-<span class="sd">          </span>
+
 <span class="sd">          n \bar{g}&#39;W^{-1}\bar{g} \sim \chi^2_q</span>
-<span class="sd">        </span>
-<span class="sd">        where :math:`\bar{g} = n^{-1}\sum \hat{\epsilon}_i z_i` where </span>
+
+<span class="sd">        where :math:`\bar{g} = n^{-1}\sum \hat{\epsilon}_i z_i` where</span>
 <span class="sd">        :math:`z_i` includes both the exogenous variables and instruments and</span>
 <span class="sd">        :math:`\hat{\epsilon}_i` are the model residuals. :math:`W` is a consistent</span>
-<span class="sd">        estimator of the variance of :math:`\sqrt{n}\bar{g}`. The degree of </span>
-<span class="sd">        freedom is :math:`q = n_{instr} - n_{endog}`. </span>
+<span class="sd">        estimator of the variance of :math:`\sqrt{n}\bar{g}`. The degree of</span>
+<span class="sd">        freedom is :math:`q = n_{instr} - n_{endog}`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_stat</span>
 
 <div class="viewcode-block" id="IVGMMResults.c_stat"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVGMMResults.c_stat">[docs]</a>    <span class="k">def</span> <span class="nf">c_stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        C-test of endogeneity</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        vars : list(str), optional</span>
-<span class="sd">            List of variables to test for exogeneity.  If None, all variables </span>
-<span class="sd">            are jointly tested. </span>
+<span class="sd">            List of variables to test for exogeneity.  If None, all variables</span>
+<span class="sd">            are jointly tested.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        t : WaldTestStatistic</span>
 <span class="sd">            Object containing test statistic, p-value, distribution and null</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        The C statistic tests the difference between the model estimated by </span>
-<span class="sd">        assuming one or more of the endogenous variables is actually </span>
-<span class="sd">        exogenous.  The test is implemented as the difference between the </span>
+<span class="sd">        The C statistic tests the difference between the model estimated by</span>
+<span class="sd">        assuming one or more of the endogenous variables is actually</span>
+<span class="sd">        exogenous.  The test is implemented as the difference between the</span>
 <span class="sd">        J-statistics of two GMM estimations where both use the same weighting</span>
 <span class="sd">        matrix.  The use of a common weighting matrix is required for the C</span>
-<span class="sd">        statistic to be positive.  </span>
-<span class="sd">        </span>
+<span class="sd">        statistic to be positive.</span>
+
 <span class="sd">        The first model is a estimated uses GMM estimation where one or more</span>
 <span class="sd">        of the endogenous variables are assumed to be endogenous.  The model</span>
-<span class="sd">        would be relatively efficient if the assumption were true, and two </span>
-<span class="sd">        quantities are computed, the J statistic, :math:`J_e`, and the </span>
-<span class="sd">        moment weighting matrix, :math:`W_e`. </span>
-<span class="sd">        </span>
+<span class="sd">        would be relatively efficient if the assumption were true, and two</span>
+<span class="sd">        quantities are computed, the J statistic, :math:`J_e`, and the</span>
+<span class="sd">        moment weighting matrix, :math:`W_e`.</span>
+
 <span class="sd">        WLOG assume the q variables tested are in the final q positions so that</span>
-<span class="sd">        the first :math:`n_{exog} + n_{instr}` rows and columns correspond to </span>
-<span class="sd">        the moment conditions in the original model. The second J statistic is </span>
-<span class="sd">        computed using parameters estimated using the original moment </span>
+<span class="sd">        the first :math:`n_{exog} + n_{instr}` rows and columns correspond to</span>
+<span class="sd">        the moment conditions in the original model. The second J statistic is</span>
+<span class="sd">        computed using parameters estimated using the original moment</span>
 <span class="sd">        conditions along with the upper left block of :math:`W_e`.  Denote this</span>
-<span class="sd">        values as :math:`J_c` where the c is used to indicate consistent. </span>
-<span class="sd">        </span>
-<span class="sd">        The test statistic is then </span>
-<span class="sd">        </span>
+<span class="sd">        values as :math:`J_c` where the c is used to indicate consistent.</span>
+
+<span class="sd">        The test statistic is then</span>
+
 <span class="sd">        .. math ::</span>
-<span class="sd">        </span>
+
 <span class="sd">          J_e - J_c \sim \chi^2_{m}</span>
-<span class="sd">          </span>
-<span class="sd">        where :math:`m` is the number of variables whose exogeneity is being </span>
+
+<span class="sd">        where :math:`m` is the number of variables whose exogeneity is being</span>
 <span class="sd">        tested.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dependent</span><span class="p">,</span> <span class="n">instruments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span>
@@ -1113,7 +1139,7 @@
 <div class="viewcode-block" id="FirstStageResults"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.FirstStageResults">[docs]</a><span class="k">class</span> <span class="nc">FirstStageResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    First stage estimation results and diagnostics</span>
-<span class="sd">    </span>
+
 <span class="sd">    .. todo ::</span>
 
 <span class="sd">      * Summary</span>
@@ -1146,7 +1172,7 @@
 <span class="sd">            * partial.rsquared - R-squared from regression of the exogenous</span>
 <span class="sd">              variable on instruments where both the exogenous variable and</span>
 <span class="sd">              the instrument have been orthogonalized to the exogenous</span>
-<span class="sd">              regressors in the model.   </span>
+<span class="sd">              regressors in the model.</span>
 <span class="sd">            * f.stat - Test that all coefficients are zero in the model</span>
 <span class="sd">              used to estimate the partial R-squared. Uses a standard F-test</span>
 <span class="sd">              when the covariance estimator is unadjusted - otherwise uses a</span>
@@ -1249,7 +1275,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.54.ge9d9ea7',
+            VERSION:'0.1+12.ga25a15c',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

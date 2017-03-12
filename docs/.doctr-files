@@ -10,10 +10,13 @@ docs/_sources/index.rst.txt
 docs/_sources/iv/covariance.rst.txt
 docs/_sources/iv/estimators.rst.txt
 docs/_sources/iv/gmm.rst.txt
+docs/_sources/iv/index.rst.txt
+docs/_sources/iv/instrumental-variable-estimation.ipynb.txt
 docs/_sources/iv/iv.rst.txt
 docs/_sources/iv/methods.rst.txt
 docs/_sources/iv/reference.rst.txt
 docs/_sources/iv/results.rst.txt
+docs/_sources/iv/wooldridge-iv-estimation.ipynb.txt
 docs/_sources/panel/covariance.rst.txt
 docs/_sources/panel/models.rst.txt
 docs/_sources/panel/panel.rst.txt
@@ -58,10 +61,13 @@ docs/index.html
 docs/iv/covariance.html
 docs/iv/estimators.html
 docs/iv/gmm.html
+docs/iv/index.html
+docs/iv/instrumental-variable-estimation.html
 docs/iv/iv.html
 docs/iv/methods.html
 docs/iv/reference.html
 docs/iv/results.html
+docs/iv/wooldridge-iv-estimation.html
 docs/objects.inv
 docs/panel/covariance.html
 docs/panel/models.html

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.gmm &mdash; linearmodels 0+untagged.54.ge9d9ea7 documentation</title>
+  <title>linearmodels.iv.gmm &mdash; linearmodels 0.1+12.ga25a15c documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.54.ge9d9ea7 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0.1+12.ga25a15c documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.+
+                0.1
               </div>
             
           
@@ -91,8 +91,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../iv/iv.html">Instrumental Variable Model Estimation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../iv/reference.html">Instrumental Variable Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../iv/index.html">Instrumental Variable Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../panel/panel.html">Panel Module Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utility.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plan.html">Module Plans</a></li>
@@ -175,7 +174,7 @@
 <div class="viewcode-block" id="HomoskedasticWeightMatrix"><a class="viewcode-back" href="../../../iv/gmm.html#linearmodels.iv.gmm.HomoskedasticWeightMatrix">[docs]</a><span class="k">class</span> <span class="nc">HomoskedasticWeightMatrix</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Homoskedastic (unadjusted) weight estimation</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    center : bool, optional</span>
@@ -183,18 +182,18 @@
 <span class="sd">        the mean before computing the weight matrix.</span>
 <span class="sd">    debiased : bool, optional</span>
 <span class="sd">        Flag indicating whether to use small-sample adjustments</span>
-<span class="sd">    </span>
+
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    The weight matrix estimator is</span>
-<span class="sd">    </span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">    </span>
+
 <span class="sd">      s^{2} &amp; =n^{-1}\sum_{i=1}^{n}(\epsilon_i-\bar{\epsilon})^2 \\</span>
 <span class="sd">      W &amp; =n^{-1}s^{2}\sum_{i=1}^{n}z_i&#39;z_i</span>
-<span class="sd">    </span>
+
 <span class="sd">    where :math:`z_i` contains both the exogenous regressors and instruments.</span>
-<span class="sd">    </span>
+
 <span class="sd">    ``center`` has no effect on this estimator since it is always centered.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -230,7 +229,7 @@
     <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Weight estimator configuration</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        config : dict</span>
@@ -251,16 +250,16 @@
 <span class="sd">        the mean before computing the weight matrix.</span>
 <span class="sd">    debiased : bool, optional</span>
 <span class="sd">        Flag indicating whether to use small-sample adjustments</span>
-<span class="sd">    </span>
+
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    The weight matrix estimator is </span>
-<span class="sd">    </span>
+<span class="sd">    The weight matrix estimator is</span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">    </span>
+
 <span class="sd">      g_i &amp; =z_i\epsilon_i\\</span>
 <span class="sd">      W &amp; =n^{-1}\sum_{i=1}^{n}g&#39;_ig_i</span>
-<span class="sd">    </span>
+
 <span class="sd">    where :math:`z_i` contains both the exogenous regressors and instruments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -312,24 +311,24 @@
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    Supported kernels:</span>
-<span class="sd">    </span>
+
 <span class="sd">      * &#39;bartlett&#39;, &#39;newey-west&#39; - Bartlett&#39;s kernel</span>
 <span class="sd">      * &#39;parzen&#39;, &#39;gallant&#39; - Parzen&#39;s kernel</span>
 <span class="sd">      * &#39;qs&#39;, &#39;quadratic-spectral&#39;, &#39;andrews&#39; - The quadratic spectral kernel</span>
-<span class="sd">    </span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">    </span>
+
 <span class="sd">      g_i &amp; =z_i \epsilon_i \\</span>
 <span class="sd">      W &amp; =n^{-1}(\Gamma_0+\sum_{j=1}^{n-1}k(j)(\Gamma_j+\Gamma_j&#39;)) \\</span>
 <span class="sd">      \Gamma_j &amp; =\sum_{i=j+1}^n g&#39;_i g_{j-j}</span>
-<span class="sd">    </span>
-<span class="sd">    where :math:`k(j)` is the kernel weight for lag j and :math:`z_i` </span>
+
+<span class="sd">    where :math:`k(j)` is the kernel weight for lag j and :math:`z_i`</span>
 <span class="sd">    contains both the exogenous regressors and instruments..</span>
-<span class="sd">      </span>
+
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
-<span class="sd">    linearmodels.iv.covariance.kernel_weight_bartlett, </span>
-<span class="sd">    linearmodels.iv.covariance.kernel_weight_parzen, </span>
+<span class="sd">    linearmodels.iv.covariance.kernel_weight_bartlett,</span>
+<span class="sd">    linearmodels.iv.covariance.kernel_weight_parzen,</span>
 <span class="sd">    linearmodels.iv.covariance.kernel_weight_quadratic_spectral</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -463,7 +462,7 @@
 <div class="viewcode-block" id="IVGMMCovariance"><a class="viewcode-back" href="../../../iv/gmm.html#linearmodels.iv.gmm.IVGMMCovariance">[docs]</a><span class="k">class</span> <span class="nc">IVGMMCovariance</span><span class="p">(</span><span class="n">HomoskedasticCovariance</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Covariance estimation for GMM models</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    x : ndarray</span>
@@ -477,37 +476,37 @@
 <span class="sd">    w : ndarray</span>
 <span class="sd">        Weighting matrix used in GMM estimation</span>
 <span class="sd">    cov_type : str, optional</span>
-<span class="sd">        Covariance estimator to use  Valid choices are </span>
+<span class="sd">        Covariance estimator to use  Valid choices are</span>
 
-<span class="sd">        * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are </span>
+<span class="sd">        * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assumes moment conditions are</span>
 <span class="sd">          homoskedastic</span>
-<span class="sd">        * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heteroskedasticity by not </span>
+<span class="sd">        * &#39;robust&#39;, &#39;heteroskedastic&#39; - Allows for heteroskedasticity by not</span>
 <span class="sd">          autocorrelation</span>
 <span class="sd">        * &#39;kernel&#39; - Allows for heteroskedasticity and autocorrelation</span>
 <span class="sd">        * &#39;cluster&#39; - Allows for one-way cluster dependence</span>
-<span class="sd">        </span>
+
 <span class="sd">    debiased : bool, optional</span>
 <span class="sd">        Flag indicating whether to debias the covariance estimator</span>
 <span class="sd">    cov_config</span>
 <span class="sd">        Optional keyword arguments that are specific to a particular cov_type</span>
-<span class="sd">    </span>
+
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    Optional keyword argument for specific covariance estimators:</span>
-<span class="sd">    </span>
+
 <span class="sd">    **kernel**</span>
-<span class="sd">    </span>
-<span class="sd">      * ``kernel``: Name of kernel to use.  See </span>
-<span class="sd">        linearmodels.covariance.KernelCovariance for details on available </span>
-<span class="sd">        kernels </span>
-<span class="sd">      * ``bandwidth``: Bandwidth to use when computing the weight.  If not </span>
+
+<span class="sd">      * ``kernel``: Name of kernel to use.  See</span>
+<span class="sd">        linearmodels.covariance.KernelCovariance for details on available</span>
+<span class="sd">        kernels</span>
+<span class="sd">      * ``bandwidth``: Bandwidth to use when computing the weight.  If not</span>
 <span class="sd">        provided, nobs - 2 is used.</span>
-<span class="sd">         </span>
+
 <span class="sd">    **cluster**</span>
-<span class="sd">    </span>
-<span class="sd">      * ``clusters``: Array containing the cluster indices.  See </span>
+
+<span class="sd">      * ``clusters``: Array containing the cluster indices.  See</span>
 <span class="sd">        linearmodels.covariance.OneWayClusteredCovariance</span>
-<span class="sd">    </span>
+
 <span class="sd">    See also</span>
 <span class="sd">    --------</span>
 <span class="sd">    linearmodels.iv.covariance.HomoskedasticCovariance,</span>
@@ -592,7 +591,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.54.ge9d9ea7',
+            VERSION:'0.1+12.ga25a15c',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
