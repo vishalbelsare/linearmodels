@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.gmm &mdash; linearmodels 0.1+14.gddbec56 documentation</title>
+  <title>linearmodels.iv.gmm &mdash; linearmodels 0.1+14.g6b4c34c documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0.1+14.gddbec56 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0.1+14.g6b4c34c documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -521,8 +521,43 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_cov_type</span> <span class="o">=</span> <span class="n">cov_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cov_config</span> <span class="o">=</span> <span class="n">cov_config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">w</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_bandwidth</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_kernel</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bandwidth</span> <span class="o">=</span> <span class="n">cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bandwidth&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kernel</span> <span class="o">=</span> <span class="n">cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;kernel&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;GMM Covariance&#39;</span>
+        <span class="k">if</span> <span class="n">cov_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">):</span>
+            <span class="n">score_cov_estimator</span> <span class="o">=</span> <span class="n">HeteroskedasticWeightMatrix</span>
+        <span class="k">elif</span> <span class="n">cov_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="s1">&#39;homoskedastic&#39;</span><span class="p">):</span>
+            <span class="n">score_cov_estimator</span> <span class="o">=</span> <span class="n">HomoskedasticWeightMatrix</span>
+        <span class="k">elif</span> <span class="n">cov_type</span> <span class="o">==</span> <span class="s1">&#39;clustered&#39;</span><span class="p">:</span>
+            <span class="n">score_cov_estimator</span> <span class="o">=</span> <span class="n">OneWayClusteredWeightMatrix</span>
+        <span class="k">elif</span> <span class="n">cov_type</span> <span class="o">==</span> <span class="s1">&#39;kernel&#39;</span><span class="p">:</span>
+            <span class="n">score_cov_estimator</span> <span class="o">=</span> <span class="n">KernelWeightMatrix</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown cov_type&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_score_cov_estimator</span> <span class="o">=</span> <span class="n">score_cov_estimator</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">IVGMMCovariance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+        <span class="n">cov_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_type</span>
+        <span class="c1"># TODO: This coudl be simpler and more useful</span>
+        <span class="k">if</span> <span class="n">cov_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Robust (Heteroskedastic)&#39;</span>
+        <span class="k">elif</span> <span class="n">cov_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="s1">&#39;homoskedastic&#39;</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Unadjusted (Homoskedastic)&#39;</span>
+        <span class="k">elif</span> <span class="n">cov_type</span> <span class="o">==</span> <span class="s1">&#39;clustered&#39;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Clustered (One-way)&#39;</span>
+            <span class="n">clusters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;clusters&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">clusters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">nclusters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">asarray</span><span class="p">(</span><span class="n">clusters</span><span class="p">)))</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Num Clusters: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nclusters</span><span class="p">)</span>
+                <span class="c1"># TODO: Add more information here</span>
+        <span class="k">elif</span> <span class="n">cov_type</span> <span class="o">==</span> <span class="s1">&#39;kernel&#39;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Kernel (HAC)&#39;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;kernel&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Kernel: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cov_config</span><span class="p">[</span><span class="s1">&#39;kernel&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bandwidth&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Bandwidth: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cov_config</span><span class="p">[</span><span class="s1">&#39;bandwidth&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">out</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">cov</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -532,18 +567,8 @@
         <span class="n">xpzw</span> <span class="o">=</span> <span class="n">xpz</span> <span class="o">@</span> <span class="n">w</span>
         <span class="n">xpzwzpx_inv</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">xpzw</span> <span class="o">@</span> <span class="n">xpz</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">):</span>
-            <span class="n">score_cov_estimator</span> <span class="o">=</span> <span class="n">HeteroskedasticWeightMatrix</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="s1">&#39;homoskedastic&#39;</span><span class="p">):</span>
-            <span class="n">score_cov_estimator</span> <span class="o">=</span> <span class="n">HomoskedasticWeightMatrix</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_type</span> <span class="o">==</span> <span class="s1">&#39;clustered&#39;</span><span class="p">:</span>
-            <span class="n">score_cov_estimator</span> <span class="o">=</span> <span class="n">OneWayClusteredWeightMatrix</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_type</span> <span class="o">==</span> <span class="s1">&#39;kernel&#39;</span><span class="p">:</span>
-            <span class="n">score_cov_estimator</span> <span class="o">=</span> <span class="n">KernelWeightMatrix</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown cov_type&#39;</span><span class="p">)</span>
-        <span class="n">score_cov</span> <span class="o">=</span> <span class="n">score_cov_estimator</span><span class="p">(</span><span class="n">debiased</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">debiased</span><span class="p">,</span>
-                                        <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_cov_config</span><span class="p">)</span>
+        <span class="n">score_cov</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_score_cov_estimator</span><span class="p">(</span><span class="n">debiased</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">debiased</span><span class="p">,</span>
+                                              <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_cov_config</span><span class="p">)</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">score_cov</span><span class="o">.</span><span class="n">weight_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cov_config</span> <span class="o">=</span> <span class="n">score_cov</span><span class="o">.</span><span class="n">config</span>
 
@@ -591,7 +616,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1+14.gddbec56',
+            VERSION:'0.1+14.g6b4c34c',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
