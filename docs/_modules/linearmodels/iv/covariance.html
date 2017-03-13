@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.covariance &mdash; linearmodels 0.1+14.g1474810 documentation</title>
+  <title>linearmodels.iv.covariance &mdash; linearmodels 0.1+14.gddbec56 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0.1+14.g1474810 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0.1+14.gddbec56 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -656,6 +656,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_kernel</span> <span class="o">=</span> <span class="n">kernel</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_bandwidth</span> <span class="o">=</span> <span class="n">bandwidth</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_auto_bandwidth</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;Kernel Covariance (HAC)&#39;</span>
 
         <span class="k">if</span> <span class="n">kernel</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">KERNEL_LOOKUP</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown kernel: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kernel</span><span class="p">))</span>
@@ -763,6 +764,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_clusters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">clusters</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">clusters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">clusters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">nobs</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">CLUSTER_ERR</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nobs</span><span class="p">,</span> <span class="n">clusters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;Clustered Covariance (One-Way)&#39;</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">out</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">OneWayClusteredCovariance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
@@ -829,7 +831,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1+14.g1474810',
+            VERSION:'0.1+14.gddbec56',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
