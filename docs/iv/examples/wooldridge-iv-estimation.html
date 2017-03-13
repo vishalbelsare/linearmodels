@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Instrumental Variables estimation and two Stage Least Squares &mdash; linearmodels 0.1+12.ga25a15c documentation</title>
+  <title>Basic Examples &mdash; linearmodels 0.1+13.gd093e4d documentation</title>
   
 
   
@@ -26,22 +26,22 @@
 
   
   
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   
 
   
 
   
         <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0.1+12.ga25a15c documentation" href="../index.html"/>
-        <link rel="up" title="Instrumental Variable Estimation" href="index.html"/>
-        <link rel="next" title="Mathematical Formulas" href="estimators.html"/>
-        <link rel="prev" title="Instrumental Variable Estimation" href="instrumental-variable-estimation.html"/> 
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="linearmodels 0.1+13.gd093e4d documentation" href="../../index.html"/>
+        <link rel="up" title="Instrumental Variable Estimation" href="../index.html"/>
+        <link rel="next" title="Further Examples" href="instrumental-variable-estimation.html"/>
+        <link rel="prev" title="Introduction" href="../introduction.html"/> 
 
   
-  <script src="../_static/js/modernizr.min.js"></script>
+  <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -57,7 +57,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> linearmodels
+            <a href="../../index.html" class="icon icon-home"> linearmodels
           
 
           
@@ -74,7 +74,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -93,17 +93,20 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Instrumental Variable Estimation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="iv.html">Instrumental Variable Model Specification</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference.html">Instrumental Variable Module Reference</a></li>
-<li class="toctree-l2"><a class="reference internal" href="instrumental-variable-estimation.html">Instrumental Variable Estimation</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Instrumental Variables estimation and two Stage Least Squares</a></li>
-<li class="toctree-l2"><a class="reference internal" href="estimators.html">Mathematical Formulas</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Instrumental Variable Estimation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Basic Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Instrumental-Variables-estimation-and-two-Stage-Least-Squares">Instrumental Variables estimation and two Stage Least Squares</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../panel/panel.html">Panel Module Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utility.html">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../plan.html">Module Plans</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instrumental-variable-estimation.html">Further Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference.html">Instrumental Variable Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../estimators.html">Mathematical Formulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../panel/panel.html">Panel Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utility.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plan.html">Module Plans</a></li>
 </ul>
 
             
@@ -118,7 +121,7 @@
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">linearmodels</a>
+          <a href="../../index.html">linearmodels</a>
         
       </nav>
 
@@ -146,17 +149,17 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="index.html">Instrumental Variable Estimation</a> &raquo;</li>
+          <li><a href="../index.html">Instrumental Variable Estimation</a> &raquo;</li>
         
-      <li>Instrumental Variables estimation and two Stage Least Squares</li>
+      <li>Basic Examples</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/iv/wooldridge-iv-estimation.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/iv/examples/wooldridge-iv-estimation.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -363,8 +366,10 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
+<div class="section" id="Basic-Examples">
+<h1>Basic Examples<a class="headerlink" href="#Basic-Examples" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="Instrumental-Variables-estimation-and-two-Stage-Least-Squares">
-<h1>Instrumental Variables estimation and two Stage Least Squares<a class="headerlink" href="#Instrumental-Variables-estimation-and-two-Stage-Least-Squares" title="Permalink to this headline">¶</a></h1>
+<h2>Instrumental Variables estimation and two Stage Least Squares<a class="headerlink" href="#Instrumental-Variables-estimation-and-two-Stage-Least-Squares" title="Permalink to this headline">¶</a></h2>
 <p><strong>Chapter 15</strong> <em>Introduction to Econometrics</em>, Jeffrey Wooldridge</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -449,8 +454,8 @@ dtype: object
 Dep. Variable:                   wage   R-squared:                      0.1179
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.1158
 No. Observations:                 428   F-statistic:                    57.196
-Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
-Time:                        20:04:00   Distribution:                  chi2(1)
+Date:                Mon, Mar 13 2017   P-value (F-stat)                0.0000
+Time:                        12:23:17   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -483,8 +488,8 @@ educ           0.1086     0.0144     7.5628     0.0000      0.0805      0.1368
 Dep. Variable:                   educ   R-squared:                      0.1726
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.1706
 No. Observations:                 428   F-statistic:                    89.258
-Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
-Time:                        20:04:00   Distribution:                  chi2(1)
+Date:                Mon, Mar 13 2017   P-value (F-stat)                0.0000
+Time:                        12:23:17   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -518,8 +523,8 @@ fatheduc       0.2694     0.0285     9.4476     0.0000      0.2135      0.3253
 Dep. Variable:                   wage   R-squared:                      0.0934
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.0913
 No. Observations:                 428   F-statistic:                    2.8487
-Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0914
-Time:                        20:04:00   Distribution:                  chi2(1)
+Date:                Mon, Mar 13 2017   P-value (F-stat)                0.0914
+Time:                        12:23:18   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -530,7 +535,7 @@ const          0.4411     0.4451     0.9911     0.3216     -0.4312      1.3134
 educ           0.0592     0.0351     1.6878     0.0914     -0.0095      0.1279
 ==============================================================================
 
-Instrumented: educ
+Endogenous: educ
 Instruments: fatheduc
 </pre></div></div>
 </div>
@@ -560,8 +565,8 @@ Instruments: fatheduc
 Dep. Variable:                   educ   R-squared:                      0.0576
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.0566
 No. Observations:                 934   F-statistic:                    57.107
-Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
-Time:                        20:04:00   Distribution:                  chi2(1)
+Date:                Mon, Mar 13 2017   P-value (F-stat)                0.0000
+Time:                        12:23:18   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -594,8 +599,8 @@ sibs          -0.2287     0.0303    -7.5569     0.0000     -0.2880     -0.1694
 Dep. Variable:                   wage   R-squared:                     -0.0090
 Estimator:                    IV-2SLS   Adj. R-squared:                -0.0101
 No. Observations:                 934   F-statistic:                    21.715
-Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
-Time:                        20:04:00   Distribution:                  chi2(1)
+Date:                Mon, Mar 13 2017   P-value (F-stat)                0.0000
+Time:                        12:23:18   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -606,7 +611,7 @@ const          5.1310     0.3539     14.497     0.0000      4.4373      5.8248
 educ           0.1224     0.0263     4.6599     0.0000      0.0709      0.1738
 ==============================================================================
 
-Instrumented: educ
+Endogenous: educ
 Instruments: sibs
 </pre></div></div>
 </div>
@@ -641,8 +646,8 @@ Instruments: sibs
 Dep. Variable:                   educ   R-squared:                      0.4771
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.4745
 No. Observations:                3010   F-statistic:                    3693.4
-Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
-Time:                        20:04:00   Distribution:                 chi2(15)
+Date:                Mon, Mar 13 2017   P-value (F-stat)                0.0000
+Time:                        12:23:18   Distribution:                 chi2(15)
 Cov. Estimator:                robust
 
                              Parameter Estimates
@@ -689,8 +694,8 @@ reg669         0.2103     0.1988     1.0575     0.2903     -0.1794      0.6000
 Dep. Variable:                   wage   R-squared:                      0.2998
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.2963
 No. Observations:                3010   F-statistic:                    1377.0
-Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
-Time:                        20:04:01   Distribution:                 chi2(15)
+Date:                Mon, Mar 13 2017   P-value (F-stat)                0.0000
+Time:                        12:23:18   Distribution:                 chi2(15)
 Cov. Estimator:                robust
 
                              Parameter Estimates
@@ -737,8 +742,8 @@ educ           0.0747     0.0036     20.540     0.0000      0.0676      0.0818
 Dep. Variable:                   wage   R-squared:                      0.2382
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.2343
 No. Observations:                3010   F-statistic:                    840.83
-Date:                Sun, Mar 12 2017   P-value (F-stat)                0.0000
-Time:                        20:04:01   Distribution:                 chi2(15)
+Date:                Mon, Mar 13 2017   P-value (F-stat)                0.0000
+Time:                        12:23:18   Distribution:                 chi2(15)
 Cov. Estimator:                robust
 
                              Parameter Estimates
@@ -763,9 +768,10 @@ reg669         0.1078     0.0410     2.6317     0.0085      0.0275      0.1881
 educ           0.1315     0.0540     2.4353     0.0149      0.0257      0.2373
 ==============================================================================
 
-Instrumented: educ
+Endogenous: educ
 Instruments: nearc4
 </pre></div></div>
+</div>
 </div>
 </div>
 
@@ -779,10 +785,10 @@ Instruments: nearc4
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="estimators.html" class="btn btn-neutral float-right" title="Mathematical Formulas" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="instrumental-variable-estimation.html" class="btn btn-neutral float-right" title="Further Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="instrumental-variable-estimation.html" class="btn btn-neutral" title="Instrumental Variable Estimation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../introduction.html" class="btn btn-neutral" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -812,24 +818,24 @@ Instruments: nearc4
 
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.1+12.ga25a15c',
+            URL_ROOT:'../../',
+            VERSION:'0.1+13.gd093e4d',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
             SOURCELINK_SUFFIX: '.txt'
         };
     </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
   
   
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
 
   
