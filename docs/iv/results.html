@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Estimation Results &mdash; linearmodels 0.1+14.g6b4c34c documentation</title>
+  <title>Estimation Results &mdash; linearmodels 0.1+19.gc1dd060 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0.1+14.g6b4c34c documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0.1+19.gc1dd060 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Instrumental Variable Covariance Estimation" href="covariance.html"/>
         <link rel="prev" title="Estimation Methods" href="methods.html"/> 
@@ -1266,15 +1266,68 @@ has a <span class="math">\(\chi^2_q\)</span> distribution where q is the number 
 </dd></dl>
 
 <dl class="class">
+<dt id="linearmodels.iv.results.IVModelComparison">
+<em class="property">class </em><code class="descname">IVModelComparison</code><span class="sig-paren">(</span><em>results</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVModelComparison"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVModelComparison" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="linearmodels.iv.results.IVModelComparison.cov_estimator">
+<code class="descname">cov_estimator</code><a class="headerlink" href="#linearmodels.iv.results.IVModelComparison.cov_estimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance estimator descriptions</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.results.IVModelComparison.estimator_method">
+<code class="descname">estimator_method</code><a class="headerlink" href="#linearmodels.iv.results.IVModelComparison.estimator_method" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimation methods</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.results.IVModelComparison.f_statistic">
+<code class="descname">f_statistic</code><a class="headerlink" href="#linearmodels.iv.results.IVModelComparison.f_statistic" title="Permalink to this definition">¶</a></dt>
+<dd><p>F-statistics and P-values</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.results.IVModelComparison.params">
+<code class="descname">params</code><a class="headerlink" href="#linearmodels.iv.results.IVModelComparison.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameters for all models</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.results.IVModelComparison.pvalues">
+<code class="descname">pvalues</code><a class="headerlink" href="#linearmodels.iv.results.IVModelComparison.pvalues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter p-vals for all models</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.results.IVModelComparison.rsquared">
+<code class="descname">rsquared</code><a class="headerlink" href="#linearmodels.iv.results.IVModelComparison.rsquared" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coefficients of determination (R**2)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.results.IVModelComparison.rsquared_adj">
+<code class="descname">rsquared_adj</code><a class="headerlink" href="#linearmodels.iv.results.IVModelComparison.rsquared_adj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample-size adjusted coefficients of determination (R**2)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.results.IVModelComparison.summary">
+<code class="descname">summary</code><a class="headerlink" href="#linearmodels.iv.results.IVModelComparison.summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summary table of model comparison</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.iv.results.IVModelComparison.tstats">
+<code class="descname">tstats</code><a class="headerlink" href="#linearmodels.iv.results.IVModelComparison.tstats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter t-stats for all models</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="linearmodels.iv.results.FirstStageResults">
 <em class="property">class </em><code class="descname">FirstStageResults</code><span class="sig-paren">(</span><em>dep</em>, <em>exog</em>, <em>endog</em>, <em>instr</em>, <em>cov_type</em>, <em>cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/results.html#FirstStageResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.FirstStageResults" title="Permalink to this definition">¶</a></dt>
 <dd><p>First stage estimation results and diagnostics</p>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<ul class="last simple">
-<li>Summary</li>
-</ul>
-</div>
 <dl class="attribute">
 <dt id="linearmodels.iv.results.FirstStageResults.diagnostics">
 <code class="descname">diagnostics</code><a class="reference internal" href="../_modules/linearmodels/iv/results.html#FirstStageResults.diagnostics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.FirstStageResults.diagnostics" title="Permalink to this definition">¶</a></dt>
@@ -1327,6 +1380,12 @@ the variable names of the endogenous regressors.</td>
 </table>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="linearmodels.iv.results.FirstStageResults.summary">
+<code class="descname">summary</code><a class="headerlink" href="#linearmodels.iv.results.FirstStageResults.summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summary table of first-stage estimation results</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -1375,7 +1434,7 @@ the variable names of the endogenous regressors.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1+14.g6b4c34c',
+            VERSION:'0.1+19.gc1dd060',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

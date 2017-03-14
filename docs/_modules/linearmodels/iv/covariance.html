@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.covariance &mdash; linearmodels 0.1+14.g6b4c34c documentation</title>
+  <title>linearmodels.iv.covariance &mdash; linearmodels 0.1+19.gc1dd060 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0.1+14.g6b4c34c documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0.1+19.gc1dd060 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -172,7 +172,7 @@
 <span class="s2">clusters has the wrong nobs. Expected </span><span class="si">{0}</span><span class="s2">, got </span><span class="si">{1}</span><span class="s2">.  Any missing observation</span>
 <span class="s2">in the regression variables have have been dropped.  When using a clustered</span>
 <span class="s2">covariance estimator, drop missing data before estimating the model. The model</span>
-<span class="s2">property `notnull` contains the locations of the observations that have no </span>
+<span class="s2">property `notnull` contains the locations of the observations that have no</span>
 <span class="s2">missing values.&quot;&quot;&quot;</span>
 
 
@@ -464,7 +464,9 @@
         <span class="k">return</span> <span class="n">out</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">id: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> \
+               <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> \
+               <span class="s1">&#39;, id: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">s</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -831,7 +833,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1+14.g6b4c34c',
+            VERSION:'0.1+19.gc1dd060',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
