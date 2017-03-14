@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.results &mdash; linearmodels 0.1+19.gc1dd060 documentation</title>
+  <title>linearmodels.iv.results &mdash; linearmodels 0.1+20.gcc0c0b6 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0.1+19.gc1dd060 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0.1+20.gcc0c0b6 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -220,7 +220,20 @@
     <span class="k">return</span> <span class="n">format_str</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="OLSResults"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.OLSResults">[docs]</a><span class="k">class</span> <span class="nc">OLSResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">_SummaryStr</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">as_text</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> \
+               <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> \
+               <span class="s1">&#39;, id: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">_repr_html_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">as_html</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;&lt;br/&gt;id: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+
+
+<div class="viewcode-block" id="OLSResults"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.OLSResults">[docs]</a><span class="k">class</span> <span class="nc">OLSResults</span><span class="p">(</span><span class="n">_SummaryStr</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_resid</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span>
@@ -239,17 +252,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_kappa</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;kappa&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cov_estimator</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;cov_estimator&#39;</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">as_text</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> \
-               <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> \
-               <span class="s1">&#39;, id: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
-
-    <span class="k">def</span> <span class="nf">_repr_html_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">as_html</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;&lt;br/&gt;id: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">cov_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -546,9 +548,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">restriction</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="n">restriction</span><span class="p">)</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="n">value</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="n">restriction</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">value</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">restriction</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">value</span>
         <span class="n">rcov</span> <span class="o">=</span> <span class="n">restriction</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">@</span> <span class="n">restriction</span><span class="o">.</span><span class="n">T</span>
-        <span class="n">stat</span> <span class="o">=</span> <span class="n">diff</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">rcov</span> <span class="o">@</span> <span class="n">diff</span>
+        <span class="n">stat</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">inv</span><span class="p">(</span><span class="n">rcov</span><span class="p">)</span> <span class="o">@</span> <span class="n">diff</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">restriction</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;Linear equality constraint is valid&#39;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Linear Equality Hypothesis Test&#39;</span>
@@ -1173,7 +1175,7 @@
         <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;C-statistic&#39;</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="FirstStageResults"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.FirstStageResults">[docs]</a><span class="k">class</span> <span class="nc">FirstStageResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="FirstStageResults"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.FirstStageResults">[docs]</a><span class="k">class</span> <span class="nc">FirstStageResults</span><span class="p">(</span><span class="n">_SummaryStr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    First stage estimation results and diagnostics</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1336,7 +1338,7 @@
     <span class="k">return</span> <span class="n">IVModelComparison</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="IVModelComparison"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVModelComparison">[docs]</a><span class="k">class</span> <span class="nc">IVModelComparison</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="IVModelComparison"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVModelComparison">[docs]</a><span class="k">class</span> <span class="nc">IVModelComparison</span><span class="p">(</span><span class="n">_SummaryStr</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">)):</span>
@@ -1489,7 +1491,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1+19.gc1dd060',
+            VERSION:'0.1+20.gcc0c0b6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
