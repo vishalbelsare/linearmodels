@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.results &mdash; linearmodels 0.1+21.g65d188a documentation</title>
+  <title>linearmodels.iv.results &mdash; linearmodels 0.1+22.g8f79e32 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0.1+21.g65d188a documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0.1+22.g8f79e32 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -1323,8 +1323,10 @@
         <span class="k">return</span> <span class="n">smry</span></div>
 
 
-<span class="k">def</span> <span class="nf">compare</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+<div class="viewcode-block" id="compare"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.compare">[docs]</a><span class="k">def</span> <span class="nf">compare</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare the results of multiple models</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    results : {list, dict, OrderedDict}</span>
@@ -1335,10 +1337,19 @@
 <span class="sd">    -------</span>
 <span class="sd">    comparison : IVModelComparison</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">IVModelComparison</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">IVModelComparison</span><span class="p">(</span><span class="n">results</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="IVModelComparison"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVModelComparison">[docs]</a><span class="k">class</span> <span class="nc">IVModelComparison</span><span class="p">(</span><span class="n">_SummaryStr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comparison of multiple models</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    results : {list, dict, OrderedDict}</span>
+<span class="sd">        Set of results to compare.  If a dict, the keys will be used as model</span>
+<span class="sd">        names.  An OrderedDict will preserve the model order the comparisons.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">)):</span>
@@ -1491,7 +1502,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1+21.g65d188a',
+            VERSION:'0.1+22.g8f79e32',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
