@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.iv.model &mdash; linearmodels 0.1+20.gcc0c0b6 documentation</title>
+  <title>linearmodels.iv.model &mdash; linearmodels 0.1+21.g65d188a documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0.1+20.gcc0c0b6 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0.1+21.g65d188a documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -306,6 +306,7 @@
         <span class="k">if</span> <span class="n">endog</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">instruments</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_result_container</span> <span class="o">=</span> <span class="n">OLSResults</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">=</span> <span class="s1">&#39;OLS&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="IVLIML.from_formula"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVLIML.from_formula">[docs]</a>    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">fuller</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -329,17 +330,41 @@
 <span class="sd">        model : IVLIML</span>
 <span class="sd">            Model instance</span>
 
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The IV formula modifies the standard Patsy formula to include a </span>
+<span class="sd">        block of the form [endog ~ instruments] which is used to indicate </span>
+<span class="sd">        the list of endogenous variables and instruments.  The general </span>
+<span class="sd">        structure is `dependent ~ exog [endog ~ instruments]` and it must </span>
+<span class="sd">        be the case that the formula expressions constructed from blocks </span>
+<span class="sd">        `dependent ~ exog endog` and `dependent ~ exog instruments` are both </span>
+<span class="sd">        valid Patsy formulas.</span>
+<span class="sd">          </span>
+<span class="sd">        A constant must be explicitly included using &#39;1 +&#39; if required.</span>
+
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">        &gt;&gt;&gt; from linearmodels.datasets import wage</span>
 <span class="sd">        &gt;&gt;&gt; from linearmodels.iv import IVLIML</span>
 <span class="sd">        &gt;&gt;&gt; data = wage.load()</span>
-<span class="sd">        &gt;&gt;&gt; formula = &#39;np.log(wage) ~ 1 + exper + exper ** 2 + brthord + (educ ~ sibs)&#39;</span>
+<span class="sd">        &gt;&gt;&gt; formula = &#39;np.log(wage) ~ 1 + exper + exper ** 2 + brthord + [educ ~ sibs]&#39;</span>
 <span class="sd">        &gt;&gt;&gt; mod = IVLIML.from_formula(formula, data)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instr</span> <span class="o">=</span> <span class="n">parse_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">IVLIML</span><span class="p">(</span><span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instr</span><span class="p">,</span> <span class="n">fuller</span><span class="p">,</span> <span class="n">kappa</span><span class="p">)</span></div>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">IVLIML</span><span class="p">(</span><span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instr</span><span class="p">,</span> <span class="n">fuller</span><span class="p">,</span> <span class="n">kappa</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span>
+        <span class="k">return</span> <span class="n">mod</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">formula</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Formula used to create the model&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span>
+
+    <span class="nd">@formula</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">formula</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Formula used to create the model&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="k">def</span> <span class="nf">_validate_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span>
@@ -589,9 +614,46 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">=</span> <span class="s1">&#39;IV-2SLS&#39;</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="IV2SLS.from_formula"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IV2SLS.from_formula">[docs]</a>    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        formula : str</span>
+<span class="sd">            Patsy formula modified for the IV syntax described in the notes</span>
+<span class="sd">            section</span>
+<span class="sd">        data : DataFrame</span>
+<span class="sd">            DataFrame containing the variables used in the formula</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        model : IV2SLS</span>
+<span class="sd">            Model instance</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The IV formula modifies the standard Patsy formula to include a </span>
+<span class="sd">        block of the form [endog ~ instruments] which is used to indicate </span>
+<span class="sd">        the list of endogenous variables and instruments.  The general </span>
+<span class="sd">        structure is `dependent ~ exog [endog ~ instruments]` and it must </span>
+<span class="sd">        be the case that the formula expressions constructed from blocks </span>
+<span class="sd">        `dependent ~ exog endog` and `dependent ~ exog instruments` are both </span>
+<span class="sd">        valid Patsy formulas.</span>
+<span class="sd">          </span>
+<span class="sd">        A constant must be explicitly included using &#39;1 +&#39; if required.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.datasets import wage</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.iv import IV2SLS</span>
+<span class="sd">        &gt;&gt;&gt; data = wage.load()</span>
+<span class="sd">        &gt;&gt;&gt; formula = &#39;np.log(wage) ~ 1 + exper + exper ** 2 + brthord + [educ ~ sibs]&#39;</span>
+<span class="sd">        &gt;&gt;&gt; mod = IV2SLS.from_formula(formula, data)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instr</span> <span class="o">=</span> <span class="n">parse_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instr</span><span class="p">)</span></div>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instr</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span>
+        <span class="k">return</span> <span class="n">mod</span></div></div>
 
 
 <div class="viewcode-block" id="IVGMM"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMM">[docs]</a><span class="k">class</span> <span class="nc">IVGMM</span><span class="p">(</span><span class="n">IVLIML</span><span class="p">):</span>
@@ -653,9 +715,50 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_result_container</span> <span class="o">=</span> <span class="n">IVGMMResults</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">weight_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">weight_config</span><span class="p">):</span>
+<div class="viewcode-block" id="IVGMM.from_formula"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMM.from_formula">[docs]</a>    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">weight_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">weight_config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        formula : str</span>
+<span class="sd">            Patsy formula modified for the IV syntax described in the notes</span>
+<span class="sd">            section</span>
+<span class="sd">        data : DataFrame</span>
+<span class="sd">            DataFrame containing the variables used in the formula</span>
+<span class="sd">        weight_type : str</span>
+<span class="sd">            Name of weight function to use.</span>
+<span class="sd">        **weight_config</span>
+<span class="sd">            Additional keyword arguments to pass to the weight function.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The IV formula modifies the standard Patsy formula to include a </span>
+<span class="sd">        block of the form [endog ~ instruments] which is used to indicate </span>
+<span class="sd">        the list of endogenous variables and instruments.  The general </span>
+<span class="sd">        structure is `dependent ~ exog [endog ~ instruments]` and it must </span>
+<span class="sd">        be the case that the formula expressions constructed from blocks </span>
+<span class="sd">        `dependent ~ exog endog` and `dependent ~ exog instruments` are both </span>
+<span class="sd">        valid Patsy formulas.</span>
+<span class="sd">          </span>
+<span class="sd">        A constant must be explicitly included using &#39;1 +&#39; if required.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        model : IVGMM</span>
+<span class="sd">            Model instance</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.datasets import wage</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.iv import IVGMM</span>
+<span class="sd">        &gt;&gt;&gt; data = wage.load()</span>
+<span class="sd">        &gt;&gt;&gt; formula = &#39;np.log(wage) ~ 1 + exper + exper ** 2 + brthord + [educ ~ sibs]&#39;</span>
+<span class="sd">        &gt;&gt;&gt; mod = IVGMM.from_formula(formula, data)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instr</span> <span class="o">=</span> <span class="n">parse_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">IVGMM</span><span class="p">(</span><span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instr</span><span class="p">,</span> <span class="n">weight_type</span><span class="p">,</span> <span class="o">**</span><span class="n">weight_config</span><span class="p">)</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">IVGMM</span><span class="p">(</span><span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instr</span><span class="p">,</span> <span class="n">weight_type</span><span class="p">,</span> <span class="o">**</span><span class="n">weight_config</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span>
+        <span class="k">return</span> <span class="n">mod</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="IVGMM.estimate_parameters"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMM.estimate_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">estimate_parameters</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
@@ -840,9 +943,50 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_method</span> <span class="o">=</span> <span class="s1">&#39;IV-GMM-CUE&#39;</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">weight_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">weight_config</span><span class="p">):</span>
+<div class="viewcode-block" id="IVGMMCUE.from_formula"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMMCUE.from_formula">[docs]</a>    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">weight_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">weight_config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        formula : str</span>
+<span class="sd">            Patsy formula modified for the IV syntax described in the notes</span>
+<span class="sd">            section</span>
+<span class="sd">        data : DataFrame</span>
+<span class="sd">            DataFrame containing the variables used in the formula</span>
+<span class="sd">        weight_type : str</span>
+<span class="sd">            Name of weight function to use.</span>
+<span class="sd">        **weight_config</span>
+<span class="sd">            Additional keyword arguments to pass to the weight function.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        model : IVGMMCUE</span>
+<span class="sd">            Model instance</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The IV formula modifies the standard Patsy formula to include a </span>
+<span class="sd">        block of the form [endog ~ instruments] which is used to indicate </span>
+<span class="sd">        the list of endogenous variables and instruments.  The general </span>
+<span class="sd">        structure is `dependent ~ exog [endog ~ instruments]` and it must </span>
+<span class="sd">        be the case that the formula expressions constructed from blocks </span>
+<span class="sd">        `dependent ~ exog endog` and `dependent ~ exog instruments` are both </span>
+<span class="sd">        valid Patsy formulas.</span>
+<span class="sd">          </span>
+<span class="sd">        A constant must be explicitly included using &#39;1 +&#39; if required. </span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.datasets import wage</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.iv import IVGMMCUE</span>
+<span class="sd">        &gt;&gt;&gt; data = wage.load()</span>
+<span class="sd">        &gt;&gt;&gt; formula = &#39;np.log(wage) ~ 1 + exper + exper ** 2 + brthord + [educ ~ sibs]&#39;</span>
+<span class="sd">        &gt;&gt;&gt; mod = IVGMMCUE.from_formula(formula, data)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instr</span> <span class="o">=</span> <span class="n">parse_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">IVGMMCUE</span><span class="p">(</span><span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instr</span><span class="p">,</span> <span class="n">weight_type</span><span class="p">,</span> <span class="o">**</span><span class="n">weight_config</span><span class="p">)</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">IVGMMCUE</span><span class="p">(</span><span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instr</span><span class="p">,</span> <span class="n">weight_type</span><span class="p">,</span> <span class="o">**</span><span class="n">weight_config</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span>
+        <span class="k">return</span> <span class="n">mod</span></div>
 
 <div class="viewcode-block" id="IVGMMCUE.j"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMMCUE.j">[docs]</a>    <span class="k">def</span> <span class="nf">j</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
@@ -1038,7 +1182,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1+20.gcc0c0b6',
+            VERSION:'0.1+21.g65d188a',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

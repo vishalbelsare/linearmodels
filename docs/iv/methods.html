@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Estimation Methods &mdash; linearmodels 0.1+20.gcc0c0b6 documentation</title>
+  <title>Estimation Methods &mdash; linearmodels 0.1+21.g65d188a documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0.1+20.gcc0c0b6 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0.1+21.g65d188a documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Estimation Results" href="results.html"/>
         <link rel="prev" title="Module Reference" href="reference.html"/> 
@@ -308,6 +308,54 @@ is provided.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="linearmodels.iv.model.IV2SLS.formula">
+<code class="descname">formula</code><a class="headerlink" href="#linearmodels.iv.model.IV2SLS.formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formula used to create the model</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="linearmodels.iv.model.IV2SLS.from_formula">
+<em class="property">static </em><code class="descname">from_formula</code><span class="sig-paren">(</span><em>formula</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IV2SLS.from_formula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IV2SLS.from_formula" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>formula</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Patsy formula modified for the IV syntax described in the notes
+section</li>
+<li><strong>data</strong> (<em>DataFrame</em>) &#8211; DataFrame containing the variables used in the formula</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>model</strong> &#8211; Model instance</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#linearmodels.iv.model.IV2SLS" title="linearmodels.iv.model.IV2SLS">IV2SLS</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The IV formula modifies the standard Patsy formula to include a
+block of the form [endog ~ instruments] which is used to indicate
+the list of endogenous variables and instruments.  The general
+structure is <cite>dependent ~ exog [endog ~ instruments]</cite> and it must
+be the case that the formula expressions constructed from blocks
+<cite>dependent ~ exog endog</cite> and <cite>dependent ~ exog instruments</cite> are both
+valid Patsy formulas.</p>
+<p>A constant must be explicitly included using &#8216;1 +&#8217; if required.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels.datasets</span> <span class="k">import</span> <span class="n">wage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels.iv</span> <span class="k">import</span> <span class="n">IV2SLS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">wage</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;np.log(wage) ~ 1 + exper + exper ** 2 + brthord + [educ ~ sibs]&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="linearmodels.iv.model.IV2SLS.has_constant">
 <code class="descname">has_constant</code><a class="headerlink" href="#linearmodels.iv.model.IV2SLS.has_constant" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flag indicating the model includes a constant or equivalent</p>
@@ -451,6 +499,12 @@ supported options. Defaults are used if no covariance configuration
 is provided.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="linearmodels.iv.model.IVLIML.formula">
+<code class="descname">formula</code><a class="headerlink" href="#linearmodels.iv.model.IVLIML.formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formula used to create the model</p>
+</dd></dl>
+
 <dl class="staticmethod">
 <dt id="linearmodels.iv.model.IVLIML.from_formula">
 <em class="property">static </em><code class="descname">from_formula</code><span class="sig-paren">(</span><em>formula</em>, <em>data</em>, <em>fuller=0</em>, <em>kappa=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVLIML.from_formula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVLIML.from_formula" title="Permalink to this definition">¶</a></dt>
@@ -477,12 +531,21 @@ produce LIML parameter estimate.</li>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>The IV formula modifies the standard Patsy formula to include a
+block of the form [endog ~ instruments] which is used to indicate
+the list of endogenous variables and instruments.  The general
+structure is <cite>dependent ~ exog [endog ~ instruments]</cite> and it must
+be the case that the formula expressions constructed from blocks
+<cite>dependent ~ exog endog</cite> and <cite>dependent ~ exog instruments</cite> are both
+valid Patsy formulas.</p>
+<p>A constant must be explicitly included using &#8216;1 +&#8217; if required.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels.datasets</span> <span class="k">import</span> <span class="n">wage</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels.iv</span> <span class="k">import</span> <span class="n">IVLIML</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">wage</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;np.log(wage) ~ 1 + exper + exper ** 2 + brthord + (educ ~ sibs)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;np.log(wage) ~ 1 + exper + exper ** 2 + brthord + [educ ~ sibs]&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">IVLIML</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -646,6 +709,60 @@ autocorrelation</li>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="linearmodels.iv.model.IVGMM.formula">
+<code class="descname">formula</code><a class="headerlink" href="#linearmodels.iv.model.IVGMM.formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formula used to create the model</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="linearmodels.iv.model.IVGMM.from_formula">
+<em class="property">static </em><code class="descname">from_formula</code><span class="sig-paren">(</span><em>formula</em>, <em>data</em>, <em>weight_type='robust'</em>, <em>**weight_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVGMM.from_formula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVGMM.from_formula" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>formula</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Patsy formula modified for the IV syntax described in the notes
+section</li>
+<li><strong>data</strong> (<em>DataFrame</em>) &#8211; DataFrame containing the variables used in the formula</li>
+<li><strong>weight_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Name of weight function to use.</li>
+<li><strong>**weight_config</strong> &#8211; Additional keyword arguments to pass to the weight function.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The IV formula modifies the standard Patsy formula to include a
+block of the form [endog ~ instruments] which is used to indicate
+the list of endogenous variables and instruments.  The general
+structure is <cite>dependent ~ exog [endog ~ instruments]</cite> and it must
+be the case that the formula expressions constructed from blocks
+<cite>dependent ~ exog endog</cite> and <cite>dependent ~ exog instruments</cite> are both
+valid Patsy formulas.</p>
+<p>A constant must be explicitly included using &#8216;1 +&#8217; if required.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>model</strong> &#8211; Model instance</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#linearmodels.iv.model.IVGMM" title="linearmodels.iv.model.IVGMM">IVGMM</a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels.datasets</span> <span class="k">import</span> <span class="n">wage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels.iv</span> <span class="k">import</span> <span class="n">IVGMM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">wage</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;np.log(wage) ~ 1 + exper + exper ** 2 + brthord + [educ ~ sibs]&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">IVGMM</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="linearmodels.iv.model.IVGMM.has_constant">
 <code class="descname">has_constant</code><a class="headerlink" href="#linearmodels.iv.model.IVGMM.has_constant" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flag indicating the model includes a constant or equivalent</p>
@@ -798,6 +915,56 @@ is provided.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="linearmodels.iv.model.IVGMMCUE.formula">
+<code class="descname">formula</code><a class="headerlink" href="#linearmodels.iv.model.IVGMMCUE.formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formula used to create the model</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="linearmodels.iv.model.IVGMMCUE.from_formula">
+<em class="property">static </em><code class="descname">from_formula</code><span class="sig-paren">(</span><em>formula</em>, <em>data</em>, <em>weight_type='robust'</em>, <em>**weight_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVGMMCUE.from_formula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVGMMCUE.from_formula" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>formula</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Patsy formula modified for the IV syntax described in the notes
+section</li>
+<li><strong>data</strong> (<em>DataFrame</em>) &#8211; DataFrame containing the variables used in the formula</li>
+<li><strong>weight_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Name of weight function to use.</li>
+<li><strong>**weight_config</strong> &#8211; Additional keyword arguments to pass to the weight function.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>model</strong> &#8211; Model instance</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#linearmodels.iv.model.IVGMMCUE" title="linearmodels.iv.model.IVGMMCUE">IVGMMCUE</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The IV formula modifies the standard Patsy formula to include a
+block of the form [endog ~ instruments] which is used to indicate
+the list of endogenous variables and instruments.  The general
+structure is <cite>dependent ~ exog [endog ~ instruments]</cite> and it must
+be the case that the formula expressions constructed from blocks
+<cite>dependent ~ exog endog</cite> and <cite>dependent ~ exog instruments</cite> are both
+valid Patsy formulas.</p>
+<p>A constant must be explicitly included using &#8216;1 +&#8217; if required.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels.datasets</span> <span class="k">import</span> <span class="n">wage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels.iv</span> <span class="k">import</span> <span class="n">IVGMMCUE</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">wage</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;np.log(wage) ~ 1 + exper + exper ** 2 + brthord + [educ ~ sibs]&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">IVGMMCUE</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="linearmodels.iv.model.IVGMMCUE.has_constant">
 <code class="descname">has_constant</code><a class="headerlink" href="#linearmodels.iv.model.IVGMMCUE.has_constant" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flag indicating the model includes a constant or equivalent</p>
@@ -918,7 +1085,7 @@ with the moment conditions, and so has explicit dependence on
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1+20.gcc0c0b6',
+            VERSION:'0.1+21.g65d188a',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
