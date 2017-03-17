@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.utility &mdash; linearmodels 0.99 documentation</title>
+  <title>linearmodels.utility &mdash; linearmodels 1.0+1.gaa72f36 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="linearmodels 0.99 documentation" href="../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+1.gaa72f36 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.99
+                1.0
               </div>
             
           
@@ -170,7 +170,7 @@
 
 <span class="k">class</span> <span class="nc">AttrDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Dictionary-like object that exposes keys as attributes </span>
+<span class="sd">    Dictionary-like object that exposes keys as attributes</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -232,7 +232,7 @@
 <div class="viewcode-block" id="WaldTestStatistic"><a class="viewcode-back" href="../../utility.html#linearmodels.utility.WaldTestStatistic">[docs]</a><span class="k">class</span> <span class="nc">WaldTestStatistic</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test statistic holder for Wald-type tests</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    stat : float</span>
@@ -240,13 +240,13 @@
 <span class="sd">    null : str</span>
 <span class="sd">        A statement of the test&#39;s null hypothesis</span>
 <span class="sd">    df : int</span>
-<span class="sd">        Degree of freedom.  </span>
+<span class="sd">        Degree of freedom.</span>
 <span class="sd">    df_denom : int, optional</span>
-<span class="sd">        Numerator degree of freedome.  If provided, uses an </span>
+<span class="sd">        Numerator degree of freedome.  If provided, uses an</span>
 <span class="sd">        F(df, df_denom) distribution.</span>
 <span class="sd">    name : str, optional</span>
 <span class="sd">        Name of test</span>
-<span class="sd">    </span>
+
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    InvalidTestStatistic</span>
@@ -306,14 +306,14 @@
 <div class="viewcode-block" id="InvalidTestStatistic"><a class="viewcode-back" href="../../utility.html#linearmodels.utility.InvalidTestStatistic">[docs]</a><span class="k">class</span> <span class="nc">InvalidTestStatistic</span><span class="p">(</span><span class="n">WaldTestStatistic</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class returned if a requested test is not valid for a model</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    reason : str</span>
 <span class="sd">        Explanation why test is invalid</span>
 <span class="sd">    name : str, optional</span>
 <span class="sd">        Name of test</span>
-<span class="sd">    </span>
+
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    WaldTestStatistic</span>
@@ -379,7 +379,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
 
     <span class="k">def</span> <span class="nf">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">value</span>
 
@@ -421,7 +422,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.99',
+            VERSION:'1.0+1.gaa72f36',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

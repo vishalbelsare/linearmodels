@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 0.99 documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 1.0+1.gaa72f36 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0.99 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+1.gaa72f36 documentation" href="../index.html"/>
         <link rel="up" title="Panel Module Reference" href="panel.html"/>
         <link rel="next" title="Covariance Estimators" href="covariance.html"/>
         <link rel="prev" title="Panel Module Reference" href="panel.html"/> 
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.99
+                1.0
               </div>
             
           
@@ -204,7 +204,7 @@
 <span id="models-for-panel-data"></span><h1>Models for Panel Data<a class="headerlink" href="#module-panel" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-linearmodels.panel.model"></span><dl class="class">
 <dt id="linearmodels.panel.model.BetweenOLS">
-<em class="property">class </em><code class="descname">BetweenOLS</code><span class="sig-paren">(</span><em>endog</em>, <em>exog</em>, <em>*</em>, <em>intercept=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">BetweenOLS</code><span class="sig-paren">(</span><em>endog</em>, <em>exog</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -229,7 +229,7 @@ an intercept or have a constant column in the column span.</li>
 
 <dl class="class">
 <dt id="linearmodels.panel.model.FirstDifferenceOLS">
-<em class="property">class </em><code class="descname">FirstDifferenceOLS</code><span class="sig-paren">(</span><em>endog</em>, <em>exog</em>, <em>*</em>, <em>intercept=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FirstDifferenceOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">FirstDifferenceOLS</code><span class="sig-paren">(</span><em>endog</em>, <em>exog</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FirstDifferenceOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -279,23 +279,23 @@ an intercept or have a constant column in the column span.</li>
 
 <dl class="class">
 <dt id="linearmodels.panel.model.PooledOLS">
-<em class="property">class </em><code class="descname">PooledOLS</code><span class="sig-paren">(</span><em>endog</em>, <em>exog</em>, <em>*</em>, <em>intercept=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PooledOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PooledOLS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">PooledOLS</code><span class="sig-paren">(</span><em>endog</em>, <em>exog</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PooledOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PooledOLS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimation of linear model with pooled parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>endog</strong> (<em>array-like</em>) &#8211; Endogenous or left-hand-side variable (entities by time)</li>
-<li><strong>exog</strong> (<em>array-like</em>) &#8211; Exogenous or right-hand-side variables (entities by time by variable). Should not contain
-an intercept or have a constant column in the column span.</li>
-<li><strong>intercept</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include an intercept in the model</li>
+<li><strong>dependent</strong> (<em>array-like</em>) &#8211; Dependent (left-hand-side) variable</li>
+<li><strong>exog</strong> (<em>array-like</em>) &#8211; Exogenous (right-hand-side) variables.</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
+<p>See <code class="xref py py-class docutils literal"><span class="pre">linearmodels.panel.data.PanelDataHandler</span></code> for a description of
+valid formats for <cite>dependent</cite> and <cite>exog</cite>.</p>
 <p>The model is given by</p>
 <div class="math">
 \[y_{it}=\alpha+\beta^{\prime}x_{it}+\epsilon_{it}\]</div>
@@ -348,7 +348,7 @@ an intercept or have a constant column in the column span.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.99',
+            VERSION:'1.0+1.gaa72f36',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

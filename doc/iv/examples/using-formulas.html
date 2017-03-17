@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Using Formulas &mdash; linearmodels 0.99 documentation</title>
+  <title>Using Formulas &mdash; linearmodels 1.0+1.gaa72f36 documentation</title>
   
 
   
@@ -35,10 +35,10 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="linearmodels 0.99 documentation" href="../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+1.gaa72f36 documentation" href="../../index.html"/>
         <link rel="up" title="Instrumental Variable Estimation" href="../index.html"/>
         <link rel="next" title="Module Reference" href="../reference.html"/>
-        <link rel="prev" title="Introduction" href="../introduction.html"/> 
+        <link rel="prev" title="Further Examples" href="advanced-examples.html"/> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.99
+                1.0
               </div>
             
           
@@ -95,6 +95,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Instrumental Variable Estimation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic-examples.html">Basic Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced-examples.html">Further Examples</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Using Formulas</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Basic-Usage">Basic Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Multiple-Endogenous-Variables">Multiple Endogenous Variables</a></li>
@@ -109,7 +111,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../reference.html">Module Reference</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../estimators.html">Mathematical Formulas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mathematical-formula.html">Mathematical Formulas</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../panel/panel.html">Panel Module Reference</a></li>
@@ -535,8 +537,8 @@ formula.</p>
 Dep. Variable:               ldrugexp   R-squared:                      0.0640
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.0634
 No. Observations:               10089   F-statistic:                    2000.9
-Date:                Thu, Mar 16 2017   P-value (F-stat)                0.0000
-Time:                        17:05:32   Distribution:                  chi2(6)
+Date:                Fri, Mar 17 2017   P-value (F-stat)                0.0000
+Time:                        17:20:34   Distribution:                  chi2(6)
 Cov. Estimator:                robust
 
                               Parameter Estimates
@@ -602,7 +604,7 @@ be readily used.</p>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -612,8 +614,8 @@ be readily used.</p>
 Dep. Variable:               ldrugexp   R-squared:                      0.1770
 Estimator:                        OLS   Adj. R-squared:                 0.1765
 No. Observations:               10089   F-statistic:                    2262.6
-Date:                Thu, Mar 16 2017   P-value (F-stat)                0.0000
-Time:                        17:05:33   Distribution:                  chi2(6)
+Date:                Fri, Mar 17 2017   P-value (F-stat)                0.0000
+Time:                        17:20:35   Distribution:                  chi2(6)
 Cov. Estimator:                robust
 
                               Parameter Estimates
@@ -628,6 +630,15 @@ linc            0.0105     0.0137     0.7646     0.4445     -0.0164      0.0373
 blhisp         -0.1513     0.0341    -4.4353     0.0000     -0.2182     -0.0844
 hi_empunion     0.0739     0.0260     2.8441     0.0045      0.0230      0.1248
 ===============================================================================
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/build/bashtage/linearmodels/linearmodels/iv/model.py:234: UserWarning: Inputs contain missing values
+  warnings.warn(&#39;Inputs contain missing values&#39;, UserWarning)
 </pre></div></div>
 </div>
 </div>
@@ -703,7 +714,7 @@ T-stats reported in parentheses
         <a href="../reference.html" class="btn btn-neutral float-right" title="Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../introduction.html" class="btn btn-neutral" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="advanced-examples.html" class="btn btn-neutral" title="Further Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -734,7 +745,7 @@ T-stats reported in parentheses
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.99',
+            VERSION:'1.0+1.gaa72f36',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

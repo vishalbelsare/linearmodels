@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Mathematical Formulas &mdash; linearmodels 0.99 documentation</title>
+  <title>Mathematical Formulas &mdash; linearmodels 1.0+1.gaa72f36 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0.99 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+1.gaa72f36 documentation" href="../index.html"/>
         <link rel="up" title="Instrumental Variable Estimation" href="index.html"/>
         <link rel="next" title="Panel Module Reference" href="../panel/panel.html"/>
         <link rel="prev" title="GMM Weight and Covariance Estimation" href="gmm.html"/> 
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.99
+                1.0
               </div>
             
           
@@ -95,6 +95,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Instrumental Variable Estimation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic-examples.html">Basic Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/advanced-examples.html">Further Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/using-formulas.html">Using Formulas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference.html">Module Reference</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Mathematical Formulas</a><ul>
@@ -109,11 +111,23 @@
 <li class="toctree-l3"><a class="reference internal" href="#basic-statistics">Basic Statistics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#parameter-covariance-estimation">Parameter Covariance Estimation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#two-stage-ls-liml-and-k-class-estimators">Two-stage LS, LIML and k-class estimators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#standard-errors">Standard Errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#t-statistics">T-statistics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#p-values">P-values</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#confidence-intervals">Confidence Intervals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linear-hypothesis-tests">Linear Hypothesis Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gmm-covariance-estimators">GMM Covariance estimators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gmm-weight-estimators">GMM Weight Estimators</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#to-do">To Do</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#post-estimation">Post-estimation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sls-and-liml-post-estimation-results">2SLS and LIML Post-estimation Results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gmm-post-estimation-results">GMM Post-estimation Results</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#first-stage-estimation-analysis">First-stage Estimation Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kernel-weights-and-bandwidth-selection">Kernel Weights and Bandwidth Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constant-detection">Constant Detection</a></li>
 </ul>
 </li>
 </ul>
@@ -173,7 +187,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/iv/estimators.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/iv/mathematical-formula.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -266,20 +280,20 @@ projection matrix for <span class="math">\(Z\)</span> is similarly defined only 
 <p>The 2SLS estimator is</p>
 <div class="math">
 \[\begin{aligned}
-\hat{\beta}_{2SLS} &amp; =\left(X^{\prime}P_{Z}X^{\prime}\right)\left(X^{\prime}P_{Z}y^{\prime}\right)\end{aligned}\]</div>
+\hat{\beta}_{2SLS} &amp; =\left(X^{\prime}P_{Z}X\right)\left(X^{\prime}P_{Z}y\right)\end{aligned}\]</div>
 </div>
 <div class="section" id="limited-information-maximum-likelihood-and-k-class-estimators">
 <h3>Limited Information Maximum Likelihood and k-class Estimators<a class="headerlink" href="#limited-information-maximum-likelihood-and-k-class-estimators" title="Permalink to this headline">¶</a></h3>
 <p>The LIML or other k-class estimator is</p>
 <div class="math">
 \[\begin{aligned}
-\hat{\beta}_{\kappa} &amp; =\left(X^{\prime}\left(I-\kappa M_{Z}\right)X^{\prime}\right)\left(X^{\prime}\left(I-\kappa M_{Z}\right)y^{\prime}\right)\end{aligned}\]</div>
+\hat{\beta}_{\kappa} &amp; =\left(X^{\prime}\left(I-\kappa M_{Z}\right)X\right)\left(X^{\prime}\left(I-\kappa M_{Z}\right)y\right)\end{aligned}\]</div>
 <p>where <span class="math">\(\kappa\)</span> is the parameter of the class. When
 <span class="math">\(\kappa=1\)</span> the 2SLS estimator is recovered. When <span class="math">\(\kappa=0\)</span>,
-the OLS estimator is recovered. The LIML estimator is recovered for
+the OLS estimator is recovered. The LIML estimator is recovered when
 <span class="math">\(\kappa\)</span> set to</p>
 <div class="math">
-\[\min\mathrm{eig\left[\left(W^{\prime}M_{z}W\right)^{-\frac{1}{2}}\left(W^{\prime}M_{X_{1}}W\right)\left(W^{\prime}M_{z}W\right)^{-\frac{1}{2}}\right]}\]</div>
+\[\hat{\kappa}=\min\mathrm{eig\left[\left(W^{\prime}M_{z}W\right)^{-\frac{1}{2}}\left(W^{\prime}M_{X_{1}}W\right)\left(W^{\prime}M_{z}W\right)^{-\frac{1}{2}}\right]}\]</div>
 <p>where <span class="math">\(W=\left[y\:X_{2}\right]\)</span> and <span class="math">\(\mathrm{eig}\)</span> returns
 the eigenvalues.</p>
 </div>
@@ -295,11 +309,12 @@ the eigenvalues.</p>
 <h3>Continuously Updating Generalized Method of Moments (GMM-CUE)<a class="headerlink" href="#continuously-updating-generalized-method-of-moments-gmm-cue" title="Permalink to this headline">¶</a></h3>
 <p>The continuously updating GMM estimator solves the minimization problem</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\min_{\beta}n\bar{g}\left(\beta\right)^{\prime}W\left(\beta\right)^{-1}\bar{g}\left(\beta\right)\\where\end{aligned}\end{align} \]</div>
-<p><span class="math">\(\bar{g}\left(\beta\right)=n^{-1}\sum_{i=1}^{n}z_{i}\hat{\epsilon}_{i}\)</span>
+\[\min_{\beta}n\bar{g}\left(\beta\right)^{\prime}W\left(\beta\right)^{-1}\bar{g}\left(\beta\right)\]</div>
+<p>where
+<span class="math">\(\bar{g}\left(\beta\right)=n^{-1}\sum_{i=1}^{n}z_{i}\hat{\epsilon}_{i}\)</span>
 and <span class="math">\(\hat{\epsilon}_{i}=y_{i}-x_{i}\beta\)</span>. Unlike standard GMM,
 the weight matrix, <span class="math">\(W\)</span> directly depends on the model parameters
-<span class="math">\(\beta\)</span> and so it is not possibly to use a closed form estimator.</p>
+<span class="math">\(\beta\)</span> and so it is not possible to use a closed form estimator.</p>
 </div>
 </div>
 <div class="section" id="basic-statistics">
@@ -322,7 +337,9 @@ R^{2} &amp; =1-\frac{\hat{\epsilon}^{\prime}\hat{\epsilon}}{\left(y-k_{c}\bar{y}
 <span class="math">\(s^{2}=n^{-1}\hat{\epsilon}^{\prime}\hat{\epsilon}\)</span> unless the
 debiased flag is used, in which case a small sample adjusted version is
 estimated
-<span class="math">\(s^{2}=\left(n-k\right)^{-1}\hat{\epsilon}^{\prime}\hat{\epsilon}\)</span>.</p>
+<span class="math">\(s^{2}=\left(n-k\right)^{-1}\hat{\epsilon}^{\prime}\hat{\epsilon}\)</span>.
+The model degree of freedom is <span class="math">\(k\)</span> and the residual degree of
+freedom is <span class="math">\(n-k\)</span>.</p>
 <p>The model F-statistic is defined</p>
 <div class="math">
 \[\begin{aligned}
@@ -343,11 +360,11 @@ distribution is used.</p>
 homoskedastic covariance, defined as</p>
 <div class="math">
 \[\begin{aligned}
-n^{-1}s^{2}\left(\frac{X^{\prime}\left(I-\kappa M_{z}\right)X}{n}\right)^{-1} &amp; =n^{-1}s^{2}\hat{A}.\end{aligned}\]</div>
+\hat{\Sigma}=n^{-1}s^{2}\left(\frac{X^{\prime}\left(I-\kappa M_{z}\right)X}{n}\right)^{-1} &amp; =n^{-1}s^{2}\hat{A}.\end{aligned}\]</div>
 <p>Note that this estimator can be expressed as</p>
 <div class="math">
 \[\begin{aligned}
-n^{-1}\hat{A}^{-1}\left\{ s^{2}\hat{A}\right\} \hat{A}^{-1} &amp; =n^{-1}\hat{A}^{-1}\hat{B}\hat{A}^{-1}.\end{aligned}\]</div>
+\hat{\Sigma}=n^{-1}\hat{A}^{-1}\left\{ s^{2}\hat{A}\right\} \hat{A}^{-1} &amp; =n^{-1}\hat{A}^{-1}\hat{B}\hat{A}^{-1}.\end{aligned}\]</div>
 <p>All estimators take this form and only differ in how the asymptotic
 covariance of the scores, <span class="math">\(B\)</span>, is estimated. For the homoskedastic
 covariance estimator, <span class="math">\(\hat{B}=s^{2}\hat{A}.\)</span> The score covariance
@@ -377,6 +394,21 @@ estimators except the clustered covariance are rescaled by
 <span class="math">\(\left(n-k\right)/n\)</span>. The clustered covariance is rescaled by
 <span class="math">\(\left(\left(n-k\right)\left(n-1\right)/n^{2}\right)\left(\left(g-1\right)/g\right)\)</span>. <a class="footnote-reference" href="#id4" id="id2">[2]</a></p>
 </div>
+<div class="section" id="standard-errors">
+<h3>Standard Errors<a class="headerlink" href="#standard-errors" title="Permalink to this headline">¶</a></h3>
+<p>Standard errors are defined as</p>
+<div class="math">
+\[s.e.\left(\hat{\beta}_{j}\right)=\sqrt{e_{j}^{\prime}\hat{\Sigma}e_{j}}\]</div>
+<p>where <span class="math">\(e_{j}\)</span> is a vector of 0s except in location <span class="math">\(j\)</span> which
+is 1.</p>
+</div>
+<div class="section" id="t-statistics">
+<h3>T-statistics<a class="headerlink" href="#t-statistics" title="Permalink to this headline">¶</a></h3>
+<p>T-statistics test the null <span class="math">\(H_{0}:\beta_{j}=0\)</span> against a 2-sided
+alternative and are defined as</p>
+<div class="math">
+\[z=\frac{\hat{\beta}_{j}}{s.e.\left(\hat{\beta}_{j}\right)}.\]</div>
+</div>
 <div class="section" id="p-values">
 <h3>P-values<a class="headerlink" href="#p-values" title="Permalink to this headline">¶</a></h3>
 <p>P-values are computes using 2-sided tests,</p>
@@ -399,20 +431,75 @@ distribution.</p>
 standard Normal distribution or a Student’s t. The Student’s t is used
 when a debiased covariance estimator is used.</p>
 </div>
+<div class="section" id="linear-hypothesis-tests">
+<h3>Linear Hypothesis Tests<a class="headerlink" href="#linear-hypothesis-tests" title="Permalink to this headline">¶</a></h3>
+<p>Linear hypothesis tests examine the validity of nulls of the form
+<span class="math">\(H_{0}:R\beta-r=0\)</span> and are implemented using a Wald test statistic</p>
+<div class="math">
+\[W=\left(R\hat{\beta}-r\right)^{\prime}\left[R^{\prime}\hat{\Sigma}R\right]^{-1}\left(R\hat{\beta}-r\right)\sim\chi_{q}^{2}\]</div>
+<p>where <span class="math">\(q\)</span> is the <span class="math">\(rank\left(R\right)\)</span> which is usually the
+number of rows in <span class="math">\(R\)</span> . If the debiased flag is used, then
+<span class="math">\(W/q\)</span> is reported and critical and p-values are taken from a
+<span class="math">\(F_{q,n-k}\)</span> distribution.</p>
 </div>
-<div class="section" id="to-do">
-<h2>To Do<a class="headerlink" href="#to-do" title="Permalink to this headline">¶</a></h2>
-<p>Gmm Covariance</p>
-<p>Constant detection</p>
-<p>k-class special cases</p>
-<p>J-stat</p>
-<p>C-stat</p>
-<p>Kernel weights</p>
-<p>Optimal BW selection</p>
-<p>Std err, T-stats</p>
-<p>All df’s</p>
-<p>s2??</p>
-<p>Linear hypothesis testing</p>
+<div class="section" id="gmm-covariance-estimators">
+<h3>GMM Covariance estimators<a class="headerlink" href="#gmm-covariance-estimators" title="Permalink to this headline">¶</a></h3>
+<p>GMM covariance depends on the weighting matrix used in estimation and
+the assumed covariance of the scores. In most applications these are the
+same and so the inefficient form,</p>
+<div class="math">
+\[\hat{\Sigma}=n^{-1}\left(\frac{X'Z}{n}W^{-1}\frac{Z'X}{n}\right)^{-1}\left(\frac{X'Z}{n}W^{-1}SW^{-1}\frac{Z'X}{n}\right)\left(\frac{X'Z}{n}W^{-1}\frac{Z'X}{n}\right)^{-1}\]</div>
+<p>will collapse to the simpler form</p>
+<div class="math">
+\[\hat{\Sigma}=n^{-1}\left(\frac{X'Z}{n}W^{-1}\frac{Z'X}{n}\right)^{-1}\]</div>
+<p>when <span class="math">\(W=S\)</span>. When an unadjusted (homoskedastic) covariance is used,</p>
+<div class="math">
+\[\hat{S}=\tilde{s}^{2}n^{-1}\sum_{j=1}^{n}z_{j}^{\prime}z_{j}\]</div>
+<p>where
+<span class="math">\(\tilde{s}^{2}=n^{-1}\sum_{i=1}^{n}\left(\epsilon_{i}-\bar{\epsilon}\right)^{2}\)</span>
+subtracts the mean which may be non-zero if the model is overidentified.
+Like previous covariance estimators, if the debiased flag is used,
+<span class="math">\(n^{-1}\)</span> is replaced by <span class="math">\(\left(n-k\right)^{-1}\)</span>. When a
+robust (heteroskedastic) covariance is used, the estimator of <span class="math">\(S\)</span>
+is modified to</p>
+<div class="math">
+\[\hat{S}=n^{-1}\sum_{i=1}^{n}\hat{\epsilon}_{i}^{2}z_{i}^{\prime}z_{i}.\]</div>
+<p>If the debiased flag is used, <span class="math">\(n^{-1}\)</span> is replaced by
+<span class="math">\(\left(n-k\right)^{-1}\)</span>.</p>
+<p>Kernel covariance estimators of <span class="math">\(S\)</span> take the form</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+\hat{S} &amp; =\hat{\Gamma}_{0}+\sum_{i=1}^{n-1}k\left(i/h\right)\left(\hat{\Gamma}_{i}+\hat{\Gamma}_{i}^{\prime}\right)\\
+\hat{\Gamma_{j}} &amp; =n^{-1}\sum_{i=j+1}^{n}\hat{\epsilon}_{i-j}\hat{\epsilon}_{i}z_{i-j}^{\prime}z_{i}\end{aligned}\end{split}\]</div>
+<p>and <span class="math">\(k\left(\cdot\right)\)</span> is a kernel weighting function with
+bandwidth <span class="math">\(h\)</span>. If the debiased flag is used, <span class="math">\(n^{-1}\)</span> is
+replaced by <span class="math">\(\left(n-k\right)^{-1}\)</span>.</p>
+<p>The one-way clustered covariance estimator is defined as</p>
+<div class="math">
+\[\hat{S}=n^{-1}\sum_{j=1}^{g}\left(\sum_{i\in\mathcal{G}_{j}}\hat{\epsilon}_{i}z_{i}\right)^{\prime}\left(\sum_{i\in\mathcal{G}_{j}}\hat{\epsilon}_{i}z_{i}\right)\]</div>
+<p>where <span class="math">\(\sum_{i\in\mathcal{G}_{j}}\hat{\epsilon}_{i}z_{i}\)</span> is the
+sum of the moment conditional for all members in group
+<span class="math">\(\mathcal{G}_{j}\)</span> and <span class="math">\(g\)</span> is the number of groups. If the
+debiased flag is used, the <span class="math">\(n^{-1}\)</span> term is replaced by</p>
+<div class="math">
+\[\left(n-k\right)^{-1}\frac{n-1}{n}\frac{g}{g-1}.\]</div>
+</div>
+<div class="section" id="gmm-weight-estimators">
+<h3>GMM Weight Estimators<a class="headerlink" href="#gmm-weight-estimators" title="Permalink to this headline">¶</a></h3>
+<p>The GMM optimal weight estimators are identical to the the estimators of
+<span class="math">\(S\)</span> with two notable exceptions. First, they are never debiased
+and so always use <span class="math">\(n^{-1}\)</span>. Second, if the center flag is true,
+the demeaned moment conditions defined as
+<span class="math">\(\tilde{g}_{i}=z_{i}\hat{\epsilon}_{i}-\overline{z\epsilon}\)</span> are
+used in-place of <span class="math">\(g_{i}\)</span> in the robust, kernel and clustered
+estimators. The unadjusted estimator is always centered, and so this
+option has no effect.</p>
+</div>
+</div>
+<div class="section" id="post-estimation">
+<h2>Post-estimation<a class="headerlink" href="#post-estimation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="sls-and-liml-post-estimation-results">
+<h3>2SLS and LIML Post-estimation Results<a class="headerlink" href="#sls-and-liml-post-estimation-results" title="Permalink to this headline">¶</a></h3>
 <p>sargan</p>
 <p>basman</p>
 <p>wu haussman</p>
@@ -421,7 +508,25 @@ when a debiased covariance estimator is used.</p>
 <p>wooldridge overid</p>
 <p>anderson rubin</p>
 <p>basmann f</p>
+</div>
+<div class="section" id="gmm-post-estimation-results">
+<h3>GMM Post-estimation Results<a class="headerlink" href="#gmm-post-estimation-results" title="Permalink to this headline">¶</a></h3>
+<p>J-stat</p>
+<p>C-stat</p>
+</div>
+</div>
+<div class="section" id="first-stage-estimation-analysis">
+<h2>First-stage Estimation Analysis<a class="headerlink" href="#first-stage-estimation-analysis" title="Permalink to this headline">¶</a></h2>
 <p>First Stage Results -&gt; partial r2, shea r2, f-stat</p>
+</div>
+<div class="section" id="kernel-weights-and-bandwidth-selection">
+<h2>Kernel Weights and Bandwidth Selection<a class="headerlink" href="#kernel-weights-and-bandwidth-selection" title="Permalink to this headline">¶</a></h2>
+<p>Kernel weights</p>
+<p>Optimal BW selection</p>
+</div>
+<div class="section" id="constant-detection">
+<h2>Constant Detection<a class="headerlink" href="#constant-detection" title="Permalink to this headline">¶</a></h2>
+<p>Constant detection</p>
 <table class="docutils footnote" frame="void" id="id3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -485,7 +590,7 @@ excluding one category of dummy.</td></tr>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.99',
+            VERSION:'1.0+1.gaa72f36',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
