@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 1.0+1.gaa72f36 documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 1.0+2.g60e6b01 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 1.0+1.gaa72f36 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+2.g60e6b01 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -160,13 +160,10 @@
             
   <h1>Source code for linearmodels.panel.model</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">matrix_rank</span><span class="p">,</span> <span class="n">pinv</span>
-<span class="kn">from</span> <span class="nn">patsy.highlevel</span> <span class="k">import</span> <span class="n">dmatrices</span>
-<span class="kn">from</span> <span class="nn">patsy.missing</span> <span class="k">import</span> <span class="n">NAAction</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">pinv</span>
 
-<span class="kn">from</span> <span class="nn">linearmodels.panel.covariance</span> <span class="k">import</span> <span class="n">homoskedastic_covariance</span>
-<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">has_constant</span>
 <span class="kn">from</span> <span class="nn">.data</span> <span class="k">import</span> <span class="n">PanelDataHandler</span>
+<span class="kn">from</span> <span class="nn">.fixed_effects</span> <span class="k">import</span> <span class="n">EntityEffect</span><span class="p">,</span> <span class="n">TimeEffect</span>
 
 
 <div class="viewcode-block" id="PooledOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PooledOLS">[docs]</a><span class="k">class</span> <span class="nc">PooledOLS</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -175,16 +172,16 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    dependent : array-like</span>
-<span class="sd">        Dependent (left-hand-side) variable </span>
+<span class="sd">    endog: array-like</span>
+<span class="sd">        Endogenous or left-hand-side variable (entities by time)</span>
 <span class="sd">    exog: array-like</span>
-<span class="sd">        Exogenous (right-hand-side) variables. </span>
+<span class="sd">        Exogenous or right-hand-side variables (entities by time by variable). Should not contain</span>
+<span class="sd">        an intercept or have a constant column in the column span.</span>
+<span class="sd">    intercept : bool, optional</span>
+<span class="sd">        Flag whether to include an intercept in the model</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    See :class:`linearmodels.panel.data.PanelDataHandler` for a description of </span>
-<span class="sd">    valid formats for `dependent` and `exog`.</span>
-<span class="sd">    </span>
 <span class="sd">    The model is given by</span>
 
 <span class="sd">    .. math::</span>
@@ -194,69 +191,17 @@
 <span class="sd">    where :math:`\alpha` is omitted if ``intercept`` is ``False``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">endog</span> <span class="o">=</span> <span class="n">PanelDataHandler</span><span class="p">(</span><span class="n">endog</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exog</span> <span class="o">=</span> <span class="n">PanelDataHandler</span><span class="p">(</span><span class="n">exog</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_constant</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span class="o">=</span> <span class="n">intercept</span>
 
-    <span class="k">def</span> <span class="nf">_validate_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">a2d</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">a2d</span>
-        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;dependent and exog must have the same number of &#39;</span>
-                             <span class="s1">&#39;observations.&#39;</span><span class="p">)</span>
-        <span class="n">all_missing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">missing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">all_missing</span> <span class="o">^</span> <span class="n">missing</span><span class="p">):</span>
-                <span class="kn">import</span> <span class="nn">warnings</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Missing values detected. Dropping rows with one &#39;</span>
-                              <span class="s1">&#39;or more missing observation.&#39;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">a2d</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">a2d</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_constant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant_index</span> <span class="o">=</span> <span class="n">has_constant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">matrix_rank</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;exog does not have full column rank.&#39;</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">formula</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span>
-
-    <span class="nd">@formula</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">formula</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span> <span class="o">=</span> <span class="n">value</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="n">na_action</span> <span class="o">=</span> <span class="n">NAAction</span><span class="p">(</span><span class="n">on_NA</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">,</span> <span class="n">NA_types</span><span class="o">=</span><span class="p">[])</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">PanelDataHandler</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
-        <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39; 0 + &#39;</span> <span class="o">+</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;~&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
-        <span class="n">endog</span><span class="p">,</span> <span class="n">exog</span> <span class="o">=</span> <span class="n">dmatrices</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">dataframe</span><span class="p">,</span>
-                                <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;dataframe&#39;</span><span class="p">,</span> <span class="n">NA_action</span><span class="o">=</span><span class="n">na_action</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">PooledOLS</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="p">(</span><span class="n">pinv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-        <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">cov_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="s1">&#39;homoskedastic&#39;</span><span class="p">):</span>
-            <span class="c1"># TODO</span>
-            <span class="n">cov</span> <span class="o">=</span> <span class="n">homoskedastic_covariance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
-            <span class="n">cov_est</span> <span class="o">=</span> <span class="s1">&#39;HomoskedasticCovariance&#39;</span>
-        <span class="k">elif</span> <span class="n">cov_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">):</span>
-            <span class="n">cov</span> <span class="o">=</span> <span class="n">homoskedastic_covariance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
-            <span class="n">cov_est</span> <span class="o">=</span> <span class="s1">&#39;heteroskedastic_covariance&#39;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-        <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">cov_est</span></div>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">a2d</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">a2d</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">x</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">pinv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span></div>
 
 
 <div class="viewcode-block" id="PanelOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PanelOLS">[docs]</a><span class="k">class</span> <span class="nc">PanelOLS</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
@@ -289,7 +234,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">entity_effect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">time_effect</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">PanelOLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PanelOLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="n">intercept</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">intercept</span> <span class="ow">and</span> <span class="p">(</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="n">time_effect</span><span class="p">):</span>
             <span class="kn">import</span> <span class="nn">warnings</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Intercept must be False when using entity or time effects.&#39;</span><span class="p">)</span>
@@ -300,17 +245,16 @@
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">a2d</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">a2d</span>
-        <span class="k">return</span></div>
-        <span class="c1"># if self.intercept:</span>
-        <span class="c1">#     x = np.c_[np.ones((x.shape[0], 1)), x]</span>
-        <span class="c1"># if self.entity_effect:</span>
-        <span class="c1">#     y = EntityEffect(y).orthogonalize()</span>
-        <span class="c1">#     x = EntityEffect(x).orthogonalize()</span>
-        <span class="c1"># if self.time_effect:</span>
-        <span class="c1">#     y = TimeEffect(y).orthogonalize()</span>
-        <span class="c1">#     x = TimeEffect(x).orthogonalize()</span>
-        <span class="c1">#</span>
-        <span class="c1"># return pinv(x) @ y</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">x</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">EntityEffect</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">orthogonalize</span><span class="p">()</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">EntityEffect</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">orthogonalize</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">TimeEffect</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">orthogonalize</span><span class="p">()</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">TimeEffect</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">orthogonalize</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">pinv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span></div>
 
 
 <div class="viewcode-block" id="BetweenOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.BetweenOLS">[docs]</a><span class="k">class</span> <span class="nc">BetweenOLS</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
@@ -337,12 +281,15 @@
 <span class="sd">    :math:`\bar{z}` is the time-average.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">BetweenOLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BetweenOLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="n">intercept</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">a3d</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">a3d</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">a3d</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">a3d</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">x</span><span class="p">]</span>
+
         <span class="k">return</span> <span class="n">pinv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span></div>
 
 
@@ -365,8 +312,8 @@
 <span class="sd">        \Delta y_{it}=\beta^{\prime}\Delta x_{it}+\Delta\epsilon_{it}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">FirstDifferenceOLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FirstDifferenceOLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">endog</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="n">intercept</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">a3d</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -374,9 +321,6 @@
         <span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">nitems</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">nobs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">nvar</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">k</span><span class="p">))</span>
-        <span class="n">missing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="o">~</span><span class="n">missing</span><span class="p">]</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">missing</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">pinv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span></div>
 </pre></div>
 
@@ -414,7 +358,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0+1.gaa72f36',
+            VERSION:'1.0+2.g60e6b01',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
