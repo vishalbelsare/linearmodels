@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Basic Examples &mdash; linearmodels 1.0+11.g0a0cc0f documentation</title>
+  <title>Basic Examples &mdash; linearmodels 1.0+13.g4216631 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="linearmodels 1.0+11.g0a0cc0f documentation" href="../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+13.g4216631 documentation" href="../../index.html"/>
         <link rel="up" title="Instrumental Variable Estimation" href="../index.html"/>
         <link rel="next" title="Further Examples" href="advanced-examples.html"/>
         <link rel="prev" title="Introduction" href="../introduction.html"/> 
@@ -98,6 +98,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Basic Examples</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Wages-of-Married-Women">Wages of Married Women</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Wages-of-Men">Wages of Men</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Weighted-IV">Weighted IV</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Smoking-and-birth-weight">Smoking and birth weight</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Proximity-and-education">Proximity and education</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Formula-interface">Formula interface</a></li>
@@ -469,7 +470,7 @@ Dep. Variable:                   wage   R-squared:                      0.1179
 Estimator:                        OLS   Adj. R-squared:                 0.1158
 No. Observations:                 428   F-statistic:                    57.196
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
-Time:                        00:49:00   Distribution:                  chi2(1)
+Time:                        18:01:26   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -511,7 +512,7 @@ Dep. Variable:                   educ   R-squared:                      0.1726
 Estimator:                        OLS   Adj. R-squared:                 0.1706
 No. Observations:                 428   F-statistic:                    89.258
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
-Time:                        00:49:01   Distribution:                  chi2(1)
+Time:                        18:01:27   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -547,7 +548,7 @@ Dep. Variable:                   wage   R-squared:                      0.0934
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.0913
 No. Observations:                 428   F-statistic:                    2.8487
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0914
-Time:                        00:49:01   Distribution:                  chi2(1)
+Time:                        18:01:27   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -627,7 +628,7 @@ number of siblings as an instrument.</p>
 <span></span><span class="kn">from</span> <span class="nn">linearmodels.datasets</span> <span class="kn">import</span> <span class="n">wage</span>
 <span class="n">men</span> <span class="o">=</span> <span class="n">wage</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 <span class="k">print</span><span class="p">(</span><span class="n">wage</span><span class="o">.</span><span class="n">DESCR</span><span class="p">)</span>
-<span class="n">men</span> <span class="o">=</span> <span class="n">men</span><span class="p">[[</span><span class="s1">&#39;educ&#39;</span><span class="p">,</span><span class="s1">&#39;wage&#39;</span><span class="p">,</span><span class="s1">&#39;sibs&#39;</span><span class="p">]]</span>
+<span class="n">men</span> <span class="o">=</span> <span class="n">men</span><span class="p">[[</span><span class="s1">&#39;educ&#39;</span><span class="p">,</span><span class="s1">&#39;wage&#39;</span><span class="p">,</span><span class="s1">&#39;sibs&#39;</span><span class="p">,</span><span class="s1">&#39;exper&#39;</span><span class="p">]]</span>
 <span class="n">men</span> <span class="o">=</span> <span class="n">add_constant</span><span class="p">(</span><span class="n">men</span><span class="p">)</span>
 <span class="n">men</span> <span class="o">=</span> <span class="n">men</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
 </pre></div>
@@ -686,7 +687,7 @@ Dep. Variable:                   wage   R-squared:                      0.0973
 Estimator:                        OLS   Adj. R-squared:                 0.0964
 No. Observations:                 934   F-statistic:                    100.71
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
-Time:                        00:49:01   Distribution:                  chi2(1)
+Time:                        18:01:27   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -722,7 +723,7 @@ Dep. Variable:                   educ   R-squared:                      0.0576
 Estimator:                        OLS   Adj. R-squared:                 0.0566
 No. Observations:                 934   F-statistic:                    57.107
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
-Time:                        00:49:01   Distribution:                  chi2(1)
+Time:                        18:01:27   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -758,7 +759,7 @@ Dep. Variable:                   wage   R-squared:                     -0.0090
 Estimator:                    IV-2SLS   Adj. R-squared:                -0.0101
 No. Observations:                 934   F-statistic:                    21.715
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
-Time:                        00:49:01   Distribution:                  chi2(1)
+Time:                        18:01:27   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -776,13 +777,104 @@ Debiased: False
 </pre></div></div>
 </div>
 </div>
+<div class="section" id="Weighted-IV">
+<h2>Weighted IV<a class="headerlink" href="#Weighted-IV" title="Permalink to this headline">¶</a></h2>
+<p>All IV estimator support weighted which extends the concept of WLS in an
+OLS model to IV estimation. The weights are applied to the dependent
+variables, the matrix of regressors (endogenous and exogenous) and the
+matrix of instrument (exogenous and instruments) which allows for
+GLS-type estimation. In particular, if the variance of model residuals
+was <span class="math">\(\sigma^2_i\)</span>, then setting <span class="math">\(w_i = 1 / \sigma^2_i\)</span>
+would produce GLS estimates.</p>
+<p>This example shows how a feasible GLS-type of estimator could be used.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">res2</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">resids</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">fgls_mod</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">res2</span><span class="p">),</span> <span class="n">men</span><span class="p">[[</span><span class="s1">&#39;const&#39;</span><span class="p">,</span><span class="s1">&#39;sibs&#39;</span><span class="p">,</span><span class="s1">&#39;exper&#39;</span><span class="p">]],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">fgls_res</span> <span class="o">=</span> <span class="n">fgls_mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">sigma2_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">res2</span><span class="p">)</span> <span class="o">-</span> <span class="n">fgls_res</span><span class="o">.</span><span class="n">resids</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fgls_res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                            OLS Estimation Summary
+==============================================================================
+Dep. Variable:               residual   R-squared:                      0.0045
+Estimator:                        OLS   Adj. R-squared:                 0.0024
+No. Observations:                 934   F-statistic:                    3.9903
+Date:                Mon, Mar 20 2017   P-value (F-stat)                0.1360
+Time:                        18:01:27   Distribution:                  chi2(2)
+Cov. Estimator:                robust
+
+                             Parameter Estimates
+==============================================================================
+           Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+const         -2.9315     0.2224    -13.179     0.0000     -3.3675     -2.4956
+sibs          -0.0651     0.0335    -1.9452     0.0518     -0.1307      0.0005
+exper          0.0084     0.0158     0.5311     0.5953     -0.0226      0.0394
+==============================================================================
+</pre></div></div>
+</div>
+<p>The variance of the squared residuals isn&#8217;t particulrly well explained
+by the data, and so the GLS-type estimates and the usual IV estimates
+don&#8217;t differ by much.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">res_gls</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">men</span><span class="o">.</span><span class="n">wage</span><span class="p">),</span> <span class="n">men</span><span class="o">.</span><span class="n">const</span><span class="p">,</span> <span class="n">men</span><span class="o">.</span><span class="n">educ</span><span class="p">,</span> <span class="n">men</span><span class="o">.</span><span class="n">sibs</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">sigma2_hat</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res_gls</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                          IV-2SLS Estimation Summary
+==============================================================================
+Dep. Variable:                   wage   R-squared:                      0.0090
+Estimator:                    IV-2SLS   Adj. R-squared:                 0.0080
+No. Observations:                 934   F-statistic:                    23.520
+Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
+Time:                        18:01:27   Distribution:                  chi2(1)
+Cov. Estimator:            unadjusted
+
+                             Parameter Estimates
+==============================================================================
+           Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+const          5.2031     0.3231     16.105     0.0000      4.5699      5.8363
+educ           0.1166     0.0241     4.8497     0.0000      0.0695      0.1638
+==============================================================================
+
+Endogenous: educ
+Instruments: sibs
+Unadjusted Covariance (Homoskedastic)
+Debiased: False
+</pre></div></div>
+</div>
+</div>
 <div class="section" id="Smoking-and-birth-weight">
 <h2>Smoking and birth weight<a class="headerlink" href="#Smoking-and-birth-weight" title="Permalink to this headline">¶</a></h2>
 <p>This example examines the effect of smoking on the birth weight of
 babies.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -825,7 +917,7 @@ price. There is a very weak relationship &#8211; so weak that this is an
 example of a _weak instrument.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -845,7 +937,7 @@ Dep. Variable:                  packs   R-squared:                      0.0015
 Estimator:                        OLS   Adj. R-squared:                 0.0008
 No. Observations:                1388   F-statistic:                    2.0731
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.1499
-Time:                        00:49:01   Distribution:                  chi2(1)
+Time:                        18:01:27   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -863,7 +955,7 @@ warranted to interpret the results. Note the very negative <span class="math">\(
 (-150%).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -883,7 +975,7 @@ Dep. Variable:                  bwght   R-squared:                     -1.5224
 Estimator:                    IV-2SLS   Adj. R-squared:                -1.5242
 No. Observations:                1388   F-statistic:                    1.1356
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.2866
-Time:                        00:49:01   Distribution:                  chi2(1)
+Time:                        18:01:28   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -907,7 +999,7 @@ Debiased: False
 year college as an instrument for education.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [13]:
+<span></span>In [15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -970,7 +1062,7 @@ xpersq                   exper**2
 missing values are dropped.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -989,7 +1081,7 @@ interpreted. It is better to use the <code class="docutils literal"><span class=
 2SLS estimate.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1009,7 +1101,7 @@ Dep. Variable:                   educ   R-squared:                      0.4771
 Estimator:                        OLS   Adj. R-squared:                 0.4745
 No. Observations:                3010   F-statistic:                    3693.4
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
-Time:                        00:49:02   Distribution:                 chi2(15)
+Time:                        18:01:28   Distribution:                 chi2(15)
 Cov. Estimator:                robust
 
                              Parameter Estimates
@@ -1038,7 +1130,7 @@ reg669         0.2103     0.1988     1.0575     0.2903     -0.1794      0.6000
 <p>The OLS estimate indicates an increase of 7% for a year of education.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [16]:
+<span></span>In [18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1058,7 +1150,7 @@ Dep. Variable:                   wage   R-squared:                      0.2998
 Estimator:                        OLS   Adj. R-squared:                 0.2963
 No. Observations:                3010   F-statistic:                    1377.0
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
-Time:                        00:49:02   Distribution:                 chi2(15)
+Time:                        18:01:28   Distribution:                 chi2(15)
 Cov. Estimator:                robust
 
                              Parameter Estimates
@@ -1089,7 +1181,7 @@ reason to be concerned about the strength of the instrument despite the
 F-statistic in the first stage regression.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [17]:
+<span></span>In [19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1109,7 +1201,7 @@ Dep. Variable:                   wage   R-squared:                      0.2382
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.2343
 No. Observations:                3010   F-statistic:                    840.83
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
-Time:                        00:49:02   Distribution:                 chi2(15)
+Time:                        18:01:28   Distribution:                 chi2(15)
 Cov. Estimator:                robust
 
                              Parameter Estimates
@@ -1151,7 +1243,7 @@ single instrument.</p>
 is only worth 0.3 years of education on average.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [18]:
+<span></span>In [20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1228,7 +1320,7 @@ instrumental variables. The generic form is</p>
 DataFrames by differencing the <span class="math">\(R^2\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [19]:
+<span></span>In [21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1258,7 +1350,7 @@ categorical from the region dummies and then uses it instead of the
 individual dummies. The model is identical.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [20]:
+<span></span>In [22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1284,7 +1376,7 @@ Dep. Variable:                   wage   R-squared:                      0.2382
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.2343
 No. Observations:                3010   F-statistic:                    840.83
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
-Time:                        00:49:04   Distribution:                 chi2(15)
+Time:                        18:01:29   Distribution:                 chi2(15)
 Cov. Estimator:                robust
 
                              Parameter Estimates
@@ -1323,7 +1415,7 @@ endogeneity and to examine if instruments are valid (when there are more
 instruments than endogenous variables).</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [21]:
+<span></span>In [23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1341,7 +1433,7 @@ instruments than endogenous variables).</p>
 <p>The first step is to fit the model using 2SLS.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [22]:
+<span></span>In [24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1361,7 +1453,7 @@ Dep. Variable:                 lnwage   R-squared:                      0.1357
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.1296
 No. Observations:                 428   F-statistic:                    24.653
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
-Time:                        00:49:04   Distribution:                  chi2(3)
+Time:                        18:01:29   Distribution:                  chi2(3)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -1387,7 +1479,7 @@ actually exogenous these residuals should not be correlated with the
 variable of interest.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [23]:
+<span></span>In [25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1397,7 +1489,7 @@ variable of interest.</p>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[23]:
+<span></span>Out[25]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -1406,7 +1498,7 @@ H0: Endogenous variables are exogenous
 Statistic: 2.8256
 P-value: 0.0928
 Distributed: chi2(1)
-WaldTestStatistic, id: 0x2aafb29b5390
+WaldTestStatistic, id: 0x2b53014db390
 </pre></div>
 </div>
 </div>
@@ -1417,7 +1509,7 @@ including the residuals.</p>
 P-value of the previous test &#8211; this is not an accident.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [24]:
+<span></span>In [26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1439,7 +1531,7 @@ Dep. Variable:                 lnwage   R-squared:                      0.1624
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.1544
 No. Observations:                 428   F-statistic:                    82.954
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
-Time:                        00:49:04   Distribution:                  chi2(4)
+Time:                        18:01:29   Distribution:                  chi2(4)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -1466,7 +1558,7 @@ instruments, which should be the case if the model is correct and the
 instruments aren&#8217;t needed in the original model.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [25]:
+<span></span>In [27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1476,7 +1568,7 @@ instruments aren&#8217;t needed in the original model.</p>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[25]:
+<span></span>Out[27]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -1485,7 +1577,7 @@ H0: Model is not overidentified.
 Statistic: 0.4435
 P-value: 0.5055
 Distributed: chi2(1)
-WaldTestStatistic, id: 0x2aafb29b5ba8
+WaldTestStatistic, id: 0x2b52f2fc2b70
 </pre></div>
 </div>
 </div>
@@ -1494,7 +1586,7 @@ implementation is different from the formal test but would be consistent
 if the model was overidentified.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [26]:
+<span></span>In [28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1508,7 +1600,7 @@ distribution. The test statistic is slightly smaller but the conclusions
 are the same.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [27]:
+<span></span>In [29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1518,7 +1610,7 @@ are the same.</p>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[27]:
+<span></span>Out[29]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -1530,7 +1622,7 @@ are the same.</p>
 validity tested.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [28]:
+<span></span>In [30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1543,7 +1635,7 @@ validity tested.</p>
 previous result.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [29]:
+<span></span>In [31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1553,7 +1645,7 @@ previous result.</p>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[29]:
+<span></span>Out[31]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -1562,14 +1654,14 @@ H0: Model is not overidentified.
 Statistic: 1.0421
 P-value: 0.5939
 Distributed: chi2(2)
-WaldTestStatistic, id: 0x2aafb29434a8
+WaldTestStatistic, id: 0x2b52c4d30518
 </pre></div>
 </div>
 </div>
 <p>Directly testing using two regression would reach the same conclusion.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [30]:
+<span></span>In [32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1581,7 +1673,7 @@ WaldTestStatistic, id: 0x2aafb29434a8
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[30]:
+<span></span>Out[32]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -1597,7 +1689,7 @@ example makes use of first differences to eliminate a year-specific
 effect and then uses</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [31]:
+<span></span>In [33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1708,7 +1800,7 @@ max      0.568912       0.0  107.02780    4.394449
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [32]:
+<span></span>In [34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1740,7 +1832,7 @@ and the number of hours employed. Note that grant is a dummy and so the
 coefficient is just the difference in means.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [33]:
+<span></span>In [35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1760,7 +1852,7 @@ Dep. Variable:                 hrsemp   R-squared:                      0.3408
 Estimator:                        OLS   Adj. R-squared:                 0.3255
 No. Observations:                  45   F-statistic:                    23.266
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0000
-Time:                        00:49:06   Distribution:                  chi2(1)
+Time:                        18:01:30   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -1776,7 +1868,7 @@ grant          24.437     5.0662     4.8235     0.0000      14.507      34.367
 that the <code class="docutils literal"><span class="pre">[]</span></code> contains the endogenous variables and instruments.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [34]:
+<span></span>In [36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1797,7 +1889,7 @@ Dep. Variable:                 lscrap   R-squared:                      0.0159
 Estimator:                    IV-2SLS   Adj. R-squared:                -0.0070
 No. Observations:                  45   F-statistic:                    3.3464
 Date:                Mon, Mar 20 2017   P-value (F-stat)                0.0674
-Time:                        00:49:06   Distribution:                  chi2(1)
+Time:                        18:01:30   Distribution:                  chi2(1)
 Cov. Estimator:            unadjusted
 
                              Parameter Estimates
@@ -1818,7 +1910,7 @@ Debiased: False
 slightly more significant.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [35]:
+<span></span>In [37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1903,7 +1995,7 @@ T-stats reported in parentheses
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0+11.g0a0cc0f',
+            VERSION:'1.0+13.g4216631',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
