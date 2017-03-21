@@ -4,6 +4,7 @@ doc/_modules/linearmodels/iv/gmm.html
 doc/_modules/linearmodels/iv/model.html
 doc/_modules/linearmodels/iv/results.html
 doc/_modules/linearmodels/panel/covariance.html
+doc/_modules/linearmodels/panel/data.html
 doc/_modules/linearmodels/panel/model.html
 doc/_modules/linearmodels/utility.html
 doc/_sources/index.rst.txt
@@ -19,6 +20,7 @@ doc/_sources/iv/methods.rst.txt
 doc/_sources/iv/reference.rst.txt
 doc/_sources/iv/results.rst.txt
 doc/_sources/panel/covariance.rst.txt
+doc/_sources/panel/data.rst.txt
 doc/_sources/panel/models.rst.txt
 doc/_sources/panel/panel.rst.txt
 doc/_sources/plan.rst.txt
@@ -72,6 +74,7 @@ doc/iv/reference.html
 doc/iv/results.html
 doc/objects.inv
 doc/panel/covariance.html
+doc/panel/data.html
 doc/panel/models.html
 doc/panel/panel.html
 doc/plan.html
