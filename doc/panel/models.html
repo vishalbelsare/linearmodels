@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 1.0+22.ge34d58d documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 1.0+24.g25c61d9 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+22.ge34d58d documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+24.g25c61d9 documentation" href="../index.html"/>
         <link rel="up" title="Panel Module Reference" href="panel.html"/>
         <link rel="next" title="Covariance Estimators" href="covariance.html"/>
         <link rel="prev" title="Panel Module Reference" href="panel.html"/> 
@@ -205,7 +205,7 @@
 <span id="models-for-panel-data"></span><h1>Models for Panel Data<a class="headerlink" href="#module-linearmodels.panel.model" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-linearmodels.panel.model"></span><dl class="class">
 <dt id="linearmodels.panel.model.BetweenOLS">
-<em class="property">class </em><code class="descname">BetweenOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">BetweenOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -227,7 +227,7 @@
 
 <dl class="class">
 <dt id="linearmodels.panel.model.FirstDifferenceOLS">
-<em class="property">class </em><code class="descname">FirstDifferenceOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FirstDifferenceOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">FirstDifferenceOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FirstDifferenceOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -248,7 +248,7 @@
 
 <dl class="class">
 <dt id="linearmodels.panel.model.PanelOLS">
-<em class="property">class </em><code class="descname">PanelOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>entity_effect=False</em>, <em>time_effect=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">PanelOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em>, <em>entity_effect=False</em>, <em>time_effect=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -274,7 +274,7 @@
 
 <dl class="class">
 <dt id="linearmodels.panel.model.PooledOLS">
-<em class="property">class </em><code class="descname">PooledOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PooledOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PooledOLS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">PooledOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PooledOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PooledOLS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimation of linear model with pooled parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -340,7 +340,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+22.ge34d58d',
+            VERSION:'1.0+24.g25c61d9',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
