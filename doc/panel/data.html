@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Panel Data Structures &mdash; linearmodels 1.0+38.g51cb870 documentation</title>
+  <title>Panel Data Structures &mdash; linearmodels 1.0+41.g374e68c documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+38.g51cb870 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+41.g374e68c documentation" href="../index.html"/>
         <link rel="up" title="Panel Module Reference" href="panel.html"/>
         <link rel="next" title="Utilities" href="../utility.html"/>
         <link rel="prev" title="Covariance Estimators" href="covariance.html"/> 
@@ -212,7 +212,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x</strong> (<em>{ndarray</em><em>, </em><em>Series</em><em>, </em><em>DataFrame</em><em>, </em><em>DataArray}</em>) &#8211; Input data, either 2 or 3 dimensaional</li>
+<li><strong>x</strong> (<em>{ndarray</em><em>, </em><em>Series</em><em>, </em><em>DataFrame</em><em>, </em><em>DataArray}</em>) &#8211; Input data, either 2 or 3 dimensional</li>
 <li><strong>var_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name to use when generating labels for the variables in the data</li>
 <li><strong>convert_categoricals</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether categorical or string variables should be
 converted to dummies</li>
@@ -253,20 +253,29 @@ DataFrame does not have 2 levels</li>
 </table>
 <dl class="method">
 <dt id="linearmodels.panel.data.PanelData.demean">
-<code class="descname">demean</code><span class="sig-paren">(</span><em>group='entity'</em>, <em>drop_first=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.demean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.demean" title="Permalink to this definition">¶</a></dt>
+<code class="descname">demean</code><span class="sig-paren">(</span><em>group='entity'</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.demean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.demean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Demeans data by either entity or time group</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>group</strong> (<em>{'entity'</em><em>, </em><em>'time'}</em>) &#8211; Group to use in demeaning</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>group</strong> (<em>{'entity'</em><em>, </em><em>'time'}</em>) &#8211; Group to use in demeaning</li>
+<li><strong>weights</strong> (<a class="reference internal" href="#linearmodels.panel.data.PanelData" title="linearmodels.panel.data.PanelData"><em>PanelData</em></a><em>, </em><em>optional</em>) &#8211; Weights to implement weighted averaging</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>demeaned</strong> &#8211; Demeaned data according to type</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>demeaned</strong> &#8211; Demeaned data according to type</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#linearmodels.panel.data.PanelData" title="linearmodels.panel.data.PanelData">PanelData</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#linearmodels.panel.data.PanelData" title="linearmodels.panel.data.PanelData">PanelData</a></p>
+</td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>If weights are provided, the values returned will be scaled by
+sqrt(weights) so that they can be used in WLS estimation.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -303,17 +312,23 @@ DataFrame does not have 2 levels</li>
 
 <dl class="method">
 <dt id="linearmodels.panel.data.PanelData.mean">
-<code class="descname">mean</code><span class="sig-paren">(</span><em>group='entity'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.mean" title="Permalink to this definition">¶</a></dt>
+<code class="descname">mean</code><span class="sig-paren">(</span><em>group='entity'</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.mean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute data mean by either entity or time group</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>group</strong> (<em>{'entity'</em><em>, </em><em>'time'}</em>) &#8211; Group to use in demeaning</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>group</strong> (<em>{'entity'</em><em>, </em><em>'time'}</em>) &#8211; Group to use in demeaning</li>
+<li><strong>weights</strong> (<a class="reference internal" href="#linearmodels.panel.data.PanelData" title="linearmodels.panel.data.PanelData"><em>PanelData</em></a><em>, </em><em>optional</em>) &#8211; Weights to implement weighted averaging</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>mean</strong> &#8211; Data mean according to type. Either (entity by var) or (time by var)</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>mean</strong> &#8211; Data mean according to type. Either (entity by var) or (time by var)</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">DataFrame</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">DataFrame</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -383,7 +398,7 @@ DataFrame does not have 2 levels</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+38.g51cb870',
+            VERSION:'1.0+41.g374e68c',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
