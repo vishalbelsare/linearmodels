@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 1.0+43.gda256a0 documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 1.0+45.g84070e8 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 1.0+43.gda256a0 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+45.g84070e8 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -290,7 +290,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
             <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span>
-        
+
+        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,:]</span> <span class="o">=</span> <span class="n">w</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_constant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant_index</span> <span class="o">=</span> <span class="n">has_constant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">matrix_rank</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;exog does not have full column rank.&#39;</span><span class="p">)</span>
@@ -312,7 +316,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_effect</span>
     
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">na_action</span> <span class="o">=</span> <span class="n">NAAction</span><span class="p">(</span><span class="n">on_NA</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">,</span> <span class="n">NA_types</span><span class="o">=</span><span class="p">[])</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">parts</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
@@ -337,7 +341,7 @@
         <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span> <span class="o">=</span> <span class="n">dmatrices</span><span class="p">(</span><span class="n">mod_descr</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">dataframe</span><span class="p">,</span>
                                     <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;dataframe&#39;</span><span class="p">,</span> <span class="n">NA_action</span><span class="o">=</span><span class="n">na_action</span><span class="p">)</span>
         <span class="n">mod</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">entity_effect</span><span class="o">=</span><span class="n">entity_effect</span><span class="p">,</span>
-                  <span class="n">time_effect</span><span class="o">=</span><span class="n">time_effect</span><span class="p">)</span>
+                  <span class="n">time_effect</span><span class="o">=</span><span class="n">time_effect</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
         <span class="n">mod</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span>
         <span class="k">return</span> <span class="n">mod</span>
     
@@ -446,7 +450,8 @@
         <span class="n">params</span> <span class="o">=</span> <span class="n">lstsq</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">df_resid</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">neffects</span>
         <span class="n">cov</span> <span class="o">=</span> <span class="n">HomoskedasticCovariance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">)</span>
-        <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
+        <span class="c1"># TODO: Weighted eps</span>
+        <span class="n">weps</span> <span class="o">=</span> <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
         <span class="n">resid_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">eps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">eps</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_effect</span><span class="p">:</span>
             <span class="n">mu</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
@@ -456,7 +461,7 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
         <span class="c1"># TODO: Fix R2 definitions for multiple effects</span>
         <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">neffects</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                        <span class="n">residual_ss</span><span class="o">=</span><span class="n">resid_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">))</span>
+                        <span class="n">residual_ss</span><span class="o">=</span><span class="n">resid_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">wresid</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span> <span class="n">resid</span><span class="o">=</span><span class="n">eps</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">PanelResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
 
@@ -502,7 +507,7 @@
         <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">w</span>
     
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">na_action</span> <span class="o">=</span> <span class="n">NAAction</span><span class="p">(</span><span class="n">on_NA</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">,</span> <span class="n">NA_types</span><span class="o">=</span><span class="p">[])</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">parts</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
@@ -510,7 +515,7 @@
         <span class="n">cln_formula</span> <span class="o">=</span> <span class="s1">&#39;~&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
         <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span> <span class="o">=</span> <span class="n">dmatrices</span><span class="p">(</span><span class="n">cln_formula</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">dataframe</span><span class="p">,</span>
                                     <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;dataframe&#39;</span><span class="p">,</span> <span class="n">NA_action</span><span class="o">=</span><span class="n">na_action</span><span class="p">)</span>
-        <span class="n">mod</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">)</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
         <span class="n">mod</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span>
         <span class="k">return</span> <span class="n">mod</span>
     
@@ -537,8 +542,8 @@
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">root_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
-        <span class="n">wx</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">x</span>
-        <span class="n">wy</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">y</span>
+        <span class="n">wx</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="n">wy</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">y</span>
         
         <span class="n">params</span> <span class="o">=</span> <span class="n">lstsq</span><span class="p">(</span><span class="n">wx</span><span class="p">,</span> <span class="n">wy</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         
@@ -548,17 +553,19 @@
         <span class="n">cov_denom</span> <span class="o">=</span> <span class="n">nobs</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">debiased</span> <span class="k">else</span> <span class="n">df_resid</span>
         <span class="n">cov</span> <span class="o">=</span> <span class="n">HomoskedasticCovariance</span><span class="p">(</span><span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_denom</span><span class="p">)</span>
         <span class="n">weps</span> <span class="o">=</span> <span class="n">wy</span> <span class="o">-</span> <span class="n">wx</span> <span class="o">@</span> <span class="n">params</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
         <span class="n">residual_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">weps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">weps</span><span class="p">)</span>
         <span class="n">e</span> <span class="o">=</span> <span class="n">y</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant</span><span class="p">:</span>
-            <span class="n">e</span> <span class="o">=</span> <span class="n">e</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">root_w</span><span class="p">)</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">e</span> <span class="o">-</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
         
         <span class="n">total_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">e</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
         <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">residual_ss</span> <span class="o">/</span> <span class="n">total_ss</span>
         
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
         <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">df_model</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                        <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">))</span>
+                        <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">wresid</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span>
+                        <span class="n">resid</span><span class="o">=</span><span class="n">eps</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">PanelResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
 
@@ -621,24 +628,25 @@
         <span class="n">cov_denom</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">debiased</span> <span class="k">else</span> <span class="n">df_resid</span>
         <span class="n">cov</span> <span class="o">=</span> <span class="n">HomoskedasticCovariance</span><span class="p">(</span><span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_denom</span><span class="p">)</span>
         <span class="n">weps</span> <span class="o">=</span> <span class="n">wy</span> <span class="o">-</span> <span class="n">wx</span> <span class="o">@</span> <span class="n">params</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
         <span class="n">residual_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">weps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">weps</span><span class="p">)</span>
         <span class="c1"># TODO: Explain this formula</span>
         <span class="n">e</span> <span class="o">=</span> <span class="n">y</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant</span><span class="p">:</span>
-            <span class="n">e</span> <span class="o">=</span> <span class="n">e</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">root_w</span><span class="p">)</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">e</span> <span class="o">-</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
         
         <span class="n">total_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">e</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
         <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">residual_ss</span> <span class="o">/</span> <span class="n">total_ss</span>
         
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
         <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">df_model</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">,</span>
-                        <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">))</span>
+                        <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">wresid</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span> <span class="n">resid</span><span class="o">=</span><span class="n">eps</span><span class="p">))</span>
         
         <span class="k">return</span> <span class="n">PanelResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
     
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">BetweenOLS</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">BetweenOLS</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="FirstDifferenceOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.FirstDifferenceOLS">[docs]</a><span class="k">class</span> <span class="nc">FirstDifferenceOLS</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
@@ -690,19 +698,21 @@
         <span class="n">cov</span> <span class="o">=</span> <span class="n">HomoskedasticCovariance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_denom</span><span class="p">)</span>
         
         <span class="n">weps</span> <span class="o">=</span> <span class="n">wy</span> <span class="o">-</span> <span class="n">wx</span> <span class="o">@</span> <span class="n">params</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
         <span class="n">residual_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">weps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">weps</span><span class="p">)</span>
         <span class="n">total_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
         <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">residual_ss</span> <span class="o">/</span> <span class="n">total_ss</span>
         
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
         <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nobs</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                        <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">))</span>
+                        <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span>
+                        <span class="n">resid</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">wresid</span><span class="o">=</span><span class="n">weps</span><span class="p">))</span>
         
         <span class="k">return</span> <span class="n">PanelResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
     
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">FirstDifferenceOLS</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">FirstDifferenceOLS</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -739,7 +749,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0+43.gda256a0',
+            VERSION:'1.0+45.g84070e8',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
