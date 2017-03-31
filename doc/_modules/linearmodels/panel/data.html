@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.data &mdash; linearmodels 1.0+41.g374e68c documentation</title>
+  <title>linearmodels.panel.data &mdash; linearmodels 1.0+43.gda256a0 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 1.0+41.g374e68c documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+43.gda256a0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -388,11 +388,15 @@
             <span class="n">delta</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">mu</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">w</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">values3d</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="n">root_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
-            <span class="n">vw</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">v</span>
-            <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+            <span class="n">rootwv</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">v</span>
+            <span class="n">wv</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">v</span>
+           
+            <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">wv</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
             <span class="n">mu</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-            <span class="n">delta</span> <span class="o">=</span> <span class="n">vw</span> <span class="o">-</span> <span class="n">mu</span>
+            <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+            <span class="n">delta</span> <span class="o">=</span> <span class="n">rootwv</span> <span class="o">-</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">mu</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Panel</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span>
                        <span class="n">items</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">items</span><span class="p">,</span>
                        <span class="n">major_axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">major_axis</span><span class="p">,</span>
@@ -407,7 +411,20 @@
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39; object, id: &#39;</span> <span class="o">+</span> <span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
     
-    <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;entity&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="PanelData.count"><a class="viewcode-back" href="../../../panel/data.html#linearmodels.panel.data.PanelData.count">[docs]</a>    <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;entity&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Count number of observations by entity or time</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : {&#39;entity&#39;, &#39;time&#39;}</span>
+<span class="sd">            Group to use in demeaning</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        count : DataFrame</span>
+<span class="sd">            Counts according to type. Either (entity by var) or (time by var)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">values</span>
         <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;entity&#39;</span> <span class="k">else</span> <span class="mi">2</span>
         <span class="n">count</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
@@ -415,8 +432,8 @@
         <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">minor_axis</span> <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;entity&#39;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">major_axis</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">count</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
         <span class="n">reindex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;entity&#39;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">reindex</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">out</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">reindex</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
     
 <div class="viewcode-block" id="PanelData.mean"><a class="viewcode-back" href="../../../panel/data.html#linearmodels.panel.data.PanelData.mean">[docs]</a>    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -440,7 +457,9 @@
             <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">w</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">values3d</span>
-            <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">wv</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">v</span>
+            <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">wv</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
             <span class="n">mu</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
         
         <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">minor_axis</span> <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;entity&#39;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">major_axis</span>
@@ -474,13 +493,16 @@
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">index_cols</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span>
     
-    <span class="k">def</span> <span class="nf">dummies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">iterator</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="n">ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_ids</span> <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;entity&#39;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_ids</span>
-        <span class="n">dvi</span> <span class="o">=</span> <span class="n">DummyVariableIterator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nentity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nobs</span><span class="p">,</span> <span class="n">ids</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">drop</span><span class="o">=</span><span class="n">drop_first</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">iterator</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">dvi</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">dvi</span><span class="o">.</span><span class="n">dummies</span></div>
+    <span class="k">def</span> <span class="nf">dummies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">group</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;entity&#39;</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">labels</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">levels</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="n">axis</span><span class="p">][</span><span class="n">labels</span><span class="p">[</span><span class="n">axis</span><span class="p">]])</span>
+        <span class="n">dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="n">drop_first</span><span class="p">)</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;entity&#39;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
+        <span class="k">return</span> <span class="n">dummies</span><span class="p">[[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">dummies</span><span class="p">]]</span></div>
 </pre></div>
 
            </div>
@@ -517,7 +539,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0+41.g374e68c',
+            VERSION:'1.0+43.gda256a0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

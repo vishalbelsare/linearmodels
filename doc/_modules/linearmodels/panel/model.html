@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 1.0+41.g374e68c documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 1.0+43.gda256a0 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 1.0+41.g374e68c documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+43.gda256a0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -274,7 +274,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;dependent and exog must have the same number of &#39;</span>
                              <span class="s1">&#39;observations.&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">w</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;weights must have the same number of observations as dependent.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;weights must have the same number of &#39;</span>
+                             <span class="s1">&#39;observations as dependent.&#39;</span><span class="p">)</span>
         
         <span class="n">all_missing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">missing</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">|</span>
@@ -383,8 +384,6 @@
                        <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
                        <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;Unadjusted&#39;</span><span class="p">)</span>  <span class="c1"># TODO: Fix R2 definitions for multiple effects</span>
         <span class="k">return</span> <span class="n">res</span>
-        
-        <span class="k">return</span>
     
     <span class="k">def</span> <span class="nf">_fit_lvsd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="n">constant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant</span>
@@ -403,10 +402,10 @@
             <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">ed</span><span class="p">,</span> <span class="n">td</span><span class="p">]</span>
         <span class="n">root_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">values2d</span><span class="p">)</span>
         <span class="n">wx</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">values2d</span>
-        <span class="n">wd</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">d</span>
-        <span class="k">if</span> <span class="n">constant</span> <span class="ow">and</span> <span class="n">has_effect</span><span class="p">:</span>
-            <span class="n">wd</span> <span class="o">-=</span> <span class="n">root_w</span> <span class="o">@</span> <span class="n">lstsq</span><span class="p">(</span><span class="n">root_w</span><span class="p">,</span> <span class="n">wd</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">has_effect</span><span class="p">:</span>
+            <span class="n">wd</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">d</span>
+            <span class="k">if</span> <span class="n">constant</span><span class="p">:</span>
+                <span class="n">wd</span> <span class="o">-=</span> <span class="n">root_w</span> <span class="o">@</span> <span class="n">lstsq</span><span class="p">(</span><span class="n">root_w</span><span class="p">,</span> <span class="n">wd</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">wx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">wx</span><span class="p">,</span> <span class="n">wd</span><span class="p">]</span>
         <span class="n">wy</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">lstsq</span><span class="p">(</span><span class="n">wx</span><span class="p">,</span> <span class="n">wy</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -740,7 +739,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0+41.g374e68c',
+            VERSION:'1.0+43.gda256a0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

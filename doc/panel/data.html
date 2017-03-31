@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Panel Data Structures &mdash; linearmodels 1.0+41.g374e68c documentation</title>
+  <title>Panel Data Structures &mdash; linearmodels 1.0+43.gda256a0 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+41.g374e68c documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+43.gda256a0 documentation" href="../index.html"/>
         <link rel="up" title="Panel Module Reference" href="panel.html"/>
         <link rel="next" title="Utilities" href="../utility.html"/>
         <link rel="prev" title="Covariance Estimators" href="covariance.html"/> 
@@ -252,6 +252,24 @@ DataFrame does not have 2 levels</li>
 </tbody>
 </table>
 <dl class="method">
+<dt id="linearmodels.panel.data.PanelData.count">
+<code class="descname">count</code><span class="sig-paren">(</span><em>group='entity'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count number of observations by entity or time</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>group</strong> (<em>{'entity'</em><em>, </em><em>'time'}</em>) &#8211; Group to use in demeaning</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>count</strong> &#8211; Counts according to type. Either (entity by var) or (time by var)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">DataFrame</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="linearmodels.panel.data.PanelData.demean">
 <code class="descname">demean</code><span class="sig-paren">(</span><em>group='entity'</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.demean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.demean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Demeans data by either entity or time group</p>
@@ -398,7 +416,7 @@ sqrt(weights) so that they can be used in WLS estimation.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+41.g374e68c',
+            VERSION:'1.0+43.gda256a0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
