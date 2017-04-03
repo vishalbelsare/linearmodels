@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 1.0+59.g2f3b0fb documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 1.0+61.g24ff699 documentation</title>
   
 
   
@@ -35,10 +35,10 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+59.g2f3b0fb documentation" href="../index.html"/>
-        <link rel="up" title="Panel Module Reference" href="panel.html"/>
-        <link rel="next" title="Covariance Estimators" href="covariance.html"/>
-        <link rel="prev" title="Panel Module Reference" href="panel.html"/> 
+    <link rel="top" title="linearmodels 1.0+61.g24ff699 documentation" href="../index.html"/>
+        <link rel="up" title="Module Reference" href="reference.html"/>
+        <link rel="next" title="Panel Model Covariance Estimators" href="covariance.html"/>
+        <link rel="prev" title="Module Reference" href="reference.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -94,10 +94,14 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../iv/index.html">Instrumental Variable Estimation</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="panel.html">Panel Module Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Models for Panel Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="covariance.html">Covariance Estimators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data.html">Panel Data Structures</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Panel Data Model Estimation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="reference.html">Module Reference</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Models for Panel Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="covariance.html">Panel Model Covariance Estimators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="results.html">Estimation Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data.html">Panel Data Structures</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utilities</a></li>
@@ -146,7 +150,9 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="panel.html">Panel Module Reference</a> &raquo;</li>
+          <li><a href="index.html">Panel Data Model Estimation</a> &raquo;</li>
+        
+          <li><a href="reference.html">Module Reference</a> &raquo;</li>
         
       <li>Models for Panel Data</li>
     
@@ -201,9 +207,40 @@
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="module-linearmodels.panel.model">
-<span id="models-for-panel-data"></span><h1>Models for Panel Data<a class="headerlink" href="#module-linearmodels.panel.model" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-linearmodels.panel.model"></span><dl class="class">
+<div class="section" id="models-for-panel-data">
+<h1>Models for Panel Data<a class="headerlink" href="#models-for-panel-data" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="linearmodels.panel.model.PanelOLS">
+<em class="property">class </em><code class="descname">PanelOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em>, <em>entity_effect=False</em>, <em>time_effect=False</em>, <em>other_effects=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dependent</strong> (<em>array-like</em>) &#8211; Dependent (left-hand-side) variable (time by entity)</li>
+<li><strong>exog</strong> (<em>array-like</em>) &#8211; Exogenous or right-hand-side variables (variable by time by entity).</li>
+<li><strong>entity_effect</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include entity (fixed) effects in the model</li>
+<li><strong>time_effect</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include time effects in the model</li>
+<li><strong>other_effects</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Category codes to use for any effects that are not entity or time
+effects. Each variable is treated as an effect.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The model is given by</p>
+<div class="math">
+\[y_{it}=\alpha_i + \gamma_t +\beta^{\prime}x_{it}+\epsilon_{it}\]</div>
+<p>where <span class="math">\(\alpha_i\)</span> is omitted if <code class="docutils literal"><span class="pre">entity_effect</span></code> is <code class="docutils literal"><span class="pre">False</span></code> and
+<span class="math">\(\gamma_i\)</span> is omitted if <code class="docutils literal"><span class="pre">time_effect</span></code> is <code class="docutils literal"><span class="pre">False</span></code>. If both <code class="docutils literal"><span class="pre">entity_effect</span></code>  and
+<code class="docutils literal"><span class="pre">time_effect</span></code> are <code class="docutils literal"><span class="pre">False</span></code>, the model reduces to <a class="reference internal" href="#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS"><code class="xref py py-class docutils literal"><span class="pre">PooledOLS</span></code></a>. If <code class="docutils literal"><span class="pre">other_effects</span></code>
+is provided, then additional terms are present to reflect these effects.</p>
+<p>Model supports at most 2 effects.  These can be entity-time, entity-other, time-other or
+2 other.</p>
+</dd></dl>
+
+<dl class="class">
 <dt id="linearmodels.panel.model.BetweenOLS">
 <em class="property">class </em><code class="descname">BetweenOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
@@ -243,7 +280,7 @@ heteroskedasticity robust covariance estimation.</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>results</strong> &#8211; Estimation results</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">PanelResults</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="results.html#linearmodels.panel.results.PanelResults" title="linearmodels.panel.results.PanelResults">PanelResults</a></p>
 </td>
 </tr>
 </tbody>
@@ -271,37 +308,6 @@ heteroskedasticity robust covariance estimation.</li>
 <p>The model is given by</p>
 <div class="math">
 \[\Delta y_{it}=\beta^{\prime}\Delta x_{it}+\Delta\epsilon_{it}\]</div>
-</dd></dl>
-
-<dl class="class">
-<dt id="linearmodels.panel.model.PanelOLS">
-<em class="property">class </em><code class="descname">PanelOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em>, <em>entity_effect=False</em>, <em>time_effect=False</em>, <em>other_effects=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>dependent</strong> (<em>array-like</em>) &#8211; Dependent (left-hand-side) variable (time by entity)</li>
-<li><strong>exog</strong> (<em>array-like</em>) &#8211; Exogenous or right-hand-side variables (variable by time by entity).</li>
-<li><strong>entity_effect</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include entity (fixed) effects in the model</li>
-<li><strong>time_effect</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include time effects in the model</li>
-<li><strong>other_effects</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Category codes to use for any effects that are not entity or time
-effects. Each variable is treated as an effect.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>The model is given by</p>
-<div class="math">
-\[y_{it}=\alpha_i + \gamma_t +\beta^{\prime}x_{it}+\epsilon_{it}\]</div>
-<p>where <span class="math">\(\alpha_i\)</span> is omitted if <code class="docutils literal"><span class="pre">entity_effect</span></code> is <code class="docutils literal"><span class="pre">False</span></code> and
-<span class="math">\(\gamma_i\)</span> is omitted if <code class="docutils literal"><span class="pre">time_effect</span></code> is <code class="docutils literal"><span class="pre">False</span></code>. If both <code class="docutils literal"><span class="pre">entity_effect</span></code>  and
-<code class="docutils literal"><span class="pre">time_effect</span></code> are <code class="docutils literal"><span class="pre">False</span></code>, the model reduces to <a class="reference internal" href="#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS"><code class="xref py py-class docutils literal"><span class="pre">PooledOLS</span></code></a>. If <code class="docutils literal"><span class="pre">other_effects</span></code>
-is provided, then additional terms are present to reflect these effects.</p>
-<p>Model supports at most 2 effects.  These can be entity-time, entity-other, time-other or
-2 other.</p>
 </dd></dl>
 
 <dl class="class">
@@ -338,10 +344,10 @@ is provided, then additional terms are present to reflect these effects.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="covariance.html" class="btn btn-neutral float-right" title="Covariance Estimators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="covariance.html" class="btn btn-neutral float-right" title="Panel Model Covariance Estimators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="panel.html" class="btn btn-neutral" title="Panel Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="reference.html" class="btn btn-neutral" title="Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -372,7 +378,7 @@ is provided, then additional terms are present to reflect these effects.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+59.g2f3b0fb',
+            VERSION:'1.0+61.g24ff699',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
