@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 1.0+61.g24ff699 documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 1.0+62.ge634d55 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 1.0+61.g24ff699 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+62.ge634d55 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -169,7 +169,7 @@
     <span class="n">OneWayClusteredCovariance</span>
 <span class="kn">from</span> <span class="nn">linearmodels.panel.data</span> <span class="k">import</span> <span class="n">PanelData</span>
 <span class="kn">from</span> <span class="nn">linearmodels.panel.results</span> <span class="k">import</span> <span class="n">PanelResults</span>
-<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">AttrDict</span><span class="p">,</span> <span class="n">MissingValueWarning</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">AttrDict</span><span class="p">,</span> <span class="n">InvalidTestStatistic</span><span class="p">,</span> <span class="n">MissingValueWarning</span><span class="p">,</span> <span class="n">WaldTestStatistic</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> \
     <span class="n">missing_value_warning_msg</span>
 
 
@@ -211,7 +211,6 @@
 
 
 <span class="c1"># TODO: 2 way cluster covariance</span>
-<span class="c1"># TODO: Regression F-stat</span>
 <span class="c1"># TODO: Pooled F-stat</span>
 <span class="c1"># TODO: Verify alternative R2 definitions</span>
 <span class="c1"># TODO: Bootstrap covariance</span>
@@ -411,6 +410,37 @@
         <span class="n">mod</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span>
         <span class="k">return</span> <span class="n">mod</span>
 
+    <span class="k">def</span> <span class="nf">_f_statistic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_est</span><span class="p">,</span> <span class="n">debiased</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">):</span>
+        <span class="n">sel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">invalid_f</span><span class="p">():</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Model F-statistic&#39;</span>
+            <span class="k">return</span> <span class="n">InvalidTestStatistic</span><span class="p">(</span><span class="s1">&#39;Model contains only a constant&#39;</span><span class="p">,</span>
+                                        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">invalid_f</span>
+            <span class="n">sel</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_constant_index</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">def</span> <span class="nf">deferred_f</span><span class="p">():</span>
+            <span class="n">test_params</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">sel</span><span class="p">]</span>
+            <span class="n">test_cov</span> <span class="o">=</span> <span class="n">cov_est</span><span class="o">.</span><span class="n">cov</span><span class="p">[</span><span class="n">sel</span><span class="p">][:,</span> <span class="n">sel</span><span class="p">]</span>
+            <span class="n">test_stat</span> <span class="o">=</span> <span class="n">test_params</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">test_cov</span><span class="p">)</span> <span class="o">@</span> <span class="n">test_params</span>
+            <span class="n">test_stat</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">test_stat</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">sel</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;All parameters ex. constant not zero&#39;</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Model F-statistic&#39;</span>
+
+            <span class="k">if</span> <span class="n">debiased</span><span class="p">:</span>
+                <span class="n">wald</span> <span class="o">=</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">test_stat</span> <span class="o">/</span> <span class="n">df</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">,</span>
+                                         <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">wald</span> <span class="o">=</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">test_stat</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">wald</span>
+
+        <span class="k">return</span> <span class="n">deferred_f</span>
+
     <span class="k">def</span> <span class="nf">_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">stats</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
             <span class="n">bc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
@@ -448,7 +478,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">nvar</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="c1"># Constant only fast track</span>
             <span class="k">return</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
-        
+
         <span class="c1">#############################################</span>
         <span class="c1"># R2 - Between</span>
         <span class="c1">#############################################</span>
@@ -500,10 +530,12 @@
 
         <span class="k">return</span> <span class="n">r2o</span><span class="p">,</span> <span class="n">r2w</span><span class="p">,</span> <span class="n">r2b</span>
 
-    <span class="k">def</span> <span class="nf">_postestimation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_postestimation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">):</span>
+        <span class="n">deferred_f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f_statistic</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">)</span>
         <span class="n">r2o</span><span class="p">,</span> <span class="n">r2w</span><span class="p">,</span> <span class="n">r2b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rsquared</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
         <span class="n">entity_info</span><span class="p">,</span> <span class="n">time_info</span><span class="p">,</span> <span class="n">other_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">()</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">AttrDict</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">deferred_cov</span><span class="o">=</span><span class="n">cov</span><span class="o">.</span><span class="n">deferred_cov</span><span class="p">,</span>
+                       <span class="n">deferred_f</span><span class="o">=</span><span class="n">deferred_f</span><span class="p">,</span>
                        <span class="n">debiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">vars</span><span class="p">,</span>
                        <span class="n">r2w</span><span class="o">=</span><span class="n">r2w</span><span class="p">,</span> <span class="n">r2b</span><span class="o">=</span><span class="n">r2b</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2w</span><span class="p">,</span> <span class="n">r2o</span><span class="o">=</span><span class="n">r2o</span><span class="p">,</span> <span class="n">s2</span><span class="o">=</span><span class="n">cov</span><span class="o">.</span><span class="n">s2</span><span class="p">,</span>
                        <span class="n">entity_info</span><span class="o">=</span><span class="n">entity_info</span><span class="p">,</span> <span class="n">time_info</span><span class="o">=</span><span class="n">time_info</span><span class="p">,</span>
@@ -671,7 +703,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">total_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">mu</span><span class="p">))</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">)</span>
         <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">resid_ss</span> <span class="o">/</span> <span class="n">total_ss</span>
         <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">df_model</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                         <span class="n">residual_ss</span><span class="o">=</span><span class="n">resid_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">wresid</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span> <span class="n">resid</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span>
@@ -744,7 +776,7 @@
         <span class="n">total_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">e</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
         <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">residual_ss</span> <span class="o">/</span> <span class="n">total_ss</span>
 
-        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">)</span>
         <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">df_model</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                         <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">wresid</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span>
                         <span class="n">resid</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
@@ -822,7 +854,7 @@
         <span class="n">total_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">e</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
         <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">residual_ss</span> <span class="o">/</span> <span class="n">total_ss</span>
 
-        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">)</span>
         <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">df_model</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">,</span>
                         <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">wresid</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span> <span class="n">resid</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span>
                         <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">entities</span><span class="p">))</span>
@@ -893,7 +925,7 @@
         <span class="n">total_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
         <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">residual_ss</span> <span class="o">/</span> <span class="n">total_ss</span>
 
-        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">)</span>
         <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nobs</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                         <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span>
                         <span class="n">resid</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">wresid</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">))</span>
@@ -939,7 +971,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0+61.g24ff699',
+            VERSION:'1.0+62.ge634d55',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
