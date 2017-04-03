@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Covariance Estimators &mdash; linearmodels 1.0+51.gc17274e documentation</title>
+  <title>Covariance Estimators &mdash; linearmodels 1.0+53.g745228f documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+51.gc17274e documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+53.g745228f documentation" href="../index.html"/>
         <link rel="up" title="Panel Module Reference" href="panel.html"/>
         <link rel="next" title="Panel Data Structures" href="data.html"/>
         <link rel="prev" title="Models for Panel Data" href="models.html"/> 
@@ -203,25 +203,20 @@
 </style>
 <div class="section" id="module-linearmodels.panel.covariance">
 <span id="covariance-estimators"></span><h1>Covariance Estimators<a class="headerlink" href="#module-linearmodels.panel.covariance" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-linearmodels.panel.covariance"></span><dl class="function">
-<dt id="linearmodels.panel.covariance.heteroskedastic_covariance">
-<code class="descname">heteroskedastic_covariance</code><span class="sig-paren">(</span><em>x</em>, <em>epsilon</em>, <em>*</em>, <em>debiased=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#heteroskedastic_covariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.heteroskedastic_covariance" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-linearmodels.panel.covariance"></span><dl class="class">
+<dt id="linearmodels.panel.covariance.HeteroskedasticCovariance">
+<em class="property">class </em><code class="descname">HeteroskedasticCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>df_resid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HeteroskedasticCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HeteroskedasticCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Covariance estimation using White estimator</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<em>ndarray</em>) &#8211; (entity x time) by variables stacked array of regressors</li>
-<li><strong>epsilon</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of errors</li>
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Flag indicating whether to dias adjust</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>y</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of dependent</li>
+<li><strong>x</strong> (<em>ndarray</em>) &#8211; (entity x time) by variables stacked array of exogenous</li>
+<li><strong>params</strong> (<em>ndarray</em>) &#8211; variables by 1 array of estimated model parameters</li>
+<li><strong>df_resid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; Residual degree of freedom to use when normalizing covariance</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>cov</strong> &#8211; Estimated parameter covariance</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)">array</a></p>
 </td>
 </tr>
 </tbody>
@@ -240,25 +235,20 @@
 <p>where NT is replace by NT-k if <code class="docutils literal"><span class="pre">debiased</span></code> is <code class="docutils literal"><span class="pre">True</span></code>.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="linearmodels.panel.covariance.homoskedastic_covariance">
-<code class="descname">homoskedastic_covariance</code><span class="sig-paren">(</span><em>x</em>, <em>epsilon</em>, <em>*</em>, <em>debiased=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#homoskedastic_covariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.homoskedastic_covariance" title="Permalink to this definition">¶</a></dt>
+<dl class="class">
+<dt id="linearmodels.panel.covariance.HomoskedasticCovariance">
+<em class="property">class </em><code class="descname">HomoskedasticCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>df_resid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HomoskedasticCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HomoskedasticCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Homoskedastic covariance estimation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<em>ndarray</em>) &#8211; (entity x time) by variables stacked array of regressors</li>
-<li><strong>epsilon</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of errors</li>
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Flag indicating whether to dias adjust</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>y</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of dependent</li>
+<li><strong>x</strong> (<em>ndarray</em>) &#8211; (entity x time) by variables stacked array of exogenous</li>
+<li><strong>params</strong> (<em>ndarray</em>) &#8211; variables by 1 array of estimated model parameters</li>
+<li><strong>df_resid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; Residual degree of freedom to use when normalizing covariance</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>cov</strong> &#8211; Estimated parameter covariance</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)">array</a></p>
 </td>
 </tr>
 </tbody>
@@ -276,19 +266,20 @@
 <p>where NT is replace by NT-k if <code class="docutils literal"><span class="pre">debiased</span></code> is <code class="docutils literal"><span class="pre">True</span></code>.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="linearmodels.panel.covariance.oneway_clustered_covariance">
-<code class="descname">oneway_clustered_covariance</code><span class="sig-paren">(</span><em>x</em>, <em>epsilon</em>, <em>cluster</em>, <em>*</em>, <em>debiased=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#oneway_clustered_covariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.oneway_clustered_covariance" title="Permalink to this definition">¶</a></dt>
+<dl class="class">
+<dt id="linearmodels.panel.covariance.OneWayClusteredCovariance">
+<em class="property">class </em><code class="descname">OneWayClusteredCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>df_resid</em>, <em>clusters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#OneWayClusteredCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.OneWayClusteredCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>One-way clustered (Rogers) covariance estimation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<em>ndarray</em>) &#8211; (entity x time) by variables stacked array of regressors</li>
-<li><strong>epsilon</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of errors</li>
-<li><strong>cluster</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of cluster group</li>
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Flag indicating whether to dias adjust</li>
+<li><strong>y</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of dependent</li>
+<li><strong>x</strong> (<em>ndarray</em>) &#8211; (entity x time) by variables stacked array of exogenous</li>
+<li><strong>params</strong> (<em>ndarray</em>) &#8211; variables by 1 array of estimated model parameters</li>
+<li><strong>df_resid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; Residual degree of freedom to use when normalizing covariance</li>
+<li><strong>cluster</strong> (<em>ndarray</em><em>, </em><em>optional</em>) &#8211; (entity x time) by 1 stacked array of cluster group</li>
 </ul>
 </td>
 </tr>
@@ -366,7 +357,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+51.gc17274e',
+            VERSION:'1.0+53.g745228f',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

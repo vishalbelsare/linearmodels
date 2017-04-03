@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 1.0+51.gc17274e documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 1.0+53.g745228f documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+51.gc17274e documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+53.g745228f documentation" href="../index.html"/>
         <link rel="up" title="Panel Module Reference" href="panel.html"/>
         <link rel="next" title="Covariance Estimators" href="covariance.html"/>
         <link rel="prev" title="Panel Module Reference" href="panel.html"/> 
@@ -225,16 +225,18 @@
 <p>where <span class="math">\(\bar{z}\)</span> is the time-average.</p>
 <dl class="method">
 <dt id="linearmodels.panel.model.BetweenOLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>debiased=False</em>, <em>reweight=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>reweight=False</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Flag indicating to use a debiased parameter covariance estimator</li>
 <li><strong>reweight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Flag indicating to reweight observations if the input data is
 unbalanced</li>
+<li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Either &#8216;unadjusted&#8217; for homoskedastic covariance or &#8216;robust&#8217; for
+heteroskedasticity robust covariance estimation.</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Flag indicating to use a debiased parameter covariance estimator</li>
 </ul>
 </td>
 </tr>
@@ -273,7 +275,7 @@ unbalanced</li>
 
 <dl class="class">
 <dt id="linearmodels.panel.model.PanelOLS">
-<em class="property">class </em><code class="descname">PanelOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em>, <em>entity_effect=False</em>, <em>time_effect=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">PanelOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em>, <em>entity_effect=False</em>, <em>time_effect=False</em>, <em>other_effects=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -283,6 +285,8 @@ unbalanced</li>
 <li><strong>exog</strong> (<em>array-like</em>) &#8211; Exogenous or right-hand-side variables (variable by time by entity).</li>
 <li><strong>entity_effect</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include entity (fixed) effects in the model</li>
 <li><strong>time_effect</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include time effects in the model</li>
+<li><strong>other_effects</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Category codes to use for any effects that are not entity or time
+effects. Each variable is treated as an effect.</li>
 </ul>
 </td>
 </tr>
@@ -294,7 +298,10 @@ unbalanced</li>
 \[y_{it}=\alpha_i + \gamma_t +\beta^{\prime}x_{it}+\epsilon_{it}\]</div>
 <p>where <span class="math">\(\alpha_i\)</span> is omitted if <code class="docutils literal"><span class="pre">entity_effect</span></code> is <code class="docutils literal"><span class="pre">False</span></code> and
 <span class="math">\(\gamma_i\)</span> is omitted if <code class="docutils literal"><span class="pre">time_effect</span></code> is <code class="docutils literal"><span class="pre">False</span></code>. If both <code class="docutils literal"><span class="pre">entity_effect</span></code>  and
-<code class="docutils literal"><span class="pre">time_effect</span></code> are <code class="docutils literal"><span class="pre">False</span></code>, the model reduces to <a class="reference internal" href="#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS"><code class="xref py py-class docutils literal"><span class="pre">PooledOLS</span></code></a>.</p>
+<code class="docutils literal"><span class="pre">time_effect</span></code> are <code class="docutils literal"><span class="pre">False</span></code>, the model reduces to <a class="reference internal" href="#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS"><code class="xref py py-class docutils literal"><span class="pre">PooledOLS</span></code></a>. If <code class="docutils literal"><span class="pre">other_effects</span></code>
+is provided, then additional terms are present to reflect these effects.</p>
+<p>Model supports at most 2 effects.  These can be entity-time, entity-other, time-other or
+2 other.</p>
 </dd></dl>
 
 <dl class="class">
@@ -365,7 +372,7 @@ unbalanced</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+51.gc17274e',
+            VERSION:'1.0+53.g745228f',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

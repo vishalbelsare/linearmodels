@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.covariance &mdash; linearmodels 1.0+51.gc17274e documentation</title>
+  <title>linearmodels.panel.covariance &mdash; linearmodels 1.0+53.g745228f documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 1.0+51.gc17274e documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+53.g745228f documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -162,49 +162,23 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">inv</span>
 
-
-<span class="k">class</span> <span class="nc">HomoskedasticCovariance</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">y</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">x</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="n">params</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_df_resid</span> <span class="o">=</span> <span class="n">df_resid</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">eps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">s2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">eps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">eps</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df_resid</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">cov</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">s2</span> <span class="o">*</span> <span class="n">inv</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">deferred_cov</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span>
+<span class="kn">from</span> <span class="nn">linearmodels.iv.covariance</span> <span class="k">import</span> <span class="n">_cov_cluster</span>
 
 
-<div class="viewcode-block" id="homoskedastic_covariance"><a class="viewcode-back" href="../../../panel/covariance.html#linearmodels.panel.covariance.homoskedastic_covariance">[docs]</a><span class="k">def</span> <span class="nf">homoskedastic_covariance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="HomoskedasticCovariance"><a class="viewcode-back" href="../../../panel/covariance.html#linearmodels.panel.covariance.HomoskedasticCovariance">[docs]</a><span class="k">class</span> <span class="nc">HomoskedasticCovariance</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Homoskedastic covariance estimation</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
+<span class="sd">    y : ndarray</span>
+<span class="sd">        (entity x time) by 1 stacked array of dependent</span>
 <span class="sd">    x : ndarray</span>
-<span class="sd">        (entity x time) by variables stacked array of regressors</span>
-<span class="sd">    epsilon : ndarray</span>
-<span class="sd">        (entity x time) by 1 stacked array of errors</span>
-<span class="sd">    debiased : bool</span>
-<span class="sd">        Flag indicating whether to dias adjust</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    cov : array</span>
-<span class="sd">        Estimated parameter covariance</span>
+<span class="sd">        (entity x time) by variables stacked array of exogenous</span>
+<span class="sd">    params : ndarray</span>
+<span class="sd">        variables by 1 array of estimated model parameters</span>
+<span class="sd">    df_resid : int</span>
+<span class="sd">        Residual degree of freedom to use when normalizing covariance </span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -227,32 +201,47 @@
 <span class="sd">    where NT is replace by NT-k if ``debiased`` is ``True``.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">nt</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">xpx</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span> <span class="o">/</span> <span class="n">nt</span>
-    <span class="n">xpxi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">xpx</span><span class="p">)</span>
-    <span class="n">scale</span> <span class="o">=</span> <span class="n">nt</span> <span class="o">-</span> <span class="n">k</span> <span class="k">if</span> <span class="n">debiased</span> <span class="k">else</span> <span class="n">nt</span>
-    <span class="n">s2</span> <span class="o">=</span> <span class="n">epsilon</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">epsilon</span> <span class="o">/</span> <span class="n">scale</span>
 
-    <span class="k">return</span> <span class="n">s2</span> <span class="o">*</span> <span class="p">(</span><span class="n">xpxi</span> <span class="o">+</span> <span class="n">xpxi</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_df_resid</span> <span class="o">=</span> <span class="n">df_resid</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">eps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">s2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">eps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">eps</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df_resid</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cov</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">s2</span> <span class="o">*</span> <span class="n">inv</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">deferred_cov</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span></div>
 
 
-<div class="viewcode-block" id="heteroskedastic_covariance"><a class="viewcode-back" href="../../../panel/covariance.html#linearmodels.panel.covariance.heteroskedastic_covariance">[docs]</a><span class="k">def</span> <span class="nf">heteroskedastic_covariance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="HeteroskedasticCovariance"><a class="viewcode-back" href="../../../panel/covariance.html#linearmodels.panel.covariance.HeteroskedasticCovariance">[docs]</a><span class="k">class</span> <span class="nc">HeteroskedasticCovariance</span><span class="p">(</span><span class="n">HomoskedasticCovariance</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Covariance estimation using White estimator</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : ndarray</span>
+<span class="sd">        (entity x time) by 1 stacked array of dependent</span>
 <span class="sd">    x : ndarray</span>
-<span class="sd">        (entity x time) by variables stacked array of regressors</span>
-<span class="sd">    epsilon : ndarray</span>
-<span class="sd">        (entity x time) by 1 stacked array of errors</span>
-<span class="sd">    debiased : bool</span>
-<span class="sd">        Flag indicating whether to dias adjust</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    cov : array</span>
-<span class="sd">        Estimated parameter covariance</span>
+<span class="sd">        (entity x time) by variables stacked array of exogenous</span>
+<span class="sd">    params : ndarray</span>
+<span class="sd">        variables by 1 array of estimated model parameters</span>
+<span class="sd">    df_resid : int</span>
+<span class="sd">        Residual degree of freedom to use when normalizing covariance </span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -277,33 +266,41 @@
 
 <span class="sd">    where NT is replace by NT-k if ``debiased`` is ``True``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">nt</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">xpx</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span> <span class="o">/</span> <span class="n">nt</span>
-    <span class="n">xpxi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">xpx</span><span class="p">)</span>
 
-    <span class="n">xe</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">epsilon</span>
-    <span class="n">scale</span> <span class="o">=</span> <span class="n">nt</span> <span class="o">-</span> <span class="n">k</span> <span class="k">if</span> <span class="n">debiased</span> <span class="k">else</span> <span class="n">nt</span>
-    <span class="n">xeex</span> <span class="o">=</span> <span class="n">xe</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">xe</span> <span class="o">/</span> <span class="n">scale</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HeteroskedasticCovariance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">)</span>
 
-    <span class="n">cov</span> <span class="o">=</span> <span class="n">xpxi</span> <span class="o">@</span> <span class="n">xeex</span> <span class="o">@</span> <span class="n">xpxi</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cov</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span>
+        <span class="n">nobs</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">xpxi</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span>
+        <span class="n">xe</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">eps</span>
+        <span class="n">xeex</span> <span class="o">=</span> <span class="n">xe</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">xe</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df_resid</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">xpxi</span> <span class="o">@</span> <span class="n">xeex</span> <span class="o">@</span> <span class="n">xpxi</span><span class="p">)</span> <span class="o">/</span> <span class="n">nobs</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">out</span> <span class="o">+</span> <span class="n">out</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">out</span></div>
 
-    <span class="k">return</span> <span class="p">(</span><span class="n">cov</span> <span class="o">+</span> <span class="n">cov</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
 
-
-<div class="viewcode-block" id="oneway_clustered_covariance"><a class="viewcode-back" href="../../../panel/covariance.html#linearmodels.panel.covariance.oneway_clustered_covariance">[docs]</a><span class="k">def</span> <span class="nf">oneway_clustered_covariance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">cluster</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="OneWayClusteredCovariance"><a class="viewcode-back" href="../../../panel/covariance.html#linearmodels.panel.covariance.OneWayClusteredCovariance">[docs]</a><span class="k">class</span> <span class="nc">OneWayClusteredCovariance</span><span class="p">(</span><span class="n">HomoskedasticCovariance</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    One-way clustered (Rogers) covariance estimation</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : ndarray</span>
+<span class="sd">        (entity x time) by 1 stacked array of dependent</span>
 <span class="sd">    x : ndarray</span>
-<span class="sd">        (entity x time) by variables stacked array of regressors</span>
-<span class="sd">    epsilon : ndarray</span>
-<span class="sd">        (entity x time) by 1 stacked array of errors</span>
-<span class="sd">    cluster : ndarray</span>
+<span class="sd">        (entity x time) by variables stacked array of exogenous</span>
+<span class="sd">    params : ndarray</span>
+<span class="sd">        variables by 1 array of estimated model parameters</span>
+<span class="sd">    df_resid : int</span>
+<span class="sd">        Residual degree of freedom to use when normalizing covariance </span>
+<span class="sd">    cluster : ndarray, optional</span>
 <span class="sd">        (entity x time) by 1 stacked array of cluster group</span>
-<span class="sd">    debiased : bool</span>
-<span class="sd">        Flag indicating whether to dias adjust</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -338,24 +335,25 @@
 <span class="sd">        * Small sample adjustments</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">nt</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">xpx</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span> <span class="o">/</span> <span class="n">nt</span>
-    <span class="n">xpxi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">xpx</span><span class="p">)</span>
 
-    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">cluster</span><span class="o">.</span><span class="n">flat</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
-    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
-    <span class="n">cluster</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
-    <span class="n">locs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="n">cluster</span><span class="o">.</span><span class="n">flat</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">flat</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">xeex</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">locs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">st</span><span class="p">,</span> <span class="n">en</span> <span class="o">=</span> <span class="n">locs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">locs</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">xe</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">st</span><span class="p">:</span><span class="n">en</span><span class="p">]</span> <span class="o">*</span> <span class="n">epsilon</span><span class="p">[</span><span class="n">st</span><span class="p">:</span><span class="n">en</span><span class="p">]</span>
-        <span class="n">xeex</span> <span class="o">+=</span> <span class="n">xe</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">xe</span> <span class="o">/</span> <span class="p">(</span><span class="n">en</span> <span class="o">-</span> <span class="n">st</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">,</span> <span class="n">clusters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">OneWayClusteredCovariance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">clusters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">clusters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span> <span class="o">=</span> <span class="n">clusters</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
 
-    <span class="n">cov</span> <span class="o">=</span> <span class="n">xpxi</span> <span class="o">@</span> <span class="n">xeex</span> <span class="o">@</span> <span class="n">xpxi</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cov</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span>
+        <span class="n">nobs</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">xpxi</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="p">(</span><span class="n">cov</span> <span class="o">+</span> <span class="n">cov</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
+        <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span>
+        <span class="n">xe</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">eps</span>
+        <span class="n">xeex</span> <span class="o">=</span> <span class="n">_cov_cluster</span><span class="p">(</span><span class="n">xe</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df_resid</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">xpxi</span> <span class="o">@</span> <span class="n">xeex</span> <span class="o">@</span> <span class="n">xpxi</span><span class="p">)</span> <span class="o">/</span> <span class="n">nobs</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">out</span> <span class="o">+</span> <span class="n">out</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">out</span></div>
 </pre></div>
 
            </div>
@@ -392,7 +390,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0+51.gc17274e',
+            VERSION:'1.0+53.g745228f',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

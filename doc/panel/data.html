@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Panel Data Structures &mdash; linearmodels 1.0+51.gc17274e documentation</title>
+  <title>Panel Data Structures &mdash; linearmodels 1.0+53.g745228f documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+51.gc17274e documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+53.g745228f documentation" href="../index.html"/>
         <link rel="up" title="Panel Module Reference" href="panel.html"/>
         <link rel="next" title="Utilities" href="../utility.html"/>
         <link rel="prev" title="Covariance Estimators" href="covariance.html"/> 
@@ -205,7 +205,7 @@
 <span id="panel-data-structures"></span><h1>Panel Data Structures<a class="headerlink" href="#module-linearmodels.panel.data" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-linearmodels.panel.data"></span><dl class="class">
 <dt id="linearmodels.panel.data.PanelData">
-<em class="property">class </em><code class="descname">PanelData</code><span class="sig-paren">(</span><em>x</em>, <em>var_name='x'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">PanelData</code><span class="sig-paren">(</span><em>x</em>, <em>var_name='x'</em>, <em>convert_dummies=True</em>, <em>drop_first=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Abstraction to handle alternative formats for panel data</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -213,9 +213,11 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>x</strong> (<em>{ndarray</em><em>, </em><em>Series</em><em>, </em><em>DataFrame</em><em>, </em><em>DataArray}</em>) &#8211; Input data, either 2 or 3 dimensional</li>
-<li><strong>var_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name to use when generating labels for the variables in the data</li>
-<li><strong>convert_categoricals</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether categorical or string variables should be
-converted to dummies</li>
+<li><strong>var_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Variable name to use when naming variables in NumPy arrays or
+xarray DataArrays</li>
+<li><strong>convert_dummies</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flat indicating whether pandas categoricals or string input data
+should be converted to dummy variables</li>
+<li><strong>drop_first</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating to drop first dummy category</li>
 </ul>
 </td>
 </tr>
@@ -416,7 +418,7 @@ sqrt(weights) so that they can be used in WLS estimation.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+51.gc17274e',
+            VERSION:'1.0+53.g745228f',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

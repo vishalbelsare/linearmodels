@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 1.0+51.gc17274e documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 1.0+53.g745228f documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 1.0+51.gc17274e documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+53.g745228f documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -165,11 +165,10 @@
 <span class="kn">from</span> <span class="nn">patsy.highlevel</span> <span class="k">import</span> <span class="n">ModelDesc</span><span class="p">,</span> <span class="n">dmatrices</span>
 <span class="kn">from</span> <span class="nn">patsy.missing</span> <span class="k">import</span> <span class="n">NAAction</span>
 
-<span class="kn">from</span> <span class="nn">linearmodels.panel.covariance</span> <span class="k">import</span> <span class="n">HomoskedasticCovariance</span>
+<span class="kn">from</span> <span class="nn">linearmodels.panel.covariance</span> <span class="k">import</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span> <span class="n">OneWayClusteredCovariance</span>
 <span class="kn">from</span> <span class="nn">linearmodels.panel.data</span> <span class="k">import</span> <span class="n">PanelData</span>
 <span class="kn">from</span> <span class="nn">linearmodels.panel.results</span> <span class="k">import</span> <span class="n">PanelResults</span>
-<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">AttrDict</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> <span class="n">MissingValueWarning</span><span class="p">,</span> \
-    <span class="n">missing_value_warning_msg</span>
+<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">AttrDict</span><span class="p">,</span> <span class="n">MissingValueWarning</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> <span class="n">missing_value_warning_msg</span>
 
 
 <span class="k">class</span> <span class="nc">AbsorbingEffectError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -187,12 +186,19 @@
     <span class="k">pass</span>
 
 
-<span class="c1"># TODO: Heteroskedastic covariance</span>
-<span class="c1"># TODO: One-way cluster covariance</span>
-<span class="c1"># TODO: Bootstrap covariance</span>
+<span class="c1"># TODO: CovarianceManager</span>
+<span class="c1"># TODO: Warning about 2 way cluster</span>
 <span class="c1"># TODO: Regression F-stat</span>
 <span class="c1"># TODO: Pooled F-stat</span>
-<span class="c1"># TODO: Warning about 2 way cluster</span>
+<span class="c1"># TODO: Bootstrap covariance</span>
+
+
+<span class="n">COVARIANCE_ESTIMATORS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">:</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;homoskedastic&#39;</span><span class="p">:</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;robust&#39;</span><span class="p">:</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">:</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;oneway&#39;</span><span class="p">:</span> <span class="n">OneWayClusteredCovariance</span><span class="p">,</span>
+                         <span class="s1">&#39;clustered&#39;</span><span class="p">:</span> <span class="n">OneWayClusteredCovariance</span><span class="p">}</span>
 
 
 <div class="viewcode-block" id="PanelOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PanelOLS">[docs]</a><span class="k">class</span> <span class="nc">PanelOLS</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -207,6 +213,9 @@
 <span class="sd">        Flag whether to include entity (fixed) effects in the model</span>
 <span class="sd">    time_effect : bool, optional</span>
 <span class="sd">        Flag whether to include time effects in the model</span>
+<span class="sd">    other_effects : array-like, optional</span>
+<span class="sd">        Category codes to use for any effects that are not entity or time </span>
+<span class="sd">        effects. Each variable is treated as an effect. </span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -218,19 +227,45 @@
 
 <span class="sd">    where :math:`\alpha_i` is omitted if ``entity_effect`` is ``False`` and</span>
 <span class="sd">    :math:`\gamma_i` is omitted if ``time_effect`` is ``False``. If both ``entity_effect``  and</span>
-<span class="sd">    ``time_effect`` are ``False``, the model reduces to :class:`PooledOLS`.</span>
+<span class="sd">    ``time_effect`` are ``False``, the model reduces to :class:`PooledOLS`. If ``other_effects`` </span>
+<span class="sd">    is provided, then additional terms are present to reflect these effects.</span>
+<span class="sd">    </span>
+<span class="sd">    Model supports at most 2 effects.  These can be entity-time, entity-other, time-other or</span>
+<span class="sd">    2 other.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">entity_effect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">time_effect</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="s1">&#39;dependent&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">exog</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">exog</span><span class="p">,</span> <span class="s1">&#39;exog&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">entity_effect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">time_effect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">other_effects</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="s1">&#39;Dep&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exog</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">exog</span><span class="p">,</span> <span class="s1">&#39;Exog&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_entity_effect</span> <span class="o">=</span> <span class="n">entity_effect</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_time_effect</span> <span class="o">=</span> <span class="n">time_effect</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_constant</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_adapt_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">other_effects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_effects</span><span class="p">(</span><span class="n">other_effects</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_entity_effect</span> <span class="o">=</span> <span class="n">entity_effect</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_time_effect</span> <span class="o">=</span> <span class="n">time_effect</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_supported_covs</span> <span class="o">=</span> <span class="p">[</span><span class="n">HomoskedasticCovariance</span><span class="p">,</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span> <span class="n">OneWayClusteredCovariance</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+
+    <span class="k">def</span> <span class="nf">_validate_effects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">effects</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">effects</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">effects</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">effects</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;OtherEffect&#39;</span><span class="p">,</span>
+                            <span class="n">convert_dummies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">num_effects</span> <span class="o">=</span> <span class="n">effects</span><span class="o">.</span><span class="n">nvar</span>
+        <span class="k">if</span> <span class="n">num_effects</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;At most two effects supported.&#39;</span><span class="p">)</span>
+        <span class="n">cats</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">effects_frame</span> <span class="o">=</span> <span class="n">effects</span><span class="o">.</span><span class="n">dataframe</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">effects_frame</span><span class="p">:</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">effects_frame</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+            <span class="n">cats</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">codes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+        <span class="n">cats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cats</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">effects_frame</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">cats</span> <span class="o">=</span> <span class="n">cats</span><span class="p">[</span><span class="n">effects_frame</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">cats</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">_adapt_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -274,6 +309,11 @@
         <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">w</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;weights must have the same number of &#39;</span>
                              <span class="s1">&#39;observations as dependent.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effects</span><span class="p">:</span>
+            <span class="n">oe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span><span class="o">.</span><span class="n">dataframe</span>
+            <span class="k">if</span> <span class="n">oe</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;other_effects must have the same number of &#39;</span>
+                                 <span class="s1">&#39;observations as dependent.&#39;</span><span class="p">)</span>
 
         <span class="n">all_missing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">missing</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">|</span>
@@ -286,15 +326,17 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effects</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
             <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span>
 
-        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">dataframe</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">w</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_constant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant_index</span> <span class="o">=</span> <span class="n">has_constant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">matrix_rank</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;exog does not have full column rank.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_constant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant_index</span> <span class="o">=</span> <span class="n">has_constant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">formula</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -385,16 +427,24 @@
                             <span class="s1">&#39;Observations per entity&#39;</span><span class="p">)</span>
         <span class="n">time_info</span> <span class="o">=</span> <span class="n">stats</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">time_ids</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
                           <span class="s1">&#39;Observations per time period&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">entity_info</span><span class="p">,</span> <span class="n">time_info</span>
+        <span class="n">other_info</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effects</span><span class="p">:</span>
+            <span class="n">oe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span><span class="o">.</span><span class="n">dataframe</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">oe</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Observations per group (&#39;</span> <span class="o">+</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
+                <span class="n">other_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats</span><span class="p">(</span><span class="n">oe</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+            <span class="n">other_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">other_info</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">entity_info</span><span class="p">,</span> <span class="n">time_info</span><span class="p">,</span> <span class="n">other_info</span>
 
     <span class="k">def</span> <span class="nf">_postestimation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">):</span>
         <span class="n">r2o</span><span class="p">,</span> <span class="n">r2w</span><span class="p">,</span> <span class="n">r2b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rsquared</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-        <span class="n">entity_info</span><span class="p">,</span> <span class="n">time_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">()</span>
+        <span class="n">entity_info</span><span class="p">,</span> <span class="n">time_info</span><span class="p">,</span> <span class="n">other_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">()</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">AttrDict</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">deferred_cov</span><span class="o">=</span><span class="n">cov</span><span class="o">.</span><span class="n">deferred_cov</span><span class="p">,</span>
                        <span class="n">debiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">vars</span><span class="p">,</span>
                        <span class="n">r2w</span><span class="o">=</span><span class="n">r2w</span><span class="p">,</span> <span class="n">r2b</span><span class="o">=</span><span class="n">r2b</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2w</span><span class="p">,</span> <span class="n">r2o</span><span class="o">=</span><span class="n">r2o</span><span class="p">,</span> <span class="n">s2</span><span class="o">=</span><span class="n">cov</span><span class="o">.</span><span class="n">s2</span><span class="p">,</span>
                        <span class="n">entity_info</span><span class="o">=</span><span class="n">entity_info</span><span class="p">,</span> <span class="n">time_info</span><span class="o">=</span><span class="n">time_info</span><span class="p">,</span>
-                       <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                       <span class="n">other_info</span><span class="o">=</span><span class="n">other_info</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
                        <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;Unadjusted&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
 
@@ -430,7 +480,7 @@
 
     <span class="k">def</span> <span class="nf">_slow_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Frisch-Waigh-Lovell Implemtation, mostly for weighted&quot;&quot;&quot;</span>
-        <span class="n">has_effect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span>
+        <span class="n">has_effect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effects</span>
         <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">root_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
 
@@ -440,12 +490,21 @@
             <span class="n">ybar</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">@</span> <span class="n">lstsq</span><span class="p">(</span><span class="n">root_w</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ybar</span>
 
+        <span class="n">drop_first</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant</span>
         <span class="n">d</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span><span class="p">:</span>
-            <span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">dummies</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_constant</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">dummies</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="n">drop_first</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">drop_first</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
-            <span class="n">drop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span>
-            <span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">dummies</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="n">drop</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">dummies</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="n">drop_first</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">drop_first</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effects</span><span class="p">:</span>
+            <span class="n">oe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span><span class="o">.</span><span class="n">dataframe</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">oe</span><span class="p">:</span>
+                <span class="n">dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">oe</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="n">drop_first</span><span class="o">=</span><span class="n">drop_first</span><span class="p">)</span>
+                <span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dummies</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                <span class="n">drop_first</span> <span class="o">=</span> <span class="kc">True</span>
+
         <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span><span class="p">:</span>
             <span class="n">d</span> <span class="o">-=</span> <span class="n">d</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -473,9 +532,6 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
-            <span class="c1"># TODO: Remove</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_y_both</span> <span class="o">=</span> <span class="n">y</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_x_both</span> <span class="o">=</span> <span class="n">x</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span><span class="p">:</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">)</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">)</span>
@@ -494,22 +550,28 @@
 
         <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ybar</span>
 
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="n">unweighted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">unweighted</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">unweighted</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effects</span><span class="p">:</span>
             <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ybar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fast_path</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ybar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slow_path</span><span class="p">()</span>
 
         <span class="n">neffects</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">drop_first</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span><span class="p">:</span>
-            <span class="n">neffects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">nentity</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
-                <span class="n">neffects</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">nobs</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
-            <span class="n">neffects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">nobs</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span>
+            <span class="n">neffects</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">nentity</span> <span class="o">-</span> <span class="n">drop_first</span>
+            <span class="n">drop_first</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
+            <span class="n">neffects</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">drop_first</span>
+            <span class="n">drop_first</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effects</span><span class="p">:</span>
+            <span class="n">oe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span><span class="o">.</span><span class="n">dataframe</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">oe</span><span class="p">:</span>
+                <span class="n">neffects</span> <span class="o">+=</span> <span class="n">oe</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">-</span> <span class="n">drop_first</span>
+                <span class="n">drop_first</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effects</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">matrix_rank</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="k">raise</span> <span class="n">AbsorbingEffectError</span><span class="p">(</span><span class="n">absorbing_error_msg</span><span class="p">)</span>
 
@@ -518,17 +580,21 @@
         <span class="n">df_model</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">neffects</span>
         <span class="n">df_resid</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_model</span>
         <span class="n">cov_denom</span> <span class="o">=</span> <span class="n">df_resid</span> <span class="k">if</span> <span class="n">debiased</span> <span class="k">else</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">cov</span> <span class="o">=</span> <span class="n">HomoskedasticCovariance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_denom</span><span class="p">)</span>
+        <span class="c1"># TODO: Clustered covariance needs work</span>
+        <span class="n">cov_est</span> <span class="o">=</span> <span class="n">COVARIANCE_ESTIMATORS</span><span class="p">[</span><span class="n">cov_type</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">cov_est</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_supported_covs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Requested covariance estimator is not supported for the model.&#39;</span><span class="p">)</span>
+        <span class="n">cov</span> <span class="o">=</span> <span class="n">cov_est</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_denom</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
         <span class="n">weps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
         <span class="n">eps</span> <span class="o">=</span> <span class="n">weps</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">unweighted</span><span class="p">:</span>
             <span class="c1"># TODO: eps is not right when there are effects and weighting</span>
             <span class="c1"># TODO: Need the estimated effect matrices to construct epsilon</span>
-            <span class="c1"># TODO: Should be (y - effects) - (x - effects) @ params</span>
+            <span class="c1"># TODO: Should be y - (x - x_effects) @ params - effects</span>
             <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">values2d</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span> <span class="o">@</span> <span class="n">params</span>
         <span class="n">resid_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">weps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">weps</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span><span class="p">:</span>
             <span class="n">mu</span> <span class="o">=</span> <span class="n">ybar</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
@@ -562,7 +628,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_supported_covs</span> <span class="o">=</span> <span class="p">[</span><span class="n">HomoskedasticCovariance</span><span class="p">,</span>
+                                <span class="n">HeteroskedasticCovariance</span><span class="p">]</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_supported_covs</span> <span class="o">=</span> <span class="p">[</span><span class="n">HomoskedasticCovariance</span><span class="p">,</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span> <span class="n">OneWayClusteredCovariance</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_prepare_between</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
@@ -613,7 +682,7 @@
 
         <span class="k">return</span> <span class="n">r2o</span><span class="p">,</span> <span class="n">r2w</span><span class="p">,</span> <span class="n">r2b</span>
 
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span>
@@ -627,7 +696,10 @@
         <span class="n">df_model</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">df_resid</span> <span class="o">=</span> <span class="n">nobs</span> <span class="o">-</span> <span class="n">df_model</span>
         <span class="n">cov_denom</span> <span class="o">=</span> <span class="n">nobs</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">debiased</span> <span class="k">else</span> <span class="n">df_resid</span>
-        <span class="n">cov</span> <span class="o">=</span> <span class="n">HomoskedasticCovariance</span><span class="p">(</span><span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_denom</span><span class="p">)</span>
+        <span class="n">cov_est</span> <span class="o">=</span> <span class="n">COVARIANCE_ESTIMATORS</span><span class="p">[</span><span class="n">cov_type</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">cov_est</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_supported_covs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Requested covariance estimator is not supported for the model.&#39;</span><span class="p">)</span>
+        <span class="n">cov</span> <span class="o">=</span> <span class="n">cov_est</span><span class="p">(</span><span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_denom</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
         <span class="n">weps</span> <span class="o">=</span> <span class="n">wy</span> <span class="o">-</span> <span class="n">wx</span> <span class="o">@</span> <span class="n">params</span>
         <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
         <span class="n">residual_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">weps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">weps</span><span class="p">)</span>
@@ -668,18 +740,21 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">BetweenOLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
 
-<div class="viewcode-block" id="BetweenOLS.fit"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.BetweenOLS.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reweight</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="BetweenOLS.fit"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.BetweenOLS.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reweight</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate model parameters</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        debiased : bool</span>
-<span class="sd">            Flag indicating to use a debiased parameter covariance estimator</span>
 <span class="sd">        reweight : bool</span>
 <span class="sd">            Flag indicating to reweight observations if the input data is</span>
 <span class="sd">            unbalanced</span>
-
+<span class="sd">        cov_type : str</span>
+<span class="sd">            Either &#39;unadjusted&#39; for homoskedastic covariance or &#39;robust&#39; for </span>
+<span class="sd">            heteroskedasticity robust covariance estimation.</span>
+<span class="sd">        debiased : bool</span>
+<span class="sd">            Flag indicating to use a debiased parameter covariance estimator</span>
+<span class="sd">    </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        results : PanelResults</span>
@@ -702,7 +777,10 @@
         <span class="n">df_model</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
         <span class="n">nobs</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">cov_denom</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">debiased</span> <span class="k">else</span> <span class="n">df_resid</span>
-        <span class="n">cov</span> <span class="o">=</span> <span class="n">HomoskedasticCovariance</span><span class="p">(</span><span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_denom</span><span class="p">)</span>
+        <span class="n">cov_est</span> <span class="o">=</span> <span class="n">COVARIANCE_ESTIMATORS</span><span class="p">[</span><span class="n">cov_type</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">cov_est</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_supported_covs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Requested covariance estimator is not supported for the model.&#39;</span><span class="p">)</span>
+        <span class="n">cov</span> <span class="o">=</span> <span class="n">cov_est</span><span class="p">(</span><span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_denom</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
         <span class="n">weps</span> <span class="o">=</span> <span class="n">wy</span> <span class="o">-</span> <span class="n">wx</span> <span class="o">@</span> <span class="n">params</span>
         <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
         <span class="n">residual_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">weps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">weps</span><span class="p">)</span>
@@ -748,8 +826,9 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Constants are not allowed in first difference regressions.&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">nobs</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Panel must have at least 2 time periods&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_supported_cov</span> <span class="o">=</span> <span class="p">[</span><span class="n">HomoskedasticCovariance</span><span class="p">,</span> <span class="n">HeteroskedasticCovariance</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">first_difference</span><span class="p">()</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">first_difference</span><span class="p">()</span><span class="o">.</span><span class="n">values2d</span>
 
@@ -771,7 +850,10 @@
         <span class="n">params</span> <span class="o">=</span> <span class="n">lstsq</span><span class="p">(</span><span class="n">wx</span><span class="p">,</span> <span class="n">wy</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">df_resid</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">cov_denom</span> <span class="o">=</span> <span class="n">df_resid</span> <span class="k">if</span> <span class="n">debiased</span> <span class="k">else</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">cov</span> <span class="o">=</span> <span class="n">HomoskedasticCovariance</span><span class="p">(</span><span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_denom</span><span class="p">)</span>
+        <span class="n">cov_est</span> <span class="o">=</span> <span class="n">COVARIANCE_ESTIMATORS</span><span class="p">[</span><span class="n">cov_type</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">cov_est</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_supported_covs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Requested covariance estimator is not supported for the model.&#39;</span><span class="p">)</span>
+        <span class="n">cov</span> <span class="o">=</span> <span class="n">cov_est</span><span class="p">(</span><span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cov_denom</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
 
         <span class="n">weps</span> <span class="o">=</span> <span class="n">wy</span> <span class="o">-</span> <span class="n">wx</span> <span class="o">@</span> <span class="n">params</span>
         <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
@@ -825,7 +907,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0+51.gc17274e',
+            VERSION:'1.0+53.g745228f',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
