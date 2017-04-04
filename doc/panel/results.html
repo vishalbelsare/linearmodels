@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Estimation Results &mdash; linearmodels 1.0+68.gff6312e documentation</title>
+  <title>Estimation Results &mdash; linearmodels 1.0+70.g7f0eee6 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+68.gff6312e documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+70.g7f0eee6 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Panel Data Structures" href="data.html"/>
         <link rel="prev" title="Panel Model Covariance Estimators" href="covariance.html"/> 
@@ -233,6 +233,30 @@
 </dd></dl>
 
 <dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.cov">
+<code class="descname">cov</code><a class="reference internal" href="../_modules/linearmodels/panel/results.html#PanelResults.cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.results.PanelResults.cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimated covariance of parameters</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.df_model">
+<code class="descname">df_model</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.df_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model degree of freedom</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.df_resid">
+<code class="descname">df_resid</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.df_resid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Residual degree of freedom</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.entity_info">
+<code class="descname">entity_info</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.entity_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Statistics on observations per entity</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="linearmodels.panel.results.PanelResults.f_statistic">
 <code class="descname">f_statistic</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.f_statistic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Joint test of significance for non-constant regressors</p>
@@ -259,6 +283,30 @@ restrictions and uses an F distribution.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.name">
+<code class="descname">name</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.nobs">
+<code class="descname">nobs</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.nobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of observations</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.params">
+<code class="descname">params</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimated parameters</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.pvalues">
+<code class="descname">pvalues</code><a class="reference internal" href="../_modules/linearmodels/panel/results.html#PanelResults.pvalues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.results.PanelResults.pvalues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter p-vals. Uses t(df_resid) if <code class="docutils literal"><span class="pre">debiased</span></code> is True, else normal</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="linearmodels.panel.results.PanelResults.resid_ss">
 <code class="descname">resid_ss</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.resid_ss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Residual sum of squares</p>
@@ -271,15 +319,63 @@ restrictions and uses an F distribution.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.rsquared">
+<code class="descname">rsquared</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.rsquared" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model Coefficient of determination (R**2)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.rsquared_between">
+<code class="descname">rsquared_between</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.rsquared_between" title="Permalink to this definition">¶</a></dt>
+<dd><p>Between Coefficient of determination</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.rsquared_overall">
+<code class="descname">rsquared_overall</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.rsquared_overall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overall coefficient of determination</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.rsquared_within">
+<code class="descname">rsquared_within</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.rsquared_within" title="Permalink to this definition">¶</a></dt>
+<dd><p>Within coefficient of determination</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.s2">
+<code class="descname">s2</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.s2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Residual variance estimator</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.std_errors">
+<code class="descname">std_errors</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.std_errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimated parameter standard errors</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="linearmodels.panel.results.PanelResults.summary">
 <code class="descname">summary</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.summary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Summary table of model estimation results</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.time_info">
+<code class="descname">time_info</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.time_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Statistics on observations per time interval</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="linearmodels.panel.results.PanelResults.total_ss">
 <code class="descname">total_ss</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.total_ss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Total sum of squares</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.results.PanelResults.tstats">
+<code class="descname">tstats</code><a class="headerlink" href="#linearmodels.panel.results.PanelResults.tstats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter t-statistics</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -336,7 +432,7 @@ restrictions and uses an F distribution.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+68.gff6312e',
+            VERSION:'1.0+70.g7f0eee6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
