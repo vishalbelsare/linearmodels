@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.covariance &mdash; linearmodels 1.0+70.g7f0eee6 documentation</title>
+  <title>linearmodels.panel.covariance &mdash; linearmodels 1.0+72.gfed2d35 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 1.0+70.g7f0eee6 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+72.gfed2d35 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -162,8 +162,8 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">inv</span>
 
-<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span> <span class="nn">linearmodels.iv.covariance</span> <span class="k">import</span> <span class="n">_cov_cluster</span>
+<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">cached_property</span>
 
 
 <div class="viewcode-block" id="HomoskedasticCovariance"><a class="viewcode-back" href="../../../panel/covariance.html#linearmodels.panel.covariance.HomoskedasticCovariance">[docs]</a><span class="k">class</span> <span class="nc">HomoskedasticCovariance</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -355,6 +355,118 @@
         <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">xpxi</span> <span class="o">@</span> <span class="n">xeex</span> <span class="o">@</span> <span class="n">xpxi</span><span class="p">)</span> <span class="o">/</span> <span class="n">nobs</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">out</span> <span class="o">+</span> <span class="n">out</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="k">return</span> <span class="n">out</span></div>
+
+
+<span class="k">class</span> <span class="nc">ClusteredCovariance</span><span class="p">(</span><span class="n">HomoskedasticCovariance</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    One-way (Rogers) or two-way clustered covariance estimation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : ndarray</span>
+<span class="sd">        nobs by 1 stacked array of dependent</span>
+<span class="sd">    x : ndarray</span>
+<span class="sd">        nobs by variables stacked array of exogenous</span>
+<span class="sd">    params : ndarray</span>
+<span class="sd">        variables by 1 array of estimated model parameters</span>
+<span class="sd">    df_resid : int</span>
+<span class="sd">        Residual degree of freedom to use when normalizing covariance</span>
+<span class="sd">    cluster : ndarray, optional</span>
+<span class="sd">        nobs by 1 or nobs by 2 array of cluster group ids</span>
+<span class="sd">    group_adj : bool, optional</span>
+<span class="sd">        Flag indicating whether to apply small-number of groups adjustment</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cov : array</span>
+<span class="sd">        Estimated parameter covariance</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The estimator of the covariance is</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \hat{\Sigma}_{xx}^{-1}\widehat{Cov}(x_{it}\epsilon_{it})\hat{\Sigma}_{xx}^{-1}</span>
+
+<span class="sd">    where</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \hat{\Sigma}_{xx} = (NT)^{-1}\sum_{i=1}^N\sum_{t=1}^T x_{it}x_{it}^{\prime}</span>
+
+<span class="sd">    and</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \widehat{Cov}(x_it\epsilon_{it}) = (NT)^{-1}\sum_{j=1}^G xe_j^{\prime}xe_j</span>
+
+<span class="sd">    where ...</span>
+
+<span class="sd">    .. todo::</span>
+
+<span class="sd">        * Complete -- math is wrong</span>
+<span class="sd">        * Small sample adjustments</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">,</span> <span class="n">clusters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">group_adj</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ClusteredCovariance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">clusters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">clusters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span> <span class="o">=</span> <span class="n">clusters</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_group_adj</span> <span class="o">=</span> <span class="n">group_adj</span>
+        <span class="n">dim1</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">dim1</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Onle 1 or 2-way clustering supported.&#39;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_calc_group_adj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clusters</span><span class="p">):</span>
+        <span class="n">ngroups</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">clusters</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">ngroups</span> <span class="o">/</span> <span class="p">(</span><span class="n">ngroups</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">cov</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span>
+        <span class="n">nobs</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">xpxi</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span>
+
+        <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span>
+        <span class="n">xe</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">eps</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">xeex</span> <span class="o">=</span> <span class="n">_cov_cluster</span><span class="p">(</span><span class="n">xe</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group_adj</span><span class="p">:</span>
+                <span class="n">xeex</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc_group_adj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">clusters0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">clusters1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">xeex0</span> <span class="o">=</span> <span class="n">_cov_cluster</span><span class="p">(</span><span class="n">xe</span><span class="p">,</span> <span class="n">clusters0</span><span class="p">)</span>
+            <span class="n">xeex1</span> <span class="o">=</span> <span class="n">_cov_cluster</span><span class="p">(</span><span class="n">xe</span><span class="p">,</span> <span class="n">clusters1</span><span class="p">)</span>
+
+            <span class="n">sort_keys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">lexsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="n">locs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">lex_sorted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clusters</span><span class="p">[</span><span class="n">sort_keys</span><span class="p">]</span>
+            <span class="n">sorted_locs</span> <span class="o">=</span> <span class="n">locs</span><span class="p">[</span><span class="n">sort_keys</span><span class="p">]</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">lex_sorted</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">!=</span> <span class="n">lex_sorted</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">clusters01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">diff</span><span class="p">])</span>
+            <span class="n">resort_locs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">sorted_locs</span><span class="p">)</span>
+            <span class="n">clusters01</span> <span class="o">=</span> <span class="n">clusters01</span><span class="p">[</span><span class="n">resort_locs</span><span class="p">]</span>
+            <span class="n">xeex01</span> <span class="o">=</span> <span class="n">_cov_cluster</span><span class="p">(</span><span class="n">xe</span><span class="p">,</span> <span class="n">clusters01</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group_adj</span><span class="p">:</span>
+                <span class="n">xeex0</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc_group_adj</span><span class="p">(</span><span class="n">clusters0</span><span class="p">)</span>
+                <span class="n">xeex1</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc_group_adj</span><span class="p">(</span><span class="n">clusters1</span><span class="p">)</span>
+                <span class="n">xeex01</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc_group_adj</span><span class="p">(</span><span class="n">clusters01</span><span class="p">)</span>
+
+            <span class="n">xeex</span> <span class="o">=</span> <span class="n">xeex0</span> <span class="o">+</span> <span class="n">xeex1</span> <span class="o">-</span> <span class="n">xeex01</span>
+
+        <span class="n">xeex</span> <span class="o">*=</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df_resid</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">xpxi</span> <span class="o">@</span> <span class="n">xeex</span> <span class="o">@</span> <span class="n">xpxi</span><span class="p">)</span> <span class="o">/</span> <span class="n">nobs</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">out</span> <span class="o">+</span> <span class="n">out</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">out</span>
 </pre></div>
 
            </div>
@@ -391,7 +503,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0+70.g7f0eee6',
+            VERSION:'1.0+72.gfed2d35',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
