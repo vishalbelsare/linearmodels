@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 1.0+72.gfed2d35 documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 1.0+74.g1c1e204 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+72.gfed2d35 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+74.g1c1e204 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Panel Model Covariance Estimators" href="covariance.html"/>
         <link rel="prev" title="Module Reference" href="reference.html"/> 
@@ -238,6 +238,30 @@ effects. Each variable is treated as an effect.</li>
 is provided, then additional terms are present to reflect these effects.</p>
 <p>Model supports at most 2 effects.  These can be entity-time, entity-other, time-other or
 2 other.</p>
+<dl class="attribute">
+<dt id="linearmodels.panel.model.PanelOLS.entity_effect">
+<code class="descname">entity_effect</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.entity_effect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating whether entity effects are included</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.PanelOLS.formula">
+<code class="descname">formula</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formula used to construct the model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.PanelOLS.not_null">
+<code class="descname">not_null</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.not_null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locations of non-missing observations</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.PanelOLS.time_effect">
+<code class="descname">time_effect</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.time_effect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating whether time effects are included</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -260,9 +284,15 @@ is provided, then additional terms are present to reflect these effects.</p>
 <div class="math">
 \[\bar{y}_{i}=  \beta^{\prime}\bar{x}_{i}+\bar{\epsilon}_{i}\]</div>
 <p>where <span class="math">\(\bar{z}\)</span> is the time-average.</p>
+<dl class="attribute">
+<dt id="linearmodels.panel.model.BetweenOLS.entity_effect">
+<code class="descname">entity_effect</code><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.entity_effect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating whether entity effects are included</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="linearmodels.panel.model.BetweenOLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>reweight=False</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>reweight=False</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -287,6 +317,24 @@ heteroskedasticity robust covariance estimation.</li>
 </table>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="linearmodels.panel.model.BetweenOLS.formula">
+<code class="descname">formula</code><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formula used to construct the model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.BetweenOLS.not_null">
+<code class="descname">not_null</code><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.not_null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locations of non-missing observations</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.BetweenOLS.time_effect">
+<code class="descname">time_effect</code><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.time_effect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating whether time effects are included</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -308,6 +356,30 @@ heteroskedasticity robust covariance estimation.</li>
 <p>The model is given by</p>
 <div class="math">
 \[\Delta y_{it}=\beta^{\prime}\Delta x_{it}+\Delta\epsilon_{it}\]</div>
+<dl class="attribute">
+<dt id="linearmodels.panel.model.FirstDifferenceOLS.entity_effect">
+<code class="descname">entity_effect</code><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.entity_effect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating whether entity effects are included</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.FirstDifferenceOLS.formula">
+<code class="descname">formula</code><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formula used to construct the model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.FirstDifferenceOLS.not_null">
+<code class="descname">not_null</code><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.not_null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locations of non-missing observations</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.FirstDifferenceOLS.time_effect">
+<code class="descname">time_effect</code><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.time_effect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating whether time effects are included</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -330,6 +402,30 @@ heteroskedasticity robust covariance estimation.</li>
 <p>The model is given by</p>
 <div class="math">
 \[y_{it}=\beta^{\prime}x_{it}+\epsilon_{it}\]</div>
+<dl class="attribute">
+<dt id="linearmodels.panel.model.PooledOLS.entity_effect">
+<code class="descname">entity_effect</code><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.entity_effect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating whether entity effects are included</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.PooledOLS.formula">
+<code class="descname">formula</code><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formula used to construct the model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.PooledOLS.not_null">
+<code class="descname">not_null</code><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.not_null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locations of non-missing observations</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.PooledOLS.time_effect">
+<code class="descname">time_effect</code><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.time_effect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating whether time effects are included</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -378,7 +474,7 @@ heteroskedasticity robust covariance estimation.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+72.gfed2d35',
+            VERSION:'1.0+74.g1c1e204',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

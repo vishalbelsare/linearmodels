@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Panel Model Covariance Estimators &mdash; linearmodels 1.0+72.gfed2d35 documentation</title>
+  <title>Panel Model Covariance Estimators &mdash; linearmodels 1.0+74.g1c1e204 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+72.gfed2d35 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+74.g1c1e204 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Estimation Results" href="results.html"/>
         <link rel="prev" title="Models for Panel Data" href="models.html"/> 
@@ -211,7 +211,7 @@
 <h1>Panel Model Covariance Estimators<a class="headerlink" href="#panel-model-covariance-estimators" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="linearmodels.panel.covariance.HomoskedasticCovariance">
-<em class="property">class </em><code class="descname">HomoskedasticCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>df_resid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HomoskedasticCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HomoskedasticCovariance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">HomoskedasticCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HomoskedasticCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HomoskedasticCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Homoskedastic covariance estimation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -221,7 +221,9 @@
 <li><strong>y</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of dependent</li>
 <li><strong>x</strong> (<em>ndarray</em>) &#8211; (entity x time) by variables stacked array of exogenous</li>
 <li><strong>params</strong> (<em>ndarray</em>) &#8211; variables by 1 array of estimated model parameters</li>
-<li><strong>df_resid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; Residual degree of freedom to use when normalizing covariance</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debias the estimator</li>
+<li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) &#8211; Additional degrees of freedom consumed by models beyond the number of
+columns in x, e.g., fixed effects</li>
 </ul>
 </td>
 </tr>
@@ -242,7 +244,7 @@
 
 <dl class="class">
 <dt id="linearmodels.panel.covariance.HeteroskedasticCovariance">
-<em class="property">class </em><code class="descname">HeteroskedasticCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>df_resid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HeteroskedasticCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HeteroskedasticCovariance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">HeteroskedasticCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HeteroskedasticCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HeteroskedasticCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Covariance estimation using White estimator</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -252,7 +254,9 @@
 <li><strong>y</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of dependent</li>
 <li><strong>x</strong> (<em>ndarray</em>) &#8211; (entity x time) by variables stacked array of exogenous</li>
 <li><strong>params</strong> (<em>ndarray</em>) &#8211; variables by 1 array of estimated model parameters</li>
-<li><strong>df_resid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; Residual degree of freedom to use when normalizing covariance</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debias the estimator</li>
+<li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) &#8211; Additional degrees of freedom consumed by models beyond the number of
+columns in x, e.g., fixed effects</li>
 </ul>
 </td>
 </tr>
@@ -274,7 +278,7 @@
 
 <dl class="class">
 <dt id="linearmodels.panel.covariance.OneWayClusteredCovariance">
-<em class="property">class </em><code class="descname">OneWayClusteredCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>df_resid</em>, <em>clusters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#OneWayClusteredCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.OneWayClusteredCovariance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">OneWayClusteredCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em>, <em>clusters=None</em>, <em>group_debias=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#OneWayClusteredCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.OneWayClusteredCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>One-way clustered (Rogers) covariance estimation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -284,8 +288,11 @@
 <li><strong>y</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of dependent</li>
 <li><strong>x</strong> (<em>ndarray</em>) &#8211; (entity x time) by variables stacked array of exogenous</li>
 <li><strong>params</strong> (<em>ndarray</em>) &#8211; variables by 1 array of estimated model parameters</li>
-<li><strong>df_resid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; Residual degree of freedom to use when normalizing covariance</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debias the estimator</li>
+<li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) &#8211; Additional degrees of freedom consumed by models beyond the number of
+columns in x, e.g., fixed effects</li>
 <li><strong>cluster</strong> (<em>ndarray</em><em>, </em><em>optional</em>) &#8211; (entity x time) by 1 stacked array of cluster group</li>
+<li><strong>group_debias</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to apply small-number of groups adjustment</li>
 </ul>
 </td>
 </tr>
@@ -363,7 +370,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+72.gfed2d35',
+            VERSION:'1.0+74.g1c1e204',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
