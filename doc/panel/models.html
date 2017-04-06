@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 1.0+80.gbeb2858 documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 1.0+82.ga85b161 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+80.gbeb2858 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+82.ga85b161 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Panel Model Covariance Estimators" href="covariance.html"/>
         <link rel="prev" title="Module Reference" href="reference.html"/> 
@@ -256,6 +256,25 @@ is provided, then additional terms are present to reflect these effects.</p>
 <dd><p>Locations of non-missing observations</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="linearmodels.panel.model.PanelOLS.reformat_clusters">
+<code class="descname">reformat_clusters</code><span class="sig-paren">(</span><em>clusters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.reformat_clusters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.reformat_clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reformat cluster variables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>clusters</strong> (<em>array-like</em>) &#8211; Values to use for variance clustering</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>reformatted</strong> &#8211; Original data with matching axis and observation dropped where
+missing in the model data.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="data.html#linearmodels.panel.data.PanelData" title="linearmodels.panel.data.PanelData">PanelData</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="linearmodels.panel.model.PanelOLS.time_effect">
 <code class="descname">time_effect</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.time_effect" title="Permalink to this definition">¶</a></dt>
@@ -329,6 +348,25 @@ heteroskedasticity robust covariance estimation.</li>
 <dd><p>Locations of non-missing observations</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="linearmodels.panel.model.BetweenOLS.reformat_clusters">
+<code class="descname">reformat_clusters</code><span class="sig-paren">(</span><em>clusters</em><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.reformat_clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reformat cluster variables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>clusters</strong> (<em>array-like</em>) &#8211; Values to use for variance clustering</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>reformatted</strong> &#8211; Original data with matching axis and observation dropped where
+missing in the model data.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="data.html#linearmodels.panel.data.PanelData" title="linearmodels.panel.data.PanelData">PanelData</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="linearmodels.panel.model.BetweenOLS.time_effect">
 <code class="descname">time_effect</code><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.time_effect" title="Permalink to this definition">¶</a></dt>
@@ -372,6 +410,25 @@ heteroskedasticity robust covariance estimation.</li>
 <dt id="linearmodels.panel.model.FirstDifferenceOLS.not_null">
 <code class="descname">not_null</code><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.not_null" title="Permalink to this definition">¶</a></dt>
 <dd><p>Locations of non-missing observations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.panel.model.FirstDifferenceOLS.reformat_clusters">
+<code class="descname">reformat_clusters</code><span class="sig-paren">(</span><em>clusters</em><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.reformat_clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reformat cluster variables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>clusters</strong> (<em>array-like</em>) &#8211; Values to use for variance clustering</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>reformatted</strong> &#8211; Original data with matching axis and observation dropped where
+missing in the model data.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="data.html#linearmodels.panel.data.PanelData" title="linearmodels.panel.data.PanelData">PanelData</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
@@ -418,6 +475,25 @@ heteroskedasticity robust covariance estimation.</li>
 <dt id="linearmodels.panel.model.PooledOLS.not_null">
 <code class="descname">not_null</code><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.not_null" title="Permalink to this definition">¶</a></dt>
 <dd><p>Locations of non-missing observations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.panel.model.PooledOLS.reformat_clusters">
+<code class="descname">reformat_clusters</code><span class="sig-paren">(</span><em>clusters</em><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.reformat_clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reformat cluster variables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>clusters</strong> (<em>array-like</em>) &#8211; Values to use for variance clustering</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>reformatted</strong> &#8211; Original data with matching axis and observation dropped where
+missing in the model data.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="data.html#linearmodels.panel.data.PanelData" title="linearmodels.panel.data.PanelData">PanelData</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
@@ -474,7 +550,7 @@ heteroskedasticity robust covariance estimation.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+80.gbeb2858',
+            VERSION:'1.0+82.ga85b161',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

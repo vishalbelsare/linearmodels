@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Panel Data Structures &mdash; linearmodels 1.0+80.gbeb2858 documentation</title>
+  <title>Panel Data Structures &mdash; linearmodels 1.0+82.ga85b161 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+80.gbeb2858 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+82.ga85b161 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Utilities" href="../utility.html"/>
         <link rel="prev" title="Estimation Results" href="results.html"/> 
@@ -304,6 +304,31 @@ DataFrame does not have 2 levels</li>
 sqrt(weights) so that they can be used in WLS estimation.</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="linearmodels.panel.data.PanelData.dummies">
+<code class="descname">dummies</code><span class="sig-paren">(</span><em>group='entity'</em>, <em>drop_first=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.dummies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.dummies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate entity or time dummies</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>group</strong> (<em>{'entity'</em><em>, </em><em>'time'}</em><em>, </em><em>optional</em>) &#8211; Type of dummies to generate</li>
+<li><strong>drop_first</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating that the dummy column corresponding to the first
+entity or time period should be dropped</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>dummies</strong> &#8211; Dummy variables</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="linearmodels.panel.data.PanelData.entity_ids">
 <code class="descname">entity_ids</code><a class="headerlink" href="#linearmodels.panel.data.PanelData.entity_ids" title="Permalink to this definition">¶</a></dt>
@@ -424,7 +449,7 @@ sqrt(weights) so that they can be used in WLS estimation.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+80.gbeb2858',
+            VERSION:'1.0+82.ga85b161',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
