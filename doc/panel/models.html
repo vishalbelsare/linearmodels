@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 1.0+85.g32f0a81 documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 1.0+87.gfbf74c6 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+85.g32f0a81 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+87.gfbf74c6 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Panel Model Covariance Estimators" href="covariance.html"/>
         <link rel="prev" title="Module Reference" href="reference.html"/> 
@@ -219,6 +219,9 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>dependent</strong> (<em>array-like</em>) &#8211; Dependent (left-hand-side) variable (time by entity)</li>
 <li><strong>exog</strong> (<em>array-like</em>) &#8211; Exogenous or right-hand-side variables (variable by time by entity).</li>
+<li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
+proportional to inverse of weight to that the residual time
+the weight should be homoskedastic.</li>
 <li><strong>entity_effect</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include entity (fixed) effects in the model</li>
 <li><strong>time_effect</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include time effects in the model</li>
 <li><strong>other_effects</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Category codes to use for any effects that are not entity or time
@@ -244,10 +247,105 @@ is provided, then additional terms are present to reflect these effects.</p>
 <dd><p>Flag indicating whether entity effects are included</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="linearmodels.panel.model.PanelOLS.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate model parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name of covariance estimator. See Notes.</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debiased the covariance estimator using
+a degree of freedom adjustment.</li>
+<li><strong>**cov_config</strong> &#8211; Additional covariance-specific options.  See Notes.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>results</strong> &#8211; Estimation results</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="results.html#linearmodels.panel.results.PanelResults" title="linearmodels.panel.results.PanelResults">PanelResults</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">PanelOLS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>Three covariance estimators are supported:</p>
+<blockquote>
+<div><ul class="simple">
+<li>&#8216;unadjusted&#8217;, &#8216;homoskedastic&#8217; - Assume residual are homoskedastic</li>
+<li>&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Control for heteroskedasticity using
+White&#8217;s estimator</li>
+<li>&#8216;clustered` - One or two way clustering.  Configuration options are:<ul>
+<li><code class="docutils literal"><span class="pre">clusters</span></code> - Input containing containing 1 or 2 variables.
+Clusters should be integer values, although other types will
+be coerced to integer values by treating as categorical variables</li>
+<li><code class="docutils literal"><span class="pre">cluster_entity</span></code> - Boolean flag indicating to use entity
+clusters</li>
+<li><code class="docutils literal"><span class="pre">cluster_time</span></code> - Boolean indicating to use time clusters</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="linearmodels.panel.model.PanelOLS.formula">
 <code class="descname">formula</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.formula" title="Permalink to this definition">¶</a></dt>
 <dd><p>Formula used to construct the model</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="linearmodels.panel.model.PanelOLS.from_formula">
+<em class="property">classmethod </em><code class="descname">from_formula</code><span class="sig-paren">(</span><em>formula</em>, <em>data</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.from_formula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.from_formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a model from a formula</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>formula</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Formula to transform into model. Conforms to patsy formula rules
+with two special variable names, EntityEffect and TimeEffect
+which can be used to specify that the model should contain an
+entity effect or a time effect, respectively. See Examples.</li>
+<li><strong>data</strong> (<em>array-like</em>) &#8211; Data structure that can be coerced into a PanelData.  In most
+cases, this should be a multi-index DataFrame where the level 0
+index contains the entities and the level 1 contains the time.
+weights : array-like, optional</li>
+<li><strong>weights</strong> (<em>array-like</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
+proportional to inverse of weight to that the residual time
+the weight should be homoskedastic.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>model</strong> &#8211; Model specified using the formula</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#linearmodels.panel.model.PanelOLS" title="linearmodels.panel.model.PanelOLS">PanelOLS</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">PanelOLS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;y ~ 1 + x1 + EntityEffect&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.PanelOLS.has_constant">
+<code class="descname">has_constant</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.has_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating the model a constant or implicit constant</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -256,9 +354,15 @@ is provided, then additional terms are present to reflect these effects.</p>
 <dd><p>Locations of non-missing observations</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="linearmodels.panel.model.PanelOLS.other_effect">
+<code class="descname">other_effect</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.other_effect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating whether other (generic) effects are included</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="linearmodels.panel.model.PanelOLS.reformat_clusters">
-<code class="descname">reformat_clusters</code><span class="sig-paren">(</span><em>clusters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.reformat_clusters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.reformat_clusters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">reformat_clusters</code><span class="sig-paren">(</span><em>clusters</em><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.reformat_clusters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reformat cluster variables</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -273,6 +377,8 @@ missing in the model data.</td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>This is exposed for testing and is not normally used during estimation</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -293,6 +399,9 @@ missing in the model data.</td>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>dependent</strong> (<em>array-like</em>) &#8211; Dependent (left-hand-side) variable (time by entity)</li>
 <li><strong>exog</strong> (<em>array-like</em>) &#8211; Exogenous or right-hand-side variables (variable by time by entity).</li>
+<li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
+proportional to inverse of weight to that the residual time
+the weight should be homoskedastic.</li>
 </ul>
 </td>
 </tr>
@@ -303,12 +412,6 @@ missing in the model data.</td>
 <div class="math">
 \[\bar{y}_{i}=  \beta^{\prime}\bar{x}_{i}+\bar{\epsilon}_{i}\]</div>
 <p>where <span class="math">\(\bar{z}\)</span> is the time-average.</p>
-<dl class="attribute">
-<dt id="linearmodels.panel.model.BetweenOLS.entity_effect">
-<code class="descname">entity_effect</code><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.entity_effect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flag indicating whether entity effects are included</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="linearmodels.panel.model.BetweenOLS.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>reweight=False</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.fit" title="Permalink to this definition">¶</a></dt>
@@ -320,9 +423,10 @@ missing in the model data.</td>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>reweight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Flag indicating to reweight observations if the input data is
 unbalanced</li>
-<li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Either &#8216;unadjusted&#8217; for homoskedastic covariance or &#8216;robust&#8217; for
-heteroskedasticity robust covariance estimation.</li>
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Flag indicating to use a debiased parameter covariance estimator</li>
+<li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name of covariance estimator. See Notes.</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debiased the covariance estimator using
+a degree of freedom adjustment.</li>
+<li><strong>**cov_config</strong> &#8211; Additional covariance-specific options.  See Notes.</li>
 </ul>
 </td>
 </tr>
@@ -334,12 +438,41 @@ heteroskedasticity robust covariance estimation.</li>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">BetweenOLS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">BetweenOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>Three covariance estimators are supported:</p>
+<blockquote>
+<div><ul class="simple">
+<li>&#8216;unadjusted&#8217;, &#8216;homoskedastic&#8217; - Assume residual are homoskedastic</li>
+<li>&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Control for heteroskedasticity using
+White&#8217;s estimator</li>
+<li>&#8216;clustered` - One or two way clustering.  Configuration options are:<ul>
+<li><code class="docutils literal"><span class="pre">clusters</span></code> - Input containing containing 1 or 2 variables.
+Clusters should be integer values, although other types will
+be coerced to integer values by treating as categorical variables</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p>When using a clustered covariance estimator, all cluster ids must be
+identical within an entity.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="linearmodels.panel.model.BetweenOLS.formula">
 <code class="descname">formula</code><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.formula" title="Permalink to this definition">¶</a></dt>
 <dd><p>Formula used to construct the model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.BetweenOLS.has_constant">
+<code class="descname">has_constant</code><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.has_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating the model a constant or implicit constant</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -365,12 +498,8 @@ missing in the model data.</td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.panel.model.BetweenOLS.time_effect">
-<code class="descname">time_effect</code><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.time_effect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flag indicating whether time effects are included</p>
+<p class="rubric">Notes</p>
+<p>This is exposed for testing and is not normally used during estimation</p>
 </dd></dl>
 
 </dd></dl>
@@ -385,6 +514,9 @@ missing in the model data.</td>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>dependent</strong> (<em>array-like</em>) &#8211; Dependent (left-hand-side) variable (time by entity)</li>
 <li><strong>exog</strong> (<em>array-like</em>) &#8211; Exogenous or right-hand-side variables (variable by time by entity).</li>
+<li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
+proportional to inverse of weight to that the residual time
+the weight should be homoskedastic.</li>
 </ul>
 </td>
 </tr>
@@ -394,16 +526,66 @@ missing in the model data.</td>
 <p>The model is given by</p>
 <div class="math">
 \[\Delta y_{it}=\beta^{\prime}\Delta x_{it}+\Delta\epsilon_{it}\]</div>
-<dl class="attribute">
-<dt id="linearmodels.panel.model.FirstDifferenceOLS.entity_effect">
-<code class="descname">entity_effect</code><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.entity_effect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flag indicating whether entity effects are included</p>
+<dl class="method">
+<dt id="linearmodels.panel.model.FirstDifferenceOLS.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FirstDifferenceOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate model parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name of covariance estimator. See Notes.</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debiased the covariance estimator using
+a degree of freedom adjustment.</li>
+<li><strong>**cov_config</strong> &#8211; Additional covariance-specific options.  See Notes.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>results</strong> &#8211; Estimation results</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="results.html#linearmodels.panel.results.PanelResults" title="linearmodels.panel.results.PanelResults">PanelResults</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">FirstDifferenceOLS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">FirstDifferenceOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>Three covariance estimators are supported:</p>
+<blockquote>
+<div><ul class="simple">
+<li>&#8216;unadjusted&#8217;, &#8216;homoskedastic&#8217; - Assume residual are homoskedastic</li>
+<li>&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Control for heteroskedasticity using
+White&#8217;s estimator</li>
+<li>&#8216;clustered` - One or two way clustering.  Configuration options are:<ul>
+<li><code class="docutils literal"><span class="pre">clusters</span></code> - Input containing containing 1 or 2 variables.
+Clusters should be integer values, although other types will
+be coerced to integer values by treating as categorical variables</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p>When using a clustered covariance estimator, all cluster ids must be
+identical within a first difference.  In most scenarios, this requires
+ids to be identical within an entity.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="linearmodels.panel.model.FirstDifferenceOLS.formula">
 <code class="descname">formula</code><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.formula" title="Permalink to this definition">¶</a></dt>
 <dd><p>Formula used to construct the model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.FirstDifferenceOLS.has_constant">
+<code class="descname">has_constant</code><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.has_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating the model a constant or implicit constant</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -429,12 +611,8 @@ missing in the model data.</td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.panel.model.FirstDifferenceOLS.time_effect">
-<code class="descname">time_effect</code><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.time_effect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flag indicating whether time effects are included</p>
+<p class="rubric">Notes</p>
+<p>This is exposed for testing and is not normally used during estimation</p>
 </dd></dl>
 
 </dd></dl>
@@ -450,6 +628,9 @@ missing in the model data.</td>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>dependent</strong> (<em>array-like</em>) &#8211; Dependent (left-hand-side) variable (time by entity)</li>
 <li><strong>exog</strong> (<em>array-like</em>) &#8211; Exogenous or right-hand-side variables (variable by time by entity).</li>
+<li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
+proportional to inverse of weight to that the residual time
+the weight should be homoskedastic.</li>
 </ul>
 </td>
 </tr>
@@ -459,16 +640,66 @@ missing in the model data.</td>
 <p>The model is given by</p>
 <div class="math">
 \[y_{it}=\beta^{\prime}x_{it}+\epsilon_{it}\]</div>
-<dl class="attribute">
-<dt id="linearmodels.panel.model.PooledOLS.entity_effect">
-<code class="descname">entity_effect</code><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.entity_effect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flag indicating whether entity effects are included</p>
+<dl class="method">
+<dt id="linearmodels.panel.model.PooledOLS.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PooledOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate model parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name of covariance estimator. See Notes.</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debiased the covariance estimator using
+a degree of freedom adjustment.</li>
+<li><strong>**cov_config</strong> &#8211; Additional covariance-specific options.  See Notes.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>results</strong> &#8211; Estimation results</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="results.html#linearmodels.panel.results.PanelResults" title="linearmodels.panel.results.PanelResults">PanelResults</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">PooledOLS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">PooledOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>Three covariance estimators are supported:</p>
+<blockquote>
+<div><ul class="simple">
+<li>&#8216;unadjusted&#8217;, &#8216;homoskedastic&#8217; - Assume residual are homoskedastic</li>
+<li>&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Control for heteroskedasticity using
+White&#8217;s estimator</li>
+<li>&#8216;clustered` - One or two way clustering.  Configuration options are:<ul>
+<li><code class="docutils literal"><span class="pre">clusters</span></code> - Input containing containing 1 or 2 variables.
+Clusters should be integer values, although other types will
+be coerced to integer values by treating as categorical variables</li>
+<li><code class="docutils literal"><span class="pre">cluster_entity</span></code> - Boolean flag indicating to use entity
+clusters</li>
+<li><code class="docutils literal"><span class="pre">cluster_time</span></code> - Boolean indicating to use time clusters</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="linearmodels.panel.model.PooledOLS.formula">
 <code class="descname">formula</code><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.formula" title="Permalink to this definition">¶</a></dt>
 <dd><p>Formula used to construct the model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.PooledOLS.has_constant">
+<code class="descname">has_constant</code><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.has_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating the model a constant or implicit constant</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -479,7 +710,7 @@ missing in the model data.</td>
 
 <dl class="method">
 <dt id="linearmodels.panel.model.PooledOLS.reformat_clusters">
-<code class="descname">reformat_clusters</code><span class="sig-paren">(</span><em>clusters</em><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.reformat_clusters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">reformat_clusters</code><span class="sig-paren">(</span><em>clusters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PooledOLS.reformat_clusters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.reformat_clusters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reformat cluster variables</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -494,12 +725,8 @@ missing in the model data.</td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.panel.model.PooledOLS.time_effect">
-<code class="descname">time_effect</code><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.time_effect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flag indicating whether time effects are included</p>
+<p class="rubric">Notes</p>
+<p>This is exposed for testing and is not normally used during estimation</p>
 </dd></dl>
 
 </dd></dl>
@@ -550,7 +777,7 @@ missing in the model data.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+85.g32f0a81',
+            VERSION:'1.0+87.gfbf74c6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
