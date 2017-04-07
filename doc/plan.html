@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Module Plans &mdash; linearmodels 1.0+84.g5ac174d documentation</title>
+  <title>Module Plans &mdash; linearmodels 1.0+85.g32f0a81 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="linearmodels 1.0+84.g5ac174d documentation" href="index.html"/>
+    <link rel="top" title="linearmodels 1.0+85.g32f0a81 documentation" href="index.html"/>
         <link rel="prev" title="Utilities" href="utility.html"/> 
 
   
@@ -97,9 +97,16 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Module Plans</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#univariate">Univariate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#panel">Panel</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#not-implemented">Not Implemented</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#least-squares-estimators">Least Squares Estimators</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#instrumental-variable-estimators">Instrumental Variable Estimators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#least-squares-estimators">Least Squares Estimators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#not-implemented">Not Implemented</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#instrumental-variable-estimators">Instrumental Variable Estimators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Not Implemented</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#fama-macbeth">Fama Macbeth</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Not Implemented</a></li>
 </ul>
 </li>
 </ul>
@@ -219,21 +226,37 @@
 </div>
 <div class="section" id="panel">
 <h2>Panel<a class="headerlink" href="#panel" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="not-implemented">
-<h3>Not Implemented<a class="headerlink" href="#not-implemented" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="least-squares-estimators">
-<h4>Least Squares Estimators<a class="headerlink" href="#least-squares-estimators" title="Permalink to this headline">¶</a></h4>
+<h3>Least Squares Estimators<a class="headerlink" href="#least-squares-estimators" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Pooled</li>
-<li>Between</li>
-<li>Fixed Effects</li>
+<li>Fixed Effects - <a class="reference internal" href="panel/models.html#linearmodels.panel.model.PanelOLS" title="linearmodels.panel.model.PanelOLS"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.panel.model.PanelOLS</span></code></a></li>
+<li>Pooled - <a class="reference internal" href="panel/models.html#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.panel.model.PooledOLS</span></code></a></li>
+<li>Between - <a class="reference internal" href="panel/models.html#linearmodels.panel.model.BetweenOLS" title="linearmodels.panel.model.BetweenOLS"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.panel.model.BetweenOLS</span></code></a></li>
+<li>First Difference - <a class="reference internal" href="panel/models.html#linearmodels.panel.model.FirstDifferenceOLS" title="linearmodels.panel.model.FirstDifferenceOLS"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.panel.model.FirstDifferenceOLS</span></code></a></li>
+</ul>
+<div class="section" id="not-implemented">
+<h4>Not Implemented<a class="headerlink" href="#not-implemented" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
 <li>Random Effects</li>
 </ul>
 </div>
+</div>
 <div class="section" id="instrumental-variable-estimators">
-<h4>Instrumental Variable Estimators<a class="headerlink" href="#instrumental-variable-estimators" title="Permalink to this headline">¶</a></h4>
+<h3>Instrumental Variable Estimators<a class="headerlink" href="#instrumental-variable-estimators" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>Not Implemented<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li>2SLS</li>
+<li>GMM</li>
+</ul>
+</div>
+</div>
+<div class="section" id="fama-macbeth">
+<h3>Fama Macbeth<a class="headerlink" href="#fama-macbeth" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h4>Not Implemented<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Fama-MacBeth</li>
 <li>GMM</li>
 </ul>
 </div>
@@ -283,7 +306,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0+84.g5ac174d',
+            VERSION:'1.0+85.g32f0a81',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
