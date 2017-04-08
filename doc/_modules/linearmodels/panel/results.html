@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.results &mdash; linearmodels 1.0+90.g1d9e890 documentation</title>
+  <title>linearmodels.panel.results &mdash; linearmodels 0+untagged.91.g04b8c79 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 1.0+90.g1d9e890 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.91.g04b8c79 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                1.0
+                0.+
               </div>
             
           
@@ -172,6 +172,10 @@
 
 
 <div class="viewcode-block" id="PanelResults"><a class="viewcode-back" href="../../../panel/results.html#linearmodels.panel.results.PanelResults">[docs]</a><span class="k">class</span> <span class="nc">PanelResults</span><span class="p">(</span><span class="n">_SummaryStr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Results container for panel data models</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_deferred_cov</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">deferred_cov</span>
@@ -190,6 +194,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_s2</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">s2</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_entity_info</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">entity_info</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_time_info</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">time_info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_other_info</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">other_info</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cov_type</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">cov_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
@@ -208,7 +213,9 @@
     <span class="nd">@cached_property</span>
 <div class="viewcode-block" id="PanelResults.cov"><a class="viewcode-back" href="../../../panel/results.html#linearmodels.panel.results.PanelResults.cov">[docs]</a>    <span class="k">def</span> <span class="nf">cov</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Estimated covariance of parameters&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_deferred_cov</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_var_names</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_var_names</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_deferred_cov</span><span class="p">(),</span>
+                         <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_var_names</span><span class="p">,</span>
+                         <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_var_names</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">std_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -234,17 +241,29 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">df_resid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Residual degree of freedom&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Residual degree of freedom </span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Defined as nobs minus nvar minus the number of included effects, if any.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df_resid</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">df_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Model degree of freedom&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Model degree of freedom</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Defined as nvar plus the number of included effects, if any.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df_model</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">nobs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Number of observations&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Number of observations used to estimate the model&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nobs</span>
 
     <span class="nd">@property</span>
@@ -269,22 +288,56 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">rsquared</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Model Coefficient of determination (R**2)&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Model Coefficient of determination&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r2</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">rsquared_between</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Between Coefficient of determination&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Between Coefficient of determination</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        rsquared : float</span>
+<span class="sd">            Between coefficient of determination</span>
+<span class="sd">            </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The between rsquared measures the fit of the time-averaged dependent </span>
+<span class="sd">        variable on the time averaged dependent variables.  </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r2b</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">rsquared_within</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Within coefficient of determination&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Within coefficient of determination</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        rsquared : float</span>
+<span class="sd">            Within coefficient of determination</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The within rsquared measures the fit of the dependent purged of entity</span>
+<span class="sd">        effects on the exogenous purged of entity effects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r2w</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">rsquared_overall</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Overall coefficient of determination&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Overall coefficient of determination</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        rsquared : float</span>
+<span class="sd">            Between coefficient of determination</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The overall rsquared measures the fit of the dependent </span>
+<span class="sd">        variable on the dependent variables ignoring any included effects.  </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r2o</span>
 
     <span class="nd">@property</span>
@@ -296,6 +349,11 @@
     <span class="k">def</span> <span class="nf">entity_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Statistics on observations per entity&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_info</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">other_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Statistics on observations per group for other effects&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_other_info</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">time_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -332,9 +390,15 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Summary table of model estimation results&quot;&quot;&quot;</span>
+        <span class="c1"># TODO: Report optional effects</span>
 
         <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; Estimation Summary&#39;</span>
         <span class="n">mod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
+
+        <span class="n">is_invalid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_pooled</span><span class="o">.</span><span class="n">stat</span><span class="p">)</span>
+        <span class="n">f_pool</span> <span class="o">=</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_pooled</span><span class="o">.</span><span class="n">stat</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_invalid</span> <span class="k">else</span> <span class="s1">&#39;--&#39;</span>
+        <span class="n">f_pool_pval</span> <span class="o">=</span> <span class="n">pval_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_pooled</span><span class="o">.</span><span class="n">pval</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_invalid</span> <span class="k">else</span> <span class="s1">&#39;--&#39;</span>
+        <span class="n">f_pool_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_pooled</span><span class="o">.</span><span class="n">dist_name</span> <span class="k">if</span> <span class="n">is_invalid</span> <span class="k">else</span> <span class="s1">&#39;--&#39;</span>
         <span class="n">top_left</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Dep. Variable:&#39;</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">vars</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
                     <span class="p">(</span><span class="s1">&#39;Estimator:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
                     <span class="p">(</span><span class="s1">&#39;No. Observations:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nobs</span><span class="p">),</span>
@@ -342,11 +406,15 @@
                     <span class="p">(</span><span class="s1">&#39;Time:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">)),</span>
                     <span class="p">(</span><span class="s1">&#39;Cov. Estimator:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_type</span><span class="p">),</span>
                     <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
-                    <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
                     <span class="p">(</span><span class="s1">&#39;Entities:&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_info</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]))),</span>
                     <span class="p">(</span><span class="s1">&#39;Avg Obs:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_info</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">])),</span>
                     <span class="p">(</span><span class="s1">&#39;Min Obs:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_info</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">])),</span>
                     <span class="p">(</span><span class="s1">&#39;Max Obs:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_info</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">])),</span>
+                    <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;Time periods:&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_info</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]))),</span>
+                    <span class="p">(</span><span class="s1">&#39;Avg Obs:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_info</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">])),</span>
+                    <span class="p">(</span><span class="s1">&#39;Min Obs:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_info</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">])),</span>
+                    <span class="p">(</span><span class="s1">&#39;Max Obs:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_info</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">])),</span>
                     <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)]</span>
 
         <span class="n">is_invalid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic</span><span class="o">.</span><span class="n">stat</span><span class="p">)</span>
@@ -354,18 +422,26 @@
         <span class="n">f_pval</span> <span class="o">=</span> <span class="n">pval_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic</span><span class="o">.</span><span class="n">pval</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_invalid</span> <span class="k">else</span> <span class="s1">&#39;--&#39;</span>
         <span class="n">f_dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_statistic</span><span class="o">.</span><span class="n">dist_name</span> <span class="k">if</span> <span class="n">is_invalid</span> <span class="k">else</span> <span class="s1">&#39;--&#39;</span>
 
+        <span class="n">f_robust</span> <span class="o">=</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic_robust</span><span class="o">.</span><span class="n">stat</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_invalid</span> <span class="k">else</span> <span class="s1">&#39;--&#39;</span>
+        <span class="n">f_robust_pval</span> <span class="o">=</span> <span class="n">pval_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_statistic_robust</span><span class="o">.</span><span class="n">pval</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_invalid</span> <span class="k">else</span> <span class="s1">&#39;--&#39;</span>
+        <span class="n">f_robust_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_statistic_robust</span><span class="o">.</span><span class="n">dist_name</span> <span class="k">if</span> <span class="n">is_invalid</span> <span class="k">else</span> <span class="s1">&#39;--&#39;</span>
+
         <span class="n">top_right</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;R-squared:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsquared</span><span class="p">)),</span>
                      <span class="p">(</span><span class="s1">&#39;R-squared (Between):&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsquared_between</span><span class="p">)),</span>
                      <span class="p">(</span><span class="s1">&#39;R-squared (Within):&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsquared_within</span><span class="p">)),</span>
                      <span class="p">(</span><span class="s1">&#39;R-squared (Overall):&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsquared_overall</span><span class="p">)),</span>
+                     <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
                      <span class="p">(</span><span class="s1">&#39;F-statistic:&#39;</span><span class="p">,</span> <span class="n">f_stat</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;P-value (F-stat)&#39;</span><span class="p">,</span> <span class="n">f_pval</span><span class="p">),</span>
+                     <span class="p">(</span><span class="s1">&#39;P-value&#39;</span><span class="p">,</span> <span class="n">f_pval</span><span class="p">),</span>
                      <span class="p">(</span><span class="s1">&#39;Distribution:&#39;</span><span class="p">,</span> <span class="n">f_dist</span><span class="p">),</span>
                      <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Time periods:&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_info</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]))),</span>
-                     <span class="p">(</span><span class="s1">&#39;Avg Obs:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_info</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">])),</span>
-                     <span class="p">(</span><span class="s1">&#39;Min Obs:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_info</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">])),</span>
-                     <span class="p">(</span><span class="s1">&#39;Max Obs:&#39;</span><span class="p">,</span> <span class="n">_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_info</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">])),</span>
+                     <span class="p">(</span><span class="s1">&#39;F-statistic (robust):&#39;</span><span class="p">,</span> <span class="n">f_robust</span><span class="p">),</span>
+                     <span class="p">(</span><span class="s1">&#39;P-value&#39;</span><span class="p">,</span> <span class="n">f_robust_pval</span><span class="p">),</span>
+                     <span class="p">(</span><span class="s1">&#39;Distribution:&#39;</span><span class="p">,</span> <span class="n">f_robust_name</span><span class="p">),</span>
+                     <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                     <span class="p">(</span><span class="s1">&#39;F-stat (pooled):&#39;</span><span class="p">,</span> <span class="n">f_pool</span><span class="p">),</span>
+                     <span class="p">(</span><span class="s1">&#39;P-value&#39;</span><span class="p">,</span> <span class="n">f_pool_pval</span><span class="p">),</span>
+                     <span class="p">(</span><span class="s1">&#39;Distribution:&#39;</span><span class="p">,</span> <span class="n">f_pool_name</span><span class="p">),</span>
                      <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)]</span>
 
         <span class="n">stubs</span> <span class="o">=</span> <span class="p">[]</span>
@@ -414,6 +490,19 @@
                             <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
                             <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
         <span class="n">smry</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        <span class="n">extra_text</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ncol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_info</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">extra_text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Model includes </span><span class="si">{0}</span><span class="s1"> other effects&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ncol</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_info</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_info</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+                <span class="n">extra_text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Other Effect </span><span class="si">{0}</span><span class="s1">:&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+                <span class="n">stats</span> <span class="o">=</span> <span class="s1">&#39;Avg Obs: </span><span class="si">{0}</span><span class="s1">, Min Obs: </span><span class="si">{1}</span><span class="s1">, Max Obs: </span><span class="si">{2}</span><span class="s1">, Groups: </span><span class="si">{3}</span><span class="s1">&#39;</span>
+                <span class="n">stats</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_str</span><span class="p">(</span><span class="n">col</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]),</span><span class="n">_str</span><span class="p">(</span><span class="n">col</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">]),</span><span class="n">_str</span><span class="p">(</span><span class="n">col</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">]),</span>
+                                     <span class="nb">int</span><span class="p">(</span><span class="n">col</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]))</span>
+                <span class="n">extra_text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+
+        <span class="n">smry</span><span class="o">.</span><span class="n">add_extra_txt</span><span class="p">(</span><span class="n">extra_text</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">smry</span>
 
@@ -424,12 +513,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">wresids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Model residuals&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Weighted model residuals&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wresids</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;weighted residual&#39;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">f_statistic_robust</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Joint test of significance for non-constant regressors</span>
 
 <span class="sd">        Returns</span>
@@ -442,15 +531,26 @@
 <span class="sd">        Implemented as a Wald test using the estimated parameter covariance,</span>
 <span class="sd">        and so inherits any robustness that the choice of covariance estimator</span>
 <span class="sd">        provides.</span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">        </span>
+<span class="sd">           W = \hat{\beta}_{-}&#39; \hat{\Sigma}_{-}^{-1} \hat{\beta}_{-}</span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`\hat{\beta}_{-}` does not include the model constant and</span>
+<span class="sd">        :math:`\hat{\Sigma}_{-}` is tht estimated covariance of the </span>
+<span class="sd">        parameters, also excluding the constant.  The test statistic is </span>
+<span class="sd">        distributed as :math:`\chi^2_{k}` where k is the number of non-</span>
+<span class="sd">        constant parameters.</span>
 
 <span class="sd">        If ``debiased`` is True, then the Wald statistic is divided by the</span>
-<span class="sd">        number of restrictions and inference is made using an F distribution.</span>
+<span class="sd">        number of restrictions and inference is made using an :math:`F_{k,df}`</span>
+<span class="sd">        distribution where df is the residual degree of freedom from the model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deferred_f</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">f_statistic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Joint test of significance for non-constant regressors</span>
 
 <span class="sd">        Returns</span>
@@ -461,13 +561,24 @@
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        Classical F-stat that is only correct under an assumption of</span>
-<span class="sd">        homoskedasticity.</span>
+<span class="sd">        homoskedasticity.  The test statistic is defined as</span>
+<span class="sd">         </span>
+<span class="sd">        .. math::</span>
+<span class="sd">        </span>
+<span class="sd">          F = \frac{(RSS_R - RSS_U)/ k}{RSS_U / df_U}</span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`RSS_R` is the restricted sum of squares from the model </span>
+<span class="sd">        where the coefficients on all exog variables is zero, excluding a </span>
+<span class="sd">        constant if one was included. :math:`RSS_U` is the unrestricted </span>
+<span class="sd">        residual sum of squares.  k is the number of non-constant regressors</span>
+<span class="sd">        in the model and :math:`df_U` is the residual degree of freedom in the</span>
+<span class="sd">        unrestricted model.  The test has an :math:`F_{k,df_U}` distribution.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deferred_f</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f_stat</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">f_pooled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Test that included effects are jointly zero.</span>
 
 <span class="sd">        Returns</span>
@@ -479,9 +590,22 @@
 <span class="sd">        -----</span>
 <span class="sd">        Joint test that all included effects are zero.  Only correct under an</span>
 <span class="sd">        assumption of homoskedasticity.</span>
+<span class="sd">        </span>
+<span class="sd">        The test statistic is defined as </span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">          F = \frac{(RSS_{pool}-RSS_{effect})/(df_{pool}-df_{effect})}{RSS_{effect}/df_{effect}}</span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`RSS_{pool}` is the residual sum of squares from a no-</span>
+<span class="sd">        effect (pooled) model. :math:`RSS_{effect}` is the residual sum of</span>
+<span class="sd">        squares from a model with effects.  :math:`df_{pool}` is the residual </span>
+<span class="sd">        degree of freedom in the pooled regression and :math:`df_{effect}` is </span>
+<span class="sd">        the residual degree of freedom from the model with effects. The test </span>
+<span class="sd">        has an :math:`F_{k,df_{effect}}` distribution where </span>
+<span class="sd">        :math:`k=df_{pool}-df_{effect}`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f_pooled</span></div>
-
 </pre></div>
 
            </div>
@@ -518,7 +642,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0+90.g1d9e890',
+            VERSION:'0+untagged.91.g04b8c79',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
