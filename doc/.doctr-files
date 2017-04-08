@@ -22,6 +22,9 @@ doc/_sources/iv/reference.rst.txt
 doc/_sources/iv/results.rst.txt
 doc/_sources/panel/covariance.rst.txt
 doc/_sources/panel/data.rst.txt
+doc/_sources/panel/examples/data-formats.ipynb.txt
+doc/_sources/panel/examples/examples.ipynb.txt
+doc/_sources/panel/examples/using-formulas.ipynb.txt
 doc/_sources/panel/index.rst.txt
 doc/_sources/panel/models.rst.txt
 doc/_sources/panel/reference.rst.txt
@@ -78,6 +81,9 @@ doc/iv/results.html
 doc/objects.inv
 doc/panel/covariance.html
 doc/panel/data.html
+doc/panel/examples/data-formats.html
+doc/panel/examples/examples.html
+doc/panel/examples/using-formulas.html
 doc/panel/index.html
 doc/panel/models.html
 doc/panel/reference.html

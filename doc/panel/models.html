@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 0+untagged.91.g04b8c79 documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 0+untagged.88.g88f375d documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.91.g04b8c79 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.88.g88f375d documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Panel Model Covariance Estimators" href="covariance.html"/>
         <link rel="prev" title="Module Reference" href="reference.html"/> 
@@ -217,7 +217,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>dependent</strong> (<em>array-like</em>) &#8211; Dependent (left-hand-side) variable (time by entity)</li>
+<li><strong>dependent</strong> (<em>array-like</em>) &#8211; Dependent (left-hand-side) variable (time by entity).</li>
 <li><strong>exog</strong> (<em>array-like</em>) &#8211; Exogenous or right-hand-side variables (variable by time by entity).</li>
 <li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
 proportional to inverse of weight to that the residual time
@@ -232,13 +232,21 @@ effects. Each variable is treated as an effect.</li>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>The model is given by</p>
+<p>Many models can be estimated. The most common included entity effects and
+can be described</p>
 <div class="math">
-\[y_{it}=\alpha_i + \gamma_t +\beta^{\prime}x_{it}+\epsilon_{it}\]</div>
-<p>where <span class="math">\(\alpha_i\)</span> is omitted if <code class="docutils literal"><span class="pre">entity_effect</span></code> is <code class="docutils literal"><span class="pre">False</span></code> and
-<span class="math">\(\gamma_i\)</span> is omitted if <code class="docutils literal"><span class="pre">time_effect</span></code> is <code class="docutils literal"><span class="pre">False</span></code>. If both <code class="docutils literal"><span class="pre">entity_effect</span></code>  and
-<code class="docutils literal"><span class="pre">time_effect</span></code> are <code class="docutils literal"><span class="pre">False</span></code>, the model reduces to <a class="reference internal" href="#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS"><code class="xref py py-class docutils literal"><span class="pre">PooledOLS</span></code></a>. If <code class="docutils literal"><span class="pre">other_effects</span></code>
-is provided, then additional terms are present to reflect these effects.</p>
+\[y_{it} = \alpha_i + \beta^{\prime}x_{it} + \epsilon_{it}\]</div>
+<p>where <span class="math">\(\alpha_i\)</span> is included if <code class="docutils literal"><span class="pre">entity_effect</span></code> is <a href="#id1"><span class="problematic" id="id2">``</span></a>True.</p>
+<p>Time effect are also supported, which leads to a model of the form</p>
+<div class="math">
+\[y_{it}= \gamma_t + \beta^{\prime}x_{it} + \epsilon_{it}\]</div>
+<p>where <span class="math">\(\gamma_i\)</span> is included if <code class="docutils literal"><span class="pre">time_effect</span></code> is <code class="docutils literal"><span class="pre">True</span></code>.</p>
+<p>Both effects can be simultaneously used,</p>
+<div class="math">
+\[y_{it}=\alpha_i + \gamma_t + \beta^{\prime}x_{it} + \epsilon_{it}\]</div>
+<p>Additionally , arbitrary effects can be specified using categorical variables.</p>
+<p>If both <code class="docutils literal"><span class="pre">entity_effect</span></code>  and``time_effect`` are <code class="docutils literal"><span class="pre">False</span></code>, and no other
+effects are included, the model reduces to <a class="reference internal" href="#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS"><code class="xref py py-class docutils literal"><span class="pre">PooledOLS</span></code></a>.</p>
 <p>Model supports at most 2 effects.  These can be entity-time, entity-other, time-other or
 2 other.</p>
 <dl class="attribute">
@@ -567,6 +575,8 @@ White&#8217;s estimator</li>
 <li><code class="docutils literal"><span class="pre">clusters</span></code> - Input containing containing 1 or 2 variables.
 Clusters should be integer values, although other types will
 be coerced to integer values by treating as categorical variables</li>
+<li><code class="docutils literal"><span class="pre">cluster_entity</span></code> - Boolean flag indicating to use entity
+clusters</li>
 </ul>
 </li>
 </ul>
@@ -777,7 +787,7 @@ missing in the model data.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.91.g04b8c79',
+            VERSION:'0+untagged.88.g88f375d',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

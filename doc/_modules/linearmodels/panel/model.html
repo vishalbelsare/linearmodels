@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.91.g04b8c79 documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.88.g88f375d documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.91.g04b8c79 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.88.g88f375d documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -165,12 +165,11 @@
 <span class="kn">from</span> <span class="nn">patsy.highlevel</span> <span class="k">import</span> <span class="n">ModelDesc</span><span class="p">,</span> <span class="n">dmatrices</span>
 <span class="kn">from</span> <span class="nn">patsy.missing</span> <span class="k">import</span> <span class="n">NAAction</span>
 
-<span class="kn">from</span> <span class="nn">linearmodels.panel.covariance</span> <span class="k">import</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span> \
-    <span class="n">ClusteredCovariance</span>
+<span class="kn">from</span> <span class="nn">linearmodels.panel.covariance</span> <span class="k">import</span> <span class="n">ClusteredCovariance</span><span class="p">,</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span> <span class="n">HomoskedasticCovariance</span>
 <span class="kn">from</span> <span class="nn">linearmodels.panel.data</span> <span class="k">import</span> <span class="n">PanelData</span>
 <span class="kn">from</span> <span class="nn">linearmodels.panel.results</span> <span class="k">import</span> <span class="n">PanelResults</span>
-<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">AttrDict</span><span class="p">,</span> <span class="n">InvalidTestStatistic</span><span class="p">,</span> <span class="n">MissingValueWarning</span><span class="p">,</span> \
-    <span class="n">WaldTestStatistic</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> <span class="n">InapplicableTestStatistic</span><span class="p">,</span> <span class="n">missing_value_warning_msg</span>
+<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">AttrDict</span><span class="p">,</span> <span class="n">InapplicableTestStatistic</span><span class="p">,</span> <span class="n">InvalidTestStatistic</span><span class="p">,</span> <span class="n">MissingValueWarning</span><span class="p">,</span> \
+    <span class="n">WaldTestStatistic</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> <span class="n">missing_value_warning_msg</span>
 
 
 <span class="k">class</span> <span class="nc">CovarianceManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -218,7 +217,8 @@
 <span class="c1"># TODO: Formal test of other outputs</span>
 <span class="c1"># TODO: Test Pooled F-stat</span>
 <span class="c1"># TODO: Add fast path for no-constant, entity or time effect &lt;- Depends on whether it is easy to compute FE</span>
-<span class="c1"># TODO: Test alternative acceptable cluster formats</span>
+
+
 
 
 <div class="viewcode-block" id="PooledOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PooledOLS">[docs]</a><span class="k">class</span> <span class="nc">PooledOLS</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -232,9 +232,9 @@
 <span class="sd">    exog : array-like</span>
 <span class="sd">        Exogenous or right-hand-side variables (variable by time by entity).</span>
 <span class="sd">    weights : array-like, optional</span>
-<span class="sd">        Weights to use in estimation.  Assumes residual variance is </span>
-<span class="sd">        proportional to inverse of weight to that the residual time </span>
-<span class="sd">        the weight should be homoskedastic. </span>
+<span class="sd">        Weights to use in estimation.  Assumes residual variance is</span>
+<span class="sd">        proportional to inverse of weight to that the residual time</span>
+<span class="sd">        the weight should be homoskedastic.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -604,14 +604,14 @@
 <span class="sd">        Three covariance estimators are supported:</span>
 
 <span class="sd">          * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assume residual are homoskedastic</span>
-<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using </span>
+<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using</span>
 <span class="sd">            White&#39;s estimator</span>
 <span class="sd">          * &#39;clustered` - One or two way clustering.  Configuration options are:</span>
 
-<span class="sd">            * ``clusters`` - Input containing containing 1 or 2 variables.  </span>
-<span class="sd">              Clusters should be integer values, although other types will </span>
+<span class="sd">            * ``clusters`` - Input containing containing 1 or 2 variables.</span>
+<span class="sd">              Clusters should be integer values, although other types will</span>
 <span class="sd">              be coerced to integer values by treating as categorical variables</span>
-<span class="sd">            * ``cluster_entity`` - Boolean flag indicating to use entity </span>
+<span class="sd">            * ``cluster_entity`` - Boolean flag indicating to use entity</span>
 <span class="sd">              clusters</span>
 <span class="sd">            * ``cluster_time`` - Boolean indicating to use time clusters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -652,13 +652,13 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dependent : array-like</span>
-<span class="sd">        Dependent (left-hand-side) variable (time by entity)</span>
+<span class="sd">        Dependent (left-hand-side) variable (time by entity).</span>
 <span class="sd">    exog : array-like</span>
 <span class="sd">        Exogenous or right-hand-side variables (variable by time by entity).</span>
 <span class="sd">    weights : array-like, optional</span>
-<span class="sd">        Weights to use in estimation.  Assumes residual variance is </span>
-<span class="sd">        proportional to inverse of weight to that the residual time </span>
-<span class="sd">        the weight should be homoskedastic. </span>
+<span class="sd">        Weights to use in estimation.  Assumes residual variance is</span>
+<span class="sd">        proportional to inverse of weight to that the residual time</span>
+<span class="sd">        the weight should be homoskedastic.</span>
 <span class="sd">    entity_effect : bool, optional</span>
 <span class="sd">        Flag whether to include entity (fixed) effects in the model</span>
 <span class="sd">    time_effect : bool, optional</span>
@@ -669,16 +669,33 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    The model is given by</span>
+<span class="sd">    Many models can be estimated. The most common included entity effects and</span>
+<span class="sd">    can be described</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        y_{it}=\alpha_i + \gamma_t +\beta^{\prime}x_{it}+\epsilon_{it}</span>
+<span class="sd">        y_{it} = \alpha_i + \beta^{\prime}x_{it} + \epsilon_{it}</span>
 
-<span class="sd">    where :math:`\alpha_i` is omitted if ``entity_effect`` is ``False`` and</span>
-<span class="sd">    :math:`\gamma_i` is omitted if ``time_effect`` is ``False``. If both ``entity_effect``  and</span>
-<span class="sd">    ``time_effect`` are ``False``, the model reduces to :class:`PooledOLS`. If ``other_effects``</span>
-<span class="sd">    is provided, then additional terms are present to reflect these effects.</span>
+<span class="sd">    where :math:`\alpha_i` is included if ``entity_effect`` is ``True.</span>
+
+<span class="sd">    Time effect are also supported, which leads to a model of the form</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        y_{it}= \gamma_t + \beta^{\prime}x_{it} + \epsilon_{it}</span>
+
+<span class="sd">    where :math:`\gamma_i` is included if ``time_effect`` is ``True``.</span>
+
+<span class="sd">    Both effects can be simultaneously used,</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        y_{it}=\alpha_i + \gamma_t + \beta^{\prime}x_{it} + \epsilon_{it}</span>
+
+<span class="sd">    Additionally , arbitrary effects can be specified using categorical variables.</span>
+
+<span class="sd">    If both ``entity_effect``  and``time_effect`` are ``False``, and no other</span>
+<span class="sd">    effects are included, the model reduces to :class:`PooledOLS`.</span>
 
 <span class="sd">    Model supports at most 2 effects.  These can be entity-time, entity-other, time-other or</span>
 <span class="sd">    2 other.</span>
@@ -737,29 +754,29 @@
 <div class="viewcode-block" id="PanelOLS.from_formula"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PanelOLS.from_formula">[docs]</a>    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a model from a formula</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        formula : str</span>
-<span class="sd">            Formula to transform into model. Conforms to patsy formula rules </span>
-<span class="sd">            with two special variable names, EntityEffect and TimeEffect </span>
+<span class="sd">            Formula to transform into model. Conforms to patsy formula rules</span>
+<span class="sd">            with two special variable names, EntityEffect and TimeEffect</span>
 <span class="sd">            which can be used to specify that the model should contain an</span>
 <span class="sd">            entity effect or a time effect, respectively. See Examples.</span>
 <span class="sd">        data : array-like</span>
-<span class="sd">            Data structure that can be coerced into a PanelData.  In most </span>
-<span class="sd">            cases, this should be a multi-index DataFrame where the level 0 </span>
+<span class="sd">            Data structure that can be coerced into a PanelData.  In most</span>
+<span class="sd">            cases, this should be a multi-index DataFrame where the level 0</span>
 <span class="sd">            index contains the entities and the level 1 contains the time.</span>
 <span class="sd">            weights : array-like, optional</span>
 <span class="sd">        weights: array-like</span>
-<span class="sd">            Weights to use in estimation.  Assumes residual variance is </span>
-<span class="sd">            proportional to inverse of weight to that the residual time </span>
-<span class="sd">            the weight should be homoskedastic. </span>
-<span class="sd">        </span>
+<span class="sd">            Weights to use in estimation.  Assumes residual variance is</span>
+<span class="sd">            proportional to inverse of weight to that the residual time</span>
+<span class="sd">            the weight should be homoskedastic.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        model : PanelOLS</span>
 <span class="sd">            Model specified using the formula</span>
-<span class="sd">        </span>
+
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; from linearmodels import PanelOLS</span>
@@ -795,7 +812,7 @@
         <span class="k">return</span> <span class="n">mod</span></div>
 
     <span class="k">def</span> <span class="nf">_slow_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Frisch-Waigh-Lovell Implemtation, mostly for weighted&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Frisch-Waigh-Lovell implementation, mostly for weighted&quot;&quot;&quot;</span>
         <span class="n">has_effect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effect</span>
         <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">root_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
@@ -900,7 +917,7 @@
 <div class="viewcode-block" id="PanelOLS.fit"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PanelOLS.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate model parameters</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        cov_type : str, optional</span>
@@ -910,31 +927,31 @@
 <span class="sd">            a degree of freedom adjustment.</span>
 <span class="sd">        **cov_config</span>
 <span class="sd">            Additional covariance-specific options.  See Notes.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        results :  PanelResults</span>
 <span class="sd">            Estimation results</span>
-<span class="sd">        </span>
+
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; from linearmodels import PanelOLS</span>
 <span class="sd">        &gt;&gt;&gt; mod = PanelOLS(y, x)</span>
 <span class="sd">        &gt;&gt;&gt; res = mod.fit(cov_type=&#39;clustered&#39;, cluster_entity=True)</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        Three covariance estimators are supported:</span>
-<span class="sd">        </span>
+
 <span class="sd">          * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assume residual are homoskedastic</span>
-<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using </span>
+<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using</span>
 <span class="sd">            White&#39;s estimator</span>
 <span class="sd">          * &#39;clustered` - One or two way clustering.  Configuration options are:</span>
-<span class="sd">          </span>
-<span class="sd">            * ``clusters`` - Input containing containing 1 or 2 variables.  </span>
-<span class="sd">              Clusters should be integer values, although other types will </span>
+
+<span class="sd">            * ``clusters`` - Input containing containing 1 or 2 variables.</span>
+<span class="sd">              Clusters should be integer values, although other types will</span>
 <span class="sd">              be coerced to integer values by treating as categorical variables</span>
-<span class="sd">            * ``cluster_entity`` - Boolean flag indicating to use entity </span>
+<span class="sd">            * ``cluster_entity`` - Boolean flag indicating to use entity</span>
 <span class="sd">              clusters</span>
 <span class="sd">            * ``cluster_time`` - Boolean indicating to use time clusters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1022,9 +1039,9 @@
 <span class="sd">    exog : array-like</span>
 <span class="sd">        Exogenous or right-hand-side variables (variable by time by entity).</span>
 <span class="sd">    weights : array-like, optional</span>
-<span class="sd">        Weights to use in estimation.  Assumes residual variance is </span>
-<span class="sd">        proportional to inverse of weight to that the residual time </span>
-<span class="sd">        the weight should be homoskedastic. </span>
+<span class="sd">        Weights to use in estimation.  Assumes residual variance is</span>
+<span class="sd">        proportional to inverse of weight to that the residual time</span>
+<span class="sd">        the weight should be homoskedastic.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -1096,16 +1113,16 @@
 <span class="sd">        Three covariance estimators are supported:</span>
 
 <span class="sd">          * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assume residual are homoskedastic</span>
-<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using </span>
+<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using</span>
 <span class="sd">            White&#39;s estimator</span>
 <span class="sd">          * &#39;clustered` - One or two way clustering.  Configuration options are:</span>
 
-<span class="sd">            * ``clusters`` - Input containing containing 1 or 2 variables.  </span>
-<span class="sd">              Clusters should be integer values, although other types will </span>
+<span class="sd">            * ``clusters`` - Input containing containing 1 or 2 variables.</span>
+<span class="sd">              Clusters should be integer values, although other types will</span>
 <span class="sd">              be coerced to integer values by treating as categorical variables</span>
-<span class="sd">        </span>
-<span class="sd">        When using a clustered covariance estimator, all cluster ids must be </span>
-<span class="sd">        identical within an entity.  </span>
+
+<span class="sd">        When using a clustered covariance estimator, all cluster ids must be</span>
+<span class="sd">        identical within an entity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_between</span><span class="p">()</span>
@@ -1154,9 +1171,9 @@
 <span class="sd">    exog : array-like</span>
 <span class="sd">        Exogenous or right-hand-side variables (variable by time by entity).</span>
 <span class="sd">    weights : array-like, optional</span>
-<span class="sd">        Weights to use in estimation.  Assumes residual variance is </span>
-<span class="sd">        proportional to inverse of weight to that the residual time </span>
-<span class="sd">        the weight should be homoskedastic. </span>
+<span class="sd">        Weights to use in estimation.  Assumes residual variance is</span>
+<span class="sd">        proportional to inverse of weight to that the residual time</span>
+<span class="sd">        the weight should be homoskedastic.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -1244,15 +1261,17 @@
 <span class="sd">        Three covariance estimators are supported:</span>
 
 <span class="sd">          * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assume residual are homoskedastic</span>
-<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using </span>
+<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using</span>
 <span class="sd">            White&#39;s estimator</span>
 <span class="sd">          * &#39;clustered` - One or two way clustering.  Configuration options are:</span>
 
-<span class="sd">            * ``clusters`` - Input containing containing 1 or 2 variables.  </span>
-<span class="sd">              Clusters should be integer values, although other types will </span>
+<span class="sd">            * ``clusters`` - Input containing containing 1 or 2 variables.</span>
+<span class="sd">              Clusters should be integer values, although other types will</span>
 <span class="sd">              be coerced to integer values by treating as categorical variables</span>
+<span class="sd">            * ``cluster_entity`` - Boolean flag indicating to use entity</span>
+<span class="sd">              clusters</span>
 
-<span class="sd">        When using a clustered covariance estimator, all cluster ids must be </span>
+<span class="sd">        When using a clustered covariance estimator, all cluster ids must be</span>
 <span class="sd">        identical within a first difference.  In most scenarios, this requires</span>
 <span class="sd">        ids to be identical within an entity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1332,7 +1351,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.91.g04b8c79',
+            VERSION:'0+untagged.88.g88f375d',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
