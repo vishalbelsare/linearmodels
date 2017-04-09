@@ -26,6 +26,8 @@ doc/_sources/panel/examples/data-formats.ipynb.txt
 doc/_sources/panel/examples/examples.ipynb.txt
 doc/_sources/panel/examples/using-formulas.ipynb.txt
 doc/_sources/panel/index.rst.txt
+doc/_sources/panel/introduction.rst.txt
+doc/_sources/panel/mathematical-formula.rst.txt
 doc/_sources/panel/models.rst.txt
 doc/_sources/panel/reference.rst.txt
 doc/_sources/panel/results.rst.txt
@@ -85,6 +87,8 @@ doc/panel/examples/data-formats.html
 doc/panel/examples/examples.html
 doc/panel/examples/using-formulas.html
 doc/panel/index.html
+doc/panel/introduction.html
+doc/panel/mathematical-formula.html
 doc/panel/models.html
 doc/panel/reference.html
 doc/panel/results.html
