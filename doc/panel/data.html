@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Panel Data Structures &mdash; linearmodels 0+untagged.88.g88f375d documentation</title>
+  <title>Panel Data Structures &mdash; linearmodels 0+untagged.86.g9996c32 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.88.g88f375d documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.86.g9996c32 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Utilities" href="../utility.html"/>
         <link rel="prev" title="Estimation Results" href="results.html"/> 
@@ -95,6 +95,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../iv/index.html">Instrumental Variable Estimation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Panel Data Model Estimation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="examples/data-formats.html">Data Formats for Panel Data Analysis</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="reference.html">Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="models.html">Models for Panel Data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="covariance.html">Panel Model Covariance Estimators</a></li>
@@ -218,7 +219,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x</strong> (<em>{ndarray</em><em>, </em><em>Series</em><em>, </em><em>DataFrame</em><em>, </em><em>DataArray}</em>) &#8211; Input data, either 2 or 3 dimensional</li>
+<li><strong>x</strong> (<em>{ndarray</em><em>, </em><em>Series</em><em>, </em><em>DataFrame</em><em>, </em><em>Panel</em><em>, </em><em>DataArray}</em>) &#8211; Input data</li>
 <li><strong>var_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Variable name to use when naming variables in NumPy arrays or
 xarray DataArrays</li>
 <li><strong>convert_dummies</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flat indicating whether pandas categoricals or string input data
@@ -246,7 +247,8 @@ input is treated differently.  Index level 0 is assumed ot be entity.
 Index level 1 is time.  The columns are the variables.  This is the most
 precise format to use since pandas Panels do not preserve all variable
 type information across transformations between Panel and MultiIndex
-DataFrame.</p>
+DataFrame. MultiIndex Series are also accepted and treated as single
+column MultiIndex DataFrames.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -548,7 +550,7 @@ entity or time period should be dropped</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.88.g88f375d',
+            VERSION:'0+untagged.86.g9996c32',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
