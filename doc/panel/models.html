@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 0+untagged.85.g98ea4e5 documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 0+untagged.86.g18a6860 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.85.g98ea4e5 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.86.g18a6860 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Panel Model Covariance Estimators" href="covariance.html"/>
         <link rel="prev" title="Module Reference" href="reference.html"/> 
@@ -263,7 +263,7 @@ effects are included, the model reduces to <a class="reference internal" href="#
 
 <dl class="method">
 <dt id="linearmodels.panel.model.PanelOLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>count_effects=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>auto_df=True</em>, <em>count_effects=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -273,8 +273,14 @@ effects are included, the model reduces to <a class="reference internal" href="#
 <li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name of covariance estimator. See Notes.</li>
 <li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debiased the covariance estimator using
 a degree of freedom adjustment.</li>
+<li><strong>auto_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating that the treatment of estimated effects in degree
+of freedom adjustment is automatically handeled. This is useful
+since clustered standard errors that are clustered using the same
+variable as an effect do not require degree of freedom correction
+while other estimators such as the unadjusted covariance do.</li>
 <li><strong>count_effects</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating that the covariance estimator should be adjusted
-to account for the estimation of effects in the model.</li>
+to account for the estimation of effects in the model. Only used
+if <code class="docutils literal"><span class="pre">auto_df=False</span></code>.</li>
 <li><strong>**cov_config</strong> &#8211; Additional covariance-specific options.  See Notes.</li>
 </ul>
 </td>
@@ -289,7 +295,7 @@ to account for the estimation of effects in the model.</li>
 </table>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">PanelOLS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">entity_effect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -795,7 +801,7 @@ missing in the model data.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.85.g98ea4e5',
+            VERSION:'0+untagged.86.g18a6860',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

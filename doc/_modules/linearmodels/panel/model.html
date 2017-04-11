@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.85.g98ea4e5 documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.86.g18a6860 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.85.g98ea4e5 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.86.g18a6860 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -915,7 +915,16 @@
 
         <span class="k">return</span> <span class="n">entity_info</span><span class="p">,</span> <span class="n">time_info</span><span class="p">,</span> <span class="n">other_info</span>
 
-<div class="viewcode-block" id="PanelOLS.fit"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PanelOLS.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">count_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_determine_df_adjustment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+        <span class="c1"># TODO: Needs more scenarios once monte carlo is finished</span>
+        <span class="c1"># TODO: Decide about nested effects in clusters</span>
+        <span class="k">if</span> <span class="n">cov_type</span> <span class="o">!=</span> <span class="s1">&#39;clustered&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="PanelOLS.fit"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PanelOLS.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">auto_df</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">count_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate model parameters</span>
 
@@ -926,9 +935,16 @@
 <span class="sd">        debiased : bool, optional</span>
 <span class="sd">            Flag indicating whether to debiased the covariance estimator using</span>
 <span class="sd">            a degree of freedom adjustment.</span>
+<span class="sd">        auto_df : bool, optional</span>
+<span class="sd">            Flag indicating that the treatment of estimated effects in degree </span>
+<span class="sd">            of freedom adjustment is automatically handeled. This is useful </span>
+<span class="sd">            since clustered standard errors that are clustered using the same</span>
+<span class="sd">            variable as an effect do not require degree of freedom correction</span>
+<span class="sd">            while other estimators such as the unadjusted covariance do.</span>
 <span class="sd">        count_effects : bool, optional</span>
 <span class="sd">            Flag indicating that the covariance estimator should be adjusted</span>
-<span class="sd">            to account for the estimation of effects in the model.</span>
+<span class="sd">            to account for the estimation of effects in the model. Only used</span>
+<span class="sd">            if ``auto_df=False``.</span>
 <span class="sd">        **cov_config</span>
 <span class="sd">            Additional covariance-specific options.  See Notes.</span>
 
@@ -940,7 +956,7 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; from linearmodels import PanelOLS</span>
-<span class="sd">        &gt;&gt;&gt; mod = PanelOLS(y, x)</span>
+<span class="sd">        &gt;&gt;&gt; mod = PanelOLS(y, x, entity_effect=True)</span>
 <span class="sd">        &gt;&gt;&gt; res = mod.fit(cov_type=&#39;clustered&#39;, cluster_entity=True)</span>
 
 <span class="sd">        Notes</span>
@@ -989,7 +1005,10 @@
         <span class="n">nobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">df_model</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">neffects</span>
         <span class="n">df_resid</span> <span class="o">=</span> <span class="n">nobs</span> <span class="o">-</span> <span class="n">df_model</span>
+        <span class="k">if</span> <span class="n">auto_df</span><span class="p">:</span>
+            <span class="n">count_effects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_determine_df_adjustment</span><span class="p">(</span><span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
         <span class="n">extra_df</span> <span class="o">=</span> <span class="n">neffects</span> <span class="k">if</span> <span class="n">count_effects</span> <span class="k">else</span> <span class="mi">0</span>
+
         <span class="n">cov_est</span><span class="p">,</span> <span class="n">cov_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_choose_cov</span><span class="p">(</span><span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
         <span class="n">cov</span> <span class="o">=</span> <span class="n">cov_est</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">,</span> <span class="n">extra_df</span><span class="o">=</span><span class="n">extra_df</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
         <span class="n">weps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
@@ -1365,7 +1384,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.85.g98ea4e5',
+            VERSION:'0+untagged.86.g18a6860',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
