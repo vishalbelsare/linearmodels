@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; linearmodels 0+untagged.86.g58ec0ae documentation</title>
+  <title>Introduction &mdash; linearmodels 0+untagged.86.g5fe7632 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.86.g58ec0ae documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.86.g5fe7632 documentation" href="../index.html"/>
         <link rel="up" title="Instrumental Variable Estimation" href="index.html"/>
         <link rel="next" title="Basic Examples" href="examples/basic-examples.html"/>
         <link rel="prev" title="Instrumental Variable Estimation" href="index.html"/> 
@@ -336,9 +336,9 @@ assuming they are not correlated across observations. See
 <a class="reference internal" href="gmm.html#linearmodels.iv.gmm.HeteroskedasticWeightMatrix" title="linearmodels.iv.gmm.HeteroskedasticWeightMatrix"><code class="xref py py-class docutils literal"><span class="pre">HeteroskedasticWeightMatrix</span></code></a>.</li>
 <li>&#8216;kernel&#8217; - Allows for both heteroskedasticity and autocorrrelation in the
 moment conditions. See <a class="reference internal" href="gmm.html#linearmodels.iv.gmm.KernelWeightMatrix" title="linearmodels.iv.gmm.KernelWeightMatrix"><code class="xref py py-class docutils literal"><span class="pre">KernelWeightMatrix</span></code></a>.</li>
-<li>&#8216;cluster&#8217; - Allows for a one-way cluster structure where moment conditions
-within a cluster are correlated.
-See <a class="reference internal" href="gmm.html#linearmodels.iv.gmm.OneWayClusteredWeightMatrix" title="linearmodels.iv.gmm.OneWayClusteredWeightMatrix"><code class="xref py py-class docutils literal"><span class="pre">OneWayClusteredWeightMatrix</span></code></a>.</li>
+<li>&#8216;cluster&#8217; - Allows for a one- and two-way cluster structure where moment
+conditions within a cluster are correlated.
+See <code class="xref py py-class docutils literal"><span class="pre">ClusteredWeightMatrix</span></code>.</li>
 </ul>
 <p>Each weight type accepts a set of additional parameters which are similar to
 those for the corresponding covariance estimator.</p>
@@ -455,7 +455,7 @@ whether iterative output is printed during estimation.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.86.g58ec0ae',
+            VERSION:'0+untagged.86.g5fe7632',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

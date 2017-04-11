@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview: module code &mdash; linearmodels 0+untagged.86.g5fe7632 documentation</title>
+  <title>Implementation Choices &mdash; linearmodels 0+untagged.86.g5fe7632 documentation</title>
   
 
   
@@ -35,7 +35,10 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.86.g5fe7632 documentation" href="../index.html"/> 
+    <link rel="top" title="linearmodels 0+untagged.86.g5fe7632 documentation" href="../index.html"/>
+        <link rel="up" title="Panel Data Model Estimation" href="index.html"/>
+        <link rel="next" title="Utilities" href="../utility.html"/>
+        <link rel="prev" title="Formulas and Mathematical Detail" href="mathematical-formula.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -89,9 +92,22 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../iv/index.html">Instrumental Variable Estimation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../panel/index.html">Panel Data Model Estimation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Panel Data Model Estimation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/data-formats.html">Data Formats for Panel Data Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/examples.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/using-formulas.html">Specifying models using formulas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html">Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mathematical-formula.html">Formulas and Mathematical Detail</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Implementation Choices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clustered-covariance-with-fixed-effects">Clustered Covariance with Fixed Effects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#r2-definitions">R2 definitions</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plan.html">Module Plans</a></li>
 </ul>
@@ -138,12 +154,16 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Overview: module code</li>
+          <li><a href="index.html">Panel Data Model Estimation</a> &raquo;</li>
+        
+      <li>Implementation Choices</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="../_sources/panel/faq.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -155,17 +175,59 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="linearmodels/iv/covariance.html">linearmodels.iv.covariance</a></li>
-<li><a href="linearmodels/iv/gmm.html">linearmodels.iv.gmm</a></li>
-<li><a href="linearmodels/iv/model.html">linearmodels.iv.model</a></li>
-<li><a href="linearmodels/iv/results.html">linearmodels.iv.results</a></li>
-<li><a href="linearmodels/panel/covariance.html">linearmodels.panel.covariance</a></li>
-<li><a href="linearmodels/panel/data.html">linearmodels.panel.data</a></li>
-<li><a href="linearmodels/panel/model.html">linearmodels.panel.model</a></li>
-<li><a href="linearmodels/panel/results.html">linearmodels.panel.results</a></li>
-<li><a href="linearmodels/utility.html">linearmodels.utility</a></li>
-</ul>
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="implementation-choices">
+<h1>Implementation Choices<a class="headerlink" href="#implementation-choices" title="Permalink to this headline">¶</a></h1>
+<p>While the implmentation of the panel estimators is similar to Stata, there
+are some differenced worth noting.</p>
+<div class="section" id="clustered-covariance-with-fixed-effects">
+<h2>Clustered Covariance with Fixed Effects<a class="headerlink" href="#clustered-covariance-with-fixed-effects" title="Permalink to this headline">¶</a></h2>
+<p>By default, Stata does not adjust the covariance estimator for the degrees
+of freedom used to estimate included effects.  This can have a substantial
+effect on the estimated parameter covariance when the number of time periods
+is small (e.g. 2 or 3).  It also means running LSDV and using a model with
+fixed effects will produce different results. By default, covariance estimators
+are always adjusted for degrees of freedom consumed by effects.  This can be
+overridden using by setting the fit option <code class="docutils literal"><span class="pre">count_effects=False</span></code>.</p>
+</div>
+<div class="section" id="r2-definitions">
+<h2>R2 definitions<a class="headerlink" href="#r2-definitions" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
 
            </div>
            <div class="articleComments">
@@ -173,6 +235,15 @@
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../utility.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mathematical-formula.html" class="btn btn-neutral" title="Formulas and Mathematical Detail" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
