@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.86.g18a6860 documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.87.g3d3a700 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.86.g18a6860 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.87.g3d3a700 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -217,7 +217,6 @@
 <span class="c1"># TODO: Example notebooks</span>
 <span class="c1"># TODO: Formal test of other outputs</span>
 <span class="c1"># TODO: Add fast path for no-constant, entity or time effect</span>
-<span class="c1"># TODO: Correct handling of entity df adjustment in PanelOLS w/ clustered</span>
 
 <div class="viewcode-block" id="PooledOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PooledOLS">[docs]</a><span class="k">class</span> <span class="nc">PooledOLS</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
@@ -915,13 +914,47 @@
 
         <span class="k">return</span> <span class="n">entity_info</span><span class="p">,</span> <span class="n">time_info</span><span class="p">,</span> <span class="n">other_info</span>
 
+    <span class="k">def</span> <span class="nf">_is_effect_nested</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">effects</span><span class="p">,</span> <span class="n">clusters</span><span class="p">):</span>
+        <span class="n">is_nested</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">effects</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">effects</span><span class="o">.</span><span class="n">T</span><span class="p">):</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">-</span> <span class="n">e</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+            <span class="n">e_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">clusters</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">c</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+                <span class="n">cmax</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+                <span class="n">ec</span> <span class="o">=</span> <span class="n">e</span> <span class="o">*</span> <span class="p">(</span><span class="n">cmax</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+                <span class="n">is_nested</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">ec</span><span class="p">))</span> <span class="o">==</span> <span class="n">e_count</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">is_nested</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_determine_df_adjustment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
-        <span class="c1"># TODO: Needs more scenarios once monte carlo is finished</span>
-        <span class="c1"># TODO: Decide about nested effects in clusters</span>
-        <span class="k">if</span> <span class="n">cov_type</span> <span class="o">!=</span> <span class="s1">&#39;clustered&#39;</span><span class="p">:</span>
+        <span class="n">has_effect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effect</span>
+        <span class="k">if</span> <span class="n">cov_type</span> <span class="o">!=</span> <span class="s1">&#39;clustered&#39;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">has_effect</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">num_effects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effect</span><span class="p">:</span>
+            <span class="n">num_effects</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">clusters</span> <span class="o">=</span> <span class="n">cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;clusters&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">clusters</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">clusters</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[</span><span class="n">clusters</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cluster_entity&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">clusters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">entity_ids</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cluster_time&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">clusters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">time_ids</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">clusters</span><span class="p">:</span>  <span class="c1"># No clusters</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">clusters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">clusters</span><span class="p">)</span>
+
+
+        <span class="n">effects</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effect</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span><span class="p">:</span>
+            <span class="n">effects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">entity_ids</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
+            <span class="n">effects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">time_ids</span><span class="p">)</span>
+        <span class="n">effects</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">effects</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_effects</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_effect_nested</span><span class="p">(</span><span class="n">effects</span><span class="p">,</span> <span class="n">clusters</span><span class="p">)</span>
+        <span class="c1"># TODO: Take a decision on this</span>
+        <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Default case for 2-way -- unclear</span>
 
 <div class="viewcode-block" id="PanelOLS.fit"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PanelOLS.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">auto_df</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">count_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
@@ -1005,11 +1038,11 @@
         <span class="n">nobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">df_model</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">neffects</span>
         <span class="n">df_resid</span> <span class="o">=</span> <span class="n">nobs</span> <span class="o">-</span> <span class="n">df_model</span>
+        <span class="n">cov_est</span><span class="p">,</span> <span class="n">cov_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_choose_cov</span><span class="p">(</span><span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">auto_df</span><span class="p">:</span>
             <span class="n">count_effects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_determine_df_adjustment</span><span class="p">(</span><span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
         <span class="n">extra_df</span> <span class="o">=</span> <span class="n">neffects</span> <span class="k">if</span> <span class="n">count_effects</span> <span class="k">else</span> <span class="mi">0</span>
 
-        <span class="n">cov_est</span><span class="p">,</span> <span class="n">cov_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_choose_cov</span><span class="p">(</span><span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
         <span class="n">cov</span> <span class="o">=</span> <span class="n">cov_est</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">,</span> <span class="n">extra_df</span><span class="o">=</span><span class="n">extra_df</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
         <span class="n">weps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
         <span class="n">eps</span> <span class="o">=</span> <span class="n">weps</span>
@@ -1157,7 +1190,6 @@
 <span class="sd">        When using a clustered covariance estimator, all cluster ids must be</span>
 <span class="sd">        identical within an entity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO: What to do for R2_between when reweighted=True?</span>
         <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_between</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">reweight</span><span class="p">:</span>
             <span class="n">w</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
@@ -1384,7 +1416,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.86.g18a6860',
+            VERSION:'0+untagged.87.g3d3a700',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
