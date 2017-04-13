@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.data &mdash; linearmodels 0+untagged.87.g3d3a700 documentation</title>
+  <title>linearmodels.panel.data &mdash; linearmodels 0+untagged.87.g52d1052 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.87.g3d3a700 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.87.g52d1052 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -428,35 +428,24 @@
 <span class="sd">        If weights are provided, the values returned will be scaled by</span>
 <span class="sd">        sqrt(weights) so that they can be used in WLS estimation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values3d</span>
         <span class="k">if</span> <span class="n">group</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span>
         <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;both&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_demean_both</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
 
-        <span class="n">axis</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;time&#39;</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;entity&#39;</span> <span class="k">else</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-            <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-            <span class="n">delta</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">mu</span>
+            <span class="n">group_mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">PanelData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame</span> <span class="o">-</span> <span class="n">group_mu</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">w</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">values3d</span>
-            <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-            <span class="n">root_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
-            <span class="n">rootwv</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">v</span>
-            <span class="n">wv</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">v</span>
-
-            <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">wv</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-            <span class="n">mu</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-            <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-            <span class="n">delta</span> <span class="o">=</span> <span class="n">rootwv</span> <span class="o">-</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">mu</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span>
-                    <span class="n">items</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">items</span><span class="p">,</span>
-                    <span class="n">major_axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">major_axis</span><span class="p">,</span>
-                    <span class="n">minor_axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">minor_axis</span><span class="p">)</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="n">filter_observations</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">out</span><span class="p">)</span></div>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">values2d</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">frame</span>
+            <span class="n">weighted_sum</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+            <span class="n">frame</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,:]</span> <span class="o">=</span> <span class="n">w</span>
+            <span class="n">sum_weights</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+            <span class="n">group_mu</span> <span class="o">=</span> <span class="n">weighted_sum</span> <span class="o">/</span> <span class="n">sum_weights</span>
+            <span class="k">return</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame</span> <span class="o">-</span> <span class="n">group_mu</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame</span><span class="p">)</span>
@@ -628,7 +617,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.87.g3d3a700',
+            VERSION:'0+untagged.87.g52d1052',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
