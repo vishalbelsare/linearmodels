@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.87.g1e82b08 documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.88.gc781ad2 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.87.g1e82b08 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.88.gc781ad2 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -216,7 +216,6 @@
 <span class="c1"># TODO: Documentation</span>
 <span class="c1"># TODO: Example notebooks</span>
 <span class="c1"># TODO: Formal test of other outputs</span>
-<span class="c1"># TODO: Add fast path for no-constant, entity or time effect</span>
 
 <div class="viewcode-block" id="PooledOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PooledOLS">[docs]</a><span class="k">class</span> <span class="nc">PooledOLS</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
@@ -356,6 +355,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_not_null</span> <span class="o">=</span> <span class="o">~</span><span class="n">missing</span>
 
         <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">dataframe</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">values</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;weights must be strictly positive.&#39;</span><span class="p">)</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
 
@@ -812,7 +813,7 @@
         <span class="k">return</span> <span class="n">mod</span></div>
 
     <span class="k">def</span> <span class="nf">_slow_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Frisch-Waigh-Lovell implementation, mostly for weighted&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Frisch-Waigh-Lovell implementation, works for all scenarios&quot;&quot;&quot;</span>
         <span class="n">has_effect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effect</span>
         <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">root_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
@@ -906,6 +907,60 @@
 
         <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ybar</span>
 
+    <span class="k">def</span> <span class="nf">_weighted_fast_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">has_effect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effect</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">root_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">wybar</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_effect</span><span class="p">:</span>
+            <span class="n">wy</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">values2d</span>
+            <span class="n">wx</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span>
+            <span class="k">return</span> <span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">wybar</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+
+        <span class="n">wy_gm</span> <span class="o">=</span> <span class="n">wybar</span>
+        <span class="n">wx_gm</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effect</span><span class="p">:</span>
+            <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
+                <span class="n">groups</span> <span class="o">=</span> <span class="n">groups</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">effect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">entity_ids</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">time_ids</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="s1">&#39;additional.effect&#39;</span>
+                <span class="k">while</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">groups</span><span class="o">.</span><span class="n">dataframe</span><span class="p">:</span>
+                    <span class="n">col</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">col</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span>
+                <span class="n">groups</span><span class="o">.</span><span class="n">dataframe</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">effect</span>
+            <span class="n">wy</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">weighted_general_demean</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+            <span class="n">wx</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">weighted_general_demean</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
+            <span class="n">wy</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+            <span class="n">wx</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span><span class="p">:</span>
+            <span class="n">wy</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+            <span class="n">wx</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># self.time_effect</span>
+            <span class="n">wy</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+            <span class="n">wx</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+
+        <span class="n">wy</span> <span class="o">=</span> <span class="n">wy</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">wx</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">values2d</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span><span class="p">:</span>
+            <span class="n">wy</span> <span class="o">+=</span> <span class="n">wy_gm</span>
+            <span class="n">wx</span> <span class="o">+=</span> <span class="n">wx_gm</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">wybar</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">wy_effects</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">values2d</span> <span class="o">-</span> <span class="n">wy</span> <span class="o">/</span> <span class="n">root_w</span>
+        <span class="n">wx_effects</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">values2d</span> <span class="o">-</span> <span class="n">wx</span> <span class="o">/</span> <span class="n">root_w</span>
+
+        <span class="k">return</span> <span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">wybar</span><span class="p">,</span> <span class="n">wy_effects</span><span class="p">,</span> <span class="n">wx_effects</span>
+
     <span class="k">def</span> <span class="nf">_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">stats</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
             <span class="n">bc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
@@ -955,7 +1010,6 @@
             <span class="k">return</span> <span class="kc">True</span>
         <span class="n">clusters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">clusters</span><span class="p">)</span>
 
-
         <span class="n">effects</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effect</span> <span class="k">else</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span><span class="p">:</span>
             <span class="n">effects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">entity_ids</span><span class="p">)</span>
@@ -967,21 +1021,23 @@
         <span class="c1"># TODO: Take a decision on this</span>
         <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Default case for 2-way -- unclear</span>
 
-<div class="viewcode-block" id="PanelOLS.fit"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PanelOLS.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">auto_df</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<div class="viewcode-block" id="PanelOLS.fit"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PanelOLS.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">use_lsdv</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">auto_df</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">count_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate model parameters</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
+<span class="sd">        use_lsdv : bool, optional</span>
+<span class="sd">            Flag indicating to use LSDV to eliminate effects</span>
 <span class="sd">        cov_type : str, optional</span>
 <span class="sd">            Name of covariance estimator. See Notes.</span>
 <span class="sd">        debiased : bool, optional</span>
 <span class="sd">            Flag indicating whether to debiased the covariance estimator using</span>
 <span class="sd">            a degree of freedom adjustment.</span>
 <span class="sd">        auto_df : bool, optional</span>
-<span class="sd">            Flag indicating that the treatment of estimated effects in degree </span>
-<span class="sd">            of freedom adjustment is automatically handeled. This is useful </span>
+<span class="sd">            Flag indicating that the treatment of estimated effects in degree</span>
+<span class="sd">            of freedom adjustment is automatically handeled. This is useful</span>
 <span class="sd">            since clustered standard errors that are clustered using the same</span>
 <span class="sd">            variable as an effect do not require degree of freedom correction</span>
 <span class="sd">            while other estimators such as the unadjusted covariance do.</span>
@@ -1022,10 +1078,12 @@
 
         <span class="n">weighted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">)</span>
         <span class="n">y_effects</span> <span class="o">=</span> <span class="n">x_effects</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">weighted</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">use_lsdv</span><span class="p">:</span>
+            <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ybar</span><span class="p">,</span> <span class="n">y_effects</span><span class="p">,</span> <span class="n">x_effects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slow_path</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">weighted</span><span class="p">:</span>
             <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ybar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fast_path</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ybar</span><span class="p">,</span> <span class="n">y_effects</span><span class="p">,</span> <span class="n">x_effects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slow_path</span><span class="p">()</span>
+            <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ybar</span><span class="p">,</span> <span class="n">y_effects</span><span class="p">,</span> <span class="n">x_effects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weighted_fast_path</span><span class="p">()</span>
 
         <span class="n">neffects</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">drop_first</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span>
@@ -1427,7 +1485,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.87.g1e82b08',
+            VERSION:'0+untagged.88.gc781ad2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

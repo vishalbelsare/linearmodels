@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 0+untagged.87.g1e82b08 documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 0+untagged.88.gc781ad2 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.87.g1e82b08 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.88.gc781ad2 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Panel Model Covariance Estimators" href="covariance.html"/>
         <link rel="prev" title="Module Reference" href="reference.html"/> 
@@ -263,13 +263,14 @@ effects are included, the model reduces to <a class="reference internal" href="#
 
 <dl class="method">
 <dt id="linearmodels.panel.model.PanelOLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>auto_df=True</em>, <em>count_effects=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>use_lsdv=False</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>auto_df=True</em>, <em>count_effects=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>use_lsdv</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating to use LSDV to eliminate effects</li>
 <li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name of covariance estimator. See Notes.</li>
 <li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debiased the covariance estimator using
 a degree of freedom adjustment.</li>
@@ -801,7 +802,7 @@ missing in the model data.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.87.g1e82b08',
+            VERSION:'0+untagged.88.gc781ad2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
