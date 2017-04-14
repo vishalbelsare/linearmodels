@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.covariance &mdash; linearmodels 0+untagged.88.gc781ad2 documentation</title>
+  <title>linearmodels.panel.covariance &mdash; linearmodels 0+untagged.89.g9173cb8 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.88.gc781ad2 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.89.g9173cb8 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -424,6 +424,28 @@
         <span class="n">xeex</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">xpxi</span> <span class="o">@</span> <span class="n">xeex</span> <span class="o">@</span> <span class="n">xpxi</span><span class="p">)</span> <span class="o">/</span> <span class="n">nobs</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">out</span> <span class="o">+</span> <span class="n">out</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
+
+
+<span class="k">class</span> <span class="nc">CovarianceManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">COVARIANCE_ESTIMATORS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">:</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span>
+                             <span class="s1">&#39;conventional&#39;</span><span class="p">:</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span>
+                             <span class="s1">&#39;homoskedastic&#39;</span><span class="p">:</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span>
+                             <span class="s1">&#39;robust&#39;</span><span class="p">:</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span>
+                             <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">:</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span>
+                             <span class="s1">&#39;clustered&#39;</span><span class="p">:</span> <span class="n">ClusteredCovariance</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="o">*</span><span class="n">cov_estimators</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_estimator</span> <span class="o">=</span> <span class="n">estimator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_supported</span> <span class="o">=</span> <span class="n">cov_estimators</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">COVARIANCE_ESTIMATORS</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Unknown covariance estimator type.&#39;</span><span class="p">)</span>
+        <span class="n">cov_est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">COVARIANCE_ESTIMATORS</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">cov_est</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_supported</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Requested covariance estimator is not supported &#39;</span>
+                             <span class="s1">&#39;for the </span><span class="si">{0}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_estimator</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">cov_est</span>
 </pre></div>
 
            </div>
@@ -460,7 +482,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.88.gc781ad2',
+            VERSION:'0+untagged.89.g9173cb8',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
