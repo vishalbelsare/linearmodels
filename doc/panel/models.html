@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 0+untagged.89.g9173cb8 documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 0+untagged.90.g876e8a1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.89.g9173cb8 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.90.g876e8a1 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Panel Model Covariance Estimators" href="covariance.html"/>
         <link rel="prev" title="Module Reference" href="reference.html"/> 
@@ -270,12 +270,14 @@ effects are included, the model reduces to <a class="reference internal" href="#
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>use_lsdv</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating to use LSDV to eliminate effects</li>
+<li><strong>use_lsdv</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating to use the Least Squares Dummy Variable estimator
+to eliminate effects.  The default value uses only means and does
+note require constructing dummy variables for each effect.</li>
 <li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name of covariance estimator. See Notes.</li>
 <li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debiased the covariance estimator using
 a degree of freedom adjustment.</li>
 <li><strong>auto_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating that the treatment of estimated effects in degree
-of freedom adjustment is automatically handeled. This is useful
+of freedom adjustment is automatically handled. This is useful
 since clustered standard errors that are clustered using the same
 variable as an effect do not require degree of freedom correction
 while other estimators such as the unadjusted covariance do.</li>
@@ -341,8 +343,7 @@ which can be used to specify that the model should contain an
 entity effect or a time effect, respectively. See Examples.</li>
 <li><strong>data</strong> (<em>array-like</em>) &#8211; Data structure that can be coerced into a PanelData.  In most
 cases, this should be a multi-index DataFrame where the level 0
-index contains the entities and the level 1 contains the time.
-weights : array-like, optional</li>
+index contains the entities and the level 1 contains the time.</li>
 <li><strong>weights</strong> (<em>array-like</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
 proportional to inverse of weight to that the residual time
 the weight should be homoskedastic.</li>
@@ -360,7 +361,7 @@ the weight should be homoskedastic.</li>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">PanelOLS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;y ~ 1 + x1 + EntityEffect&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -401,7 +402,7 @@ missing in the model data.</td>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>This is exposed for testing and is not normally used during estimation</p>
+<p>This is exposed for testing and is not normally needed for estimation</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -445,7 +446,8 @@ the weight should be homoskedastic.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>reweight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Flag indicating to reweight observations if the input data is
-unbalanced</li>
+unbalanced using a WLS estimator.  If weights are provided, these
+are accounted for when reweighting. Has no effect on balanced data.</li>
 <li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name of covariance estimator. See Notes.</li>
 <li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debiased the covariance estimator using
 a degree of freedom adjustment.</li>
@@ -492,6 +494,44 @@ identical within an entity.</p>
 <dd><p>Formula used to construct the model</p>
 </dd></dl>
 
+<dl class="classmethod">
+<dt id="linearmodels.panel.model.BetweenOLS.from_formula">
+<em class="property">classmethod </em><code class="descname">from_formula</code><span class="sig-paren">(</span><em>formula</em>, <em>data</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS.from_formula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.from_formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a model from a formula</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>formula</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Formula to transform into model. Conforms to patsy formula rules.</li>
+<li><strong>data</strong> (<em>array-like</em>) &#8211; Data structure that can be coerced into a PanelData.  In most
+cases, this should be a multi-index DataFrame where the level 0
+index contains the entities and the level 1 contains the time.</li>
+<li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
+proportional to inverse of weight to that the residual times
+the weight should be homoskedastic.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>model</strong> &#8211; Model specified using the formula</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#linearmodels.panel.model.BetweenOLS" title="linearmodels.panel.model.BetweenOLS">BetweenOLS</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Unlike standard patsy, it is necessary to explicitly include a
+constant using the constant indicator (1)</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">BetweenOLS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">BetweenOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;y ~ 1 + x1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="linearmodels.panel.model.BetweenOLS.has_constant">
 <code class="descname">has_constant</code><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.has_constant" title="Permalink to this definition">¶</a></dt>
@@ -522,7 +562,7 @@ missing in the model data.</td>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>This is exposed for testing and is not normally used during estimation</p>
+<p>This is exposed for testing and is not normally needed for estimation</p>
 </dd></dl>
 
 </dd></dl>
@@ -577,6 +617,7 @@ a degree of freedom adjustment.</li>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">FirstDifferenceOLS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">FirstDifferenceOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Notes</p>
@@ -605,6 +646,44 @@ ids to be identical within an entity.</p>
 <dt id="linearmodels.panel.model.FirstDifferenceOLS.formula">
 <code class="descname">formula</code><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.formula" title="Permalink to this definition">¶</a></dt>
 <dd><p>Formula used to construct the model</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="linearmodels.panel.model.FirstDifferenceOLS.from_formula">
+<em class="property">classmethod </em><code class="descname">from_formula</code><span class="sig-paren">(</span><em>formula</em>, <em>data</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FirstDifferenceOLS.from_formula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.from_formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a model from a formula</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>formula</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Formula to transform into model. Conforms to patsy formula rules.</li>
+<li><strong>data</strong> (<em>array-like</em>) &#8211; Data structure that can be coerced into a PanelData.  In most
+cases, this should be a multi-index DataFrame where the level 0
+index contains the entities and the level 1 contains the time.</li>
+<li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
+proportional to inverse of weight to that the residual times
+the weight should be homoskedastic.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>model</strong> &#8211; Model specified using the formula</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#linearmodels.panel.model.FirstDifferenceOLS" title="linearmodels.panel.model.FirstDifferenceOLS">FirstDifferenceOLS</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Unlike standard patsy, it is necessary to explicitly include a
+constant using the constant indicator (1)</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">FirstDifferenceOLS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">FirstDifferenceOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;y ~ 1 + x1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="attribute">
@@ -637,7 +716,7 @@ missing in the model data.</td>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>This is exposed for testing and is not normally used during estimation</p>
+<p>This is exposed for testing and is not normally needed for estimation</p>
 </dd></dl>
 
 </dd></dl>
@@ -721,6 +800,44 @@ clusters</li>
 <dd><p>Formula used to construct the model</p>
 </dd></dl>
 
+<dl class="classmethod">
+<dt id="linearmodels.panel.model.PooledOLS.from_formula">
+<em class="property">classmethod </em><code class="descname">from_formula</code><span class="sig-paren">(</span><em>formula</em>, <em>data</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PooledOLS.from_formula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.from_formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a model from a formula</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>formula</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Formula to transform into model. Conforms to patsy formula rules.</li>
+<li><strong>data</strong> (<em>array-like</em>) &#8211; Data structure that can be coerced into a PanelData.  In most
+cases, this should be a multi-index DataFrame where the level 0
+index contains the entities and the level 1 contains the time.</li>
+<li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
+proportional to inverse of weight to that the residual times
+the weight should be homoskedastic.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>model</strong> &#8211; Model specified using the formula</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS">PooledOLS</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Unlike standard patsy, it is necessary to explicitly include a
+constant using the constant indicator (1)</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">PooledOLS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">PooledOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;y ~ 1 + x1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="linearmodels.panel.model.PooledOLS.has_constant">
 <code class="descname">has_constant</code><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.has_constant" title="Permalink to this definition">¶</a></dt>
@@ -751,7 +868,7 @@ missing in the model data.</td>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>This is exposed for testing and is not normally used during estimation</p>
+<p>This is exposed for testing and is not normally needed for estimation</p>
 </dd></dl>
 
 </dd></dl>
@@ -802,7 +919,7 @@ missing in the model data.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.89.g9173cb8',
+            VERSION:'0+untagged.90.g876e8a1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
