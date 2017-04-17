@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.89.g60776c6 documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.89.g8b2c6ec documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.89.g60776c6 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.89.g8b2c6ec documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -191,8 +191,6 @@
 
 <span class="c1"># TODO: Bootstrap covariance</span>
 <span class="c1"># TODO: Possibly add AIC/BIC</span>
-<span class="c1"># TODO: Correlation between FE and XB</span>
-<span class="c1"># TODO: Report effects in results</span>
 <span class="c1"># TODO: Test effects using LSDV</span>
 <span class="c1"># TODO: Example notebooks</span>
 <span class="c1"># TODO: Formal test of other outputs</span>
@@ -1187,12 +1185,20 @@
                                          <span class="n">df_num</span><span class="p">,</span> <span class="n">df_denom</span><span class="o">=</span><span class="n">df_denom</span><span class="p">,</span>
                                          <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Pooled F-statistic&#39;</span><span class="p">)</span>
             <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">f_pooled</span><span class="o">=</span><span class="n">f_pooled</span><span class="p">)</span>
+            <span class="n">effects</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">eps_effects</span> <span class="o">-</span> <span class="n">eps</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;effects&#39;</span><span class="p">],</span>
+                                   <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+            <span class="n">xb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span> <span class="o">@</span> <span class="n">params</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">effects</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">eps</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;effects&#39;</span><span class="p">],</span>
+                                   <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+            <span class="n">effect_corr</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">df_model</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                         <span class="n">residual_ss</span><span class="o">=</span><span class="n">resid_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">wresids</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span> <span class="n">resids</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span>
                         <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">entity_effect</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span><span class="p">,</span> <span class="n">time_effect</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">,</span>
                         <span class="n">other_effect</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">other_effect</span><span class="p">,</span> <span class="n">sigma2_eps</span><span class="o">=</span><span class="n">sigma2_eps</span><span class="p">,</span>
-                        <span class="n">sigma2_effects</span><span class="o">=</span><span class="n">sigma2_effects</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span> <span class="n">r2_ex_effects</span><span class="o">=</span><span class="n">r2_ex_effects</span><span class="p">))</span>
+                        <span class="n">sigma2_effects</span><span class="o">=</span><span class="n">sigma2_effects</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span> <span class="n">r2_ex_effects</span><span class="o">=</span><span class="n">r2_ex_effects</span><span class="p">,</span>
+                        <span class="n">effects</span><span class="o">=</span><span class="n">effects</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">PanelEffectsResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div></div>
 
@@ -1584,7 +1590,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.89.g60776c6',
+            VERSION:'0+untagged.89.g8b2c6ec',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
