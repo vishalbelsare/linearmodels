@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.89.g8b2c6ec documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.88.g71c7429 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.89.g8b2c6ec documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.88.g71c7429 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -199,7 +199,7 @@
 
 <div class="viewcode-block" id="PooledOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PooledOLS">[docs]</a><span class="k">class</span> <span class="nc">PooledOLS</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Estimation of linear model with pooled parameters</span>
+<span class="sd">    Pooled coefficient estimator for panel data</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -671,6 +671,8 @@
 
 <div class="viewcode-block" id="PanelOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PanelOLS">[docs]</a><span class="k">class</span> <span class="nc">PanelOLS</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    One- and two-way fixed effects estimator for panel data</span>
+<span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dependent : array-like</span>
@@ -1205,6 +1207,8 @@
 
 <div class="viewcode-block" id="BetweenOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.BetweenOLS">[docs]</a><span class="k">class</span> <span class="nc">BetweenOLS</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Between estimator for panel data</span>
+<span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dependent : array-like</span>
@@ -1369,6 +1373,8 @@
 
 <div class="viewcode-block" id="FirstDifferenceOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.FirstDifferenceOLS">[docs]</a><span class="k">class</span> <span class="nc">FirstDifferenceOLS</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    First difference model for panel data</span>
+<span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dependent : array-like</span>
@@ -1554,6 +1560,94 @@
 <span class="sd">        &gt;&gt;&gt; res = mod.fit()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">FirstDifferenceOLS</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">RandomEffects</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    One-way Random Effects model for panel data</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dependent : array-like</span>
+<span class="sd">        Dependent (left-hand-side) variable (time by entity)</span>
+<span class="sd">    exog : array-like</span>
+<span class="sd">        Exogenous or right-hand-side variables (variable by time by entity).</span>
+<span class="sd">    weights : array-like, optional</span>
+<span class="sd">        Weights to use in estimation.  Assumes residual variance is</span>
+<span class="sd">        proportional to inverse of weight to that the residual time</span>
+<span class="sd">        the weight should be homoskedastic.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The model is given by</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># TODO: Math docs</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">small_sample</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+        <span class="c1"># Steps</span>
+        <span class="c1"># 1. Estimate FE-model</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">root_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span><span class="p">:</span>
+            <span class="n">w_sum</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">y_gm</span> <span class="o">=</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">values2d</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">w_sum</span>
+            <span class="n">x_gm</span> <span class="o">=</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">w_sum</span>
+            <span class="n">y</span> <span class="o">+=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">y_gm</span>
+            <span class="n">x</span> <span class="o">+=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">x_gm</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">weps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">params</span>
+
+        <span class="n">wybar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">wxbar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">wxbar</span><span class="p">,</span> <span class="n">wybar</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">wu</span> <span class="o">=</span> <span class="n">wybar</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">wxbar</span><span class="o">.</span><span class="n">values</span> <span class="o">@</span> <span class="n">params</span>
+
+        <span class="n">nobs</span> <span class="o">=</span> <span class="n">weps</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">neffects</span> <span class="o">=</span> <span class="n">wu</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">nvar</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">sigma2_e</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">weps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">weps</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">nvar</span> <span class="o">-</span> <span class="n">neffects</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">ssr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wu</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">wu</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">t_bar</span> <span class="o">=</span> <span class="n">neffects</span> <span class="o">/</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="n">sigma2_u</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ssr</span> <span class="o">/</span> <span class="p">(</span><span class="n">neffects</span> <span class="o">-</span> <span class="n">nvar</span><span class="p">)</span> <span class="o">-</span> <span class="n">sigma2_e</span> <span class="o">/</span> <span class="n">t_bar</span><span class="p">)</span>
+
+        <span class="n">theta</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2_e</span> <span class="o">/</span> <span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">sigma2_u</span> <span class="o">+</span> <span class="n">sigma2_e</span><span class="p">))</span>
+
+        <span class="n">wy</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">wx</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">reindex</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">index</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">wybar</span> <span class="o">=</span> <span class="p">(</span><span class="n">theta</span> <span class="o">*</span> <span class="n">wybar</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">reindex</span><span class="p">]</span>
+        <span class="n">wxbar</span> <span class="o">=</span> <span class="p">(</span><span class="n">theta</span> <span class="o">*</span> <span class="n">wxbar</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">reindex</span><span class="p">]</span>
+        <span class="n">wy</span> <span class="o">-=</span> <span class="n">wybar</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">wx</span> <span class="o">-=</span> <span class="n">wxbar</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">wx</span><span class="p">,</span> <span class="n">wy</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">df_resid</span> <span class="o">=</span> <span class="n">wy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">wx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">cov_est</span><span class="p">,</span> <span class="n">cov_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_choose_cov</span><span class="p">(</span><span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
+        <span class="n">cov</span> <span class="o">=</span> <span class="n">cov_est</span><span class="p">(</span><span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
+
+        <span class="n">weps</span> <span class="o">=</span> <span class="n">wy</span> <span class="o">-</span> <span class="n">wx</span> <span class="o">@</span> <span class="n">params</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="n">weps</span> <span class="o">/</span> <span class="n">root_w</span>
+        <span class="n">residual_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">weps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">weps</span><span class="p">)</span>
+        <span class="n">wmu</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span><span class="p">:</span>
+            <span class="n">wmu</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">lstsq</span><span class="p">(</span><span class="n">root_w</span><span class="p">,</span> <span class="n">wy</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">wy_demeaned</span> <span class="o">=</span> <span class="n">wy</span> <span class="o">-</span> <span class="n">wmu</span>
+        <span class="n">total_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wy_demeaned</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">wy_demeaned</span><span class="p">)</span>
+        <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">residual_ss</span> <span class="o">/</span> <span class="n">total_ss</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">,</span> <span class="n">weps</span><span class="p">,</span> <span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">root_w</span><span class="p">)</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nobs</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span>
+                        <span class="n">resids</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">wresids</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_REMOVE_ME</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2_u</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2_e</span><span class="p">),</span> <span class="n">theta</span>
+
+        <span class="k">return</span> <span class="n">PanelResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 
            </div>
@@ -1590,7 +1684,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.89.g8b2c6ec',
+            VERSION:'0+untagged.88.g71c7429',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
