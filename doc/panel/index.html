@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Panel Data Model Estimation &mdash; linearmodels 0+untagged.90.gee03304 documentation</title>
+  <title>Panel Data Model Estimation &mdash; linearmodels 0+untagged.89.gbd4c47e documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.90.gee03304 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.89.gbd4c47e documentation" href="../index.html"/>
         <link rel="next" title="Introduction" href="introduction.html"/>
         <link rel="prev" title="Mathematical Formulas" href="../iv/mathematical-formula.html"/> 
 
@@ -98,6 +98,7 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/data-formats.html">Data Formats for Panel Data Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/examples.html">Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/using-formulas.html">Specifying models using formulas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pandas.html">Comparison with pandas PanelOLS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference.html">Module Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mathematical-formula.html">Formulas and Mathematical Detail</a></li>
 <li class="toctree-l2"><a class="reference internal" href="faq.html">Implementation Choices</a></li>
@@ -204,12 +205,32 @@
 </style>
 <div class="section" id="panel-data-model-estimation">
 <h1>Panel Data Model Estimation<a class="headerlink" href="#panel-data-model-estimation" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="introduction.html#panel-introduction"><span class="std std-ref">Introduction</span></a> provides a brief overview of the available panel model
+estimators. <a class="reference internal" href="models.html#panel-module-reference-models"><span class="std std-ref">Models for Panel Data</span></a> contains a complete reference to
+available estimation methods. <a class="reference internal" href="results.html#panel-module-reference-results"><span class="std std-ref">Estimation Results</span></a> describes the
+results classes returned after estimating a model as well as model
+specification tests. The covariance estimators are presented in
+<a class="reference internal" href="covariance.html#panel-module-reference-covariance"><span class="std std-ref">Panel Model Covariance Estimators</span></a>.</p>
+<p><a class="reference internal" href="examples/examples.html"><span class="std std-ref">Basic Examples</span></a> shows basic usage
+of the models using examples from Wooldridge&#8217;s text books.
+<a class="reference internal" href="examples/using-formulas.html"><span class="std std-ref">Using Formulas</span></a> shows how models can
+be specified using R-like formulas using patsy.
+<a class="reference internal" href="examples/data-formats.html"><span class="std std-ref">Data Formats</span></a> described the alternative
+formats that can be used when specifying models.</p>
+<p><a class="reference internal" href="mathematical-formula.html#panel-mathematical-notation"><span class="std std-ref">Formulas and Mathematical Detail</span></a> contains a concise explanation of teh formulas
+used in estimating parameters, estimating covariances and conducting hypothesis
+tests.</p>
+<p><a class="reference internal" href="faq.html#panel-implementation-choices"><span class="std std-ref">Implementation Choices</span></a> describes some differences between the
+estimators in this package and other packages commonly used to estimate panel
+data models. Finally, <a class="reference internal" href="pandas.html#panel-pandas-differences"><span class="std std-ref">Comparison with pandas PanelOLS</span></a> describes important differences
+to the now deprecated <cite>PanelOLS</cite> that was in the <cite>pandas.stats.plm</cite> modules unil release 0.20.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/data-formats.html">Data Formats for Panel Data Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/using-formulas.html">Specifying models using formulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pandas.html">Comparison with pandas PanelOLS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Module Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mathematical-formula.html">Formulas and Mathematical Detail</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Implementation Choices</a></li>
@@ -261,7 +282,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.90.gee03304',
+            VERSION:'0+untagged.89.gbd4c47e',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

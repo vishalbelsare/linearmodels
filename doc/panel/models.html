@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 0+untagged.90.gee03304 documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 0+untagged.89.gbd4c47e documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.90.gee03304 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.89.gbd4c47e documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Panel Model Covariance Estimators" href="covariance.html"/>
         <link rel="prev" title="Module Reference" href="reference.html"/> 
@@ -99,6 +99,7 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/data-formats.html">Data Formats for Panel Data Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/examples.html">Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/using-formulas.html">Specifying models using formulas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pandas.html">Comparison with pandas PanelOLS</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="reference.html">Module Reference</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Models for Panel Data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="covariance.html">Panel Model Covariance Estimators</a></li>
@@ -214,7 +215,7 @@
 }
 </style>
 <div class="section" id="models-for-panel-data">
-<h1>Models for Panel Data<a class="headerlink" href="#models-for-panel-data" title="Permalink to this headline">¶</a></h1>
+<span id="panel-module-reference-models"></span><h1>Models for Panel Data<a class="headerlink" href="#models-for-panel-data" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="linearmodels.panel.model.PanelOLS">
 <em class="property">class </em><code class="descname">PanelOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em>, <em>entity_effect=False</em>, <em>time_effect=False</em>, <em>other_effects=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS" title="Permalink to this definition">¶</a></dt>
@@ -242,11 +243,11 @@ effects. Each variable is treated as an effect.</li>
 can be described</p>
 <div class="math">
 \[y_{it} = \alpha_i + \beta^{\prime}x_{it} + \epsilon_{it}\]</div>
-<p>where <span class="math">\(\alpha_i\)</span> is included if <code class="docutils literal"><span class="pre">entity_effect</span></code> is <a href="#id1"><span class="problematic" id="id2">``</span></a>True.</p>
+<p>where <span class="math">\(\alpha_i\)</span> is included if <code class="docutils literal"><span class="pre">entity_effect=True</span></code>.</p>
 <p>Time effect are also supported, which leads to a model of the form</p>
 <div class="math">
 \[y_{it}= \gamma_t + \beta^{\prime}x_{it} + \epsilon_{it}\]</div>
-<p>where <span class="math">\(\gamma_i\)</span> is included if <code class="docutils literal"><span class="pre">time_effect</span></code> is <code class="docutils literal"><span class="pre">True</span></code>.</p>
+<p>where <span class="math">\(\gamma_i\)</span> is included if <code class="docutils literal"><span class="pre">time_effect=True</span></code>.</p>
 <p>Both effects can be simultaneously used,</p>
 <div class="math">
 \[y_{it}=\alpha_i + \gamma_t + \beta^{\prime}x_{it} + \epsilon_{it}\]</div>
@@ -330,7 +331,7 @@ clusters</li>
 
 <dl class="classmethod">
 <dt id="linearmodels.panel.model.PanelOLS.from_formula">
-<em class="property">classmethod </em><code class="descname">from_formula</code><span class="sig-paren">(</span><em>formula</em>, <em>data</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.from_formula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.from_formula" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">from_formula</code><span class="sig-paren">(</span><em>formula</em>, <em>data</em>, <em>*</em>, <em>weights=None</em>, <em>other_effects=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.from_formula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.from_formula" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a model from a formula</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -347,6 +348,8 @@ index contains the entities and the level 1 contains the time.</li>
 <li><strong>weights</strong> (<em>array-like</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
 proportional to inverse of weight to that the residual time
 the weight should be homoskedastic.</li>
+<li><strong>other_effects</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Category codes to use for any effects that are not entity or time
+effects. Each variable is treated as an effect.</li>
 </ul>
 </td>
 </tr>
@@ -919,7 +922,7 @@ missing in the model data.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.90.gee03304',
+            VERSION:'0+untagged.89.gbd4c47e',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

@@ -30,6 +30,7 @@ doc/_sources/panel/index.rst.txt
 doc/_sources/panel/introduction.rst.txt
 doc/_sources/panel/mathematical-formula.rst.txt
 doc/_sources/panel/models.rst.txt
+doc/_sources/panel/pandas.rst.txt
 doc/_sources/panel/reference.rst.txt
 doc/_sources/panel/results.rst.txt
 doc/_sources/plan.rst.txt
@@ -92,6 +93,7 @@ doc/panel/index.html
 doc/panel/introduction.html
 doc/panel/mathematical-formula.html
 doc/panel/models.html
+doc/panel/pandas.html
 doc/panel/reference.html
 doc/panel/results.html
 doc/plan.html
