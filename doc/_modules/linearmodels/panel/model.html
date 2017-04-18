@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.88.g71c7429 documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.88.gd6f3596 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.88.g71c7429 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.88.gd6f3596 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -168,7 +168,7 @@
 <span class="kn">from</span> <span class="nn">linearmodels.panel.covariance</span> <span class="k">import</span> <span class="n">ClusteredCovariance</span><span class="p">,</span> <span class="n">CovarianceManager</span><span class="p">,</span> \
     <span class="n">HeteroskedasticCovariance</span><span class="p">,</span> <span class="n">HomoskedasticCovariance</span>
 <span class="kn">from</span> <span class="nn">linearmodels.panel.data</span> <span class="k">import</span> <span class="n">PanelData</span>
-<span class="kn">from</span> <span class="nn">linearmodels.panel.results</span> <span class="k">import</span> <span class="n">PanelEffectsResults</span><span class="p">,</span> <span class="n">PanelResults</span>
+<span class="kn">from</span> <span class="nn">linearmodels.panel.results</span> <span class="k">import</span> <span class="n">PanelEffectsResults</span><span class="p">,</span> <span class="n">PanelResults</span><span class="p">,</span> <span class="n">RandomEffectsResults</span>
 <span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">AttrDict</span><span class="p">,</span> <span class="n">InapplicableTestStatistic</span><span class="p">,</span> <span class="n">InvalidTestStatistic</span><span class="p">,</span> \
     <span class="n">MissingValueWarning</span><span class="p">,</span> <span class="n">WaldTestStatistic</span><span class="p">,</span> <span class="n">ensure_unique_column</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> \
     <span class="n">missing_value_warning_msg</span>
@@ -189,12 +189,20 @@
     <span class="k">pass</span>
 
 
+<span class="c1"># Essential</span>
+<span class="c1"># TODO: Example notebooks</span>
+<span class="c1"># TODO: Report variance components for RE</span>
+<span class="c1"># TODO: Small sample adjustment for RE</span>
+<span class="c1"># TODO: Cluster adjustment for RandomEffects?</span>
+<span class="c1"># TODO: Test estimated effects using LSDV</span>
+<span class="c1"># TODO: Test rsquared-inclusive against LSDV (weighted and un)</span>
+<span class="c1"># Likely</span>
+<span class="c1"># TODO: Formal test of other outputs</span>
+<span class="c1"># TODO: Test categorical nesting when using other effects</span>
+<span class="c1"># Future</span>
 <span class="c1"># TODO: Bootstrap covariance</span>
 <span class="c1"># TODO: Possibly add AIC/BIC</span>
-<span class="c1"># TODO: Test effects using LSDV</span>
-<span class="c1"># TODO: Example notebooks</span>
-<span class="c1"># TODO: Formal test of other outputs</span>
-<span class="c1"># TODO: Test rsquared-inclusive against LSDV (weighted and un)</span>
+<span class="c1"># TODO: ML Estimation of RE model</span>
 
 
 <div class="viewcode-block" id="PooledOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PooledOLS">[docs]</a><span class="k">class</span> <span class="nc">PooledOLS</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -234,6 +242,15 @@
                                                  <span class="n">HeteroskedasticCovariance</span><span class="p">,</span> <span class="n">ClusteredCovariance</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{name}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">Num exog: </span><span class="si">{num_exog}</span><span class="s1">, Constant: </span><span class="si">{has_constant}</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                          <span class="n">num_exog</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                          <span class="n">has_constant</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">id: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
 
 <div class="viewcode-block" id="PooledOLS.reformat_clusters"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PooledOLS.reformat_clusters">[docs]</a>    <span class="k">def</span> <span class="nf">reformat_clusters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clusters</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -672,7 +689,7 @@
 <div class="viewcode-block" id="PanelOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.PanelOLS">[docs]</a><span class="k">class</span> <span class="nc">PanelOLS</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    One- and two-way fixed effects estimator for panel data</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dependent : array-like</span>
@@ -733,6 +750,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_time_effect</span> <span class="o">=</span> <span class="n">time_effect</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_effects</span><span class="p">(</span><span class="n">other_effects</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">PanelOLS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+        <span class="n">additional</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Entity Effects: </span><span class="si">{ee}</span><span class="s1">, Time Effects: </span><span class="si">{te}</span><span class="s1">, Num Other Effects: </span><span class="si">{oe}</span><span class="s1">&#39;</span>
+        <span class="n">oe</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effect</span><span class="p">:</span>
+            <span class="n">oe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span><span class="o">.</span><span class="n">nvar</span>
+        <span class="n">additional</span> <span class="o">=</span> <span class="n">additional</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ee</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span><span class="p">,</span> <span class="n">te</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">,</span> <span class="n">oe</span><span class="o">=</span><span class="n">oe</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="n">additional</span>
+        <span class="k">return</span> <span class="n">out</span>
 
     <span class="k">def</span> <span class="nf">_validate_effects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">effects</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Check model effects&quot;&quot;&quot;</span>
@@ -1189,11 +1216,9 @@
             <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">f_pooled</span><span class="o">=</span><span class="n">f_pooled</span><span class="p">)</span>
             <span class="n">effects</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">eps_effects</span> <span class="o">-</span> <span class="n">eps</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;effects&#39;</span><span class="p">],</span>
                                    <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-            <span class="n">xb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span> <span class="o">@</span> <span class="n">params</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">effects</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">eps</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;effects&#39;</span><span class="p">],</span>
                                    <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-            <span class="n">effect_corr</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">df_model</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                         <span class="n">residual_ss</span><span class="o">=</span><span class="n">resid_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">wresids</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span> <span class="n">resids</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span>
@@ -1208,7 +1233,7 @@
 <div class="viewcode-block" id="BetweenOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.BetweenOLS">[docs]</a><span class="k">class</span> <span class="nc">BetweenOLS</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Between estimator for panel data</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dependent : array-like</span>
@@ -1374,7 +1399,7 @@
 <div class="viewcode-block" id="FirstDifferenceOLS"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.FirstDifferenceOLS">[docs]</a><span class="k">class</span> <span class="nc">FirstDifferenceOLS</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    First difference model for panel data</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dependent : array-like</span>
@@ -1565,7 +1590,7 @@
 <span class="k">class</span> <span class="nc">RandomEffects</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    One-way Random Effects model for panel data</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dependent : array-like</span>
@@ -1580,13 +1605,52 @@
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    The model is given by</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        y_{it} = \beta^{\prime}x_{it} + u_i + \epsilon_{it}</span>
+
+<span class="sd">    where :math:`u_i` is a shock that is independent of :math:`x_{it}` but</span>
+<span class="sd">    common to all entities i.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># TODO: Math docs</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a model from a formula</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        formula : str</span>
+<span class="sd">            Formula to transform into model. Conforms to patsy formula rules.</span>
+<span class="sd">        data : array-like</span>
+<span class="sd">            Data structure that can be coerced into a PanelData.  In most</span>
+<span class="sd">            cases, this should be a multi-index DataFrame where the level 0</span>
+<span class="sd">            index contains the entities and the level 1 contains the time.</span>
+<span class="sd">        weights: array-like, optional</span>
+<span class="sd">            Weights to use in estimation.  Assumes residual variance is</span>
+<span class="sd">            proportional to inverse of weight to that the residual times</span>
+<span class="sd">            the weight should be homoskedastic.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        model : RandomEffects</span>
+<span class="sd">            Model specified using the formula</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Unlike standard patsy, it is necessary to explicitly include a</span>
+<span class="sd">        constant using the constant indicator (1)</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels import RandomEffects</span>
+<span class="sd">        &gt;&gt;&gt; mod = RandomEffects.from_formula(&#39;y ~ 1 + x1&#39;, data)</span>
+<span class="sd">        &gt;&gt;&gt; res = mod.fit()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">RandomEffects</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">small_sample</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
-        <span class="c1"># Steps</span>
-        <span class="c1"># 1. Estimate FE-model</span>
         <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">root_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
         <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">values2d</span>
@@ -1613,9 +1677,10 @@
         <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
         <span class="n">t_bar</span> <span class="o">=</span> <span class="n">neffects</span> <span class="o">/</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
         <span class="n">sigma2_u</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ssr</span> <span class="o">/</span> <span class="p">(</span><span class="n">neffects</span> <span class="o">-</span> <span class="n">nvar</span><span class="p">)</span> <span class="o">-</span> <span class="n">sigma2_e</span> <span class="o">/</span> <span class="n">t_bar</span><span class="p">)</span>
+        <span class="n">rho</span> <span class="o">=</span> <span class="n">sigma2_u</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma2_u</span> <span class="o">+</span> <span class="n">sigma2_e</span><span class="p">)</span>
 
         <span class="n">theta</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2_e</span> <span class="o">/</span> <span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">sigma2_u</span> <span class="o">+</span> <span class="n">sigma2_e</span><span class="p">))</span>
-
+        <span class="n">theta_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">wybar</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
         <span class="n">wy</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">wx</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">index</span>
@@ -1643,11 +1708,10 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">,</span> <span class="n">weps</span><span class="p">,</span> <span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">root_w</span><span class="p">)</span>
         <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nobs</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                         <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span>
-                        <span class="n">resids</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">wresids</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">))</span>
+                        <span class="n">resids</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">wresids</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">sigma2_eps</span><span class="o">=</span><span class="n">sigma2_e</span><span class="p">,</span>
+                        <span class="n">sigma2_effects</span><span class="o">=</span><span class="n">sigma2_u</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="n">theta_out</span><span class="p">))</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_REMOVE_ME</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2_u</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2_e</span><span class="p">),</span> <span class="n">theta</span>
-
-        <span class="k">return</span> <span class="n">PanelResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">RandomEffectsResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 
            </div>
@@ -1684,7 +1748,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.88.g71c7429',
+            VERSION:'0+untagged.88.gd6f3596',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.results &mdash; linearmodels 0+untagged.88.g71c7429 documentation</title>
+  <title>linearmodels.panel.results &mdash; linearmodels 0+untagged.88.gd6f3596 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.88.g71c7429 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.88.gd6f3596 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -679,11 +679,37 @@
         <span class="sd">&quot;&quot;&quot;Estimated effects&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_effects</span>
 
-<div class="viewcode-block" id="PanelEffectsResults.variance_decomposition"><a class="viewcode-back" href="../../../panel/results.html#linearmodels.panel.results.PanelEffectsResults.variance_decomposition">[docs]</a>    <span class="k">def</span> <span class="nf">variance_decomposition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">variance_decomposition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Decomposition of total variance into effects and residuals&quot;&quot;&quot;</span>
         <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_sigma2_effects</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sigma2_eps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rho</span><span class="p">]</span>
         <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Effects&#39;</span><span class="p">,</span> <span class="s1">&#39;Residual&#39;</span><span class="p">,</span> <span class="s1">&#39;Percent due to Effects&#39;</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">Series</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Variance Decomposition&#39;</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">Series</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Variance Decomposition&#39;</span><span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">RandomEffectsResults</span><span class="p">(</span><span class="n">PanelResults</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Results container for random effect panel data models</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RandomEffectsResults</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_theta</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">theta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sigma2_effects</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">sigma2_effects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sigma2_eps</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">sigma2_eps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rho</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">rho</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">variance_decomposition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Decomposition of total variance into effects and residuals&quot;&quot;&quot;</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_sigma2_effects</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sigma2_eps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rho</span><span class="p">]</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Effects&#39;</span><span class="p">,</span> <span class="s1">&#39;Residual&#39;</span><span class="p">,</span> <span class="s1">&#39;Percent due to Effects&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Series</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Variance Decomposition&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">theta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Values used in generalized demeaning&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_theta</span>
 </pre></div>
 
            </div>
@@ -720,7 +746,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.88.g71c7429',
+            VERSION:'0+untagged.88.gd6f3596',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
