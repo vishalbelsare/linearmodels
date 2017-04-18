@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 0+untagged.86.gc8e7bb0 documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 0+untagged.85.g2868c0c documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.86.gc8e7bb0 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.85.g2868c0c documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Panel Model Covariance Estimators" href="covariance.html"/>
         <link rel="prev" title="Module Reference" href="reference.html"/> 
@@ -265,7 +265,7 @@ effects are included, the model reduces to <a class="reference internal" href="#
 
 <dl class="method">
 <dt id="linearmodels.panel.model.PanelOLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>use_lsdv=False</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>auto_df=True</em>, <em>count_effects=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>use_lsdv=False</em>, <em>cov_type='unadjusted'</em>, <em>debiased=True</em>, <em>auto_df=True</em>, <em>count_effects=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -418,6 +418,110 @@ missing in the model data.</td>
 </dd></dl>
 
 <dl class="class">
+<dt id="linearmodels.panel.model.RandomEffects">
+<em class="property">class </em><code class="descname">RandomEffects</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#RandomEffects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.RandomEffects" title="Permalink to this definition">¶</a></dt>
+<dd><p>One-way Random Effects model for panel data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dependent</strong> (<em>array-like</em>) &#8211; Dependent (left-hand-side) variable (time by entity)</li>
+<li><strong>exog</strong> (<em>array-like</em>) &#8211; Exogenous or right-hand-side variables (variable by time by entity).</li>
+<li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
+proportional to inverse of weight to that the residual time
+the weight should be homoskedastic.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The model is given by</p>
+<div class="math">
+\[y_{it} = \beta^{\prime}x_{it} + u_i + \epsilon_{it}\]</div>
+<p>where <span class="math">\(u_i\)</span> is a shock that is independent of <span class="math">\(x_{it}\)</span> but
+common to all entities i.</p>
+<dl class="attribute">
+<dt id="linearmodels.panel.model.RandomEffects.formula">
+<code class="descname">formula</code><a class="headerlink" href="#linearmodels.panel.model.RandomEffects.formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formula used to construct the model</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="linearmodels.panel.model.RandomEffects.from_formula">
+<em class="property">classmethod </em><code class="descname">from_formula</code><span class="sig-paren">(</span><em>formula</em>, <em>data</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#RandomEffects.from_formula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.RandomEffects.from_formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a model from a formula</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>formula</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Formula to transform into model. Conforms to patsy formula rules.</li>
+<li><strong>data</strong> (<em>array-like</em>) &#8211; Data structure that can be coerced into a PanelData.  In most
+cases, this should be a multi-index DataFrame where the level 0
+index contains the entities and the level 1 contains the time.</li>
+<li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
+proportional to inverse of weight to that the residual times
+the weight should be homoskedastic.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>model</strong> &#8211; Model specified using the formula</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#linearmodels.panel.model.RandomEffects" title="linearmodels.panel.model.RandomEffects">RandomEffects</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Unlike standard patsy, it is necessary to explicitly include a
+constant using the constant indicator (1)</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">RandomEffects</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">RandomEffects</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;y ~ 1 + x1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.RandomEffects.has_constant">
+<code class="descname">has_constant</code><a class="headerlink" href="#linearmodels.panel.model.RandomEffects.has_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating the model a constant or implicit constant</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.RandomEffects.not_null">
+<code class="descname">not_null</code><a class="headerlink" href="#linearmodels.panel.model.RandomEffects.not_null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locations of non-missing observations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.panel.model.RandomEffects.reformat_clusters">
+<code class="descname">reformat_clusters</code><span class="sig-paren">(</span><em>clusters</em><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.model.RandomEffects.reformat_clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reformat cluster variables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>clusters</strong> (<em>array-like</em>) &#8211; Values to use for variance clustering</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>reformatted</strong> &#8211; Original data with matching axis and observation dropped where
+missing in the model data.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="data.html#linearmodels.panel.data.PanelData" title="linearmodels.panel.data.PanelData">PanelData</a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This is exposed for testing and is not normally needed for estimation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="linearmodels.panel.model.BetweenOLS">
 <em class="property">class </em><code class="descname">BetweenOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Between estimator for panel data</p>
@@ -443,7 +547,7 @@ the weight should be homoskedastic.</li>
 <p>where <span class="math">\(\bar{z}\)</span> is the time-average.</p>
 <dl class="method">
 <dt id="linearmodels.panel.model.BetweenOLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>reweight=False</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>reweight=False</em>, <em>cov_type='unadjusted'</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -597,7 +701,7 @@ the weight should be homoskedastic.</li>
 \[\Delta y_{it}=\beta^{\prime}\Delta x_{it}+\Delta\epsilon_{it}\]</div>
 <dl class="method">
 <dt id="linearmodels.panel.model.FirstDifferenceOLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FirstDifferenceOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='unadjusted'</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FirstDifferenceOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -752,7 +856,7 @@ the weight should be homoskedastic.</li>
 \[y_{it}=\beta^{\prime}x_{it}+\epsilon_{it}\]</div>
 <dl class="method">
 <dt id="linearmodels.panel.model.PooledOLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='unadjusted'</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PooledOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='unadjusted'</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PooledOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -925,7 +1029,7 @@ missing in the model data.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.86.gc8e7bb0',
+            VERSION:'0+untagged.85.g2868c0c',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

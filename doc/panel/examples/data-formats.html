@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Data Formats for Panel Data Analysis &mdash; linearmodels 0+untagged.86.gc8e7bb0 documentation</title>
+  <title>Data Formats for Panel Data Analysis &mdash; linearmodels 0+untagged.85.g2868c0c documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.86.gc8e7bb0 documentation" href="../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.85.g2868c0c documentation" href="../../index.html"/>
         <link rel="up" title="Panel Data Model Estimation" href="../index.html"/>
         <link rel="next" title="Examples" href="examples.html"/>
         <link rel="prev" title="Introduction" href="../introduction.html"/> 
@@ -501,7 +501,7 @@ representation can be used.</p>
 </div>
 <div class="stderr output_area docutils container">
 <div class="highlight"><pre>
-/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:185: MissingValueWarning:
+/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:184: MissingValueWarning:
 Inputs contain missing values. Dropping rows with missing observations.
   warnings.warn(missing_value_warning_msg, MissingValueWarning)
 </pre></div></div>
@@ -517,15 +517,15 @@ Dep. Variable:                 lscrap   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
 Date:                Tue, Apr 18 2017   R-squared (Overall):             -0.0288
-Time:                        18:09:36   Log-likelihood                   -90.459
+Time:                        23:07:21   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
 Avg Obs:                       2.9167   Distribution:                    F(1,91)
 Min Obs:                       1.0000
-Max Obs:                       3.0000   F-statistic (robust):             5.1309
-                                        P-value                           0.0235
-Time periods:                       3   Distribution:                    chi2(1)
+Max Obs:                       3.0000   F-statistic (robust):             5.0751
+                                        P-value                           0.0267
+Time periods:                       3   Distribution:                    F(1,91)
 Avg Obs:                       46.667
 Min Obs:                       46.000
 Max Obs:                       48.000
@@ -534,7 +534,7 @@ Max Obs:                       48.000
 ==============================================================================
            Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
 ------------------------------------------------------------------------------
-hrsemp        -0.0054     0.0024    -2.2652     0.0235     -0.0101     -0.0007
+hrsemp        -0.0054     0.0024    -2.2528     0.0267     -0.0102     -0.0006
 ==============================================================================
 
 F-test for Poolability: 18.256
@@ -602,16 +602,6 @@ name.</p>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:185: MissingValueWarning:
-Inputs contain missing values. Dropping rows with missing observations.
-  warnings.warn(missing_value_warning_msg, MissingValueWarning)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
                           PanelOLS Estimation Summary
@@ -620,15 +610,15 @@ Dep. Variable:                 lscrap   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
 Date:                Tue, Apr 18 2017   R-squared (Overall):             -0.0288
-Time:                        18:09:36   Log-likelihood                   -90.459
+Time:                        23:07:21   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
 Avg Obs:                       2.9167   Distribution:                    F(1,91)
 Min Obs:                       1.0000
-Max Obs:                       3.0000   F-statistic (robust):             5.1309
-                                        P-value                           0.0235
-Time periods:                       3   Distribution:                    chi2(1)
+Max Obs:                       3.0000   F-statistic (robust):             5.0751
+                                        P-value                           0.0267
+Time periods:                       3   Distribution:                    F(1,91)
 Avg Obs:                       46.667
 Min Obs:                       46.000
 Max Obs:                       48.000
@@ -637,7 +627,7 @@ Max Obs:                       48.000
 ==============================================================================
            Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
 ------------------------------------------------------------------------------
-hrsemp        -0.0054     0.0024    -2.2652     0.0235     -0.0101     -0.0007
+hrsemp        -0.0054     0.0024    -2.2528     0.0267     -0.0102     -0.0006
 ==============================================================================
 
 F-test for Poolability: 18.256
@@ -645,6 +635,16 @@ P-value: 0.0000
 Distribution: F(48,91)
 
 Included effects: Entity
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:184: MissingValueWarning:
+Inputs contain missing values. Dropping rows with missing observations.
+  warnings.warn(missing_value_warning_msg, MissingValueWarning)
 </pre></div></div>
 </div>
 <p>Using DataFrames removes this information and so the generic <em>Dep</em> and
@@ -671,15 +671,15 @@ Dep. Variable:                    Dep   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
 Date:                Tue, Apr 18 2017   R-squared (Overall):             -0.0288
-Time:                        18:09:36   Log-likelihood                   -90.459
+Time:                        23:07:21   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
 Avg Obs:                       2.9167   Distribution:                    F(1,91)
 Min Obs:                       1.0000
-Max Obs:                       3.0000   F-statistic (robust):             5.1309
-                                        P-value                           0.0235
-Time periods:                       3   Distribution:                    chi2(1)
+Max Obs:                       3.0000   F-statistic (robust):             5.0751
+                                        P-value                           0.0267
+Time periods:                       3   Distribution:                    F(1,91)
 Avg Obs:                       46.667
 Min Obs:                       46.000
 Max Obs:                       48.000
@@ -688,7 +688,7 @@ Max Obs:                       48.000
 ==============================================================================
            Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
 ------------------------------------------------------------------------------
-Exog          -0.0054     0.0024    -2.2652     0.0235     -0.0101     -0.0007
+Exog          -0.0054     0.0024    -2.2528     0.0267     -0.0102     -0.0006
 ==============================================================================
 
 F-test for Poolability: 18.256
@@ -703,7 +703,7 @@ Included effects: Entity
 </div>
 <div class="stderr output_area docutils container">
 <div class="highlight"><pre>
-/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:185: MissingValueWarning:
+/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:184: MissingValueWarning:
 Inputs contain missing values. Dropping rows with missing observations.
   warnings.warn(missing_value_warning_msg, MissingValueWarning)
 </pre></div></div>
@@ -729,16 +729,6 @@ is that NumPy loses all lable information.</p>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:185: MissingValueWarning:
-Inputs contain missing values. Dropping rows with missing observations.
-  warnings.warn(missing_value_warning_msg, MissingValueWarning)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
                           PanelOLS Estimation Summary
@@ -747,15 +737,15 @@ Dep. Variable:                    Dep   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
 Date:                Tue, Apr 18 2017   R-squared (Overall):             -0.0288
-Time:                        18:09:37   Log-likelihood                   -90.459
+Time:                        23:07:21   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
 Avg Obs:                       2.9167   Distribution:                    F(1,91)
 Min Obs:                       1.0000
-Max Obs:                       3.0000   F-statistic (robust):             5.1309
-                                        P-value                           0.0235
-Time periods:                       3   Distribution:                    chi2(1)
+Max Obs:                       3.0000   F-statistic (robust):             5.0751
+                                        P-value                           0.0267
+Time periods:                       3   Distribution:                    F(1,91)
 Avg Obs:                       46.667
 Min Obs:                       46.000
 Max Obs:                       48.000
@@ -764,7 +754,7 @@ Max Obs:                       48.000
 ==============================================================================
            Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
 ------------------------------------------------------------------------------
-Exog          -0.0054     0.0024    -2.2652     0.0235     -0.0101     -0.0007
+Exog          -0.0054     0.0024    -2.2528     0.0267     -0.0102     -0.0006
 ==============================================================================
 
 F-test for Poolability: 18.256
@@ -772,6 +762,16 @@ P-value: 0.0000
 Distribution: F(48,91)
 
 Included effects: Entity
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:184: MissingValueWarning:
+Inputs contain missing values. Dropping rows with missing observations.
+  warnings.warn(missing_value_warning_msg, MissingValueWarning)
 </pre></div></div>
 </div>
 </div>
@@ -831,16 +831,6 @@ Coordinates:
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:185: MissingValueWarning:
-Inputs contain missing values. Dropping rows with missing observations.
-  warnings.warn(missing_value_warning_msg, MissingValueWarning)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
                           PanelOLS Estimation Summary
@@ -849,15 +839,15 @@ Dep. Variable:                 lscrap   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
 Date:                Tue, Apr 18 2017   R-squared (Overall):             -0.0288
-Time:                        18:09:37   Log-likelihood                   -90.459
+Time:                        23:07:21   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
 Avg Obs:                       2.9167   Distribution:                    F(1,91)
 Min Obs:                       1.0000
-Max Obs:                       3.0000   F-statistic (robust):             5.1309
-                                        P-value                           0.0235
-Time periods:                       3   Distribution:                    chi2(1)
+Max Obs:                       3.0000   F-statistic (robust):             5.0751
+                                        P-value                           0.0267
+Time periods:                       3   Distribution:                    F(1,91)
 Avg Obs:                       46.667
 Min Obs:                       46.000
 Max Obs:                       48.000
@@ -866,7 +856,7 @@ Max Obs:                       48.000
 ==============================================================================
            Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
 ------------------------------------------------------------------------------
-hrsemp        -0.0054     0.0024    -2.2652     0.0235     -0.0101     -0.0007
+hrsemp        -0.0054     0.0024    -2.2528     0.0267     -0.0102     -0.0006
 ==============================================================================
 
 F-test for Poolability: 18.256
@@ -874,6 +864,16 @@ P-value: 0.0000
 Distribution: F(48,91)
 
 Included effects: Entity
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:184: MissingValueWarning:
+Inputs contain missing values. Dropping rows with missing observations.
+  warnings.warn(missing_value_warning_msg, MissingValueWarning)
 </pre></div></div>
 </div>
 </div>
@@ -932,38 +932,21 @@ fcode  year
 hrsemp      float64
 year_str     object
 dtype: object
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:185: MissingValueWarning:
-Inputs contain missing values. Dropping rows with missing observations.
-  warnings.warn(missing_value_warning_msg, MissingValueWarning)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
                           PanelOLS Estimation Summary
 ================================================================================
 Dep. Variable:                 lscrap   R-squared:                        0.1985
 Estimator:                   PanelOLS   R-squared (Between):             -0.1240
 No. Observations:                 140   R-squared (Within):               0.1985
 Date:                Tue, Apr 18 2017   R-squared (Overall):             -0.0934
-Time:                        18:09:37   Log-likelihood                   -78.765
+Time:                        23:07:21   Log-likelihood                   -78.765
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      7.3496
 Entities:                          48   P-value                           0.0002
 Avg Obs:                       2.9167   Distribution:                    F(3,89)
 Min Obs:                       1.0000
-Max Obs:                       3.0000   F-statistic (robust):             22.792
-                                        P-value                           0.0000
-Time periods:                       3   Distribution:                    chi2(3)
+Max Obs:                       3.0000   F-statistic (robust):             7.3496
+                                        P-value                           0.0002
+Time periods:                       3   Distribution:                    F(3,89)
 Avg Obs:                       46.667
 Min Obs:                       46.000
 Max Obs:                       48.000
@@ -972,9 +955,9 @@ Max Obs:                       48.000
 =================================================================================
               Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
 ---------------------------------------------------------------------------------
-hrsemp           -0.0024     0.0023    -1.0226     0.3065     -0.0070      0.0022
-year_str.1988    -0.1591     0.1127    -1.4120     0.1580     -0.3800      0.0618
-year_str.1989    -0.4620     0.1156    -3.9954     0.0001     -0.6887     -0.2354
+hrsemp           -0.0024     0.0024    -1.0058     0.3172     -0.0071      0.0023
+year_str.1988    -0.1591     0.1146    -1.3888     0.1684     -0.3868      0.0685
+year_str.1989    -0.4620     0.1176    -3.9297     0.0002     -0.6957     -0.2284
 =================================================================================
 
 F-test for Poolability: 20.882
@@ -982,6 +965,16 @@ P-value: 0.0000
 Distribution: F(48,89)
 
 Included effects: Entity
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:184: MissingValueWarning:
+Inputs contain missing values. Dropping rows with missing observations.
+  warnings.warn(missing_value_warning_msg, MissingValueWarning)
 </pre></div></div>
 </div>
 <p>Using categoricals has the same effect.</p>
@@ -1023,7 +1016,7 @@ dtype: object
 </div>
 <div class="stderr output_area docutils container">
 <div class="highlight"><pre>
-/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:185: MissingValueWarning:
+/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:184: MissingValueWarning:
 Inputs contain missing values. Dropping rows with missing observations.
   warnings.warn(missing_value_warning_msg, MissingValueWarning)
 </pre></div></div>
@@ -1039,15 +1032,15 @@ Dep. Variable:                 lscrap   R-squared:                        0.1985
 Estimator:                   PanelOLS   R-squared (Between):             -0.1240
 No. Observations:                 140   R-squared (Within):               0.1985
 Date:                Tue, Apr 18 2017   R-squared (Overall):             -0.0934
-Time:                        18:09:38   Log-likelihood                   -78.765
+Time:                        23:07:22   Log-likelihood                   -78.765
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      7.3496
 Entities:                          48   P-value                           0.0002
 Avg Obs:                       2.9167   Distribution:                    F(3,89)
 Min Obs:                       1.0000
-Max Obs:                       3.0000   F-statistic (robust):             22.792
-                                        P-value                           0.0000
-Time periods:                       3   Distribution:                    chi2(3)
+Max Obs:                       3.0000   F-statistic (robust):             7.3496
+                                        P-value                           0.0002
+Time periods:                       3   Distribution:                    F(3,89)
 Avg Obs:                       46.667
 Min Obs:                       46.000
 Max Obs:                       48.000
@@ -1056,9 +1049,9 @@ Max Obs:                       48.000
 =================================================================================
               Parameters  Std. Err.     T-stat    P-value    Lower CI    Upper CI
 ---------------------------------------------------------------------------------
-hrsemp           -0.0024     0.0023    -1.0226     0.3065     -0.0070      0.0022
-year_cat.1988    -0.1591     0.1127    -1.4120     0.1580     -0.3800      0.0618
-year_cat.1989    -0.4620     0.1156    -3.9954     0.0001     -0.6887     -0.2354
+hrsemp           -0.0024     0.0024    -1.0058     0.3172     -0.0071      0.0023
+year_cat.1988    -0.1591     0.1146    -1.3888     0.1684     -0.3868      0.0685
+year_cat.1989    -0.4620     0.1176    -3.9297     0.0002     -0.6957     -0.2284
 =================================================================================
 
 F-test for Poolability: 20.882
@@ -1115,7 +1108,7 @@ Included effects: Entity
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0+untagged.86.gc8e7bb0',
+            VERSION:'0+untagged.85.g2868c0c',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
