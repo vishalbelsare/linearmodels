@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.88.gd6f3596 documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.88.g9a87373 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.88.gd6f3596 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.88.g9a87373 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -191,11 +191,8 @@
 
 <span class="c1"># Essential</span>
 <span class="c1"># TODO: Example notebooks</span>
-<span class="c1"># TODO: Report variance components for RE</span>
-<span class="c1"># TODO: Small sample adjustment for RE</span>
 <span class="c1"># TODO: Cluster adjustment for RandomEffects?</span>
 <span class="c1"># TODO: Test estimated effects using LSDV</span>
-<span class="c1"># TODO: Test rsquared-inclusive against LSDV (weighted and un)</span>
 <span class="c1"># Likely</span>
 <span class="c1"># TODO: Formal test of other outputs</span>
 <span class="c1"># TODO: Test categorical nesting when using other effects</span>
@@ -1102,7 +1099,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        results :  PanelResults</span>
+<span class="sd">        results :  PanelEffectsResults</span>
 <span class="sd">            Estimation results</span>
 
 <span class="sd">        Examples</span>
@@ -1194,7 +1191,7 @@
         <span class="n">y_ex</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">mu_ex</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effect</span><span class="p">:</span>
-            <span class="n">mu_ex</span> <span class="o">=</span> <span class="p">(</span><span class="n">root_w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y_ex</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">root_w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">root_w</span><span class="p">)</span>
+            <span class="n">mu_ex</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="p">((</span><span class="n">root_w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y_ex</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">root_w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">root_w</span><span class="p">))</span>
         <span class="n">total_ss_ex_effect</span> <span class="o">=</span> <span class="nb">float</span><span class="p">((</span><span class="n">y_ex</span> <span class="o">-</span> <span class="n">mu_ex</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y_ex</span> <span class="o">-</span> <span class="n">mu_ex</span><span class="p">))</span>
         <span class="n">r2_ex_effects</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">resid_ss</span> <span class="o">/</span> <span class="n">total_ss_ex_effect</span>
 
@@ -1675,8 +1672,19 @@
         <span class="n">sigma2_e</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">weps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">weps</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">nvar</span> <span class="o">-</span> <span class="n">neffects</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">ssr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wu</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">wu</span><span class="p">)</span>
         <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">t_bar</span> <span class="o">=</span> <span class="n">neffects</span> <span class="o">/</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-        <span class="n">sigma2_u</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ssr</span> <span class="o">/</span> <span class="p">(</span><span class="n">neffects</span> <span class="o">-</span> <span class="n">nvar</span><span class="p">)</span> <span class="o">-</span> <span class="n">sigma2_e</span> <span class="o">/</span> <span class="n">t_bar</span><span class="p">)</span>
+        <span class="n">unbalanced</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">small_sample</span> <span class="ow">and</span> <span class="n">unbalanced</span><span class="p">:</span>
+            <span class="n">ssr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">((</span><span class="n">t</span> <span class="o">*</span> <span class="n">wu</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">wu</span><span class="p">)</span>
+            <span class="n">wx</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">dataframe</span>
+            <span class="n">means</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">denom</span> <span class="o">=</span> <span class="n">means</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">means</span>
+            <span class="n">sums</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">num</span> <span class="o">=</span> <span class="n">sums</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">sums</span>
+            <span class="n">tr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">denom</span><span class="p">)</span> <span class="o">@</span> <span class="n">num</span><span class="p">)</span>
+            <span class="n">sigma2_u</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">ssr</span> <span class="o">-</span> <span class="p">(</span><span class="n">neffects</span> <span class="o">-</span> <span class="n">nvar</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma2_e</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">tr</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t_bar</span> <span class="o">=</span> <span class="n">neffects</span> <span class="o">/</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+            <span class="n">sigma2_u</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ssr</span> <span class="o">/</span> <span class="p">(</span><span class="n">neffects</span> <span class="o">-</span> <span class="n">nvar</span><span class="p">)</span> <span class="o">-</span> <span class="n">sigma2_e</span> <span class="o">/</span> <span class="n">t_bar</span><span class="p">)</span>
         <span class="n">rho</span> <span class="o">=</span> <span class="n">sigma2_u</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma2_u</span> <span class="o">+</span> <span class="n">sigma2_e</span><span class="p">)</span>
 
         <span class="n">theta</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2_e</span> <span class="o">/</span> <span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">sigma2_u</span> <span class="o">+</span> <span class="n">sigma2_e</span><span class="p">))</span>
@@ -1748,7 +1756,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.88.gd6f3596',
+            VERSION:'0+untagged.88.g9a87373',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
