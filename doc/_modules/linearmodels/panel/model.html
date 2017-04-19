@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.85.g2868c0c documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.86.g1f4384e documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.85.g2868c0c documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.86.g1f4384e documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -193,7 +193,6 @@
 <span class="c1"># TODO: Example notebooks</span>
 <span class="c1"># Likely</span>
 <span class="c1"># TODO: Formal test of other outputs</span>
-<span class="c1"># TODO: Test categorical nesting when using other effects</span>
 <span class="c1"># Future</span>
 <span class="c1"># TODO: Bootstrap covariance</span>
 <span class="c1"># TODO: Possibly add AIC/BIC</span>
@@ -780,6 +779,24 @@
         <span class="n">other_effects</span> <span class="o">=</span> <span class="n">PanelData</span><span class="p">(</span><span class="n">cats</span><span class="p">)</span>
         <span class="n">other_effects</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">not_null</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_other_effect_cats</span> <span class="o">=</span> <span class="n">other_effects</span>
+        <span class="n">cats</span> <span class="o">=</span> <span class="n">other_effects</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">nested</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">cats</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">nested</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_effect_nested</span><span class="p">(</span><span class="n">cats</span><span class="p">[:,[</span><span class="mi">0</span><span class="p">]],</span><span class="n">cats</span><span class="p">[:,[</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="n">nested</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_effect_nested</span><span class="p">(</span><span class="n">cats</span><span class="p">[:,[</span><span class="mi">1</span><span class="p">]],</span><span class="n">cats</span><span class="p">[:,[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">nesting_effect</span> <span class="o">=</span> <span class="s1">&#39;other effects&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span><span class="p">:</span>
+            <span class="n">nested</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_effect_nested</span><span class="p">(</span><span class="n">cats</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">entity_ids</span><span class="p">)</span>
+            <span class="n">nested</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_effect_nested</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">entity_ids</span><span class="p">,</span> <span class="n">cats</span><span class="p">[:,[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">nesting_effect</span> <span class="o">=</span> <span class="s1">&#39;entity effects&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span><span class="p">:</span>
+            <span class="n">nested</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_effect_nested</span><span class="p">(</span><span class="n">cats</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">time_ids</span><span class="p">)</span>
+            <span class="n">nested</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_effect_nested</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">time_ids</span><span class="p">,</span> <span class="n">cats</span><span class="p">[:,[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">nesting_effect</span> <span class="o">=</span> <span class="s1">&#39;time effects&#39;</span>
+        <span class="k">if</span> <span class="n">nested</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Included other effects nest or are nested &#39;</span>
+                             <span class="s1">&#39;by </span><span class="si">{effect}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">effect</span><span class="o">=</span><span class="n">nesting_effect</span><span class="p">))</span>
+
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@property</span>
@@ -1754,7 +1771,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.85.g2868c0c',
+            VERSION:'0+untagged.86.g1f4384e',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

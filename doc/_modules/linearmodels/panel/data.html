@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.data &mdash; linearmodels 0+untagged.85.g2868c0c documentation</title>
+  <title>linearmodels.panel.data &mdash; linearmodels 0+untagged.86.g1f4384e documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.85.g2868c0c documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.86.g1f4384e documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -166,7 +166,8 @@
 <span class="kn">from</span> <span class="nn">xarray</span> <span class="k">import</span> <span class="n">DataArray</span>
 
 <span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">ensure_unique_column</span>
-<span class="kn">from</span> <span class="nn">linearmodels.compat.pandas</span> <span class="k">import</span> <span class="n">is_categorical</span><span class="p">,</span> <span class="n">is_string_dtype</span><span class="p">,</span> <span class="n">is_string_like</span>
+<span class="kn">from</span> <span class="nn">linearmodels.compat.pandas</span> <span class="k">import</span> <span class="n">is_categorical</span><span class="p">,</span> <span class="n">is_string_dtype</span><span class="p">,</span> \
+    <span class="n">is_string_like</span><span class="p">,</span> <span class="n">is_numeric_dtype</span><span class="p">,</span> <span class="n">is_datetime64_any_dtype</span>
 
 <span class="c1"># TODO: Require numeric or datetime for time index to ensure order</span>
 
@@ -282,6 +283,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span> <span class="o">=</span> <span class="n">expand_categoricals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame</span><span class="p">,</span> <span class="n">drop_first</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
 
+        <span class="n">time_index</span> <span class="o">=</span> <span class="n">Series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">time_index</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">or</span>
+                    <span class="n">is_datetime64_any_dtype</span><span class="p">(</span><span class="n">time_index</span><span class="o">.</span><span class="n">dtype</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The index on the time dimension must be either &#39;</span>
+                             <span class="s1">&#39;numeric or date-like&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;entity&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_frame</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;time&#39;</span>
@@ -754,7 +760,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.85.g2868c0c',
+            VERSION:'0+untagged.86.g1f4384e',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
