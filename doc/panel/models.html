@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 0+untagged.84.g80faf27 documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 0+untagged.85.g7be5017 documentation</title>
   
 
   
@@ -35,9 +35,9 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.84.g80faf27 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.85.g7be5017 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
-        <link rel="next" title="Panel Model Covariance Estimators" href="covariance.html"/>
+        <link rel="next" title="Estimation Results" href="results.html"/>
         <link rel="prev" title="Module Reference" href="reference.html"/> 
 
   
@@ -101,13 +101,20 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/using-formulas.html">Specifying models using formulas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pandas.html">Comparison with pandas PanelOLS</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="reference.html">Module Reference</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Models for Panel Data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="covariance.html">Panel Model Covariance Estimators</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Models for Panel Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fixed-effect-estimation">Fixed Effect Estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#random-effects">Random Effects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#between-ols">Between OLS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#first-difference-estimation">First Difference Estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pooled-ols">Pooled OLS</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="results.html">Estimation Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="covariance.html">Panel Model Covariance Estimators</a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html">Panel Data Structures</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="mathematical-formula.html">Formulas and Mathematical Detail</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mathematical-formula.html">Mathematical Appendix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="faq.html">Implementation Choices</a></li>
 </ul>
 </li>
@@ -214,8 +221,10 @@
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="models-for-panel-data">
-<span id="panel-module-reference-models"></span><h1>Models for Panel Data<a class="headerlink" href="#models-for-panel-data" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-linearmodels.panel.model">
+<span id="models-for-panel-data"></span><span id="panel-module-reference-models"></span><h1>Models for Panel Data<a class="headerlink" href="#module-linearmodels.panel.model" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="fixed-effect-estimation">
+<h2>Fixed Effect Estimation<a class="headerlink" href="#fixed-effect-estimation" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.model.PanelOLS">
 <em class="property">class </em><code class="descname">PanelOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em>, <em>entity_effect=False</em>, <em>time_effect=False</em>, <em>other_effects=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS" title="Permalink to this definition">¶</a></dt>
@@ -417,6 +426,9 @@ missing in the model data.</td>
 
 </dd></dl>
 
+</div>
+<div class="section" id="random-effects">
+<h2>Random Effects<a class="headerlink" href="#random-effects" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.model.RandomEffects">
 <em class="property">class </em><code class="descname">RandomEffects</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#RandomEffects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.RandomEffects" title="Permalink to this definition">¶</a></dt>
@@ -521,6 +533,9 @@ missing in the model data.</td>
 
 </dd></dl>
 
+</div>
+<div class="section" id="between-ols">
+<h2>Between OLS<a class="headerlink" href="#between-ols" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.model.BetweenOLS">
 <em class="property">class </em><code class="descname">BetweenOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS" title="Permalink to this definition">¶</a></dt>
@@ -676,6 +691,9 @@ missing in the model data.</td>
 
 </dd></dl>
 
+</div>
+<div class="section" id="first-difference-estimation">
+<h2>First Difference Estimation<a class="headerlink" href="#first-difference-estimation" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.model.FirstDifferenceOLS">
 <em class="property">class </em><code class="descname">FirstDifferenceOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FirstDifferenceOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS" title="Permalink to this definition">¶</a></dt>
@@ -831,6 +849,9 @@ missing in the model data.</td>
 
 </dd></dl>
 
+</div>
+<div class="section" id="pooled-ols">
+<h2>Pooled OLS<a class="headerlink" href="#pooled-ols" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.model.PooledOLS">
 <em class="property">class </em><code class="descname">PooledOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PooledOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PooledOLS" title="Permalink to this definition">¶</a></dt>
@@ -984,6 +1005,7 @@ missing in the model data.</td>
 </dd></dl>
 
 </div>
+</div>
 
 
            </div>
@@ -995,7 +1017,7 @@ missing in the model data.</td>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="covariance.html" class="btn btn-neutral float-right" title="Panel Model Covariance Estimators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="results.html" class="btn btn-neutral float-right" title="Estimation Results" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="reference.html" class="btn btn-neutral" title="Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -1029,7 +1051,7 @@ missing in the model data.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.84.g80faf27',
+            VERSION:'0+untagged.85.g7be5017',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

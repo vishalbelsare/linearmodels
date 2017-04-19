@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.results &mdash; linearmodels 0+untagged.84.g80faf27 documentation</title>
+  <title>linearmodels.panel.results &mdash; linearmodels 0+untagged.85.g7be5017 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.84.g80faf27 documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.85.g7be5017 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -170,6 +170,7 @@
 
 <span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">_SummaryStr</span><span class="p">,</span> <span class="n">_str</span><span class="p">,</span> <span class="n">cached_property</span><span class="p">,</span> <span class="n">pval_format</span>
 
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PanelResults&#39;</span><span class="p">,</span> <span class="s1">&#39;PanelEffectsResults&#39;</span><span class="p">,</span> <span class="s1">&#39;RandomEffectsResults&#39;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="PanelResults"><a class="viewcode-back" href="../../../panel/results.html#linearmodels.panel.results.PanelResults">[docs]</a><span class="k">class</span> <span class="nc">PanelResults</span><span class="p">(</span><span class="n">_SummaryStr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -687,7 +688,7 @@
         <span class="k">return</span> <span class="n">Series</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Variance Decomposition&#39;</span><span class="p">)</span></div>
 
 
-<span class="k">class</span> <span class="nc">RandomEffectsResults</span><span class="p">(</span><span class="n">PanelResults</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomEffectsResults"><a class="viewcode-back" href="../../../panel/results.html#linearmodels.panel.results.RandomEffectsResults">[docs]</a><span class="k">class</span> <span class="nc">RandomEffectsResults</span><span class="p">(</span><span class="n">PanelResults</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Results container for random effect panel data models</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -709,7 +710,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">theta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Values used in generalized demeaning&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_theta</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_theta</span></div>
 </pre></div>
 
            </div>
@@ -746,7 +747,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.84.g80faf27',
+            VERSION:'0+untagged.85.g7be5017',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

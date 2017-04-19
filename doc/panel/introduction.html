@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; linearmodels 0+untagged.84.g80faf27 documentation</title>
+  <title>Introduction &mdash; linearmodels 0+untagged.85.g7be5017 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.84.g80faf27 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.85.g7be5017 documentation" href="../index.html"/>
         <link rel="up" title="Panel Data Model Estimation" href="index.html"/>
         <link rel="next" title="Data Formats for Panel Data Analysis" href="examples/data-formats.html"/>
         <link rel="prev" title="Panel Data Model Estimation" href="index.html"/> 
@@ -101,7 +101,7 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/using-formulas.html">Specifying models using formulas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pandas.html">Comparison with pandas PanelOLS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference.html">Module Reference</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mathematical-formula.html">Formulas and Mathematical Detail</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mathematical-formula.html">Mathematical Appendix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="faq.html">Implementation Choices</a></li>
 </ul>
 </li>
@@ -208,6 +208,114 @@
 </style>
 <div class="section" id="introduction">
 <span id="panel-introduction"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Panel data includes observations on multiple entities &#8211; individuals, firms,
+countries &#8211; over multiple time periods.  In most classical applications of
+panel data the number of entities, N, is large and the number of time periods,
+T, is small (often between 2 and 5).  Most asymptoic theory for these
+estimators has been developed under an assumption that N will diverge while
+T is fixed.</p>
+<p>Most panel models are designed to estimate the parameters of a model which
+can be described</p>
+<div class="math">
+\[y_{it}  = x_{it}\beta + \alpha_i + \epsilon_{it}\]</div>
+<p>where i indexes the entities and t indexes time.  <span class="math">\(\beta\)</span> contains the
+parameters of interest.  <span class="math">\(\alpha_i\)</span> are entity-specific components that
+are not usually identified in the standard setup, and so cannot be
+consistently estimated and <span class="math">\(\epsilon_{it}\)</span> are idiosyncratic errors
+uncorrelated with <span class="math">\(\alpha_i\)</span> and the covariates <span class="math">\(x_{it}\)</span>.</p>
+<p>All models require two inputs</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">dependent</span></code> - The variable to be modeled, <span class="math">\(y_{it}\)</span> in the model</li>
+<li><code class="docutils literal"><span class="pre">exog</span></code> - The regressors, <span class="math">\(x_{it}\)</span> in the model.</li>
+</ul>
+</div></blockquote>
+<p>and use different techniques to address the presence of <span class="math">\(\alpha_i\)</span>.</p>
+<p>In particular,</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="models.html#linearmodels.panel.model.PanelOLS" title="linearmodels.panel.model.PanelOLS"><code class="xref py py-class docutils literal"><span class="pre">PanelOLS</span></code></a> uses fixed effect
+(i.e., entity effects) to eliminate the entity specific components.
+This is mathematically equivalent to including a dummy variable for
+each entity, although the implementation does not do this for
+performance reasons.</li>
+<li><a class="reference internal" href="models.html#linearmodels.panel.model.BetweenOLS" title="linearmodels.panel.model.BetweenOLS"><code class="xref py py-class docutils literal"><span class="pre">BetweenOLS</span></code></a> averages within an
+entity and then regresses the time-averaged values using OLS.</li>
+<li><a class="reference internal" href="models.html#linearmodels.panel.model.FirstDifferenceOLS" title="linearmodels.panel.model.FirstDifferenceOLS"><code class="xref py py-class docutils literal"><span class="pre">FirstDifferenceOLS</span></code></a> takes the first
+difference to eliminate the entity specific effect.</li>
+<li><a class="reference internal" href="models.html#linearmodels.panel.model.RandomEffects" title="linearmodels.panel.model.RandomEffects"><code class="xref py py-class docutils literal"><span class="pre">RandomEffects</span></code></a> uses a quasi-difference
+to efficiently estimate <span class="math">\(\beta\)</span> when the entity effect is
+independent from the regressors.  It is, however, not consistent when
+there is dependence between the entity effect and the regressors.</li>
+<li><a class="reference internal" href="models.html#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS"><code class="xref py py-class docutils literal"><span class="pre">PooledOLS</span></code></a> ignores the entity effect
+and is consistent but inefficient when the effect is independent of the
+regressors.</li>
+</ul>
+</div></blockquote>
+<p><a class="reference internal" href="models.html#linearmodels.panel.model.PanelOLS" title="linearmodels.panel.model.PanelOLS"><code class="xref py py-class docutils literal"><span class="pre">PanelOLS</span></code></a> is somewhat more general than the
+other estimators and can be used to model 2 effects (e.g., entity and time
+effects).</p>
+<p>Model specification is similar to <a class="reference external" href="http://www.statsmodels.org/">statsmodels</a>.
+This example rrun sa fixed effect regression on a panel of the wages of working
+men modeling teh log wage as a function of squared experience, a dummy if the
+man is married and a dummy indicating if the man is a union member.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">linearmodels.panel</span> <span class="kn">import</span> <span class="n">PanelOLS</span>
+<span class="kn">from</span> <span class="nn">linearmodels.datasets</span> <span class="kn">import</span> <span class="n">wage_panel</span>
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="kn">as</span> <span class="nn">sm</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">wage_panel</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;nr&#39;</span><span class="p">,</span><span class="s1">&#39;year&#39;</span><span class="p">])</span>
+<span class="n">dependent</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">lwage</span>
+<span class="n">exog</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">data</span><span class="p">[[</span><span class="s1">&#39;expersq&#39;</span><span class="p">,</span><span class="s1">&#39;married&#39;</span><span class="p">,</span><span class="s1">&#39;union&#39;</span><span class="p">]])</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">entity_effect</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">)</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+<p>While the result contains many properties containing specific quantities of
+interest (e.g., <code class="docutils literal"><span class="pre">params</span></code> or <code class="docutils literal"><span class="pre">tstata</span></code>), the string representation of the
+result is a summary table.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>                          <span class="n">PanelOLS</span> <span class="n">Estimation</span> <span class="n">Summary</span>
+<span class="o">================================================================================</span>
+<span class="n">Dep</span><span class="o">.</span> <span class="n">Variable</span><span class="p">:</span>                  <span class="n">lwage</span>   <span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="p">:</span>                        <span class="mf">0.1365</span>
+<span class="n">Estimator</span><span class="p">:</span>                   <span class="n">PanelOLS</span>   <span class="n">R</span><span class="o">-</span><span class="n">squared</span> <span class="p">(</span><span class="n">Between</span><span class="p">):</span>             <span class="o">-</span><span class="mf">0.0674</span>
+<span class="n">No</span><span class="o">.</span> <span class="n">Observations</span><span class="p">:</span>                <span class="mi">4360</span>   <span class="n">R</span><span class="o">-</span><span class="n">squared</span> <span class="p">(</span><span class="n">Within</span><span class="p">):</span>               <span class="mf">0.1365</span>
+<span class="n">Date</span><span class="p">:</span>                <span class="n">Wed</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">19</span> <span class="mi">2017</span>   <span class="n">R</span><span class="o">-</span><span class="n">squared</span> <span class="p">(</span><span class="n">Overall</span><span class="p">):</span>              <span class="mf">0.0270</span>
+<span class="n">Time</span><span class="p">:</span>                        <span class="mi">17</span><span class="p">:</span><span class="mi">48</span><span class="p">:</span><span class="mi">58</span>   <span class="n">Log</span><span class="o">-</span><span class="n">likelihood</span>                   <span class="o">-</span><span class="mf">1439.0</span>
+<span class="n">Cov</span><span class="o">.</span> <span class="n">Estimator</span><span class="p">:</span>            <span class="n">Unadjusted</span>
+                                        <span class="n">F</span><span class="o">-</span><span class="n">statistic</span><span class="p">:</span>                      <span class="mf">200.87</span>
+<span class="n">Entities</span><span class="p">:</span>                         <span class="mi">545</span>   <span class="n">P</span><span class="o">-</span><span class="n">value</span>                           <span class="mf">0.0000</span>
+<span class="n">Avg</span> <span class="n">Obs</span><span class="p">:</span>                       <span class="mf">8.0000</span>   <span class="n">Distribution</span><span class="p">:</span>                  <span class="n">F</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3812</span><span class="p">)</span>
+<span class="n">Min</span> <span class="n">Obs</span><span class="p">:</span>                       <span class="mf">8.0000</span>
+<span class="n">Max</span> <span class="n">Obs</span><span class="p">:</span>                       <span class="mf">8.0000</span>   <span class="n">F</span><span class="o">-</span><span class="n">statistic</span> <span class="p">(</span><span class="n">robust</span><span class="p">):</span>             <span class="mf">200.87</span>
+                                        <span class="n">P</span><span class="o">-</span><span class="n">value</span>                           <span class="mf">0.0000</span>
+<span class="n">Time</span> <span class="n">periods</span><span class="p">:</span>                       <span class="mi">8</span>   <span class="n">Distribution</span><span class="p">:</span>                  <span class="n">F</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3812</span><span class="p">)</span>
+<span class="n">Avg</span> <span class="n">Obs</span><span class="p">:</span>                       <span class="mf">545.00</span>
+<span class="n">Min</span> <span class="n">Obs</span><span class="p">:</span>                       <span class="mf">545.00</span>
+<span class="n">Max</span> <span class="n">Obs</span><span class="p">:</span>                       <span class="mf">545.00</span>
+
+                             <span class="n">Parameter</span> <span class="n">Estimates</span>
+<span class="o">==============================================================================</span>
+           <span class="n">Parameters</span>  <span class="n">Std</span><span class="o">.</span> <span class="n">Err</span><span class="o">.</span>     <span class="n">T</span><span class="o">-</span><span class="n">stat</span>    <span class="n">P</span><span class="o">-</span><span class="n">value</span>    <span class="n">Lower</span> <span class="n">CI</span>    <span class="n">Upper</span> <span class="n">CI</span>
+<span class="o">------------------------------------------------------------------------------</span>
+<span class="n">const</span>          <span class="mf">1.3953</span>     <span class="mf">0.0123</span>     <span class="mf">113.50</span>     <span class="mf">0.0000</span>      <span class="mf">1.3712</span>      <span class="mf">1.4194</span>
+<span class="n">expersq</span>        <span class="mf">0.0037</span>     <span class="mf">0.0002</span>     <span class="mf">19.560</span>     <span class="mf">0.0000</span>      <span class="mf">0.0033</span>      <span class="mf">0.0041</span>
+<span class="n">married</span>        <span class="mf">0.1073</span>     <span class="mf">0.0182</span>     <span class="mf">5.8992</span>     <span class="mf">0.0000</span>      <span class="mf">0.0717</span>      <span class="mf">0.1430</span>
+<span class="n">union</span>          <span class="mf">0.0828</span>     <span class="mf">0.0198</span>     <span class="mf">4.1864</span>     <span class="mf">0.0000</span>      <span class="mf">0.0440</span>      <span class="mf">0.1215</span>
+<span class="o">==============================================================================</span>
+
+<span class="n">F</span><span class="o">-</span><span class="n">test</span> <span class="k">for</span> <span class="n">Poolability</span><span class="p">:</span> <span class="mf">9.3360</span>
+<span class="n">P</span><span class="o">-</span><span class="n">value</span><span class="p">:</span> <span class="mf">0.0000</span>
+<span class="n">Distribution</span><span class="p">:</span> <span class="n">F</span><span class="p">(</span><span class="mi">544</span><span class="p">,</span><span class="mi">3812</span><span class="p">)</span>
+
+<span class="n">Included</span> <span class="n">effects</span><span class="p">:</span> <span class="n">Entity</span>
+</pre></div>
+</div>
+<p>Like statsmodels, panel models can be specified using a R-like formula. This model
+is identical to the previous. Note the use of the <em>special</em> variable <code class="docutils literal"><span class="pre">EntityEffect</span></code>
+to include the fixed effects.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;lwage ~ 1 + expersq + union + married + EntityEffect&#39;</span><span class="p">,</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 
 
@@ -254,7 +362,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.84.g80faf27',
+            VERSION:'0+untagged.85.g7be5017',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

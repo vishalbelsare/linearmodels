@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Module Reference &mdash; linearmodels 0+untagged.84.g80faf27 documentation</title>
+  <title>Module Reference &mdash; linearmodels 0+untagged.85.g7be5017 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.84.g80faf27 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.85.g7be5017 documentation" href="../index.html"/>
         <link rel="up" title="Panel Data Model Estimation" href="index.html"/>
         <link rel="next" title="Models for Panel Data" href="models.html"/>
         <link rel="prev" title="Comparison with pandas PanelOLS" href="pandas.html"/> 
@@ -102,12 +102,12 @@
 <li class="toctree-l2"><a class="reference internal" href="pandas.html">Comparison with pandas PanelOLS</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Module Reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="models.html">Models for Panel Data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="covariance.html">Panel Model Covariance Estimators</a></li>
 <li class="toctree-l3"><a class="reference internal" href="results.html">Estimation Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="covariance.html">Panel Model Covariance Estimators</a></li>
 <li class="toctree-l3"><a class="reference internal" href="data.html">Panel Data Structures</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="mathematical-formula.html">Formulas and Mathematical Detail</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mathematical-formula.html">Mathematical Appendix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="faq.html">Implementation Choices</a></li>
 </ul>
 </li>
@@ -217,9 +217,26 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="models.html">Models for Panel Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="covariance.html">Panel Model Covariance Estimators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="results.html">Estimation Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models for Panel Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models.html#fixed-effect-estimation">Fixed Effect Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#random-effects">Random Effects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#between-ols">Between OLS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#first-difference-estimation">First Difference Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pooled-ols">Pooled OLS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="results.html">Estimation Results</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="results.html#fixed-effect-models">Fixed Effect Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html#random-effects-models">Random Effects Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html#all-other-models">All other Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="covariance.html">Panel Model Covariance Estimators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="covariance.html#classic-covariance-estimator">Classic covariance estimator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="covariance.html#heteroskedasticity-robust-covariance-estimator">Heteroskedasticity robust covariance estimator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="covariance.html#one-and-two-way-clustered-covariance-estimator">One- and Two-way Clustered covariance estimator</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="data.html">Panel Data Structures</a></li>
 </ul>
 </div>
@@ -269,7 +286,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.84.g80faf27',
+            VERSION:'0+untagged.85.g7be5017',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
