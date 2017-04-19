@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.covariance &mdash; linearmodels 0+untagged.86.g1f4384e documentation</title>
+  <title>linearmodels.panel.covariance &mdash; linearmodels 0+untagged.85.g099d418 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.86.g1f4384e documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.85.g099d418 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -165,6 +165,8 @@
 <span class="kn">from</span> <span class="nn">linearmodels.iv.covariance</span> <span class="k">import</span> <span class="n">_cov_cluster</span><span class="p">,</span> <span class="n">CLUSTER_ERR</span>
 <span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">cached_property</span>
 
+<span class="c1"># TODO: Driscoll Kraay</span>
+
 
 <div class="viewcode-block" id="HomoskedasticCovariance"><a class="viewcode-back" href="../../../panel/covariance.html#linearmodels.panel.covariance.HomoskedasticCovariance">[docs]</a><span class="k">class</span> <span class="nc">HomoskedasticCovariance</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
@@ -195,16 +197,16 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \hat{\Sigma}_{xx} = (NT)^{-1}\sum_{i=1}^N\sum_{t=1}^T x_{it}x_{it}^{\prime}</span>
+<span class="sd">        \hat{\Sigma}_{xx} = X&#39;X</span>
 
 <span class="sd">    and</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        s^2 = (NT)^{-1}\sum_{i=1}^N\sum_{t=1}^T \hat{\epsilon}_{it}^2</span>
+<span class="sd">        s^2 = (n-df)^{-1} \hat{\epsilon}&#39;\hat{\epsilon}</span>
 
-<span class="sd">    where NT is replace by NT-k if ``debiased`` is ``True``.</span>
-
+<span class="sd">    where df is ``extra_df`` and n-df is replace by n-df-k if ``debiased`` is </span>
+<span class="sd">    ``True``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">extra_df</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -274,16 +276,16 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \hat{\Sigma}_{xx} = (NT)^{-1}\sum_{i=1}^N\sum_{t=1}^T x_{it}x_{it}^{\prime}</span>
+<span class="sd">        \hat{\Sigma}_{xx} = X&#39;X</span>
 
 <span class="sd">    and</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \widehat{Cov}(x_it\epsilon_{it}) = (NT)^{-1}\sum_{i=1}^N\sum_{t=1}^T</span>
-<span class="sd">                                           \hat{\epsilon}_{it}^2 x_{it}x_{it}^{\prime}</span>
+<span class="sd">        s^2 = (n-df)^{-1} \sum_{i=1}^n \hat{\epsilon}_i^2 x_i&#39;x_i</span>
 
-<span class="sd">    where NT is replace by NT-k if ``debiased`` is ``True``.</span>
+<span class="sd">    where df is ``extra_df`` and n-df is replace by n-df-k if ``debiased`` is </span>
+<span class="sd">    ``True``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">extra_df</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -324,7 +326,7 @@
 <span class="sd">        Additional degrees of freedom consumed by models beyond the number of</span>
 <span class="sd">        columns in x, e.g., fixed effects.  Covariance estimators are always</span>
 <span class="sd">        adjusted for extra_df irrespective of the setting of debiased</span>
-<span class="sd">    cluster : ndarray, optional</span>
+<span class="sd">    clusters : ndarray, optional</span>
 <span class="sd">        nobs by 1 or nobs by 2 array of cluster group ids</span>
 <span class="sd">    group_debias : bool, optional</span>
 <span class="sd">        Flag indicating whether to apply small-number of groups adjustment</span>
@@ -340,26 +342,30 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \hat{\Sigma}_{xx}^{-1}\widehat{Cov}(x_{it}\epsilon_{it})\hat{\Sigma}_{xx}^{-1}</span>
+<span class="sd">        \hat{\Sigma}_{xx}^{-1}\widehat{Cov}_\mathcal{G}(x_{it}\epsilon_{it})\hat{\Sigma}_{xx}^{-1}</span>
 
 <span class="sd">    where</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \hat{\Sigma}_{xx} = (NT)^{-1}\sum_{i=1}^N\sum_{t=1}^T x_{it}x_{it}^{\prime}</span>
+<span class="sd">        \hat{\Sigma}_{xx} = X&#39;X</span>
 
-<span class="sd">    and</span>
-
-<span class="sd">    .. math::</span>
-
-<span class="sd">        \widehat{Cov}(x_it\epsilon_{it}) = (NT)^{-1}\sum_{j=1}^G xe_j^{\prime}xe_j</span>
-
-<span class="sd">    where ...</span>
-
-<span class="sd">    .. todo::</span>
-
-<span class="sd">        * Complete -- math is wrong</span>
-<span class="sd">        * Small sample adjustments</span>
+<span class="sd">    and :math:`\widehat{Cov}_\mathcal{G}(x_{it}\epsilon_{it})` is a one- or </span>
+<span class="sd">    two-way cluster covariance of the scores.  Two-way clustering is </span>
+<span class="sd">    implemented by summing up the two one-way clusters and then subtracting </span>
+<span class="sd">    the one-way clustering covariance computed using the group formed from </span>
+<span class="sd">    the intersection of the two groups.</span>
+<span class="sd">    </span>
+<span class="sd">    Two small sample adjustment are available.  ``debias=True`` will account </span>
+<span class="sd">    for regressors in the main model. ``group_debias`` will provide a small </span>
+<span class="sd">    sample adjustment for the number of clusters of the form </span>
+<span class="sd">    </span>
+<span class="sd">    .. math ::</span>
+<span class="sd">    </span>
+<span class="sd">      (g / (g- 1)) ((n - 1) / n)</span>
+<span class="sd">    </span>
+<span class="sd">    where g is the number of distinct groups and n is the number of </span>
+<span class="sd">    observations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">extra_df</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">clusters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -482,7 +488,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.86.g1f4384e',
+            VERSION:'0+untagged.85.g099d418',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
