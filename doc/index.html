@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Linear Model Estimation &mdash; linearmodels 0+untagged.84.gd9faa0c documentation</title>
+  <title>Linear Model Estimation &mdash; linearmodels 0+untagged.77.gbb418de documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.84.gd9faa0c documentation" href="#"/>
+    <link rel="top" title="linearmodels 0+untagged.77.gbb418de documentation" href="#"/>
         <link rel="next" title="Instrumental Variable Estimation" href="iv/index.html"/> 
 
   
@@ -194,13 +194,26 @@
 </style>
 <div class="section" id="linear-model-estimation">
 <h1>Linear Model Estimation<a class="headerlink" href="#linear-model-estimation" title="Permalink to this headline">¶</a></h1>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">The instrumental variable estimation code is complete and tested. The
-panel data models are substantially complete although the API is not
-finalized.</p>
-</div>
-<p>Estimation and inference in some linear models (IV, panel and panel IV).</p>
+<p>Estimation and inference in some linear models:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Models for panel data<ul>
+<li>Fixed Effects (<a class="reference internal" href="panel/models.html#linearmodels.panel.model.PanelOLS" title="linearmodels.panel.model.PanelOLS"><code class="xref py py-class docutils literal"><span class="pre">PanelOLS</span></code></a>)</li>
+<li>Random Effects (<a class="reference internal" href="panel/models.html#linearmodels.panel.model.RandomEffects" title="linearmodels.panel.model.RandomEffects"><code class="xref py py-class docutils literal"><span class="pre">RandomEffects</span></code></a>)</li>
+<li>First Difference (<a class="reference internal" href="panel/models.html#linearmodels.panel.model.FirstDifferenceOLS" title="linearmodels.panel.model.FirstDifferenceOLS"><code class="xref py py-class docutils literal"><span class="pre">FirstDifferenceOLS</span></code></a>)</li>
+<li>Between Estimation (<a class="reference internal" href="panel/models.html#linearmodels.panel.model.BetweenOLS" title="linearmodels.panel.model.BetweenOLS"><code class="xref py py-class docutils literal"><span class="pre">BetweenOLS</span></code></a>)</li>
+<li>Pooled OLS (<a class="reference internal" href="panel/models.html#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS"><code class="xref py py-class docutils literal"><span class="pre">PooledOLS</span></code></a>)</li>
+</ul>
+</li>
+<li>Models for estimation single equation models using instrumental variables (IV)<ul>
+<li>Two-stage least squares (<a class="reference internal" href="iv/methods.html#linearmodels.iv.model.IV2SLS" title="linearmodels.iv.model.IV2SLS"><code class="xref py py-class docutils literal"><span class="pre">IV2SLS</span></code></a>)</li>
+<li>Limited Information ML (LIML) (<a class="reference internal" href="iv/methods.html#linearmodels.iv.model.IVLIML" title="linearmodels.iv.model.IVLIML"><code class="xref py py-class docutils literal"><span class="pre">IVLIML</span></code></a>)</li>
+<li>Generalized Method of Moments (GMM) (<a class="reference internal" href="iv/methods.html#linearmodels.iv.model.IVGMM" title="linearmodels.iv.model.IVGMM"><code class="xref py py-class docutils literal"><span class="pre">IVGMM</span></code></a>)</li>
+<li>Continuously Updating GMM (<a class="reference internal" href="iv/methods.html#linearmodels.iv.model.IVGMMCUE" title="linearmodels.iv.model.IVGMMCUE"><code class="xref py py-class docutils literal"><span class="pre">IVGMMCUE</span></code></a>)</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -262,7 +275,7 @@ finalized.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0+untagged.84.gd9faa0c',
+            VERSION:'0+untagged.77.gbb418de',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

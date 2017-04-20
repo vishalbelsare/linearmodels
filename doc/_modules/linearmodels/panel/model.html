@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.84.gd9faa0c documentation</title>
+  <title>linearmodels.panel.model &mdash; linearmodels 0+untagged.77.gbb418de documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="linearmodels 0+untagged.84.gd9faa0c documentation" href="../../../index.html"/>
+    <link rel="top" title="linearmodels 0+untagged.77.gbb418de documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -1219,10 +1219,16 @@
         <span class="c1">######################################</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_effect</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_effect</span><span class="p">:</span>
             <span class="n">wy</span><span class="p">,</span> <span class="n">wx</span> <span class="o">=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">values2d</span><span class="p">,</span> <span class="n">root_w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span>
+            <span class="n">df_num</span><span class="p">,</span> <span class="n">df_denom</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_model</span> <span class="o">-</span> <span class="n">wx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">df_resid</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span><span class="p">:</span>
+                <span class="c1"># Correction for when models does not have explicit constant</span>
+                <span class="n">wy</span> <span class="o">-=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">root_w</span><span class="p">,</span> <span class="n">wy</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">wx</span> <span class="o">-=</span> <span class="n">root_w</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">root_w</span><span class="p">,</span> <span class="n">wx</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">df_num</span> <span class="o">-=</span> <span class="mi">1</span>
             <span class="n">weps_pooled</span> <span class="o">=</span> <span class="n">wy</span> <span class="o">-</span> <span class="n">wx</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">wx</span><span class="p">,</span> <span class="n">wy</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">resid_ss_pooled</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">weps_pooled</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">weps_pooled</span><span class="p">)</span>
-            <span class="n">df_num</span><span class="p">,</span> <span class="n">df_denom</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_model</span> <span class="o">-</span> <span class="n">wx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">df_resid</span>
             <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">resid_ss_pooled</span> <span class="o">-</span> <span class="n">resid_ss</span><span class="p">)</span> <span class="o">/</span> <span class="n">df_num</span>
+            
             <span class="n">denom</span> <span class="o">=</span> <span class="n">resid_ss</span> <span class="o">/</span> <span class="n">df_denom</span>
             <span class="n">stat</span> <span class="o">=</span> <span class="n">num</span> <span class="o">/</span> <span class="n">denom</span>
             <span class="n">f_pooled</span> <span class="o">=</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="s1">&#39;Effects are zero&#39;</span><span class="p">,</span>
@@ -1774,7 +1780,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0+untagged.84.gd9faa0c',
+            VERSION:'0+untagged.77.gbb418de',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
