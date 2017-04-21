@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Models for Panel Data &mdash; linearmodels 1.0+161.g272fcc6 documentation</title>
+  <title>Models for Panel Data &mdash; linearmodels 1.0+163.g8e9d514 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="linearmodels 1.0+161.g272fcc6 documentation" href="../index.html"/>
+    <link rel="top" title="linearmodels 1.0+163.g8e9d514 documentation" href="../index.html"/>
         <link rel="up" title="Module Reference" href="reference.html"/>
         <link rel="next" title="Estimation Results" href="results.html"/>
         <link rel="prev" title="Module Reference" href="reference.html"/> 
@@ -98,7 +98,7 @@
 <li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/data-formats.html">Data Formats for Panel Data Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/examples.html">Examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/using-formulas.html">Specifying models using formulas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/using-formulas.html">Using formulas to specify models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pandas.html">Comparison with pandas PanelOLS</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="reference.html">Module Reference</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Models for Panel Data</a><ul>
@@ -227,7 +227,7 @@
 <h2>Fixed Effect Estimation<a class="headerlink" href="#fixed-effect-estimation" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.model.PanelOLS">
-<em class="property">class </em><code class="descname">PanelOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em>, <em>entity_effect=False</em>, <em>time_effect=False</em>, <em>other_effects=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">PanelOLS</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em>, <em>entity_effects=False</em>, <em>time_effects=False</em>, <em>other_effects=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS" title="Permalink to this definition">¶</a></dt>
 <dd><p>One- and two-way fixed effects estimator for panel data</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -239,8 +239,8 @@
 <li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
 proportional to inverse of weight to that the residual time
 the weight should be homoskedastic.</li>
-<li><strong>entity_effect</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include entity (fixed) effects in the model</li>
-<li><strong>time_effect</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include time effects in the model</li>
+<li><strong>entity_effects</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include entity (fixed) effects in the model</li>
+<li><strong>time_effects</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag whether to include time effects in the model</li>
 <li><strong>other_effects</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Category codes to use for any effects that are not entity or time
 effects. Each variable is treated as an effect.</li>
 </ul>
@@ -253,22 +253,22 @@ effects. Each variable is treated as an effect.</li>
 can be described</p>
 <div class="math">
 \[y_{it} = \alpha_i + \beta^{\prime}x_{it} + \epsilon_{it}\]</div>
-<p>where <span class="math">\(\alpha_i\)</span> is included if <code class="docutils literal"><span class="pre">entity_effect=True</span></code>.</p>
+<p>where <span class="math">\(\alpha_i\)</span> is included if <code class="docutils literal"><span class="pre">entity_effects=True</span></code>.</p>
 <p>Time effect are also supported, which leads to a model of the form</p>
 <div class="math">
 \[y_{it}= \gamma_t + \beta^{\prime}x_{it} + \epsilon_{it}\]</div>
-<p>where <span class="math">\(\gamma_i\)</span> is included if <code class="docutils literal"><span class="pre">time_effect=True</span></code>.</p>
+<p>where <span class="math">\(\gamma_i\)</span> is included if <code class="docutils literal"><span class="pre">time_effects=True</span></code>.</p>
 <p>Both effects can be simultaneously used,</p>
 <div class="math">
 \[y_{it}=\alpha_i + \gamma_t + \beta^{\prime}x_{it} + \epsilon_{it}\]</div>
 <p>Additionally , arbitrary effects can be specified using categorical variables.</p>
-<p>If both <code class="docutils literal"><span class="pre">entity_effect</span></code>  and``time_effect`` are <code class="docutils literal"><span class="pre">False</span></code>, and no other
+<p>If both <code class="docutils literal"><span class="pre">entity_effect</span></code>  and``time_effects`` are <code class="docutils literal"><span class="pre">False</span></code>, and no other
 effects are included, the model reduces to <a class="reference internal" href="#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS"><code class="xref py py-class docutils literal"><span class="pre">PooledOLS</span></code></a>.</p>
 <p>Model supports at most 2 effects.  These can be entity-time, entity-other, time-other or
 2 other.</p>
 <dl class="attribute">
-<dt id="linearmodels.panel.model.PanelOLS.entity_effect">
-<code class="descname">entity_effect</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.entity_effect" title="Permalink to this definition">¶</a></dt>
+<dt id="linearmodels.panel.model.PanelOLS.entity_effects">
+<code class="descname">entity_effects</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.entity_effects" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flag indicating whether entity effects are included</p>
 </dd></dl>
 
@@ -309,7 +309,7 @@ if <code class="docutils literal"><span class="pre">auto_df=False</span></code>.
 </table>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">PanelOLS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">entity_effect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">entity_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -349,7 +349,7 @@ clusters</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>formula</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Formula to transform into model. Conforms to patsy formula rules
-with two special variable names, EntityEffect and TimeEffect
+with two special variable names, EntityEffects and TimeEffects
 which can be used to specify that the model should contain an
 entity effect or a time effect, respectively. See Examples.</li>
 <li><strong>data</strong> (<em>array-like</em>) &#8211; Data structure that can be coerced into a PanelData.  In most
@@ -373,7 +373,7 @@ effects. Each variable is treated as an effect.</li>
 </table>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">PanelOLS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;y ~ 1 + x1 + EntityEffect&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;y ~ 1 + x1 + EntityEffects&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -392,8 +392,8 @@ effects. Each variable is treated as an effect.</li>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="linearmodels.panel.model.PanelOLS.other_effect">
-<code class="descname">other_effect</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.other_effect" title="Permalink to this definition">¶</a></dt>
+<dt id="linearmodels.panel.model.PanelOLS.other_effects">
+<code class="descname">other_effects</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.other_effects" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flag indicating whether other (generic) effects are included</p>
 </dd></dl>
 
@@ -419,8 +419,8 @@ missing in the model data.</td>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="linearmodels.panel.model.PanelOLS.time_effect">
-<code class="descname">time_effect</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.time_effect" title="Permalink to this definition">¶</a></dt>
+<dt id="linearmodels.panel.model.PanelOLS.time_effects">
+<code class="descname">time_effects</code><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.time_effects" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flag indicating whether time effects are included</p>
 </dd></dl>
 
@@ -1051,7 +1051,7 @@ missing in the model data.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0+161.g272fcc6',
+            VERSION:'1.0+163.g8e9d514',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

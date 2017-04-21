@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Specifying models using formulas &mdash; linearmodels 1.0+161.g272fcc6 documentation</title>
+  <title>Using formulas to specify models &mdash; linearmodels 1.0+163.g8e9d514 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="linearmodels 1.0+161.g272fcc6 documentation" href="../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+163.g8e9d514 documentation" href="../../index.html"/>
         <link rel="up" title="Panel Data Model Estimation" href="../index.html"/>
         <link rel="next" title="Comparison with pandas PanelOLS" href="../pandas.html"/>
         <link rel="prev" title="Examples" href="examples.html"/> 
@@ -98,7 +98,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data-formats.html">Data Formats for Panel Data Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Specifying models using formulas</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Using formulas to specify models</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Loading-and-preparing-data">Loading and preparing data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#PanelOLS-with-Entity-Effects">PanelOLS with Entity Effects</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#PanelOLS-with-Entity-Effects-and-a-constant">PanelOLS with Entity Effects and a constant</a></li>
@@ -162,7 +162,7 @@
         
           <li><a href="../index.html">Panel Data Model Estimation</a> &raquo;</li>
         
-      <li>Specifying models using formulas</li>
+      <li>Using formulas to specify models</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -375,22 +375,34 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="Specifying-models-using-formulas">
-<h1>Specifying models using formulas<a class="headerlink" href="#Specifying-models-using-formulas" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Using-formulas-to-specify-models">
+<h1>Using formulas to specify models<a class="headerlink" href="#Using-formulas-to-specify-models" title="Permalink to this headline">¶</a></h1>
 <p>All of the models can be specified using formulas. The formulas used
-with <code class="docutils literal"><span class="pre">BetweenOLS</span></code> and <code class="docutils literal"><span class="pre">PooledOLS</span></code> are completely standard and are
-identical to <code class="docutils literal"><span class="pre">statsmodels</span></code>. <code class="docutils literal"><span class="pre">FirstDifferenceOLS</span></code> is nearly identical
-with the caveat that the model <em>cannot</em> include an intercept.</p>
+here utilize <a class="reference external" href="http://patsy.readthedocs.io/en/latest/">patsy</a> are
+similar to those in <a class="reference external" href="http://www.statsmodels.org">statsmodels</a>. The
+basis formula syntax for a single variable regression would be</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">~</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>The formulas used with <code class="docutils literal"><span class="pre">BetweenOLS</span></code>, <code class="docutils literal"><span class="pre">PooledOLS</span></code> and
+<code class="docutils literal"><span class="pre">RandomEffects</span></code> are completely standard and are identical to
+<a class="reference external" href="http://www.statsmodels.org">statsmodels</a>. <code class="docutils literal"><span class="pre">FirstDifferenceOLS</span></code> is
+nearly identical with the caveat that the model <em>cannot</em> include an
+intercept.</p>
 <p><code class="docutils literal"><span class="pre">PanelOLS</span></code>, which implements effects (entity, time or other) has a
 small extension to the formula which allows entity effects or time
-effects (or both) to be specified as part of the formula. It isn&#8217;t
-possible to specify other effects using the fomrula interface, although
-these can be included as an optional parameter when using a formula.</p>
+effects (or both) to be specified as part of the formula. While it is
+not possible to specify other effects using the formula interface, these
+can be included as an optional parameter when using a formula.</p>
 <div class="section" id="Loading-and-preparing-data">
 <h2>Loading and preparing data<a class="headerlink" href="#Loading-and-preparing-data" title="Permalink to this headline">¶</a></h2>
 <p>When using formulas, a MultiIndex pandas dataframe where the index is
-entity-time is required. Here the Grunfeld data from <code class="docutils literal"><span class="pre">statsmodels</span></code> is
-used to issulatrated the use of formulas.</p>
+entity-time is <strong>required</strong>. Here the Grunfeld data, from &#8220;The
+Determinants of Corporate Investment&#8221;, provided by
+<a class="reference external" href="http://www.statsmodels.org/stable/datasets/generated/grunfeld.html">statsmodels</a>,
+is used to illustrate the use of formulas. This dataset contains data on
+firm investment, market value and the stock of plant capital.</p>
+<p><code class="docutils literal"><span class="pre">set_index</span></code> is used to set the index using variables from the dataset.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [1]:
@@ -400,77 +412,32 @@ used to issulatrated the use of formulas.</p>
 <span></span><span class="kn">from</span> <span class="nn">statsmodels.datasets</span> <span class="kn">import</span> <span class="n">grunfeld</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">grunfeld</span><span class="o">.</span><span class="n">load_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">data</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;firm&#39;</span><span class="p">,</span><span class="s1">&#39;year&#39;</span><span class="p">])</span>
-<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[1]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>invest</th>
-      <th>value</th>
-      <th>capital</th>
-    </tr>
-    <tr>
-      <th>firm</th>
-      <th>year</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="5" valign="top">b'General Motors'</th>
-      <th>1935.0</th>
-      <td>317.6</td>
-      <td>3078.5</td>
-      <td>2.8</td>
-    </tr>
-    <tr>
-      <th>1936.0</th>
-      <td>391.8</td>
-      <td>4661.7</td>
-      <td>52.6</td>
-    </tr>
-    <tr>
-      <th>1937.0</th>
-      <td>410.6</td>
-      <td>5387.1</td>
-      <td>156.9</td>
-    </tr>
-    <tr>
-      <th>1938.0</th>
-      <td>257.7</td>
-      <td>2792.2</td>
-      <td>209.2</td>
-    </tr>
-    <tr>
-      <th>1939.0</th>
-      <td>330.8</td>
-      <td>4313.2</td>
-      <td>203.4</td>
-    </tr>
-  </tbody>
-</table>
-</div></div>
+<div class="highlight"><pre>
+                          invest   value  capital
+firm              year
+b&#39;General Motors&#39; 1935.0   317.6  3078.5      2.8
+                  1936.0   391.8  4661.7     52.6
+                  1937.0   410.6  5387.1    156.9
+                  1938.0   257.7  2792.2    209.2
+                  1939.0   330.8  4313.2    203.4
+</pre></div></div>
 </div>
 </div>
 <div class="section" id="PanelOLS-with-Entity-Effects">
 <h2>PanelOLS with Entity Effects<a class="headerlink" href="#PanelOLS-with-Entity-Effects" title="Permalink to this headline">¶</a></h2>
-<p>Entity effects are specified using the special command <code class="docutils literal"><span class="pre">EntityEffect</span></code>.
-By default a constant is not included, and so if a constant is desired,
-<code class="docutils literal"><span class="pre">1+</span></code> should be included in the formula. When including effects, the
-model and fit are identical whether a constant is included or not.</p>
+<p>Entity effects are specified using the special command
+<code class="docutils literal"><span class="pre">EntityEffects</span></code>. By default a constant is not included, and so if a
+constant is desired, <code class="docutils literal"><span class="pre">1+</span></code> should be included in the formula. When
+including effects, the model and fit are identical whether a constant is
+included or not.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [2]:
@@ -478,8 +445,8 @@ model and fit are identical whether a constant is included or not.</p>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="kn">import</span> <span class="n">PanelOLS</span>
-<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;invest ~ value + capital + EntityEffect&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">debiased</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;invest ~ value + capital + EntityEffects&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -494,7 +461,7 @@ Dep. Variable:                 invest   R-squared:                        0.7667
 Estimator:                   PanelOLS   R-squared (Between):              0.8223
 No. Observations:                 220   R-squared (Within):               0.7667
 Date:                Fri, Apr 21 2017   R-squared (Overall):              0.8132
-Time:                        15:22:58   Log-likelihood                   -1167.4
+Time:                        21:03:18   Log-likelihood                   -1167.4
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      340.08
 Entities:                          11   P-value                           0.0000
@@ -535,8 +502,8 @@ identified using teh grand mean of the dependent and the regressors.</p>
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;invest ~ 1 + value + capital + EntityEffect&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">debiased</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span></span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;invest ~ 1 + value + capital + EntityEffects&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -551,7 +518,7 @@ Dep. Variable:                 invest   R-squared:                        0.7667
 Estimator:                   PanelOLS   R-squared (Between):              0.8193
 No. Observations:                 220   R-squared (Within):               0.7667
 Date:                Fri, Apr 21 2017   R-squared (Overall):              0.8071
-Time:                        15:22:58   Log-likelihood                   -1167.4
+Time:                        21:03:19   Log-likelihood                   -1167.4
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      340.08
 Entities:                          11   P-value                           0.0000
@@ -593,8 +560,8 @@ variable.</p>
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;invest ~ 1 + value + capital + EntityEffect + TimeEffect&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">debiased</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span></span><span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;invest ~ 1 + value + capital + EntityEffects + TimeEffects&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -609,7 +576,7 @@ Dep. Variable:                 invest   R-squared:                        0.7253
 Estimator:                   PanelOLS   R-squared (Between):              0.7944
 No. Observations:                 220   R-squared (Within):               0.7566
 Date:                Fri, Apr 21 2017   R-squared (Overall):              0.7856
-Time:                        15:23:00   Log-likelihood                   -1153.0
+Time:                        21:03:19   Log-likelihood                   -1153.0
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      248.15
 Entities:                          11   P-value                           0.0000
@@ -651,7 +618,7 @@ completeness.</p>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="kn">import</span> <span class="n">BetweenOLS</span><span class="p">,</span> <span class="n">FirstDifferenceOLS</span><span class="p">,</span> <span class="n">PooledOLS</span>
 <span class="n">mod</span> <span class="o">=</span> <span class="n">BetweenOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;invest ~ 1 + value + capital&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">debiased</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -666,7 +633,7 @@ Dep. Variable:                 invest   R-squared:                        0.8644
 Estimator:                 BetweenOLS   R-squared (Between):              0.8644
 No. Observations:                  11   R-squared (Within):               0.4195
 Date:                Fri, Apr 21 2017   R-squared (Overall):              0.7616
-Time:                        15:23:00   Log-likelihood                   -61.997
+Time:                        21:03:19   Log-likelihood                   -61.997
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      25.500
 Entities:                          11   P-value                           0.0003
@@ -701,7 +668,7 @@ not identified after differencing.</p>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">mod</span> <span class="o">=</span> <span class="n">FirstDifferenceOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;invest ~ value + capital&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">debiased</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -716,7 +683,7 @@ Dep. Variable:                 invest   R-squared:                        0.4287
 Estimator:         FirstDifferenceOLS   R-squared (Between):              0.8643
 No. Observations:                 209   R-squared (Within):               0.7539
 Date:                Fri, Apr 21 2017   R-squared (Overall):              0.8461
-Time:                        15:23:01   Log-likelihood                   -1071.1
+Time:                        21:03:19   Log-likelihood                   -1071.1
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      77.679
 Entities:                          11   P-value                           0.0000
@@ -751,7 +718,7 @@ are no effects. It is effectively identical to <code class="docutils literal"><s
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">mod</span> <span class="o">=</span> <span class="n">PooledOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;invest ~ 1 + value + capital&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">debiased</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -766,7 +733,7 @@ Dep. Variable:                 invest   R-squared:                        0.8179
 Estimator:                  PooledOLS   R-squared (Between):              0.8426
 No. Observations:                 220   R-squared (Within):               0.7357
 Date:                Fri, Apr 21 2017   R-squared (Overall):              0.8179
-Time:                        15:23:01   Log-likelihood                   -1301.3
+Time:                        21:03:20   Log-likelihood                   -1301.3
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      487.28
 Entities:                          11   P-value                           0.0000
@@ -836,7 +803,7 @@ capital        0.2275     0.0242     9.3904     0.0000      0.1798      0.2753
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0+161.g272fcc6',
+            VERSION:'1.0+163.g8e9d514',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

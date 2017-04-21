@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Data Formats for Panel Data Analysis &mdash; linearmodels 1.0+161.g272fcc6 documentation</title>
+  <title>Data Formats for Panel Data Analysis &mdash; linearmodels 1.0+163.g8e9d514 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="linearmodels 1.0+161.g272fcc6 documentation" href="../../index.html"/>
+    <link rel="top" title="linearmodels 1.0+163.g8e9d514 documentation" href="../../index.html"/>
         <link rel="up" title="Panel Data Model Estimation" href="../index.html"/>
         <link rel="next" title="Examples" href="examples.html"/>
         <link rel="prev" title="Introduction" href="../introduction.html"/> 
@@ -105,7 +105,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="using-formulas.html">Specifying models using formulas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using-formulas.html">Using formulas to specify models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pandas.html">Comparison with pandas PanelOLS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference.html">Module Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../mathematical-formula.html">Formulas and Mathematical Detail</a></li>
@@ -491,7 +491,7 @@ representation can be used.</p>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="kn">import</span> <span class="n">PanelOLS</span>
-<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">mi_data</span><span class="o">.</span><span class="n">lscrap</span><span class="p">,</span> <span class="n">mi_data</span><span class="o">.</span><span class="n">hrsemp</span><span class="p">,</span> <span class="n">entity_effect</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">mi_data</span><span class="o">.</span><span class="n">lscrap</span><span class="p">,</span> <span class="n">mi_data</span><span class="o">.</span><span class="n">hrsemp</span><span class="p">,</span> <span class="n">entity_effects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -517,7 +517,7 @@ Dep. Variable:                 lscrap   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
 Date:                Fri, Apr 21 2017   R-squared (Overall):             -0.0288
-Time:                        15:22:51   Log-likelihood                   -90.459
+Time:                        21:03:02   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
@@ -594,22 +594,12 @@ name.</p>
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">panel</span><span class="p">[[</span><span class="s1">&#39;lscrap&#39;</span><span class="p">]],</span><span class="n">panel</span><span class="p">[[</span><span class="s1">&#39;hrsemp&#39;</span><span class="p">]],</span><span class="n">entity_effect</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">panel</span><span class="p">[[</span><span class="s1">&#39;lscrap&#39;</span><span class="p">]],</span> <span class="n">panel</span><span class="p">[[</span><span class="s1">&#39;hrsemp&#39;</span><span class="p">]],</span> <span class="n">entity_effects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:187: MissingValueWarning:
-Inputs contain missing values. Dropping rows with missing observations.
-  warnings.warn(missing_value_warning_msg, MissingValueWarning)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -620,7 +610,7 @@ Dep. Variable:                 lscrap   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
 Date:                Fri, Apr 21 2017   R-squared (Overall):             -0.0288
-Time:                        15:22:52   Log-likelihood                   -90.459
+Time:                        21:03:02   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
@@ -647,6 +637,16 @@ Distribution: F(47,91)
 Included effects: Entity
 </pre></div></div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:187: MissingValueWarning:
+Inputs contain missing values. Dropping rows with missing observations.
+  warnings.warn(missing_value_warning_msg, MissingValueWarning)
+</pre></div></div>
+</div>
 <p>Using DataFrames removes this information and so the generic <em>Dep</em> and
 <em>Exog</em> are used.</p>
 <div class="nbinput docutils container">
@@ -655,7 +655,7 @@ Included effects: Entity
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">lscrap</span><span class="p">,</span><span class="n">hrsemp</span><span class="p">,</span><span class="n">entity_effect</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">lscrap</span><span class="p">,</span> <span class="n">hrsemp</span><span class="p">,</span> <span class="n">entity_effects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -681,7 +681,7 @@ Dep. Variable:                    Dep   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
 Date:                Fri, Apr 21 2017   R-squared (Overall):             -0.0288
-Time:                        15:22:52   Log-likelihood                   -90.459
+Time:                        21:03:03   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
@@ -721,22 +721,12 @@ is that NumPy loses all lable information.</p>
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">lscrap</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">hrsemp</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">entity_effect</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">lscrap</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">hrsemp</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">entity_effects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:187: MissingValueWarning:
-Inputs contain missing values. Dropping rows with missing observations.
-  warnings.warn(missing_value_warning_msg, MissingValueWarning)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -747,7 +737,7 @@ Dep. Variable:                    Dep   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
 Date:                Fri, Apr 21 2017   R-squared (Overall):             -0.0288
-Time:                        15:22:52   Log-likelihood                   -90.459
+Time:                        21:03:03   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
@@ -772,6 +762,16 @@ P-value: 0.0000
 Distribution: F(47,91)
 
 Included effects: Entity
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:187: MissingValueWarning:
+Inputs contain missing values. Dropping rows with missing observations.
+  warnings.warn(missing_value_warning_msg, MissingValueWarning)
 </pre></div></div>
 </div>
 </div>
@@ -823,7 +823,7 @@ Coordinates:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s1">&#39;lscrap&#39;</span><span class="p">]],</span> <span class="n">da</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s1">&#39;hrsemp&#39;</span><span class="p">]],</span> <span class="n">entity_effect</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s1">&#39;lscrap&#39;</span><span class="p">]],</span> <span class="n">da</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s1">&#39;hrsemp&#39;</span><span class="p">]],</span> <span class="n">entity_effects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -849,7 +849,7 @@ Dep. Variable:                 lscrap   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
 Date:                Fri, Apr 21 2017   R-squared (Overall):             -0.0288
-Time:                        15:22:53   Log-likelihood                   -90.459
+Time:                        21:03:03   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
@@ -911,7 +911,7 @@ to produce year dummies.</p>
 <span class="k">print</span><span class="p">(</span><span class="n">mi_data</span><span class="p">[[</span><span class="s1">&#39;hrsemp&#39;</span><span class="p">,</span><span class="s1">&#39;year_str&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 <span class="k">print</span><span class="p">(</span><span class="n">mi_data</span><span class="p">[[</span><span class="s1">&#39;hrsemp&#39;</span><span class="p">,</span><span class="s1">&#39;year_str&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">mi_data</span><span class="p">[[</span><span class="s1">&#39;lscrap&#39;</span><span class="p">]],</span><span class="n">mi_data</span><span class="p">[[</span><span class="s1">&#39;hrsemp&#39;</span><span class="p">,</span><span class="s1">&#39;year_str&#39;</span><span class="p">]],</span><span class="n">entity_effect</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">mi_data</span><span class="p">[[</span><span class="s1">&#39;lscrap&#39;</span><span class="p">]],</span> <span class="n">mi_data</span><span class="p">[[</span><span class="s1">&#39;hrsemp&#39;</span><span class="p">,</span><span class="s1">&#39;year_str&#39;</span><span class="p">]],</span> <span class="n">entity_effects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -932,30 +932,13 @@ fcode  year
 hrsemp      float64
 year_str     object
 dtype: object
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:187: MissingValueWarning:
-Inputs contain missing values. Dropping rows with missing observations.
-  warnings.warn(missing_value_warning_msg, MissingValueWarning)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
                           PanelOLS Estimation Summary
 ================================================================================
 Dep. Variable:                 lscrap   R-squared:                        0.1985
 Estimator:                   PanelOLS   R-squared (Between):             -0.1240
 No. Observations:                 140   R-squared (Within):               0.1985
 Date:                Fri, Apr 21 2017   R-squared (Overall):             -0.0934
-Time:                        15:22:53   Log-likelihood                   -78.765
+Time:                        21:03:03   Log-likelihood                   -78.765
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      7.3496
 Entities:                          48   P-value                           0.0002
@@ -984,6 +967,16 @@ Distribution: F(47,89)
 Included effects: Entity
 </pre></div></div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:187: MissingValueWarning:
+Inputs contain missing values. Dropping rows with missing observations.
+  warnings.warn(missing_value_warning_msg, MissingValueWarning)
+</pre></div></div>
+</div>
 <p>Using categoricals has the same effect.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -995,7 +988,7 @@ Included effects: Entity
 <span class="k">print</span><span class="p">(</span><span class="n">mi_data</span><span class="p">[[</span><span class="s1">&#39;hrsemp&#39;</span><span class="p">,</span><span class="s1">&#39;year_cat&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 <span class="k">print</span><span class="p">(</span><span class="n">mi_data</span><span class="p">[[</span><span class="s1">&#39;hrsemp&#39;</span><span class="p">,</span><span class="s1">&#39;year_cat&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">mi_data</span><span class="p">[[</span><span class="s1">&#39;lscrap&#39;</span><span class="p">]],</span><span class="n">mi_data</span><span class="p">[[</span><span class="s1">&#39;hrsemp&#39;</span><span class="p">,</span><span class="s1">&#39;year_cat&#39;</span><span class="p">]],</span><span class="n">entity_effect</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">mi_data</span><span class="p">[[</span><span class="s1">&#39;lscrap&#39;</span><span class="p">]],</span> <span class="n">mi_data</span><span class="p">[[</span><span class="s1">&#39;hrsemp&#39;</span><span class="p">,</span><span class="s1">&#39;year_cat&#39;</span><span class="p">]],</span> <span class="n">entity_effects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1016,30 +1009,13 @@ fcode  year
 hrsemp       float64
 year_cat    category
 dtype: object
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:187: MissingValueWarning:
-Inputs contain missing values. Dropping rows with missing observations.
-  warnings.warn(missing_value_warning_msg, MissingValueWarning)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
                           PanelOLS Estimation Summary
 ================================================================================
 Dep. Variable:                 lscrap   R-squared:                        0.1985
 Estimator:                   PanelOLS   R-squared (Between):             -0.1240
 No. Observations:                 140   R-squared (Within):               0.1985
 Date:                Fri, Apr 21 2017   R-squared (Overall):             -0.0934
-Time:                        15:22:53   Log-likelihood                   -78.765
+Time:                        21:03:04   Log-likelihood                   -78.765
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      7.3496
 Entities:                          48   P-value                           0.0002
@@ -1066,6 +1042,16 @@ P-value: 0.0000
 Distribution: F(47,89)
 
 Included effects: Entity
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/build/bashtage/linearmodels/linearmodels/panel/model.py:187: MissingValueWarning:
+Inputs contain missing values. Dropping rows with missing observations.
+  warnings.warn(missing_value_warning_msg, MissingValueWarning)
 </pre></div></div>
 </div>
 </div>
@@ -1115,7 +1101,7 @@ Included effects: Entity
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0+161.g272fcc6',
+            VERSION:'1.0+163.g8e9d514',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
