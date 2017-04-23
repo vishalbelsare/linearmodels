@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -15,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Formulas and Mathematical Detail &#8212; linearmodels 1.0+164.gdd5c997 documentation</title>
+    <title>Formulas and Mathematical Detail &#8212; linearmodels 1.0+165.gbe1f7e7 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0+164.gdd5c997',
+        VERSION:     '1.0+165.gbe1f7e7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -39,7 +40,10 @@
     <link rel="next" title="Implementation Choices" href="faq.html" />
     <link rel="prev" title="Panel Data Structures" href="data.html" />
   
+  
    
+
+  <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
 
   </head>
   <body role="document">
@@ -58,7 +62,7 @@
         <li class="right" >
           <a href="data.html" title="Panel Data Structures"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 1.0+164.gdd5c997 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 1.0+165.gbe1f7e7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Panel Data Model Estimation</a> &#187;</li> 
       </ul>
     </div>
@@ -70,7 +74,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 1.0+164.gdd5c997</a>
+    ../index.html" class="text-logo">linearmodels 1.0+165.gbe1f7e7</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -168,8 +172,9 @@ want to use industry effect rather than firm effects. Generally the
 fixed effect model can be expressed as a least squares dummy variable
 (LSDV) estimator of the form</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}y_{it}=x_{it}\beta+d_{1,it}\gamma_{1}+d_{2,it}\gamma_{2}\\where :math:`d_{1,it}` and :math:`d_{2,it}` are the dummy variables for\end{aligned}\end{align} \]</div>
-<p>the first and second effect. When the model contains an intercept, one
+\[y_{it}=x_{it}\beta+d_{1,it}\gamma_{1}+d_{2,it}\gamma_{2}\]</div>
+<p>where <span class="math">\(d_{1,it}\)</span> and <span class="math">\(d_{2,it}\)</span> are the dummy variables for
+the first and second effect. When the model contains an intercept, one
 dummy is dropped form each group and the dummies are orthogonalized to a
 constant so that they have mean 0. This allows the constant to be
 estimated. If the model does not contain an intercept, the first group
@@ -177,7 +182,7 @@ of dummies will contain all values and the second will have one dropped.</p>
 <p><strong>Weights</strong></p>
 <p>When weights are used, the results are identical to the LSDV model where
 all variables <span class="math">\(y_{it,}\)</span><span class="math">\(x_{it}\)</span>, <span class="math">\(d_{1,it}\)</span> and
-<span class="math">\(d_{2,it}\)</span>(if included) are multiplied by <span class="math">\(w_{it}\)</span>.</p>
+<span class="math">\(d_{2,it}\)</span>(if included) are multiplied by <span class="math">\(\sqrt{w_{it}}\)</span>.</p>
 </div>
 <div class="section" id="random-effect-estimation-randomeffects">
 <h3>Random Effect Estimation (RandomEffects)<a class="headerlink" href="#random-effect-estimation-randomeffects" title="Permalink to this headline">¶</a></h3>
@@ -208,7 +213,8 @@ Chang (1994) estimator is used. This only has an effect when the data
 are unbalanced.</p>
 <p><strong>Weights</strong></p>
 <p>When weights are included the averages are replaced by weighted averages
-and the final regression is weighted by <span class="math">\(w_{it}\)</span>.</p>
+and the final regression terms are all multiplied by
+<span class="math">\(\sqrt{w_{it}}\)</span>.</p>
 </div>
 <div class="section" id="between-estimation-betweenols">
 <h3>Between Estimation (BetweenOLS)<a class="headerlink" href="#between-estimation-betweenols" title="Permalink to this headline">¶</a></h3>
@@ -264,7 +270,8 @@ the square root of the weights prior to the regression (i.e.,
 <h3>Standard Covariance Estimator (unadjusted)<a class="headerlink" href="#standard-covariance-estimator-unadjusted" title="Permalink to this headline">¶</a></h3>
 <p>The standard covariance estimator is</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}s^{2}\Sigma_{XX}^{-1}\\where\end{aligned}\end{align} \]</div>
+\[s^{2}\Sigma_{XX}^{-1}\]</div>
+<p>where</p>
 <div class="math">
 \[\Sigma_{XX}=\sum_{i=1}^{N}\sum_{t=1}^{T_{i}}x_{it}^{\prime}x_{it}\]</div>
 <p>and</p>
@@ -287,16 +294,20 @@ not used, the <span class="math">\(k\)</span> is omitted.</p>
 <h3>Clustered Covariance Estimator<a class="headerlink" href="#clustered-covariance-estimator" title="Permalink to this headline">¶</a></h3>
 <p>The clustered covariance estimator supports 1 and 2 way clustering.</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}n_{obs}/(n_{obs}-k)\Sigma_{XX}^{-1}\hat{S}_{\mathcal{G}}\Sigma_{XX}^{-1}\\where in the case of one-way clustering,\end{aligned}\end{align} \]</div>
+\[n_{obs}/(n_{obs}-k)\Sigma_{XX}^{-1}\hat{S}_{\mathcal{G}}\Sigma_{XX}^{-1}\]</div>
+<p>where in the case of one-way clustering,</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\hat{S}_{\mathcal{G}}=\frac{G}{G-1}\frac{n_{obs}-1}{n_{obs}}\sum_{g=1}^{G}\xi_{g}^{\prime}\xi_{g}\\where\end{aligned}\end{align} \]</div>
+\[\hat{S}_{\mathcal{G}}=\frac{G}{G-1}\frac{n_{obs}-1}{n_{obs}}\sum_{g=1}^{G}\xi_{g}^{\prime}\xi_{g}\]</div>
+<p>where</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\xi_{g}=\sum_{it\in G_{g}}\hat{\epsilon}_{ii}^{2}x_{it}^{\prime}x_{it}\\and :math:`it\in G_{g}` indicates that observation belongs to group\end{aligned}\end{align} \]</div>
-<p><span class="math">\(g\)</span>. The two-way clustered replaces
+\[\xi_{g}=\sum_{it\in G_{g}}\hat{\epsilon}_{ii}^{2}x_{it}^{\prime}x_{it}\]</div>
+<p>and <span class="math">\(it\in G_{g}\)</span> indicates that observation belongs to group
+<span class="math">\(g\)</span>. The two-way clustered replaces
 <span class="math">\(\hat{S}_{\mathcal{G}}\)</span>by</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\hat{S}_{\mathcal{G}_{1}}+\hat{S}_{\mathcal{G}_{2}}-\hat{S}_{\mathcal{G}_{1}\cap\mathcal{G}_{2}}.\\Where the group debiasing is applies individually to each of the three\end{aligned}\end{align} \]</div>
-<p>components depending on the number of groups in the three estimators. If
+\[\hat{S}_{\mathcal{G}_{1}}+\hat{S}_{\mathcal{G}_{2}}-\hat{S}_{\mathcal{G}_{1}\cap\mathcal{G}_{2}}.\]</div>
+<p>Where the group debiasing is applies individually to each of the three
+components depending on the number of groups in the three estimators. If
 the group debias term is not used, the expression
 <span class="math">\(\frac{G}{G-1}\frac{n_{obs}-1}{n_{obs}}\)</span> is omitted. The
 <span class="math">\(-k\)</span> term is dropped if the debiased estimator is not used.</p>
@@ -311,13 +322,15 @@ freedom used in estimating the effects are <em>not</em> counted.</p>
 number of time periods is relatively large (e.g., a large T panel), and
 are given by</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}n_{obs}/(n_{obs}-k)\Sigma_{XX}^{-1}\hat{S}_{HAC}\Sigma_{XX}^{-1}\\where\end{aligned}\end{align} \]</div>
+\[n_{obs}/(n_{obs}-k)\Sigma_{XX}^{-1}\hat{S}_{HAC}\Sigma_{XX}^{-1}\]</div>
+<p>where</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  \hat{S}_{HAC} &amp; =\hat{\Gamma}_{0}+\sum_{i=1}^{bw}K(i,bw)(\hat{\Gamma}_{1}+\hat{\Gamma}_{1}^{\prime})\\
-  \hat{\Gamma}_{i} &amp; =\sum_{t=i+1}^{T}\xi_{t}^{\prime}\xi_{t}\\
-  \xi_{t} &amp; =\sum_{i=1}^{n_{t}}\hat{\epsilon}_{it}x_{it}\end{aligned}\end{split}\\and :math:`K\left(i,bw\right)` is a kernel weighting function. Kernel\end{aligned}\end{align} \]</div>
-<p>supported include the Bartlett, Parzen and Quadratic Spectral.</p>
+\[\begin{split}\begin{aligned}
+\hat{S}_{HAC} &amp; =\hat{\Gamma}_{0}+\sum_{i=1}^{bw}K(i,bw)(\hat{\Gamma}_{1}+\hat{\Gamma}_{1}^{\prime})\\
+\hat{\Gamma}_{i} &amp; =\sum_{t=i+1}^{T}\xi_{t}^{\prime}\xi_{t}\\
+\xi_{t} &amp; =\sum_{i=1}^{n_{t}}\hat{\epsilon}_{it}x_{it}\end{aligned}\end{split}\]</div>
+<p>and <span class="math">\(K\left(i,bw\right)\)</span> is a kernel weighting function. Kernel
+supported include the Bartlett, Parzen and Quadratic Spectral.</p>
 </div>
 </div>
 </div>
@@ -355,7 +368,7 @@ are given by</p>
         <li class="right" >
           <a href="data.html" title="Panel Data Structures"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 1.0+164.gdd5c997 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 1.0+165.gbe1f7e7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Panel Data Model Estimation</a> &#187;</li> 
       </ul>
     </div>
