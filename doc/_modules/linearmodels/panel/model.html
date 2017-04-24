@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.panel.model &#8212; linearmodels 2.0+1.ge7a7938 documentation</title>
+    <title>linearmodels.panel.model &#8212; linearmodels 2.0+2.g52381ff documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.0+1.ge7a7938',
+        VERSION:     '2.0+2.g52381ff',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+1.ge7a7938 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+2.g52381ff documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 2.0 (+1, ge7a7938)</a>
+    ../../../index.html" class="text-logo">linearmodels 2.0 (+2, g52381ff)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -600,17 +600,17 @@
 <span class="sd">        -----</span>
 <span class="sd">        Three covariance estimators are supported:</span>
 
-<span class="sd">          * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assume residual are homoskedastic</span>
-<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using</span>
-<span class="sd">            White&#39;s estimator</span>
-<span class="sd">          * &#39;clustered` - One or two way clustering.  Configuration options are:</span>
+<span class="sd">        * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assume residual are homoskedastic</span>
+<span class="sd">        * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using</span>
+<span class="sd">          White&#39;s estimator</span>
+<span class="sd">        * &#39;clustered` - One or two way clustering.  Configuration options are:</span>
 
-<span class="sd">            * ``clusters`` - Input containing containing 1 or 2 variables.</span>
-<span class="sd">              Clusters should be integer values, although other types will</span>
-<span class="sd">              be coerced to integer values by treating as categorical variables</span>
-<span class="sd">            * ``cluster_entity`` - Boolean flag indicating to use entity</span>
-<span class="sd">              clusters</span>
-<span class="sd">            * ``cluster_time`` - Boolean indicating to use time clusters</span>
+<span class="sd">          * ``clusters`` - Input containing containing 1 or 2 variables.</span>
+<span class="sd">            Clusters should be integer values, although other types will</span>
+<span class="sd">            be coerced to integer values by treating as categorical variables</span>
+<span class="sd">          * ``cluster_entity`` - Boolean flag indicating to use entity</span>
+<span class="sd">            clusters</span>
+<span class="sd">          * ``cluster_time`` - Boolean indicating to use time clusters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">values2d</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span>
@@ -1098,17 +1098,17 @@
 <span class="sd">        -----</span>
 <span class="sd">        Three covariance estimators are supported:</span>
 
-<span class="sd">          * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assume residual are homoskedastic</span>
-<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using</span>
-<span class="sd">            White&#39;s estimator</span>
-<span class="sd">          * &#39;clustered` - One or two way clustering.  Configuration options are:</span>
+<span class="sd">        * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assume residual are homoskedastic</span>
+<span class="sd">        * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using</span>
+<span class="sd">          White&#39;s estimator</span>
+<span class="sd">        * &#39;clustered` - One or two way clustering.  Configuration options are:</span>
 
-<span class="sd">            * ``clusters`` - Input containing containing 1 or 2 variables.</span>
-<span class="sd">              Clusters should be integer values, although other types will</span>
-<span class="sd">              be coerced to integer values by treating as categorical variables</span>
-<span class="sd">            * ``cluster_entity`` - Boolean flag indicating to use entity</span>
-<span class="sd">              clusters</span>
-<span class="sd">            * ``cluster_time`` - Boolean indicating to use time clusters</span>
+<span class="sd">          * ``clusters`` - Input containing containing 1 or 2 variables.</span>
+<span class="sd">            Clusters should be integer values, although other types will</span>
+<span class="sd">            be coerced to integer values by treating as categorical variables</span>
+<span class="sd">          * ``cluster_entity`` - Boolean flag indicating to use entity</span>
+<span class="sd">            clusters</span>
+<span class="sd">          * ``cluster_time`` - Boolean indicating to use time clusters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">weighted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">)</span>
@@ -1305,14 +1305,14 @@
 <span class="sd">        -----</span>
 <span class="sd">        Three covariance estimators are supported:</span>
 
-<span class="sd">          * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assume residual are homoskedastic</span>
-<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using</span>
-<span class="sd">            White&#39;s estimator</span>
-<span class="sd">          * &#39;clustered` - One or two way clustering.  Configuration options are:</span>
+<span class="sd">        * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assume residual are homoskedastic</span>
+<span class="sd">        * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using</span>
+<span class="sd">          White&#39;s estimator</span>
+<span class="sd">        * &#39;clustered` - One or two way clustering.  Configuration options are:</span>
 
-<span class="sd">            * ``clusters`` - Input containing containing 1 or 2 variables.</span>
-<span class="sd">              Clusters should be integer values, although other types will</span>
-<span class="sd">              be coerced to integer values by treating as categorical variables</span>
+<span class="sd">          * ``clusters`` - Input containing containing 1 or 2 variables.</span>
+<span class="sd">            Clusters should be integer values, although other types will</span>
+<span class="sd">            be coerced to integer values by treating as categorical variables</span>
 
 <span class="sd">        When using a clustered covariance estimator, all cluster ids must be</span>
 <span class="sd">        identical within an entity.</span>
@@ -1489,16 +1489,16 @@
 <span class="sd">        -----</span>
 <span class="sd">        Three covariance estimators are supported:</span>
 
-<span class="sd">          * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assume residual are homoskedastic</span>
-<span class="sd">          * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using</span>
-<span class="sd">            White&#39;s estimator</span>
-<span class="sd">          * &#39;clustered` - One or two way clustering.  Configuration options are:</span>
+<span class="sd">        * &#39;unadjusted&#39;, &#39;homoskedastic&#39; - Assume residual are homoskedastic</span>
+<span class="sd">        * &#39;robust&#39;, &#39;heteroskedastic&#39; - Control for heteroskedasticity using</span>
+<span class="sd">          White&#39;s estimator</span>
+<span class="sd">        * &#39;clustered` - One or two way clustering.  Configuration options are:</span>
 
-<span class="sd">            * ``clusters`` - Input containing containing 1 or 2 variables.</span>
-<span class="sd">              Clusters should be integer values, although other types will</span>
-<span class="sd">              be coerced to integer values by treating as categorical variables</span>
-<span class="sd">            * ``cluster_entity`` - Boolean flag indicating to use entity</span>
-<span class="sd">              clusters</span>
+<span class="sd">          * ``clusters`` - Input containing containing 1 or 2 variables.</span>
+<span class="sd">            Clusters should be integer values, although other types will</span>
+<span class="sd">            be coerced to integer values by treating as categorical variables</span>
+<span class="sd">          * ``cluster_entity`` - Boolean flag indicating to use entity</span>
+<span class="sd">            clusters</span>
 
 <span class="sd">        When using a clustered covariance estimator, all cluster ids must be</span>
 <span class="sd">        identical within a first difference.  In most scenarios, this requires</span>
@@ -1732,7 +1732,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+1.ge7a7938 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+2.g52381ff documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

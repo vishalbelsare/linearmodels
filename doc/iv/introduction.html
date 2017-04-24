@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Introduction &#8212; linearmodels 2.0+1.ge7a7938 documentation</title>
+    <title>Introduction &#8212; linearmodels 2.0+2.g52381ff documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+1.ge7a7938',
+        VERSION:     '2.0+2.g52381ff',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="index.html" title="Instrumental Variable Estimation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+1.ge7a7938 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+2.g52381ff documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Instrumental Variable Estimation</a> &#187;</li> 
       </ul>
     </div>
@@ -74,7 +74,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+1, ge7a7938)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+2, g52381ff)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -155,8 +155,7 @@ In total there are <span class="math">\(p=p_1+p_2=k_1+p_2\)</span> variables ava
 projecting the endogenous regressors.</p>
 <p>There are four estimation methods available to fit models of this type.  All accept the
 same four required inputs:</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><code class="docutils literal"><span class="pre">dependent</span></code> - The variable to be modeled, <span class="math">\(y_i\)</span> in the model</li>
 <li><code class="docutils literal"><span class="pre">exog</span></code> - The exogenous regressors, <span class="math">\(x_{1i}\)</span> in the model. Note
 that <span class="math">\(x_{1i}\)</span> and <span class="math">\(z_{1i}\)</span> are the same since variables are
@@ -164,7 +163,6 @@ also valid to use when projecting the endogenous variables.</li>
 <li><code class="docutils literal"><span class="pre">endog</span></code> - The endogenous regressors, <span class="math">\(x_{2i}\)</span> in the model</li>
 <li><code class="docutils literal"><span class="pre">instruments</span></code> - The instruments, <span class="math">\(z_{2i}\)</span> in the model</li>
 </ul>
-</div></blockquote>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="kn">as</span> <span class="nn">sm</span>
@@ -297,15 +295,13 @@ scores within a cluster are correlated.
 See <a class="reference internal" href="covariance.html#linearmodels.iv.covariance.ClusteredCovariance" title="linearmodels.iv.covariance.ClusteredCovariance"><code class="xref py py-class docutils literal"><span class="pre">ClusteredCovariance</span></code></a>. Using
 clustered covariance requires passing an array containing information
 containing cluster membership information.</p>
-<blockquote>
-<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mod</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">)</span>
+</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mod</span> <span class="o">=</span> <span class="n">IV2SLS</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span><span class="p">,</span> <span class="n">instruments</span><span class="p">)</span>
 <span class="n">iq_bands</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">IQ</span> <span class="o">//</span> <span class="mi">20</span>
 <span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">clusters</span><span class="o">=</span><span class="n">iq_bands</span><span class="p">)</span>
 </pre></div>
 </div>
-</div></blockquote>
-</li>
-</ul>
 <div class="section" id="gmm-estimation">
 <h3>GMM Estimation<a class="headerlink" href="#gmm-estimation" title="Permalink to this headline">¶</a></h3>
 <p>GMM allows additional inputs that affect the method of estimation. In
@@ -363,7 +359,7 @@ whether iterative output is printed during estimation.</p>
         <li class="right" >
           <a href="index.html" title="Instrumental Variable Estimation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+1.ge7a7938 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+2.g52381ff documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Instrumental Variable Estimation</a> &#187;</li> 
       </ul>
     </div>
