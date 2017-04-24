@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.utility &#8212; linearmodels 2.0+5.g7e93a58 documentation</title>
+    <title>linearmodels.utility &#8212; linearmodels 2.0+7.g7b01f4e documentation</title>
     
     <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.0+5.g7e93a58',
+        VERSION:     '2.0+7.g7b01f4e',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+5.g7e93a58 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+7.g7b01f4e documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../index.html" class="text-logo">linearmodels 2.0 (+5, g7e93a58)</a>
+    ../../index.html" class="text-logo">linearmodels 2.0 (+7, g7b01f4e)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -128,6 +128,8 @@
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">chi2</span><span class="p">,</span> <span class="n">f</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="k">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span><span class="p">,</span> <span class="n">concat</span>
 
+<span class="n">DROP_MISSING</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">WARN_ON_MISSING</span> <span class="o">=</span> <span class="kc">True</span>
 
 <span class="k">class</span> <span class="nc">MissingValueWarning</span><span class="p">(</span><span class="ne">Warning</span><span class="p">):</span>
     <span class="k">pass</span>
@@ -511,6 +513,16 @@
         <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
             <span class="n">out_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span><span class="o">.</span><span class="n">stat</span><span class="p">,</span> <span class="n">out</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span><span class="o">.</span><span class="n">pval</span>
         <span class="k">return</span> <span class="n">out_df</span>
+
+
+<span class="k">def</span> <span class="nf">missing_warning</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Utility function to perform missing value check and warning&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="kn">import</span> <span class="nn">linearmodels</span>
+    <span class="k">if</span> <span class="n">linearmodels</span><span class="o">.</span><span class="n">WARN_ON_MISSING</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">warnings</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">missing_value_warning_msg</span><span class="p">,</span> <span class="n">MissingValueWarning</span><span class="p">)</span>
 </pre></div>
 
           </div>
@@ -527,7 +539,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+5.g7e93a58 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+7.g7b01f4e documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
