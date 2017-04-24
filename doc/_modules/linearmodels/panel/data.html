@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.panel.data &#8212; linearmodels 2.0+3.g5aa5743 documentation</title>
+    <title>linearmodels.panel.data &#8212; linearmodels 2.0+5.g7e93a58 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.0+3.g5aa5743',
+        VERSION:     '2.0+5.g7e93a58',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+3.g5aa5743 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+5.g7e93a58 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 2.0 (+3, g5aa5743)</a>
+    ../../../index.html" class="text-logo">linearmodels 2.0 (+5, g7e93a58)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -634,7 +634,15 @@
         <span class="n">cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="n">axis</span><span class="p">][</span><span class="n">labels</span><span class="p">[</span><span class="n">axis</span><span class="p">]])</span>
         <span class="n">dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="n">drop_first</span><span class="p">)</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="k">if</span> <span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;entity&#39;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
-        <span class="k">return</span> <span class="n">dummies</span><span class="p">[[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">dummies</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span></div></div>
+        <span class="c1"># TODO: Remove workaround when fixed in pandas</span>
+        <span class="c1"># return dummies[[c for c in cols if c in dummies]].astype(np.float64)</span>
+        <span class="n">ilocs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">dummies</span><span class="p">:</span>
+                <span class="n">ilocs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">dummies</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_indexer_for</span><span class="p">([</span><span class="n">c</span><span class="p">])))</span>
+        <span class="k">return</span> <span class="n">dummies</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">ilocs</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span></div></div>
+
+
 </pre></div>
 
           </div>
@@ -651,7 +659,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+3.g5aa5743 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+5.g7e93a58 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
