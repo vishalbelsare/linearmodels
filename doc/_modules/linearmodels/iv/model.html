@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.iv.model &#8212; linearmodels 2.0+7.g7b01f4e documentation</title>
+    <title>linearmodels.iv.model &#8212; linearmodels 2.0+9.gf7afb80 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.0+7.g7b01f4e',
+        VERSION:     '2.0+9.gf7afb80',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+7.g7b01f4e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+9.gf7afb80 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 2.0 (+7, g7b01f4e)</a>
+    ../../../index.html" class="text-logo">linearmodels 2.0 (+9, gf7afb80)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -424,7 +424,7 @@
         <span class="n">q</span> <span class="o">=</span> <span class="n">vpmzv_sqinv</span> <span class="o">@</span> <span class="p">(</span><span class="n">ex1</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">ex1</span><span class="p">)</span> <span class="o">@</span> <span class="n">vpmzv_sqinv</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
 
-<div class="viewcode-block" id="IVLIML.fit"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVLIML.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+<div class="viewcode-block" id="IVLIML.fit"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVLIML.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate model parameters</span>
 
@@ -807,7 +807,7 @@
         <span class="n">zpy</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span>
         <span class="k">return</span> <span class="n">inv</span><span class="p">(</span><span class="n">xpz</span> <span class="o">@</span> <span class="n">w</span> <span class="o">@</span> <span class="n">xpz</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">xpz</span> <span class="o">@</span> <span class="n">w</span> <span class="o">@</span> <span class="n">zpy</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="IVGMM.fit"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMM.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iter_limit</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">initial_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="IVGMM.fit"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMM.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">iter_limit</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">initial_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate model parameters</span>
@@ -1092,7 +1092,7 @@
 
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">res</span><span class="o">.</span><span class="n">nit</span></div>
 
-<div class="viewcode-block" id="IVGMMCUE.fit"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMMCUE.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">starting</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+<div class="viewcode-block" id="IVGMMCUE.fit"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVGMMCUE.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">starting</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate model parameters</span>
 
@@ -1198,7 +1198,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+7.g7b01f4e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+9.gf7afb80 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Further Examples &#8212; linearmodels 2.0+7.g7b01f4e documentation</title>
+    <title>Further Examples &#8212; linearmodels 2.0+9.gf7afb80 documentation</title>
     
     <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.0+7.g7b01f4e',
+        VERSION:     '2.0+9.gf7afb80',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="basic-examples.html" title="Basic Examples"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+7.g7b01f4e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+9.gf7afb80 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Instrumental Variable Estimation</a> &#187;</li> 
       </ul>
     </div>
@@ -74,7 +74,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../index.html" class="text-logo">linearmodels 2.0 (+7, g7b01f4e)</a>
+    ../../index.html" class="text-logo">linearmodels 2.0 (+9, gf7afb80)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -307,39 +307,65 @@ div.nboutput div.output_area.stderr {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [2]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">linearmodels</span> <span class="kn">as</span> <span class="nn">lm</span>
 <span class="kn">from</span> <span class="nn">linearmodels</span> <span class="kn">import</span> <span class="n">iv</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">linearmodels.datasets</span> <span class="kn">import</span> <span class="n">meps</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">meps</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">meps</span><span class="o">.</span><span class="n">DESCR</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+age               Age
+age2              Age-squared
+black             Black
+blhisp            Black or Hispanic
+drugexp           Presc-drugs expense
+educyr            Years of education
+fair              Fair health
+female            Female
+firmsz            Firm size
+fph               fair or poor health
+good              Good health
+hi_empunion       Insured thro emp/union
+hisp              Hiapanic
+income            Income
+ldrugexp          log(drugexp)
+linc              log(income)
+lowincome         Low income
+marry             Married
+midincome         Middle income
+msa               Metropolitan stat area
+multlc            Multiple locations
+poor              Poor health
+poverty           Poor
+priolist          Priority list cond
+private           Private insurance
+ssiratio          SSI/Income ratio
+totchr            Total chronic cond
+vegood            V-good health
+vgh               vg or good health
+
+</pre></div></div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -349,7 +375,7 @@ div.nboutput div.output_area.stderr {
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[4]:
+<span></span>Out[3]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -364,12 +390,12 @@ div.nboutput div.output_area.stderr {
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">controls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;totchr&#39;</span><span class="p">,</span> <span class="s1">&#39;female&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;linc&#39;</span><span class="p">,</span><span class="s1">&#39;blhisp&#39;</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="p">[[</span><span class="s1">&#39;ldrugexp&#39;</span><span class="p">,</span><span class="s1">&#39;hi_empunion&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">controls</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="p">[[</span><span class="s1">&#39;ldrugexp&#39;</span><span class="p">,</span><span class="s1">&#39;hi_empunion&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">controls</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">percentiles</span><span class="o">=</span><span class="p">[]))</span>
 </pre></div>
 </div>
 </div>
@@ -383,9 +409,7 @@ count  10089.000000  10089.000000  10089.000000  10089.000000  10089.000000
 mean       6.481361      0.382198      1.860938      0.577064     75.051740
 std        1.362052      0.485949      1.292858      0.494050      6.682109
 min        0.000000      0.000000      0.000000      0.000000     65.000000
-25%        5.739793      0.000000      1.000000      0.000000     70.000000
 50%        6.678342      0.000000      2.000000      1.000000     74.000000
-75%        7.429521      1.000000      3.000000      1.000000     80.000000
 max       10.180172      1.000000      9.000000      1.000000     91.000000
 
                linc        blhisp
@@ -393,19 +417,17 @@ count  10089.000000  10089.000000
 mean       2.743275      0.163544
 std        0.913143      0.369880
 min       -6.907755      0.000000
-25%        2.232699      0.000000
 50%        2.743160      0.000000
-75%        3.315058      0.000000
 max        5.744476      1.000000
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="p">[[</span><span class="s1">&#39;ssiratio&#39;</span><span class="p">,</span> <span class="s1">&#39;lowincome&#39;</span><span class="p">,</span> <span class="s1">&#39;multlc&#39;</span><span class="p">,</span> <span class="s1">&#39;firmsz&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+<span></span><span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="p">[[</span><span class="s1">&#39;ssiratio&#39;</span><span class="p">,</span> <span class="s1">&#39;lowincome&#39;</span><span class="p">,</span> <span class="s1">&#39;multlc&#39;</span><span class="p">,</span> <span class="s1">&#39;firmsz&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">percentiles</span><span class="o">=</span><span class="p">[]))</span>
 </pre></div>
 </div>
 </div>
@@ -419,15 +441,13 @@ count  10089.000000  10089.000000  10089.000000  10089.000000
 mean       0.536544      0.187432      0.062048      0.140529
 std        0.367818      0.390277      0.241254      2.170389
 min        0.000000      0.000000      0.000000      0.000000
-25%        0.238095      0.000000      0.000000      0.000000
 50%        0.504522      0.000000      0.000000      0.000000
-75%        0.909091      0.000000      0.000000      0.000000
 max        9.250620      1.000000      1.000000     50.000000
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -437,64 +457,27 @@ max        9.250620      1.000000      1.000000     50.000000
 </pre></div>
 </div>
 </div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="n">ivolsmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;hi_empunion&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">controls</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">res_ols</span> <span class="o">=</span> <span class="n">ivolsmod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">mod</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;hi_empunion&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">controls</span><span class="p">])</span>
-<span class="n">res_ols</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;HC0&#39;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">res_ols</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-                            OLS Regression Results
-==============================================================================
-Dep. Variable:               ldrugexp   R-squared:                       0.177
-Model:                            OLS   Adj. R-squared:                  0.176
-Method:                 Least Squares   F-statistic:                     377.1
-Date:                Mon, 24 Apr 2017   Prob (F-statistic):               0.00
-Time:                        23:13:46   Log-Likelihood:                -16450.
-No. Observations:               10089   AIC:                         3.291e+04
-Df Residuals:                   10082   BIC:                         3.296e+04
-Df Model:                           6
-Covariance Type:                  HC0
-===============================================================================
-                  coef    std err          z      P&gt;|z|      [0.025      0.975]
--------------------------------------------------------------------------------
-hi_empunion     0.0739      0.026      2.844      0.004       0.023       0.125
-const           5.8611      0.157     37.320      0.000       5.553       6.169
-totchr          0.4404      0.009     47.049      0.000       0.422       0.459
-female          0.0578      0.025      2.280      0.023       0.008       0.108
-age            -0.0035      0.002     -1.823      0.068      -0.007       0.000
-linc            0.0105      0.014      0.765      0.444      -0.016       0.037
-blhisp         -0.1513      0.034     -4.435      0.000      -0.218      -0.084
-==============================================================================
-Omnibus:                     1079.591   Durbin-Watson:                   1.806
-Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1642.790
-Skew:                          -0.794   Prob(JB):                         0.00
-Kurtosis:                       4.177   Cond. No.                         941.
-==============================================================================
-
-Warnings:
-[1] Standard Errors are heteroscedasticity robust (HC0)
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">ivmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">controls</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">hi_empunion</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">ssiratio</span><span class="p">)</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">ivmod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+<span class="n">res_2sls</span> <span class="o">=</span> <span class="n">ivmod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res_2sls</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -508,8 +491,8 @@ Warnings:
 Dep. Variable:               ldrugexp   R-squared:                      0.0640
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.0634
 No. Observations:               10089   F-statistic:                    2000.9
-Date:                Mon, Apr 24 2017   P-value (F-stat)                0.0000
-Time:                        23:13:46   Distribution:                  chi2(6)
+Date:                Tue, Apr 25 2017   P-value (F-stat)                0.0000
+Time:                        18:27:40   Distribution:                  chi2(6)
 Cov. Estimator:                robust
 
                               Parameter Estimates
@@ -531,15 +514,741 @@ Robust Covariance (Heteroskedastic)
 Debiased: False
 </pre></div></div>
 </div>
-<div class="section" id="IV2SLS-as-OLS">
-<h3>IV2SLS as OLS<a class="headerlink" href="#IV2SLS-as-OLS" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="c1"># 2SLS with homoskedastic errorc</span>
+<span class="n">ivmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">controls</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">hi_empunion</span><span class="p">,</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;ssiratio&#39;</span><span class="p">,</span><span class="s1">&#39;multlc&#39;</span><span class="p">]])</span>
+<span class="n">res_2sls_std</span> <span class="o">=</span> <span class="n">ivmod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="c1"># 2SLS with heteroskedasticity robust SE</span>
+<span class="n">ivmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">controls</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">hi_empunion</span><span class="p">,</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;ssiratio&#39;</span><span class="p">,</span><span class="s1">&#39;multlc&#39;</span><span class="p">]])</span>
+<span class="n">res_2sls_robust</span> <span class="o">=</span> <span class="n">ivmod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+<span class="c1"># GMM</span>
+<span class="n">ivmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IVGMM</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">controls</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">hi_empunion</span><span class="p">,</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;ssiratio&#39;</span><span class="p">,</span><span class="s1">&#39;multlc&#39;</span><span class="p">]],</span> <span class="n">weight_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+<span class="n">res_gmm</span> <span class="o">=</span> <span class="n">ivmod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="c1"># GMM with clustered standard errors by age</span>
+<span class="n">ivmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IVGMM</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">controls</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">hi_empunion</span><span class="p">,</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;ssiratio&#39;</span><span class="p">,</span><span class="s1">&#39;multlc&#39;</span><span class="p">]],</span> <span class="n">weight_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">clusters</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">age</span><span class="p">)</span>
+<span class="n">res_gmm_clustered</span> <span class="o">=</span> <span class="n">ivmod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;clustered&#39;</span><span class="p">,</span> <span class="n">clusters</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">age</span><span class="p">)</span>
+<span class="c1"># GMM - continuously updated</span>
+<span class="n">ivmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IVGMMCUE</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">controls</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">hi_empunion</span><span class="p">,</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;ssiratio&#39;</span><span class="p">,</span><span class="s1">&#39;multlc&#39;</span><span class="p">]])</span>
+<span class="n">res_gmm_cue</span> <span class="o">=</span> <span class="n">ivmod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">ivolsmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;hi_empunion&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">controls</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">linearmodels.iv.results</span> <span class="kn">import</span> <span class="n">compare</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+<span class="n">res</span><span class="p">[</span><span class="s1">&#39;OLS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res_ols</span>
+<span class="n">res</span><span class="p">[</span><span class="s1">&#39;2SLS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res_2sls</span>
+<span class="n">res</span><span class="p">[</span><span class="s1">&#39;2SLS-Homo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res_2sls_std</span>
+<span class="n">res</span><span class="p">[</span><span class="s1">&#39;2SLS-Hetero&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res_2sls_robust</span>
+<span class="n">res</span><span class="p">[</span><span class="s1">&#39;GMM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res_gmm</span>
+<span class="n">res</span><span class="p">[</span><span class="s1">&#39;GMM Cluster(Age)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res_gmm_clustered</span>
+<span class="n">res</span><span class="p">[</span><span class="s1">&#39;GMM-CUE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res_gmm_cue</span>
+<span class="n">compare</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<table class="simpletable">
+<caption>Model Comparison</caption>
+<tr>
+            <td></td>                <th>OLS</th>          <th>2SLS</th>        <th>2SLS-Homo</th>    <th>2SLS-Hetero</th>       <th>GMM</th>      <th>GMM Cluster(Age)</th>    <th>GMM-CUE</th>
+</tr>
+<tr>
+  <th>Dep. Variable</th>          <td>ldrugexp</td>      <td>ldrugexp</td>      <td>ldrugexp</td>      <td>ldrugexp</td>      <td>ldrugexp</td>        <td>ldrugexp</td>       <td>ldrugexp</td>
+</tr>
+<tr>
+  <th>Estimator</th>                 <td>OLS</td>         <td>IV-2SLS</td>       <td>IV-2SLS</td>       <td>IV-2SLS</td>       <td>IV-GMM</td>          <td>IV-GMM</td>         <td>IV-GMM</td>
+</tr>
+<tr>
+  <th>No. Observations</th>         <td>10089</td>         <td>10089</td>         <td>10089</td>         <td>10089</td>         <td>10089</td>           <td>10089</td>          <td>10089</td>
+</tr>
+<tr>
+  <th>Cov. Est.</th>               <td>robust</td>        <td>robust</td>        <td>robust</td>        <td>robust</td>        <td>robust</td>         <td>clustered</td>       <td>robust</td>
+</tr>
+<tr>
+  <th>R-squared</th>               <td>0.1770</td>        <td>0.0640</td>        <td>0.0414</td>        <td>0.0414</td>        <td>0.0406</td>          <td>0.0292</td>         <td>0.0388</td>
+</tr>
+<tr>
+  <th>Adj. R-squared</th>          <td>0.1765</td>        <td>0.0634</td>        <td>0.0409</td>        <td>0.0409</td>        <td>0.0400</td>          <td>0.0286</td>         <td>0.0382</td>
+</tr>
+<tr>
+  <th>F-statistic</th>             <td>2262.6</td>        <td>2000.9</td>        <td>1955.4</td>        <td>1955.4</td>        <td>1952.6</td>          <td>1700.8</td>         <td>1949.2</td>
+</tr>
+<tr>
+  <th>P-value (F-stat)</th>        <td>0.0000</td>        <td>0.0000</td>        <td>0.0000</td>        <td>0.0000</td>        <td>0.0000</td>          <td>0.0000</td>         <td>0.0000</td>
+</tr>
+<tr>
+  <th>==================</th>    <td>===========</td>   <td>===========</td>   <td>===========</td>   <td>===========</td>   <td>===========</td>     <td>===========</td>    <td>===========</td>
+</tr>
+<tr>
+  <th>age</th>                     <td>-0.0035</td>       <td>-0.0132</td>       <td>-0.0141</td>       <td>-0.0141</td>       <td>-0.0142</td>         <td>-0.0119</td>        <td>-0.0142</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(-1.8228)</td>     <td>(-4.4092)</td>     <td>(-4.8753)</td>     <td>(-4.8753)</td>     <td>(-4.8773)</td>       <td>(-1.8928)</td>      <td>(-4.8969)</td>
+</tr>
+<tr>
+  <th>blhisp</th>                  <td>-0.1513</td>       <td>-0.2174</td>       <td>-0.2237</td>       <td>-0.2237</td>       <td>-0.2231</td>         <td>-0.2091</td>        <td>-0.2236</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(-4.4353)</td>     <td>(-5.5052)</td>     <td>(-5.6514)</td>     <td>(-5.6514)</td>     <td>(-5.6344)</td>       <td>(-4.1662)</td>      <td>(-5.6421)</td>
+</tr>
+<tr>
+  <th>const</th>                   <td>5.8611</td>        <td>6.7872</td>        <td>6.8752</td>        <td>6.8752</td>        <td>6.8778</td>          <td>6.7277</td>         <td>6.8847</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(37.320)</td>      <td>(25.246)</td>      <td>(26.660)</td>      <td>(26.660)</td>      <td>(26.658)</td>        <td>(13.299)</td>       <td>(26.657)</td>
+</tr>
+<tr>
+  <th>female</th>                  <td>0.0578</td>        <td>-0.0204</td>       <td>-0.0278</td>       <td>-0.0278</td>       <td>-0.0282</td>         <td>-0.0245</td>        <td>-0.0288</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(2.2797)</td>      <td>(-0.6257)</td>     <td>(-0.8653)</td>     <td>(-0.8653)</td>     <td>(-0.8752)</td>       <td>(-0.8398)</td>      <td>(-0.8928)</td>
+</tr>
+<tr>
+  <th>hi_empunion</th>             <td>0.0739</td>        <td>-0.8976</td>       <td>-0.9899</td>       <td>-0.9899</td>       <td>-0.9933</td>         <td>-1.0359</td>        <td>-1.0002</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(2.8441)</td>      <td>(-4.0592)</td>     <td>(-4.8386)</td>     <td>(-4.8386)</td>     <td>(-4.8530)</td>       <td>(-5.0683)</td>      <td>(-4.8810)</td>
+</tr>
+<tr>
+  <th>linc</th>                    <td>0.0105</td>        <td>0.0870</td>        <td>0.0943</td>        <td>0.0943</td>        <td>0.0945</td>          <td>0.0957</td>         <td>0.0950</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(0.7646)</td>      <td>(3.8436)</td>      <td>(4.3079)</td>      <td>(4.3079)</td>      <td>(4.3142)</td>        <td>(6.4934)</td>       <td>(4.3333)</td>
+</tr>
+<tr>
+  <th>totchr</th>                  <td>0.4404</td>        <td>0.4503</td>        <td>0.4512</td>        <td>0.4512</td>        <td>0.4510</td>          <td>0.4482</td>         <td>0.4510</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(47.049)</td>      <td>(44.157)</td>      <td>(43.769)</td>      <td>(43.769)</td>      <td>(43.738)</td>        <td>(33.833)</td>       <td>(43.701)</td>
+</tr>
+<tr>
+  <th>====================</th> <td>=============</td> <td>=============</td> <td>=============</td> <td>=============</td> <td>=============</td>   <td>=============</td>  <td>=============</td>
+</tr>
+<tr>
+  <th>Instruments</th>                <td></td>          <td>ssiratio</td>      <td>ssiratio</td>      <td>ssiratio</td>      <td>ssiratio</td>        <td>ssiratio</td>       <td>ssiratio</td>
+</tr>
+<tr>
+  <th></th>                           <td></td>              <td></td>           <td>multlc</td>        <td>multlc</td>        <td>multlc</td>          <td>multlc</td>         <td>multlc</td>
+</tr>
+</table><br/><br/>T-stats reported in parentheses<br/>id: 0x2ac910f4c780</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">ivmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">controls</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">hi_empunion</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">ssiratio</span><span class="p">)</span>
+<span class="n">res_2sls</span> <span class="o">=</span> <span class="n">ivmod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+<span class="n">res_2sls</span><span class="o">.</span><span class="n">wu_hausman</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[11]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>Wu-Hausman test of exogeneity
+H0: All endogenous variables are exogenous
+Statistic: 25.3253
+P-value: 0.0000
+Distributed: F(1,10081)
+WaldTestStatistic, id: 0x2ac910f4cef0
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">step1</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">hi_empunion</span><span class="p">,</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;ssiratio&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">controls</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">resids</span> <span class="o">=</span> <span class="n">step1</span><span class="o">.</span><span class="n">resids</span>
+<span class="n">exog</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="p">[[</span><span class="s1">&#39;hi_empunion&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">controls</span><span class="p">],</span> <span class="n">resids</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">step2</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">step2</span><span class="o">.</span><span class="n">tstats</span><span class="o">.</span><span class="n">residual</span> <span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+26.4542323775
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">res_gmm</span><span class="o">.</span><span class="n">j_stat</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[13]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>H0: Expected moment conditions are equal to 0
+Statistic: 1.0475
+P-value: 0.3061
+Distributed: chi2(1)
+WaldTestStatistic, id: 0x2ac935f7c240
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">all_instruments</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ssiratio&#39;</span><span class="p">,</span><span class="s1">&#39;lowincome&#39;</span><span class="p">,</span><span class="s1">&#39;multlc&#39;</span><span class="p">,</span><span class="s1">&#39;firmsz&#39;</span><span class="p">]</span>
+<span class="n">instruments</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">all_instruments</span><span class="p">]</span>
+<span class="n">ivmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IVGMM</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">controls</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">hi_empunion</span><span class="p">,</span> <span class="n">instruments</span><span class="p">,</span> <span class="n">weight_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+<span class="n">res_gmm_all</span> <span class="o">=</span> <span class="n">ivmod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+<span class="n">res_gmm_all</span><span class="o">.</span><span class="n">j_stat</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[14]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>H0: Expected moment conditions are equal to 0
+Statistic: 11.5903
+P-value: 0.0089
+Distributed: chi2(3)
+WaldTestStatistic, id: 0x2ac936236e80
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">data</span><span class="p">[[</span><span class="s1">&#39;hi_empunion&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">all_instruments</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>hi_empunion</th>
+      <th>ssiratio</th>
+      <th>lowincome</th>
+      <th>multlc</th>
+      <th>firmsz</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>hi_empunion</th>
+      <td>1.000000</td>
+      <td>-0.212431</td>
+      <td>-0.116419</td>
+      <td>0.119849</td>
+      <td>0.037352</td>
+    </tr>
+    <tr>
+      <th>ssiratio</th>
+      <td>-0.212431</td>
+      <td>1.000000</td>
+      <td>0.253946</td>
+      <td>-0.190433</td>
+      <td>-0.044578</td>
+    </tr>
+    <tr>
+      <th>lowincome</th>
+      <td>-0.116419</td>
+      <td>0.253946</td>
+      <td>1.000000</td>
+      <td>-0.062465</td>
+      <td>-0.008232</td>
+    </tr>
+    <tr>
+      <th>multlc</th>
+      <td>0.119849</td>
+      <td>-0.190433</td>
+      <td>-0.062465</td>
+      <td>1.000000</td>
+      <td>0.187275</td>
+    </tr>
+    <tr>
+      <th>firmsz</th>
+      <td>0.037352</td>
+      <td>-0.044578</td>
+      <td>-0.008232</td>
+      <td>0.187275</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">od</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">all_instruments</span><span class="p">:</span>
+    <span class="n">od</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">controls</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">hi_empunion</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">])</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+<span class="n">od</span><span class="p">[</span><span class="s1">&#39;OLS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res_ols</span>
+<span class="n">compare</span><span class="p">(</span><span class="n">od</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<table class="simpletable">
+<caption>Model Comparison</caption>
+<tr>
+            <td></td>             <th>ssiratio</th>      <th>lowincome</th>      <th>multlc</th>        <th>firmsz</th>          <th>OLS</th>
+</tr>
+<tr>
+  <th>Dep. Variable</th>          <td>ldrugexp</td>      <td>ldrugexp</td>      <td>ldrugexp</td>      <td>ldrugexp</td>      <td>ldrugexp</td>
+</tr>
+<tr>
+  <th>Estimator</th>               <td>IV-2SLS</td>       <td>IV-2SLS</td>       <td>IV-2SLS</td>       <td>IV-2SLS</td>         <td>OLS</td>
+</tr>
+<tr>
+  <th>No. Observations</th>         <td>10089</td>         <td>10089</td>         <td>10089</td>         <td>10089</td>         <td>10089</td>
+</tr>
+<tr>
+  <th>Cov. Est.</th>               <td>robust</td>        <td>robust</td>        <td>robust</td>        <td>robust</td>        <td>robust</td>
+</tr>
+<tr>
+  <th>R-squared</th>               <td>0.0640</td>        <td>0.1768</td>        <td>-0.0644</td>       <td>-0.9053</td>       <td>0.1770</td>
+</tr>
+<tr>
+  <th>Adj. R-squared</th>          <td>0.0634</td>        <td>0.1763</td>        <td>-0.0651</td>       <td>-0.9064</td>       <td>0.1765</td>
+</tr>
+<tr>
+  <th>F-statistic</th>             <td>2000.9</td>        <td>2250.6</td>        <td>1734.1</td>        <td>950.64</td>        <td>2262.6</td>
+</tr>
+<tr>
+  <th>P-value (F-stat)</th>        <td>0.0000</td>        <td>0.0000</td>        <td>0.0000</td>        <td>0.0000</td>        <td>0.0000</td>
+</tr>
+<tr>
+  <th>==================</th>    <td>===========</td>   <td>===========</td>   <td>===========</td>   <td>===========</td>   <td>===========</td>
+</tr>
+<tr>
+  <th>age</th>                     <td>-0.0132</td>       <td>-0.0031</td>       <td>-0.0177</td>       <td>-0.0335</td>       <td>-0.0035</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(-4.4092)</td>     <td>(-0.7521)</td>     <td>(-3.7086)</td>     <td>(-2.3433)</td>     <td>(-1.8228)</td>
+</tr>
+<tr>
+  <th>blhisp</th>                  <td>-0.2174</td>       <td>-0.1484</td>       <td>-0.2479</td>       <td>-0.3559</td>       <td>-0.1513</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(-5.5052)</td>     <td>(-3.5639)</td>     <td>(-5.0727)</td>     <td>(-3.2425)</td>     <td>(-4.4353)</td>
+</tr>
+<tr>
+  <th>const</th>                   <td>6.7872</td>        <td>5.8201</td>        <td>7.2145</td>        <td>8.7267</td>        <td>5.8611</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(25.246)</td>      <td>(15.267)</td>      <td>(16.326)</td>      <td>(6.4196)</td>      <td>(37.320)</td>
+</tr>
+<tr>
+  <th>female</th>                  <td>-0.0204</td>       <td>0.0613</td>        <td>-0.0565</td>       <td>-0.1842</td>       <td>0.0578</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(-0.6257)</td>     <td>(1.6066)</td>      <td>(-1.2596)</td>     <td>(-1.5312)</td>     <td>(2.2797)</td>
+</tr>
+<tr>
+  <th>hi_empunion</th>             <td>-0.8976</td>       <td>0.1170</td>        <td>-1.3459</td>       <td>-2.9323</td>       <td>0.0739</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(-4.0592)</td>     <td>(0.3254)</td>      <td>(-3.1760)</td>     <td>(-2.0908)</td>     <td>(2.8441)</td>
+</tr>
+<tr>
+  <th>linc</th>                    <td>0.0870</td>        <td>0.0071</td>        <td>0.1223</td>        <td>0.2473</td>        <td>0.0105</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(3.8436)</td>      <td>(0.2280)</td>      <td>(3.2965)</td>      <td>(2.1876)</td>      <td>(0.7646)</td>
+</tr>
+<tr>
+  <th>totchr</th>                  <td>0.4503</td>        <td>0.4399</td>        <td>0.4548</td>        <td>0.4710</td>        <td>0.4404</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(44.157)</td>      <td>(43.834)</td>      <td>(39.193)</td>      <td>(23.163)</td>      <td>(47.049)</td>
+</tr>
+<tr>
+  <th>====================</th> <td>=============</td> <td>=============</td> <td>=============</td> <td>=============</td> <td>=============</td>
+</tr>
+<tr>
+  <th>Instruments</th>            <td>ssiratio</td>      <td>lowincome</td>      <td>multlc</td>        <td>firmsz</td>           <td></td>
+</tr>
+</table><br/><br/>T-stats reported in parentheses<br/>id: 0x2ac9362369b0</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">res_2sls</span><span class="o">.</span><span class="n">first_stage</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<table class="simpletable">
+<caption>First Stage Estimation Results</caption>
+<tr>
+               <td></td>              <th>hi_empunion</th>
+</tr>
+<tr>
+  <th>R-squared</th>                    <td>0.0761</td>
+</tr>
+<tr>
+  <th>Partial R-squared</th>            <td>0.0179</td>
+</tr>
+<tr>
+  <th>Shea's R-squared</th>             <td>0.0179</td>
+</tr>
+<tr>
+  <th>Partial F-statistic</th>          <td>65.806</td>
+</tr>
+<tr>
+  <th>P-value (Partial F-stat)</th>    <td>4.441e-16</td>
+</tr>
+<tr>
+  <th>Partial F-stat Distn</th>         <td>chi2(1)</td>
+</tr>
+<tr>
+  <th>==========================</th> <td>===========</td>
+</tr>
+<tr>
+  <th>const</th>                        <td>1.0290</td>
+</tr>
+<tr>
+  <th></th>                            <td>(17.705)</td>
+</tr>
+<tr>
+  <th>totchr</th>                       <td>0.0128</td>
+</tr>
+<tr>
+  <th></th>                            <td>(3.4896)</td>
+</tr>
+<tr>
+  <th>female</th>                       <td>-0.0734</td>
+</tr>
+<tr>
+  <th></th>                            <td>(-7.6226)</td>
+</tr>
+<tr>
+  <th>age</th>                          <td>-0.0086</td>
+</tr>
+<tr>
+  <th></th>                            <td>(-12.184)</td>
+</tr>
+<tr>
+  <th>linc</th>                         <td>0.0484</td>
+</tr>
+<tr>
+  <th></th>                            <td>(7.3266)</td>
+</tr>
+<tr>
+  <th>blhisp</th>                       <td>-0.0627</td>
+</tr>
+<tr>
+  <th></th>                            <td>(-5.1084)</td>
+</tr>
+<tr>
+  <th>ssiratio</th>                     <td>-0.1916</td>
+</tr>
+<tr>
+  <th></th>                            <td>(-8.1121)</td>
+</tr>
+</table><br/><br/>T-stats reported in parentheses<br/>T-stats use same covariance type as original model<br/>id: 0x2ac936330ba8</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">ivmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">controls</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">hi_empunion</span><span class="p">,</span> <span class="n">instruments</span><span class="p">)</span>
+<span class="n">res_2sls_all</span> <span class="o">=</span> <span class="n">ivmod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+<span class="n">res_2sls_all</span><span class="o">.</span><span class="n">first_stage</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<table class="simpletable">
+<caption>First Stage Estimation Results</caption>
+<tr>
+               <td></td>              <th>hi_empunion</th>
+</tr>
+<tr>
+  <th>R-squared</th>                    <td>0.0821</td>
+</tr>
+<tr>
+  <th>Partial R-squared</th>            <td>0.0243</td>
+</tr>
+<tr>
+  <th>Shea's R-squared</th>             <td>0.0243</td>
+</tr>
+<tr>
+  <th>Partial F-statistic</th>          <td>179.47</td>
+</tr>
+<tr>
+  <th>P-value (Partial F-stat)</th>     <td>0.0000</td>
+</tr>
+<tr>
+  <th>Partial F-stat Distn</th>         <td>chi2(4)</td>
+</tr>
+<tr>
+  <th>==========================</th> <td>===========</td>
+</tr>
+<tr>
+  <th>const</th>                        <td>0.9899</td>
+</tr>
+<tr>
+  <th></th>                            <td>(16.959)</td>
+</tr>
+<tr>
+  <th>totchr</th>                       <td>0.0133</td>
+</tr>
+<tr>
+  <th></th>                            <td>(3.6494)</td>
+</tr>
+<tr>
+  <th>female</th>                       <td>-0.0724</td>
+</tr>
+<tr>
+  <th></th>                            <td>(-7.5497)</td>
+</tr>
+<tr>
+  <th>age</th>                          <td>-0.0080</td>
+</tr>
+<tr>
+  <th></th>                            <td>(-11.206)</td>
+</tr>
+<tr>
+  <th>linc</th>                         <td>0.0410</td>
+</tr>
+<tr>
+  <th></th>                            <td>(6.3552)</td>
+</tr>
+<tr>
+  <th>blhisp</th>                       <td>-0.0676</td>
+</tr>
+<tr>
+  <th></th>                            <td>(-5.5369)</td>
+</tr>
+<tr>
+  <th>ssiratio</th>                     <td>-0.1690</td>
+</tr>
+<tr>
+  <th></th>                            <td>(-7.3289)</td>
+</tr>
+<tr>
+  <th>lowincome</th>                    <td>-0.0637</td>
+</tr>
+<tr>
+  <th></th>                            <td>(-5.1947)</td>
+</tr>
+<tr>
+  <th>multlc</th>                       <td>0.1151</td>
+</tr>
+<tr>
+  <th></th>                            <td>(5.4799)</td>
+</tr>
+<tr>
+  <th>firmsz</th>                       <td>0.0037</td>
+</tr>
+<tr>
+  <th></th>                            <td>(1.9286)</td>
+</tr>
+</table><br/><br/>T-stats reported in parentheses<br/>T-stats use same covariance type as original model<br/>id: 0x2ac936244780</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">ivmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IVLIML</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">controls</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">hi_empunion</span><span class="p">,</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;ssiratio&#39;</span><span class="p">,</span><span class="s1">&#39;multlc&#39;</span><span class="p">]])</span>
+<span class="n">res_liml</span> <span class="o">=</span> <span class="n">ivmod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+<span class="n">compare</span><span class="p">({</span><span class="s1">&#39;2SLS&#39;</span><span class="p">:</span><span class="n">res_2sls_robust</span><span class="p">,</span><span class="s1">&#39;LIML&#39;</span><span class="p">:</span> <span class="n">res_liml</span><span class="p">,</span> <span class="s1">&#39;GMM&#39;</span><span class="p">:</span> <span class="n">res_gmm</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<table class="simpletable">
+<caption>Model Comparison</caption>
+<tr>
+            <td></td>               <th>2SLS</th>           <th>GMM</th>          <th>LIML</th>
+</tr>
+<tr>
+  <th>Dep. Variable</th>          <td>ldrugexp</td>      <td>ldrugexp</td>      <td>ldrugexp</td>
+</tr>
+<tr>
+  <th>Estimator</th>               <td>IV-2SLS</td>       <td>IV-GMM</td>        <td>IV-LIML</td>
+</tr>
+<tr>
+  <th>No. Observations</th>         <td>10089</td>         <td>10089</td>         <td>10089</td>
+</tr>
+<tr>
+  <th>Cov. Est.</th>               <td>robust</td>        <td>robust</td>        <td>robust</td>
+</tr>
+<tr>
+  <th>R-squared</th>               <td>0.0414</td>        <td>0.0406</td>        <td>0.0400</td>
+</tr>
+<tr>
+  <th>Adj. R-squared</th>          <td>0.0409</td>        <td>0.0400</td>        <td>0.0394</td>
+</tr>
+<tr>
+  <th>F-statistic</th>             <td>1955.4</td>        <td>1952.6</td>        <td>1952.3</td>
+</tr>
+<tr>
+  <th>P-value (F-stat)</th>        <td>0.0000</td>        <td>0.0000</td>        <td>0.0000</td>
+</tr>
+<tr>
+  <th>==================</th>    <td>===========</td>   <td>===========</td>   <td>===========</td>
+</tr>
+<tr>
+  <th>const</th>                   <td>6.8752</td>        <td>6.8778</td>        <td>6.8807</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(26.660)</td>      <td>(26.658)</td>      <td>(26.577)</td>
+</tr>
+<tr>
+  <th>totchr</th>                  <td>0.4512</td>        <td>0.4510</td>        <td>0.4513</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(43.769)</td>      <td>(43.738)</td>      <td>(43.730)</td>
+</tr>
+<tr>
+  <th>female</th>                  <td>-0.0278</td>       <td>-0.0282</td>       <td>-0.0283</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(-0.8653)</td>     <td>(-0.8752)</td>     <td>(-0.8776)</td>
+</tr>
+<tr>
+  <th>age</th>                     <td>-0.0141</td>       <td>-0.0142</td>       <td>-0.0142</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(-4.8753)</td>     <td>(-4.8773)</td>     <td>(-4.8781)</td>
+</tr>
+<tr>
+  <th>linc</th>                    <td>0.0943</td>        <td>0.0945</td>        <td>0.0947</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(4.3079)</td>      <td>(4.3142)</td>      <td>(4.3114)</td>
+</tr>
+<tr>
+  <th>blhisp</th>                  <td>-0.2237</td>       <td>-0.2231</td>       <td>-0.2241</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(-5.6514)</td>     <td>(-5.6344)</td>     <td>(-5.6531)</td>
+</tr>
+<tr>
+  <th>hi_empunion</th>             <td>-0.9899</td>       <td>-0.9933</td>       <td>-0.9957</td>
+</tr>
+<tr>
+  <th> </th>                      <td>(-4.8386)</td>     <td>(-4.8530)</td>     <td>(-4.8361)</td>
+</tr>
+<tr>
+  <th>====================</th> <td>=============</td> <td>=============</td> <td>=============</td>
+</tr>
+<tr>
+  <th>Instruments</th>            <td>ssiratio</td>      <td>ssiratio</td>      <td>ssiratio</td>
+</tr>
+<tr>
+  <th></th>                        <td>multlc</td>        <td>multlc</td>        <td>multlc</td>
+</tr>
+</table><br/><br/>T-stats reported in parentheses<br/>id: 0x2ac93710bb00</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">print</span><span class="p">(</span><span class="n">res_liml</span><span class="o">.</span><span class="n">kappa</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1.00011531668
+</pre></div></div>
+</div>
+<div class="section" id="IV2SLS-as-OLS">
+<h3>IV2SLS as OLS<a class="headerlink" href="#IV2SLS-as-OLS" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="n">ivolsmod</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">IV2SLS</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ldrugexp</span><span class="p">,</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;hi_empunion&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">controls</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 <span class="n">res_ivols</span> <span class="o">=</span> <span class="n">ivolsmod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="n">sm_ols</span> <span class="o">=</span> <span class="n">res_ols</span><span class="o">.</span><span class="n">params</span>
 <span class="n">sm_ols</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;sm&#39;</span>
@@ -599,7 +1308,7 @@ blhisp       -0.151307 -0.151307
         <li class="right" >
           <a href="basic-examples.html" title="Basic Examples"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+7.g7b01f4e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+9.gf7afb80 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Instrumental Variable Estimation</a> &#187;</li> 
       </ul>
     </div>

@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Estimation Methods &#8212; linearmodels 2.0+7.g7b01f4e documentation</title>
+    <title>Estimation Methods &#8212; linearmodels 2.0+9.gf7afb80 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+7.g7b01f4e',
+        VERSION:     '2.0+9.gf7afb80',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="reference.html" title="Module Reference"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+7.g7b01f4e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+9.gf7afb80 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Instrumental Variable Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
@@ -75,7 +75,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+7, g7b01f4e)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+9, gf7afb80)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -207,7 +207,7 @@ e.g., bootstrapped samples.  Performs no error checking.</p>
 
 <dl class="method">
 <dt id="linearmodels.iv.model.IV2SLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>cov_type='robust'</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.iv.model.IV2SLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='robust'</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.iv.model.IV2SLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -422,7 +422,7 @@ e.g., bootstrapped samples.  Performs no error checking.</p>
 
 <dl class="method">
 <dt id="linearmodels.iv.model.IVLIML.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>cov_type='robust'</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVLIML.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVLIML.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='robust'</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVLIML.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVLIML.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -638,7 +638,7 @@ e.g., bootstrapped samples.  Performs no error checking.</p>
 
 <dl class="method">
 <dt id="linearmodels.iv.model.IVGMM.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>iter_limit=2</em>, <em>tol=0.0001</em>, <em>initial_weight=None</em>, <em>cov_type='robust'</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVGMM.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVGMM.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>iter_limit=2</em>, <em>tol=0.0001</em>, <em>initial_weight=None</em>, <em>cov_type='robust'</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVGMM.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVGMM.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -876,7 +876,7 @@ samples.  Performs no error checking.</p>
 
 <dl class="method">
 <dt id="linearmodels.iv.model.IVGMMCUE.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>starting=None</em>, <em>display=False</em>, <em>cov_type='robust'</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVGMMCUE.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVGMMCUE.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>starting=None</em>, <em>display=False</em>, <em>cov_type='robust'</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/model.html#IVGMMCUE.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.model.IVGMMCUE.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1096,7 +1096,7 @@ resids if all weights are unity.</p>
         <li class="right" >
           <a href="reference.html" title="Module Reference"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+7.g7b01f4e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+9.gf7afb80 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Instrumental Variable Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" >Module Reference</a> &#187;</li> 
       </ul>
