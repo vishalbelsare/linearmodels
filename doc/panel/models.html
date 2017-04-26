@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Models for Panel Data &#8212; linearmodels 2.0+11.g322c54a documentation</title>
+    <title>Models for Panel Data &#8212; linearmodels 2.0+13.g0789fcd documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+11.g322c54a',
+        VERSION:     '2.0+13.g0789fcd',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="reference.html" title="Module Reference"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+11.g322c54a documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+13.g0789fcd documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Panel Data Model Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
@@ -75,7 +75,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+11, g322c54a)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+13, g0789fcd)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -244,6 +244,14 @@ be coerced to integer values by treating as categorical variables</li>
 <li><code class="docutils literal"><span class="pre">cluster_entity</span></code> - Boolean flag indicating to use entity
 clusters</li>
 <li><code class="docutils literal"><span class="pre">cluster_time</span></code> - Boolean indicating to use time clusters</li>
+</ul>
+</li>
+<li>&#8216;kernel&#8217; - Driscoll-Kraay HAC estimator. Configurations options are:<ul>
+<li><code class="docutils literal"><span class="pre">kernel</span></code> - One of the supported kernels (bartlett, parzen, qs).
+Default is Bartlett&#8217;s kernel, which is produces a covariance
+estimator similar to the Newey-West covariance estimator.</li>
+<li><code class="docutils literal"><span class="pre">bandwidth</span></code> - Bandwidth to use when computing the kernel.  If
+not provided, a naive default is used.</li>
 </ul>
 </li>
 </ul>
@@ -676,6 +684,14 @@ be coerced to integer values by treating as categorical variables</li>
 clusters</li>
 </ul>
 </li>
+<li>&#8216;kernel&#8217; - Driscoll-Kraay HAC estimator. Configurations options are:<ul>
+<li><code class="docutils literal"><span class="pre">kernel</span></code> - One of the supported kernels (bartlett, parzen, qs).
+Default is Bartlett&#8217;s kernel, which is produces a covariance
+estimator similar to the Newey-West covariance estimator.</li>
+<li><code class="docutils literal"><span class="pre">bandwidth</span></code> - Bandwidth to use when computing the kernel.  If
+not provided, a naive default is used.</li>
+</ul>
+</li>
 </ul>
 <p>When using a clustered covariance estimator, all cluster ids must be
 identical within a first difference.  In most scenarios, this requires
@@ -818,7 +834,7 @@ a degree of freedom adjustment.</li>
 </pre></div>
 </div>
 <p class="rubric">Notes</p>
-<p>Three covariance estimators are supported:</p>
+<p>Four covariance estimators are supported:</p>
 <ul class="simple">
 <li>&#8216;unadjusted&#8217;, &#8216;homoskedastic&#8217; - Assume residual are homoskedastic</li>
 <li>&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Control for heteroskedasticity using
@@ -830,6 +846,14 @@ be coerced to integer values by treating as categorical variables</li>
 <li><code class="docutils literal"><span class="pre">cluster_entity</span></code> - Boolean flag indicating to use entity
 clusters</li>
 <li><code class="docutils literal"><span class="pre">cluster_time</span></code> - Boolean indicating to use time clusters</li>
+</ul>
+</li>
+<li>&#8216;kernel&#8217; - Driscoll-Kraay HAC estimator. Configurations options are:<ul>
+<li><code class="docutils literal"><span class="pre">kernel</span></code> - One of the supported kernels (bartlett, parzen, qs).
+Default is Bartlett&#8217;s kernel, which is produces a covariance
+estimator similar to the Newey-West covariance estimator.</li>
+<li><code class="docutils literal"><span class="pre">bandwidth</span></code> - Bandwidth to use when computing the kernel.  If
+not provided, a naive default is used.</li>
 </ul>
 </li>
 </ul>
@@ -950,7 +974,7 @@ missing in the model data.</td>
         <li class="right" >
           <a href="reference.html" title="Module Reference"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+11.g322c54a documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+13.g0789fcd documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Panel Data Model Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" >Module Reference</a> &#187;</li> 
       </ul>
