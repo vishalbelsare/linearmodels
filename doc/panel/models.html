@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Models for Panel Data &#8212; linearmodels 2.0+17.gf5b476d documentation</title>
+    <title>Models for Panel Data &#8212; linearmodels 2.0+23.g0d62b4f documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+17.gf5b476d',
+        VERSION:     '2.0+23.g0d62b4f',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="reference.html" title="Module Reference"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+17.gf5b476d documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+23.g0d62b4f documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Panel Data Model Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
@@ -75,7 +75,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+17, gf5b476d)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+23, g0d62b4f)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -939,6 +939,169 @@ missing in the model data.</td>
 </dd></dl>
 
 </div>
+<div class="section" id="fama-macbeth">
+<h2>Fama-MacBeth<a class="headerlink" href="#fama-macbeth" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="linearmodels.panel.model.FamaMacBeth">
+<em class="property">class </em><code class="descname">FamaMacBeth</code><span class="sig-paren">(</span><em>dependent</em>, <em>exog</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FamaMacBeth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FamaMacBeth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pooled coefficient estimator for panel data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dependent</strong> (<em>array-like</em>) &#8211; Dependent (left-hand-side) variable (time by entity)</li>
+<li><strong>exog</strong> (<em>array-like</em>) &#8211; Exogenous or right-hand-side variables (variable by time by entity).</li>
+<li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
+proportional to inverse of weight to that the residual time
+the weight should be homoskedastic.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The model is given by</p>
+<div class="math">
+\[y_{it}=\beta^{\prime}x_{it}+\epsilon_{it}\]</div>
+<p>The Fama-MacBeth estimator is computed by performing T regressions, one
+for each time period using all availabl entity observations.  Denote the
+estimate of the model parameters as <span class="math">\(\hat{\beta}_t\)</span>.  The reported
+estimator is then</p>
+<div class="math">
+\[\hat{\beta} = T^{-1}\sum_{t=1}^T \hat{\beta}_t\]</div>
+<p>While the model does not explicitly include time-effects, the
+implementation based on regressing all observation in a single
+time period is &#8220;as-if&#8221; time effects are included.</p>
+<p>Parameter inference is made using the set T parameter estimates using
+either the standard covariance estiamtor or a kernel-based covariance,
+depending on <code class="docutils literal"><span class="pre">cov_type</span></code>.</p>
+<dl class="method">
+<dt id="linearmodels.panel.model.FamaMacBeth.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>cov_type='unadjusted'</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FamaMacBeth.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FamaMacBeth.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate model parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Name of covariance estimator. See Notes.</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debiased the covariance estimator using
+a degree of freedom adjustment.</li>
+<li><strong>**cov_config</strong> &#8211; Additional covariance-specific options.  See Notes.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>results</strong> &#8211; Estimation results</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="results.html#linearmodels.panel.results.PanelResults" title="linearmodels.panel.results.PanelResults">PanelResults</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">FamaMacBeth</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">FamaMacBeth</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;kernel&#39;</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;Parzen&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>Four covariance estimators are supported:</p>
+<ul class="simple">
+<li>&#8216;unadjusted&#8217;, &#8216;homoskedastic&#8217;, &#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Use the
+standard covariance estimator of the T parameter estimates.</li>
+<li>&#8216;kernel&#8217; - HAC estimator. Configurations options are:<ul>
+<li><code class="docutils literal"><span class="pre">kernel</span></code> - One of the supported kernels (bartlett, parzen, qs).
+Default is Bartlett&#8217;s kernel, which is implements the the
+Newey-West covariance estimator.</li>
+<li><code class="docutils literal"><span class="pre">bandwidth</span></code> - Bandwidth to use when computing the kernel.  If
+not provided, a naive default is used.</li>
+</ul>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.FamaMacBeth.formula">
+<code class="descname">formula</code><a class="headerlink" href="#linearmodels.panel.model.FamaMacBeth.formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formula used to construct the model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.panel.model.FamaMacBeth.from_formula">
+<code class="descname">from_formula</code><span class="sig-paren">(</span><em>formula</em>, <em>data</em>, <em>*</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.model.FamaMacBeth.from_formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a model from a formula</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>formula</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Formula to transform into model. Conforms to patsy formula rules.</li>
+<li><strong>data</strong> (<em>array-like</em>) &#8211; Data structure that can be coerced into a PanelData.  In most
+cases, this should be a multi-index DataFrame where the level 0
+index contains the entities and the level 1 contains the time.</li>
+<li><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) &#8211; Weights to use in estimation.  Assumes residual variance is
+proportional to inverse of weight to that the residual times
+the weight should be homoskedastic.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>model</strong> &#8211; Model specified using the formula</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS">PooledOLS</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Unlike standard patsy, it is necessary to explicitly include a
+constant using the constant indicator (1)</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">linearmodels</span> <span class="k">import</span> <span class="n">PooledOLS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mod</span> <span class="o">=</span> <span class="n">PooledOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">&#39;y ~ 1 + x1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.FamaMacBeth.has_constant">
+<code class="descname">has_constant</code><a class="headerlink" href="#linearmodels.panel.model.FamaMacBeth.has_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag indicating the model a constant or implicit constant</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.model.FamaMacBeth.not_null">
+<code class="descname">not_null</code><a class="headerlink" href="#linearmodels.panel.model.FamaMacBeth.not_null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locations of non-missing observations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.panel.model.FamaMacBeth.reformat_clusters">
+<code class="descname">reformat_clusters</code><span class="sig-paren">(</span><em>clusters</em><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.model.FamaMacBeth.reformat_clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reformat cluster variables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>clusters</strong> (<em>array-like</em>) &#8211; Values to use for variance clustering</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>reformatted</strong> &#8211; Original data with matching axis and observation dropped where
+missing in the model data.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="data.html#linearmodels.panel.data.PanelData" title="linearmodels.panel.data.PanelData">PanelData</a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This is exposed for testing and is not normally needed for estimation</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -974,7 +1137,7 @@ missing in the model data.</td>
         <li class="right" >
           <a href="reference.html" title="Module Reference"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+17.gf5b476d documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+23.g0d62b4f documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Panel Data Model Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" >Module Reference</a> &#187;</li> 
       </ul>

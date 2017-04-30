@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.panel.model &#8212; linearmodels 2.0+17.gf5b476d documentation</title>
+    <title>linearmodels.panel.model &#8212; linearmodels 2.0+23.g0d62b4f documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.0+17.gf5b476d',
+        VERSION:     '2.0+23.g0d62b4f',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+17.gf5b476d documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+23.g0d62b4f documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 2.0 (+17, gf5b476d)</a>
+    ../../../index.html" class="text-logo">linearmodels 2.0 (+23, g0d62b4f)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -125,8 +125,8 @@
 <span class="kn">from</span> <span class="nn">patsy.highlevel</span> <span class="k">import</span> <span class="n">ModelDesc</span><span class="p">,</span> <span class="n">dmatrices</span>
 <span class="kn">from</span> <span class="nn">patsy.missing</span> <span class="k">import</span> <span class="n">NAAction</span>
 
-<span class="kn">from</span> <span class="nn">linearmodels.panel.covariance</span> <span class="k">import</span> <span class="n">ClusteredCovariance</span><span class="p">,</span> <span class="n">CovarianceManager</span><span class="p">,</span> \
-    <span class="n">HeteroskedasticCovariance</span><span class="p">,</span> <span class="n">HomoskedasticCovariance</span><span class="p">,</span> <span class="n">DriscollKraay</span>
+<span class="kn">from</span> <span class="nn">linearmodels.panel.covariance</span> <span class="k">import</span> <span class="n">ClusteredCovariance</span><span class="p">,</span> <span class="n">CovarianceManager</span><span class="p">,</span> <span class="n">DriscollKraay</span><span class="p">,</span> <span class="n">FamaMacBethCovariance</span><span class="p">,</span> \
+    <span class="n">FamaMacBethKernelCovariance</span><span class="p">,</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span> <span class="n">HomoskedasticCovariance</span>
 <span class="kn">from</span> <span class="nn">linearmodels.panel.data</span> <span class="k">import</span> <span class="n">PanelData</span>
 <span class="kn">from</span> <span class="nn">linearmodels.panel.results</span> <span class="k">import</span> <span class="n">PanelEffectsResults</span><span class="p">,</span> <span class="n">PanelResults</span><span class="p">,</span> <span class="n">RandomEffectsResults</span>
 <span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">AttrDict</span><span class="p">,</span> <span class="n">InapplicableTestStatistic</span><span class="p">,</span> <span class="n">InvalidTestStatistic</span><span class="p">,</span> \
@@ -149,7 +149,8 @@
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PanelOLS&#39;</span><span class="p">,</span> <span class="s1">&#39;PooledOLS&#39;</span><span class="p">,</span> <span class="s1">&#39;RandomEffects&#39;</span><span class="p">,</span> <span class="s1">&#39;FirstDifferenceOLS&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;BetweenOLS&#39;</span><span class="p">,</span> <span class="s1">&#39;AbsorbingEffectError&#39;</span><span class="p">,</span> <span class="s1">&#39;AmbiguityError&#39;</span><span class="p">]</span>
+           <span class="s1">&#39;BetweenOLS&#39;</span><span class="p">,</span> <span class="s1">&#39;AbsorbingEffectError&#39;</span><span class="p">,</span> <span class="s1">&#39;AmbiguityError&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;FamaMacBeth&#39;</span><span class="p">]</span>
 
 
 <span class="c1"># Likely</span>
@@ -1743,6 +1744,138 @@
                         <span class="n">sigma2_effects</span><span class="o">=</span><span class="n">sigma2_u</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="n">theta_out</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">RandomEffectsResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FamaMacBeth"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.FamaMacBeth">[docs]</a><span class="k">class</span> <span class="nc">FamaMacBeth</span><span class="p">(</span><span class="n">PooledOLS</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pooled coefficient estimator for panel data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dependent : array-like</span>
+<span class="sd">        Dependent (left-hand-side) variable (time by entity)</span>
+<span class="sd">    exog : array-like</span>
+<span class="sd">        Exogenous or right-hand-side variables (variable by time by entity).</span>
+<span class="sd">    weights : array-like, optional</span>
+<span class="sd">        Weights to use in estimation.  Assumes residual variance is</span>
+<span class="sd">        proportional to inverse of weight to that the residual time</span>
+<span class="sd">        the weight should be homoskedastic.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The model is given by</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        y_{it}=\beta^{\prime}x_{it}+\epsilon_{it}</span>
+<span class="sd">    </span>
+<span class="sd">    The Fama-MacBeth estimator is computed by performing T regressions, one</span>
+<span class="sd">    for each time period using all availabl entity observations.  Denote the</span>
+<span class="sd">    estimate of the model parameters as :math:`\hat{\beta}_t`.  The reported</span>
+<span class="sd">    estimator is then </span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">    </span>
+<span class="sd">        \hat{\beta} = T^{-1}\sum_{t=1}^T \hat{\beta}_t</span>
+<span class="sd">    </span>
+<span class="sd">    While the model does not explicitly include time-effects, the </span>
+<span class="sd">    implementation based on regressing all observation in a single</span>
+<span class="sd">    time period is &quot;as-if&quot; time effects are included.</span>
+<span class="sd">         </span>
+<span class="sd">    Parameter inference is made using the set T parameter estimates using </span>
+<span class="sd">    either the standard covariance estiamtor or a kernel-based covariance,</span>
+<span class="sd">    depending on ``cov_type``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FamaMacBeth</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FamaMacBeth.fit"><a class="viewcode-back" href="../../../panel/models.html#linearmodels.panel.model.FamaMacBeth.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate model parameters</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cov_type : str, optional</span>
+<span class="sd">            Name of covariance estimator. See Notes.</span>
+<span class="sd">        debiased : bool, optional</span>
+<span class="sd">            Flag indicating whether to debiased the covariance estimator using</span>
+<span class="sd">            a degree of freedom adjustment.</span>
+<span class="sd">        **cov_config</span>
+<span class="sd">            Additional covariance-specific options.  See Notes.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        results :  PanelResults</span>
+<span class="sd">            Estimation results</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels import FamaMacBeth</span>
+<span class="sd">        &gt;&gt;&gt; mod = FamaMacBeth(y, x)</span>
+<span class="sd">        &gt;&gt;&gt; res = mod.fit(cov_type=&#39;kernel&#39;, kernel=&#39;Parzen&#39;)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Four covariance estimators are supported:</span>
+
+<span class="sd">        * &#39;unadjusted&#39;, &#39;homoskedastic&#39;, &#39;robust&#39;, &#39;heteroskedastic&#39; - Use the</span>
+<span class="sd">          standard covariance estimator of the T parameter estimates.</span>
+<span class="sd">        * &#39;kernel&#39; - HAC estimator. Configurations options are:</span>
+
+<span class="sd">          * ``kernel`` - One of the supported kernels (bartlett, parzen, qs).</span>
+<span class="sd">            Default is Bartlett&#39;s kernel, which is implements the the </span>
+<span class="sd">            Newey-West covariance estimator.</span>
+<span class="sd">          * ``bandwidth`` - Bandwidth to use when computing the kernel.  If</span>
+<span class="sd">            not provided, a naive default is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">dataframe</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">dataframe</span>
+        <span class="n">yx</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">],</span>
+                          <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span>
+                          <span class="n">index</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">single</span><span class="p">(</span><span class="n">z</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">values</span>
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">z</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">ravel</span><span class="p">()],</span> <span class="n">index</span><span class="o">=</span><span class="n">z</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+        <span class="n">all_params</span> <span class="o">=</span> <span class="n">yx</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">single</span><span class="p">)</span>
+        <span class="n">all_params</span> <span class="o">=</span> <span class="n">all_params</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">all_params</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+
+        <span class="c1"># df_resid = params.shape[1]</span>
+        <span class="n">wy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">wx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">weps</span> <span class="o">=</span> <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">values2d</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">values2d</span> <span class="o">@</span> <span class="n">params</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">values2d</span>
+        <span class="n">root_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="n">residual_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">weps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">weps</span><span class="p">)</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">total_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">e</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">residual_ss</span> <span class="o">/</span> <span class="n">total_ss</span>
+
+        <span class="k">if</span> <span class="n">cov_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="s1">&#39;unadjusted&#39;</span><span class="p">,</span> <span class="s1">&#39;homoskedastic&#39;</span><span class="p">,</span> <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">):</span>
+            <span class="n">cov_est</span> <span class="o">=</span> <span class="n">FamaMacBethCovariance</span>
+        <span class="k">elif</span> <span class="n">cov_type</span> <span class="o">==</span> <span class="s1">&#39;kernel&#39;</span><span class="p">:</span>
+            <span class="n">cov_est</span> <span class="o">=</span> <span class="n">FamaMacBethKernelCovariance</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown cov_type&#39;</span><span class="p">)</span>
+
+        <span class="n">cov</span> <span class="o">=</span> <span class="n">cov_est</span><span class="p">(</span><span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">all_params</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
+        <span class="n">df_resid</span> <span class="o">=</span> <span class="n">wy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_postestimation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">,</span> <span class="n">df_resid</span><span class="p">,</span> <span class="n">weps</span><span class="p">,</span> <span class="n">wy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">root_w</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">df_resid</span><span class="o">=</span><span class="n">df_resid</span><span class="p">,</span> <span class="n">df_model</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nobs</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span>
+                        <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">resids</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">wresids</span><span class="o">=</span><span class="n">weps</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">PanelResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
@@ -1759,7 +1892,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+17.gf5b476d documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+23.g0d62b4f documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
