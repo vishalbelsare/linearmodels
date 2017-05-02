@@ -1,5 +1,4 @@
 doc/_modules/index.html
-doc/_modules/linearmodels/asset_pricing/model.html
 doc/_modules/linearmodels/iv/covariance.html
 doc/_modules/linearmodels/iv/gmm.html
 doc/_modules/linearmodels/iv/model.html
@@ -9,7 +8,6 @@ doc/_modules/linearmodels/panel/data.html
 doc/_modules/linearmodels/panel/model.html
 doc/_modules/linearmodels/panel/results.html
 doc/_modules/linearmodels/utility.html
-doc/_sources/asset_pricing/index.rst.txt
 doc/_sources/changes.rst.txt
 doc/_sources/contributing.rst.txt
 doc/_sources/index.rst.txt
@@ -147,7 +145,6 @@ doc/_static/underscore.js
 doc/_static/up-pressed.png
 doc/_static/up.png
 doc/_static/websupport.js
-doc/asset_pricing/index.html
 doc/changes.html
 doc/contributing.html
 doc/genindex.html
