@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Module Plans &#8212; linearmodels 2.0+30.g6eab3c8 documentation</title>
+    <title>Module Plans &#8212; linearmodels 2.0+31.g8a031cd documentation</title>
     
     <link rel="stylesheet" href="_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '2.0+30.g6eab3c8',
+        VERSION:     '2.0+31.g8a031cd',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="utility.html" title="Utilities"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 2.0+30.g6eab3c8 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 2.0+31.g8a031cd documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="container-wrapper">
@@ -73,7 +73,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    index.html" class="text-logo">linearmodels 2.0 (+30, g6eab3c8)</a>
+    index.html" class="text-logo">linearmodels 2.0 (+31, g8a031cd)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -86,6 +86,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="iv/index.html">Instrumental Variable Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="panel/index.html">Panel Data Model Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="asset_pricing/index.html">Linear Asset Pricing Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility.html">Utilities</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Module Plans</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#univariate">Univariate</a></li>
@@ -142,15 +143,11 @@ limited since there is no intention to statsmodels.</p>
 <li>GMM IV Estimation - <a class="reference internal" href="iv/methods.html#linearmodels.iv.model.IVGMM" title="linearmodels.iv.model.IVGMM"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.iv.model.IVGMM</span></code></a></li>
 <li>GMM-CUE Estimation - <a class="reference internal" href="iv/methods.html#linearmodels.iv.model.IVGMMCUE" title="linearmodels.iv.model.IVGMMCUE"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.iv.model.IVGMMCUE</span></code></a></li>
 </ul>
-<div class="section" id="fama-macbeth">
-<h3>Fama Macbeth<a class="headerlink" href="#fama-macbeth" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="not-implemented">
-<h4>Not Implemented<a class="headerlink" href="#not-implemented" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="in-progress">
+<h3>In Progress<a class="headerlink" href="#in-progress" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Fama-MacBeth</li>
-<li>GMM</li>
+<li>Linear Asset Pricing Model Estimation - <a class="reference internal" href="asset_pricing/index.html#linearmodels.asset_pricing.model.LinearFactorModel" title="linearmodels.asset_pricing.model.LinearFactorModel"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.asset_pricing.model.LinearFactorModel</span></code></a></li>
 </ul>
-</div>
 </div>
 </div>
 <div class="section" id="panel">
@@ -163,12 +160,13 @@ limited since there is no intention to statsmodels.</p>
 <li>Pooled - <a class="reference internal" href="panel/models.html#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.panel.model.PooledOLS</span></code></a></li>
 <li>Between - <a class="reference internal" href="panel/models.html#linearmodels.panel.model.BetweenOLS" title="linearmodels.panel.model.BetweenOLS"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.panel.model.BetweenOLS</span></code></a></li>
 <li>First Difference - <a class="reference internal" href="panel/models.html#linearmodels.panel.model.FirstDifferenceOLS" title="linearmodels.panel.model.FirstDifferenceOLS"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.panel.model.FirstDifferenceOLS</span></code></a></li>
+<li>Fama-MacBeth - <a class="reference internal" href="panel/models.html#linearmodels.panel.model.FamaMacBeth" title="linearmodels.panel.model.FamaMacBeth"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.panel.model.FamaMacBeth</span></code></a></li>
 </ul>
 </div>
 <div class="section" id="instrumental-variable-estimators">
 <h3>Instrumental Variable Estimators<a class="headerlink" href="#instrumental-variable-estimators" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id1">
-<h4>Not Implemented<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="not-implemented">
+<h4>Not Implemented<a class="headerlink" href="#not-implemented" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li>2SLS</li>
 <li>GMM</li>
@@ -211,7 +209,7 @@ limited since there is no intention to statsmodels.</p>
         <li class="right" >
           <a href="utility.html" title="Utilities"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 2.0+30.g6eab3c8 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 2.0+31.g8a031cd documentation</a> &#187;</li> 
       </ul>
     </div>
 <script type="text/javascript">
