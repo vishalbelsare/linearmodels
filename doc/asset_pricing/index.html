@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Linear Asset Pricing Models &#8212; linearmodels 2.0+33.ga0b90a1 documentation</title>
+    <title>Linear Asset Pricing Models &#8212; linearmodels 2.0+35.g94b7a42 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+33.ga0b90a1',
+        VERSION:     '2.0+35.g94b7a42',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="../panel/faq.html" title="Implementation Choices"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+33.ga0b90a1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+35.g94b7a42 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="container-wrapper">
@@ -73,7 +73,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+33, ga0b90a1)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+35, g94b7a42)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -153,12 +153,12 @@
 and zero-alpha tests.</p>
 <p>The model estimated is</p>
 <div class="math">
-\[r_{p,it}^e = \alpha_i + f_t \beta_i + \epsilon_{it}\]</div>
-<p>where <span class="math">\(r_{p,it}^e\)</span> is the excess return to test portfolio i.  The
-model is directly tested using the estimated values
-:math:<cite>hat{alpha}_i</cite>. Risk premia, <span class="math">\(\lambda_i\)</span> are estimated
-using the sample averages of the factors, which must be excess returns on
-traded portfolios.</p>
+\[r_{it}^e = \alpha_i + f_t \beta_i + \epsilon_{it}\]</div>
+<p>where <span class="math">\(r_{it}^e\)</span> is the excess return on test portfolio i and
+<span class="math">\(f_t\)</span> are the traded factor returns.  The model is directly
+tested using the estimated values :math:<cite>hat{alpha}_i</cite>. Risk premia,
+<span class="math">\(\lambda_i\)</span> are estimated using the sample averages of the factors,
+which must be excess returns on traded portfolios.</p>
 <dl class="method">
 <dt id="linearmodels.asset_pricing.model.TradedFactorModel.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><em>cov_type='robust'</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/asset_pricing/model.html#TradedFactorModel.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.asset_pricing.model.TradedFactorModel.fit" title="Permalink to this definition">¶</a></dt>
@@ -356,7 +356,7 @@ covariance.</p>
         <li class="right" >
           <a href="../panel/faq.html" title="Implementation Choices"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+33.ga0b90a1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+35.g94b7a42 documentation</a> &#187;</li> 
       </ul>
     </div>
 <script type="text/javascript">

@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.asset_pricing.model &#8212; linearmodels 2.0+33.ga0b90a1 documentation</title>
+    <title>linearmodels.asset_pricing.model &#8212; linearmodels 2.0+35.g94b7a42 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.0+33.ga0b90a1',
+        VERSION:     '2.0+35.g94b7a42',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+33.ga0b90a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+35.g94b7a42 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 2.0 (+33, ga0b90a1)</a>
+    ../../../index.html" class="text-logo">linearmodels 2.0 (+35, g94b7a42)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -121,11 +121,12 @@
             
   <h1>Source code for linearmodels.asset_pricing.model</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">pinv</span>
+
 <span class="kn">from</span> <span class="nn">linearmodels.asset_pricing.results</span> <span class="k">import</span> <span class="n">TradedFactorModelResults</span>
 <span class="kn">from</span> <span class="nn">linearmodels.iv.covariance</span> <span class="k">import</span> <span class="n">KERNEL_LOOKUP</span><span class="p">,</span> <span class="n">_cov_kernel</span>
 <span class="kn">from</span> <span class="nn">linearmodels.iv.data</span> <span class="k">import</span> <span class="n">IVData</span>
 <span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">AttrDict</span><span class="p">,</span> <span class="n">WaldTestStatistic</span>
-<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">pinv</span>
 
 
 <div class="viewcode-block" id="TradedFactorModel"><a class="viewcode-back" href="../../../asset_pricing/index.html#linearmodels.asset_pricing.model.TradedFactorModel">[docs]</a><span class="k">class</span> <span class="nc">TradedFactorModel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -147,13 +148,13 @@
 <span class="sd">    </span>
 <span class="sd">    .. math::</span>
 <span class="sd">    </span>
-<span class="sd">        r_{p,it}^e = \alpha_i + f_t \beta_i + \epsilon_{it}</span>
+<span class="sd">        r_{it}^e = \alpha_i + f_t \beta_i + \epsilon_{it}</span>
 <span class="sd">    </span>
-<span class="sd">    where :math:`r_{p,it}^e` is the excess return to test portfolio i.  The</span>
-<span class="sd">    model is directly tested using the estimated values</span>
-<span class="sd">    :\math:`\hat{\alpha}_i`. Risk premia, :math:`\lambda_i` are estimated </span>
-<span class="sd">    using the sample averages of the factors, which must be excess returns on </span>
-<span class="sd">    traded portfolios.</span>
+<span class="sd">    where :math:`r_{it}^e` is the excess return on test portfolio i and </span>
+<span class="sd">    :math:`f_t` are the traded factor returns.  The model is directly </span>
+<span class="sd">    tested using the estimated values :\math:`\hat{\alpha}_i`. Risk premia, </span>
+<span class="sd">    :math:`\lambda_i` are estimated using the sample averages of the factors,</span>
+<span class="sd">    which must be excess returns on traded portfolios.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portfolios</span><span class="p">,</span> <span class="n">factors</span><span class="p">):</span>
@@ -185,7 +186,6 @@
 <span class="sd">        and ``bandwidth`` (a positive integer).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: Homoskedastic covariance</span>
-        <span class="c1"># TODO: Verify order of parameters and vcv</span>
 
         <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="o">.</span><span class="n">ndarray</span>
         <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">ndarray</span>
@@ -198,19 +198,9 @@
         <span class="n">eps</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">fc</span> <span class="o">@</span> <span class="n">b</span>
         <span class="n">alphas</span> <span class="o">=</span> <span class="n">b</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
 
-        <span class="c1"># Classic stat</span>
-
-        <span class="c1"># omega = fe.T @ fe / nobs</span>
-        <span class="c1"># sigma = eps.T @ eps / nobs</span>
-        <span class="c1"># stat = alphas.T @ pinv(sigma) @ alphas</span>
-        <span class="c1"># stat *= (nobs - nfactor - nportfolio) / nportfolio</span>
-        <span class="c1"># stat /= (1 + rp.T @ pinv(omega) @ rp)</span>
-
-        <span class="c1"># VCV calculation</span>
-        <span class="c1"># Need to rearrange ex-post</span>
         <span class="n">nloading</span> <span class="o">=</span> <span class="p">(</span><span class="n">nfactor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">nportfolio</span>
         <span class="n">xpxi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">nloading</span> <span class="o">+</span> <span class="n">nfactor</span><span class="p">)</span>
-        <span class="n">xpxi</span><span class="p">[:</span><span class="n">nloading</span><span class="p">,</span> <span class="p">:</span><span class="n">nloading</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">pinv</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">fc</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">nportfolio</span><span class="p">))</span>
+        <span class="n">xpxi</span><span class="p">[:</span><span class="n">nloading</span><span class="p">,</span> <span class="p">:</span><span class="n">nloading</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">nportfolio</span><span class="p">),</span> <span class="n">pinv</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">fc</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">))</span>
         <span class="n">f_rep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nportfolio</span><span class="p">))</span>
         <span class="n">eps_rep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="p">(</span><span class="n">nfactor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># 1 2 3 ... 25 1 2 3 ...</span>
         <span class="n">eps_rep</span> <span class="o">=</span> <span class="n">eps_rep</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
@@ -252,11 +242,11 @@
         <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">residual_ss</span> <span class="o">/</span> <span class="n">total_ss</span>
         <span class="n">param_names</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">portfolio</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="o">.</span><span class="n">cols</span><span class="p">:</span>
-            <span class="n">param_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">-alpha&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">portfolio</span><span class="p">))</span>
+            <span class="n">param_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;alpha-</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">portfolio</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">cols</span><span class="p">:</span>
-                <span class="n">param_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">-beta.</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">portfolio</span><span class="p">,</span> <span class="n">factor</span><span class="p">))</span>
+                <span class="n">param_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;beta-</span><span class="si">{0}</span><span class="s1">-</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">portfolio</span><span class="p">,</span> <span class="n">factor</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">cols</span><span class="p">:</span>
-            <span class="n">param_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;lambda.</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">factor</span><span class="p">))</span>
+            <span class="n">param_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;lambda-</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">factor</span><span class="p">))</span>
 
         <span class="n">res</span> <span class="o">=</span> <span class="n">AttrDict</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="n">full_vcv</span><span class="p">,</span> <span class="n">betas</span><span class="o">=</span><span class="n">betas</span><span class="p">,</span> <span class="n">rp</span><span class="o">=</span><span class="n">rp</span><span class="p">,</span> <span class="n">rp_cov</span><span class="o">=</span><span class="n">rp_cov</span><span class="p">,</span>
                        <span class="n">alphas</span><span class="o">=</span><span class="n">alphas</span><span class="p">,</span> <span class="n">alpha_vcv</span><span class="o">=</span><span class="n">alpha_vcv</span><span class="p">,</span> <span class="n">jstat</span><span class="o">=</span><span class="n">jstat</span><span class="p">,</span>
@@ -346,7 +336,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+33.ga0b90a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+35.g94b7a42 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
