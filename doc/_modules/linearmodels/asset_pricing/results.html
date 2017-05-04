@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.asset_pricing.results &#8212; linearmodels 2.0+35.g94b7a42 documentation</title>
+    <title>linearmodels.asset_pricing.results &#8212; linearmodels 2.0+37.g5ac55ea documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.0+35.g94b7a42',
+        VERSION:     '2.0+37.g5ac55ea',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+35.g94b7a42 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+37.g5ac55ea documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 2.0 (+35, g94b7a42)</a>
+    ../../../index.html" class="text-logo">linearmodels 2.0 (+37, g5ac55ea)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -124,13 +124,14 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">linearmodels.compat.statsmodels</span> <span class="k">import</span> <span class="n">Summary</span>
-<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">_SummaryStr</span><span class="p">,</span> <span class="n">_str</span><span class="p">,</span> <span class="n">cached_property</span><span class="p">,</span> <span class="n">pval_format</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
 <span class="kn">from</span> <span class="nn">statsmodels.iolib.summary</span> <span class="k">import</span> <span class="n">SimpleTable</span><span class="p">,</span> <span class="n">fmt_2cols</span><span class="p">,</span> <span class="n">fmt_params</span>
 
+<span class="kn">from</span> <span class="nn">linearmodels.compat.statsmodels</span> <span class="k">import</span> <span class="n">Summary</span>
+<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">_SummaryStr</span><span class="p">,</span> <span class="n">_str</span><span class="p">,</span> <span class="n">cached_property</span><span class="p">,</span> <span class="n">pval_format</span>
 
-<div class="viewcode-block" id="TradedFactorModelResults"><a class="viewcode-back" href="../../../asset_pricing/index.html#linearmodels.asset_pricing.results.TradedFactorModelResults">[docs]</a><span class="k">class</span> <span class="nc">TradedFactorModelResults</span><span class="p">(</span><span class="n">_SummaryStr</span><span class="p">):</span>
+
+<div class="viewcode-block" id="LinearFactorModelResults"><a class="viewcode-back" href="../../../asset_pricing/index.html#linearmodels.asset_pricing.results.LinearFactorModelResults">[docs]</a><span class="k">class</span> <span class="nc">LinearFactorModelResults</span><span class="p">(</span><span class="n">_SummaryStr</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_jstat</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">jstat</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">params</span>
@@ -148,7 +149,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nobs</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">nobs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;const&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factor_names</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factor_names</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -314,7 +315,7 @@
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">se</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cols</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_portfolio_names</span><span class="p">)</span>
 
     <span class="nd">@cached_property</span>
-<div class="viewcode-block" id="TradedFactorModelResults.tstats"><a class="viewcode-back" href="../../../asset_pricing/index.html#linearmodels.asset_pricing.results.TradedFactorModelResults.tstats">[docs]</a>    <span class="k">def</span> <span class="nf">tstats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LinearFactorModelResults.tstats"><a class="viewcode-back" href="../../../asset_pricing/index.html#linearmodels.asset_pricing.results.LinearFactorModelResults.tstats">[docs]</a>    <span class="k">def</span> <span class="nf">tstats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parameter t-statistics&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">std_errors</span></div>
 
@@ -393,7 +394,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+35.g94b7a42 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+37.g5ac55ea documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
