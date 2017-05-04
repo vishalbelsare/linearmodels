@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Panel Data Model Estimation &#8212; linearmodels 2.0+39.g052c6d2 documentation</title>
+    <title>Module Reference &#8212; linearmodels 2.0+39.g052c6d2 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -37,8 +37,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Introduction" href="introduction.html" />
-    <link rel="prev" title="Formulas and Mathematical Detail" href="../iv/mathematical-formula.html" />
+    <link rel="next" title="Linear Asset Pricing Models" href="models.html" />
+    <link rel="prev" title="Linear Factor Models for Asset Pricing" href="index.html" />
   
   
    
@@ -57,12 +57,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="introduction.html" title="Introduction"
+          <a href="models.html" title="Linear Asset Pricing Models"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../iv/mathematical-formula.html" title="Formulas and Mathematical Detail"
+          <a href="index.html" title="Linear Factor Models for Asset Pricing"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+39.g052c6d2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+39.g052c6d2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Linear Factor Models for Asset Pricing</a> &#187;</li> 
       </ul>
     </div>
     <div class="container-wrapper">
@@ -85,18 +86,12 @@
       <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../iv/index.html">Instrumental Variable Estimation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Panel Data Model Estimation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/data-formats.html">Data Formats for Panel Data Analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/examples.html">Examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/using-formulas.html">Using formulas to specify models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pandas.html">Comparison with pandas PanelOLS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference.html">Module Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../panel/index.html">Panel Data Model Estimation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Linear Factor Models for Asset Pricing</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Module Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mathematical-formula.html">Formulas and Mathematical Detail</a></li>
-<li class="toctree-l2"><a class="reference internal" href="faq.html">Implementation Choices</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../asset-pricing/index.html">Linear Factor Models for Asset Pricing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plan.html">Module Plans</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
@@ -128,44 +123,25 @@
             <ol class="breadcrumb">
               <li><a href="../index.html">Docs</a></li>
               
-              <li>Panel Data Model Estimation</li>
+                <li><a href="index.html">Linear Factor Models for Asset Pricing</a></li>
+              
+              <li>Module Reference</li>
             </ol>
           </div>
           
           <div class="document clearer body">
             
-  <div class="section" id="panel-data-model-estimation">
-<h1>Panel Data Model Estimation<a class="headerlink" href="#panel-data-model-estimation" title="Permalink to this headline">¶</a></h1>
-<p>The <a class="reference internal" href="introduction.html#panel-introduction"><span class="std std-ref">Introduction</span></a> provides a brief overview of the available panel
-model estimators. <a class="reference internal" href="models.html#panel-module-reference-models"><span class="std std-ref">Models for Panel Data</span></a> contains a complete
-reference to available estimation methods.
-<a class="reference internal" href="results.html#panel-module-reference-results"><span class="std std-ref">Estimation Results</span></a> describes the results classes returned
-after estimating a model as well as model specification tests. The covariance
-estimators are presented in <a class="reference internal" href="covariance.html#panel-module-reference-covariance"><span class="std std-ref">Panel Model Covariance Estimators</span></a>.</p>
-<p><a class="reference internal" href="examples/examples.html"><span class="std std-ref">Basic Examples</span></a> shows basic usage
-of the models using examples from Wooldridge&#8217;s text books.
-<a class="reference internal" href="examples/using-formulas.html"><span class="std std-ref">Using Formulas</span></a> shows how models
-can be specified using R-like formulas using patsy.
-<a class="reference internal" href="examples/data-formats.html"><span class="std std-ref">Data Formats</span></a> described the
-alternative formats that can be used when specifying models.</p>
-<p><a class="reference internal" href="mathematical-formula.html#panel-mathematical-notation"><span class="std std-ref">Formulas and Mathematical Detail</span></a> contains a concise explanation of the formulas
-used in estimating parameters, estimating covariances and conducting
-hypothesis tests.</p>
-<p><a class="reference internal" href="faq.html#panel-implementation-choices"><span class="std std-ref">Implementation Choices</span></a> describes some differences between the
-estimators in this package and other packages commonly used to estimate panel
-data models. Finally, <a class="reference internal" href="pandas.html#panel-pandas-differences"><span class="std std-ref">Comparison with pandas PanelOLS</span></a> describes important differences
-to the now deprecated <cite>PanelOLS</cite> that was in the <cite>pandas.stats.plm</cite> modules
-until release 0.20.</p>
+  <div class="section" id="module-reference">
+<span id="asset-pricing-module-reference"></span><h1>Module Reference<a class="headerlink" href="#module-reference" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/data-formats.html">Data Formats for Panel Data Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/using-formulas.html">Using formulas to specify models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pandas.html">Comparison with pandas PanelOLS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference.html">Module Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mathematical-formula.html">Formulas and Mathematical Detail</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">Implementation Choices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Linear Asset Pricing Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models.html#linear-factor-models-traded-or-non-traded-factors">Linear Factor Models (Traded or Non-traded Factors)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#linear-factor-models-traded-factors">Linear Factor Models (Traded Factors)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="results.html">Estimation Results</a></li>
 </ul>
 </div>
 </div>
@@ -176,11 +152,11 @@ until release 0.20.</p>
   <div class="footer-relations">
     
       <div class="pull-left">
-        <a class="btn btn-default" href="../iv/mathematical-formula.html" title="previous chapter (use the left arrow)">Formulas and Mathematical Detail</a>
+        <a class="btn btn-default" href="index.html" title="previous chapter (use the left arrow)">Linear Factor Models for Asset Pricing</a>
       </div>
     
       <div class="pull-right">
-        <a class="btn btn-default" href="introduction.html" title="next chapter (use the right arrow)">Introduction</a>
+        <a class="btn btn-default" href="models.html" title="next chapter (use the right arrow)">Linear Asset Pricing Models</a>
       </div>
     </div>
     <div class="clearer"></div>
@@ -198,12 +174,13 @@ until release 0.20.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="introduction.html" title="Introduction"
+          <a href="models.html" title="Linear Asset Pricing Models"
              >next</a> |</li>
         <li class="right" >
-          <a href="../iv/mathematical-formula.html" title="Formulas and Mathematical Detail"
+          <a href="index.html" title="Linear Factor Models for Asset Pricing"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+39.g052c6d2 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+39.g052c6d2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Linear Factor Models for Asset Pricing</a> &#187;</li> 
       </ul>
     </div>
 <script type="text/javascript">

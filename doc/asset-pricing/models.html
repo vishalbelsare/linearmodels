@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Linear Asset Pricing Models &#8212; linearmodels 2.0+37.g5ac55ea documentation</title>
+    <title>Linear Asset Pricing Models &#8212; linearmodels 2.0+39.g052c6d2 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+37.g5ac55ea',
+        VERSION:     '2.0+39.g052c6d2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -37,8 +37,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Utilities" href="../utility.html" />
-    <link rel="prev" title="Implementation Choices" href="../panel/faq.html" />
+    <link rel="next" title="Estimation Results" href="results.html" />
+    <link rel="prev" title="Module Reference" href="reference.html" />
   
   
    
@@ -57,12 +57,14 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../utility.html" title="Utilities"
+          <a href="results.html" title="Estimation Results"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../panel/faq.html" title="Implementation Choices"
+          <a href="reference.html" title="Module Reference"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+37.g5ac55ea documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+39.g052c6d2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Linear Factor Models for Asset Pricing</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="reference.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
     </div>
     <div class="container-wrapper">
@@ -73,7 +75,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+37, g5ac55ea)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+39, g052c6d2)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -86,9 +88,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../iv/index.html">Instrumental Variable Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../panel/index.html">Panel Data Model Estimation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Linear Asset Pricing Models</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#estimation">Estimation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#results">Results</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Linear Factor Models for Asset Pricing</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="reference.html">Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mathematical-formula.html">Formulas and Mathematical Detail</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utilities</a></li>
@@ -122,6 +124,10 @@
             <ol class="breadcrumb">
               <li><a href="../index.html">Docs</a></li>
               
+                <li><a href="index.html">Linear Factor Models for Asset Pricing</a></li>
+              
+                <li><a href="reference.html">Module Reference</a></li>
+              
               <li>Linear Asset Pricing Models</li>
             </ol>
           </div>
@@ -130,8 +136,8 @@
             
   <div class="section" id="module-linearmodels.asset_pricing.model">
 <span id="linear-asset-pricing-models"></span><span id="asset-pricing-module-reference-models"></span><h1>Linear Asset Pricing Models<a class="headerlink" href="#module-linearmodels.asset_pricing.model" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="estimation">
-<h2>Estimation<a class="headerlink" href="#estimation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="linear-factor-models-traded-or-non-traded-factors">
+<h2>Linear Factor Models (Traded or Non-traded Factors)<a class="headerlink" href="#linear-factor-models-traded-or-non-traded-factors" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.asset_pricing.model.LinearFactorModel">
 <em class="property">class </em><code class="descname">LinearFactorModel</code><span class="sig-paren">(</span><em>portfolios</em>, <em>factors</em>, <em>*</em>, <em>sigma=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/asset_pricing/model.html#LinearFactorModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.asset_pricing.model.LinearFactorModel" title="Permalink to this definition">¶</a></dt>
@@ -167,7 +173,7 @@ and is</p>
 \[\bar{r}_i^e = \hat{\beta}_i^\prime \lambda + \eta_i\]</div>
 <p>where <span class="math">\(\bar{r}_i^e\)</span> is the average excess return to portfolio i.</p>
 <p>The model is tested using the estimated values
-:math:<cite>hat{alpha}_i=hat{eta}_i</cite>.</p>
+<span class="math">\(\hat{\alpha}_i=\hat{\eta}_i\)</span>.</p>
 <dl class="method">
 <dt id="linearmodels.asset_pricing.model.LinearFactorModel.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><em>cov_type='robust'</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/asset_pricing/model.html#LinearFactorModel.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.asset_pricing.model.LinearFactorModel.fit" title="Permalink to this definition">¶</a></dt>
@@ -184,7 +190,7 @@ and is</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>results</strong> &#8211; Results class with parameter estimates, covariance and test statistics</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#linearmodels.asset_pricing.results.LinearFactorModelResults" title="linearmodels.asset_pricing.results.LinearFactorModelResults">LinearFactorModelResults</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="results.html#linearmodels.asset_pricing.results.LinearFactorModelResults" title="linearmodels.asset_pricing.results.LinearFactorModelResults">LinearFactorModelResults</a></p>
 </td>
 </tr>
 </tbody>
@@ -197,6 +203,9 @@ and <code class="docutils literal"><span class="pre">bandwidth</span></code> (a 
 
 </dd></dl>
 
+</div>
+<div class="section" id="linear-factor-models-traded-factors">
+<h2>Linear Factor Models (Traded Factors)<a class="headerlink" href="#linear-factor-models-traded-factors" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.asset_pricing.model.TradedFactorModel">
 <em class="property">class </em><code class="descname">TradedFactorModel</code><span class="sig-paren">(</span><em>portfolios</em>, <em>factors</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/asset_pricing/model.html#TradedFactorModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.asset_pricing.model.TradedFactorModel" title="Permalink to this definition">¶</a></dt>
@@ -221,7 +230,7 @@ and zero-alpha tests.</p>
 \[r_{it}^e = \alpha_i + f_t \beta_i + \epsilon_{it}\]</div>
 <p>where <span class="math">\(r_{it}^e\)</span> is the excess return on test portfolio i and
 <span class="math">\(f_t\)</span> are the traded factor returns.  The model is directly
-tested using the estimated values :math:<cite>hat{alpha}_i</cite>. Risk premia,
+tested using the estimated values <span class="math">\(\hat{\alpha}_i\)</span>. Risk premia,
 <span class="math">\(\lambda_i\)</span> are estimated using the sample averages of the factors,
 which must be excess returns on traded portfolios.</p>
 <dl class="method">
@@ -242,7 +251,7 @@ a degree of freedom adjustment</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>results</strong> &#8211; Results class with parameter estimates, covariance and test statistics</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#linearmodels.asset_pricing.results.LinearFactorModelResults" title="linearmodels.asset_pricing.results.LinearFactorModelResults">LinearFactorModelResults</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="results.html#linearmodels.asset_pricing.results.LinearFactorModelResults" title="linearmodels.asset_pricing.results.LinearFactorModelResults">LinearFactorModelResults</a></p>
 </td>
 </tr>
 </tbody>
@@ -261,136 +270,6 @@ and <code class="docutils literal"><span class="pre">bandwidth</span></code> (a 
 
 </dd></dl>
 
-<span class="target" id="module-linearmodels.asset_pricing.results"></span></div>
-<div class="section" id="results">
-<h2>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults">
-<em class="property">class </em><code class="descname">LinearFactorModelResults</code><span class="sig-paren">(</span><em>res</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/asset_pricing/results.html#LinearFactorModelResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.alphas">
-<code class="descname">alphas</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.alphas" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mispricing estimates</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.betas">
-<code class="descname">betas</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.betas" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimated factor loadings</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.cov">
-<code class="descname">cov</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.cov" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimated covariance of parameters</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.cov_estimator">
-<code class="descname">cov_estimator</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.cov_estimator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Type of covariance estimator used to compute covariance</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.full_summary">
-<code class="descname">full_summary</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.full_summary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Complete summary including factor loadings and mispricing measures</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.j_statistic">
-<code class="descname">j_statistic</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.j_statistic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Model J-statistic</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>j</strong> &#8211; Test statistic for null that model prices test portfolios</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>Joint test that all estimated <span class="math">\(\hat{\alpha}_i\)</span> are zero.
-Implemented using a Wald test using the estimated parameter
-covariance.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.name">
-<code class="descname">name</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Model type</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.nobs">
-<code class="descname">nobs</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.nobs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Number of observations</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.params">
-<code class="descname">params</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimated parameters</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.residual_ss">
-<code class="descname">residual_ss</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.residual_ss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Residual sum of squares</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.risk_premia">
-<code class="descname">risk_premia</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.risk_premia" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimated factor risk premia (lambda)</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.risk_premia_se">
-<code class="descname">risk_premia_se</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.risk_premia_se" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimated factor risk premia standard errors</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.risk_premia_tstats">
-<code class="descname">risk_premia_tstats</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.risk_premia_tstats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Risk premia t-statistics</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.rsquared">
-<code class="descname">rsquared</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.rsquared" title="Permalink to this definition">¶</a></dt>
-<dd><p>Coefficient of determination (R**2)</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.std_errors">
-<code class="descname">std_errors</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.std_errors" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimated parameter standard errors</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.summary">
-<code class="descname">summary</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.summary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Summary table of model estimation results</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.total_ss">
-<code class="descname">total_ss</code><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.total_ss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Total sum of squares</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="linearmodels.asset_pricing.results.LinearFactorModelResults.tstats">
-<code class="descname">tstats</code><a class="reference internal" href="../_modules/linearmodels/asset_pricing/results.html#LinearFactorModelResults.tstats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.asset_pricing.results.LinearFactorModelResults.tstats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parameter t-statistics</p>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 </div>
 
@@ -400,11 +279,11 @@ covariance.</p>
   <div class="footer-relations">
     
       <div class="pull-left">
-        <a class="btn btn-default" href="../panel/faq.html" title="previous chapter (use the left arrow)">Implementation Choices</a>
+        <a class="btn btn-default" href="reference.html" title="previous chapter (use the left arrow)">Module Reference</a>
       </div>
     
       <div class="pull-right">
-        <a class="btn btn-default" href="../utility.html" title="next chapter (use the right arrow)">Utilities</a>
+        <a class="btn btn-default" href="results.html" title="next chapter (use the right arrow)">Estimation Results</a>
       </div>
     </div>
     <div class="clearer"></div>
@@ -422,12 +301,14 @@ covariance.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../utility.html" title="Utilities"
+          <a href="results.html" title="Estimation Results"
              >next</a> |</li>
         <li class="right" >
-          <a href="../panel/faq.html" title="Implementation Choices"
+          <a href="reference.html" title="Module Reference"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+37.g5ac55ea documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+39.g052c6d2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Linear Factor Models for Asset Pricing</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="reference.html" >Module Reference</a> &#187;</li> 
       </ul>
     </div>
 <script type="text/javascript">
