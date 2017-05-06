@@ -566,7 +566,7 @@ Dep. Variable:               ldrugexp   R-squared:                      0.1770
 Estimator:                        OLS   Adj. R-squared:                 0.1765
 No. Observations:               10089   F-statistic:                    2262.6
 Date:                Sat, May 06 2017   P-value (F-stat)                0.0000
-Time:                        15:09:54   Distribution:                  chi2(6)
+Time:                        15:28:36   Distribution:                  chi2(6)
 Cov. Estimator:                robust
 
                               Parameter Estimates
@@ -614,7 +614,7 @@ Dep. Variable:               ldrugexp   R-squared:                      0.0640
 Estimator:                    IV-2SLS   Adj. R-squared:                 0.0634
 No. Observations:               10089   F-statistic:                    2000.9
 Date:                Sat, May 06 2017   P-value (F-stat)                0.0000
-Time:                        15:09:54   Distribution:                  chi2(6)
+Time:                        15:28:36   Distribution:                  chi2(6)
 Cov. Estimator:                robust
 
                               Parameter Estimates
@@ -746,8 +746,8 @@ output of the non-linear optimizer used to estimate the parameters.</p>
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 1.045365
          Iterations: 10
-         Function evaluations: 687
-         Gradient evaluations: 75
+         Function evaluations: 525
+         Gradient evaluations: 57
 </pre></div></div>
 </div>
 </div>
@@ -872,7 +872,7 @@ estimator either. T-stats are reported in parentheses.</p>
 <tr>
   <th></th>                           <td></td>              <td></td>            <td>multlc</td>        <td>multlc</td>        <td>multlc</td>          <td>multlc</td>         <td>multlc</td>
 </tr>
-</table><br/><br/>T-stats reported in parentheses<br/>id: 0x2b1946e99748</div>
+</table><br/><br/>T-stats reported in parentheses<br/>id: 0x2b4b5a9e11d0</div>
 </div>
 </div>
 <div class="section" id="Testing-endogeneity">
@@ -901,7 +901,7 @@ H0: All endogenous variables are exogenous
 Statistic: 25.2819
 P-value: 0.0000
 Distributed: chi2(1)
-WaldTestStatistic, id: 0x2b192428c160
+WaldTestStatistic, id: 0x2b4b59d3e278
 </pre></div>
 </div>
 </div>
@@ -928,7 +928,7 @@ H0: All endogenous variables are exogenous
 Statistic: 25.3253
 P-value: 0.0000
 Distributed: F(1,10081)
-WaldTestStatistic, id: 0x2b1946d466a0
+WaldTestStatistic, id: 0x2b4b5a2c8160
 </pre></div>
 </div>
 </div>
@@ -985,7 +985,7 @@ H0: Endogenous variables are exogenous
 Statistic: 26.4542
 P-value: 0.0000
 Distributed: chi2(1)
-WaldTestStatistic, id: 0x2b1946ff95f8
+WaldTestStatistic, id: 0x2b4b5a2b3dd8
 </pre></div>
 </div>
 </div>
@@ -1013,7 +1013,7 @@ H0: Endogenous variables are exogenous
 Statistic: 24.9350
 P-value: 0.0000
 Distributed: chi2(1)
-WaldTestStatistic, id: 0x2b1946d65a90
+WaldTestStatistic, id: 0x2b4b5aa68908
 </pre></div>
 </div>
 </div>
@@ -1044,7 +1044,7 @@ there is no evidence that against the null.</p>
 Statistic: 1.0475
 P-value: 0.3061
 Distributed: chi2(1)
-WaldTestStatistic, id: 0x2b1946ab8908
+WaldTestStatistic, id: 0x2b4b5a1d7320
 </pre></div>
 </div>
 </div>
@@ -1073,7 +1073,7 @@ endogenous.</p>
 Statistic: 11.5903
 P-value: 0.0089
 Distributed: chi2(3)
-WaldTestStatistic, id: 0x2b1946ff9438
+WaldTestStatistic, id: 0x2b4b5a2c3a90
 </pre></div>
 </div>
 </div>
@@ -1188,7 +1188,7 @@ endogenous regressor so that this is a weak instrument.</p>
 <tr>
   <th>Instruments</th>            <td>ssiratio</td>      <td>lowincome</td>      <td>multlc</td>        <td>firmsz</td>           <td></td>
 </tr>
-</table><br/><br/>T-stats reported in parentheses<br/>id: 0x2b1946ff3eb8</div>
+</table><br/><br/>T-stats reported in parentheses<br/>id: 0x2b4b5a2d0518</div>
 </div>
 <div class="section" id="First-Stage-Diagnostics">
 <h3>First Stage Diagnostics<a class="headerlink" href="#First-Stage-Diagnostics" title="Permalink to this headline">¶</a></h3>
@@ -1281,7 +1281,7 @@ squared t-stat.</p>
 <tr>
   <th></th>                            <td>(-8.1121)</td>
 </tr>
-</table><br/><br/>T-stats reported in parentheses<br/>T-stats use same covariance type as original model<br/>id: 0x2b1946fe9b00</div>
+</table><br/><br/>T-stats reported in parentheses<br/>T-stats use same covariance type as original model<br/>id: 0x2b4b5a2c3588</div>
 </div>
 <p>The F-statistic actually has a <span class="math">\(chi^2\)</span> distribution since it is
 just a Wald test that all of the coefficients are 0. This breaks the
@@ -1391,7 +1391,7 @@ number of instruments.</p>
 <tr>
   <th></th>                            <td>(1.9286)</td>
 </tr>
-</table><br/><br/>T-stats reported in parentheses<br/>T-stats use same covariance type as original model<br/>id: 0x2b19476abb00</div>
+</table><br/><br/>T-stats reported in parentheses<br/>T-stats use same covariance type as original model<br/>id: 0x2b4b5b0befd0</div>
 </div>
 </div>
 </div>
@@ -1503,7 +1503,7 @@ LIML are similar to 2SLS (they would be exact if <span class="math">\(\kappa=1\)
 <tr>
   <th></th>                        <td>multlc</td>        <td>multlc</td>        <td>multlc</td>
 </tr>
-</table><br/><br/>T-stats reported in parentheses<br/>id: 0x2b19476a70f0</div>
+</table><br/><br/>T-stats reported in parentheses<br/>id: 0x2b4b53c82d30</div>
 </div>
 <p>The estimated value of <span class="math">\(\kappa\)</span>.</p>
 <div class="nbinput docutils container">
