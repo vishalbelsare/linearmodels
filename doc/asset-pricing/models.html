@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Linear Asset Pricing Models &#8212; linearmodels 2.0+44.g1dedcfd documentation</title>
+    <title>Linear Asset Pricing Models &#8212; linearmodels 2.0+46.g8346e95 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+44.g1dedcfd',
+        VERSION:     '2.0+46.g8346e95',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="reference.html" title="Module Reference"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+44.g1dedcfd documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+46.g8346e95 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Linear Factor Models for Asset Pricing</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
@@ -75,7 +75,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+44, g1dedcfd)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+46, g8346e95)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -244,7 +244,7 @@ f_{t}-\mu
 usual GMM J statistic.</p>
 <dl class="method">
 <dt id="linearmodels.asset_pricing.model.LinearFactorModelGMM.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>excess_returns=True</em>, <em>steps=2</em>, <em>disp=10</em>, <em>max_iter=1000</em>, <em>cov_type='robust'</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/asset_pricing/model.html#LinearFactorModelGMM.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.asset_pricing.model.LinearFactorModelGMM.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>excess_returns=True</em>, <em>center=True</em>, <em>use_cue=False</em>, <em>steps=2</em>, <em>disp=10</em>, <em>max_iter=1000</em>, <em>cov_type='robust'</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/asset_pricing/model.html#LinearFactorModelGMM.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.asset_pricing.model.LinearFactorModelGMM.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -253,6 +253,9 @@ usual GMM J statistic.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>excess_returns</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether returns are excess or not.  If False, the
 risk-free rate is jointly estimated with the other risk premia.</li>
+<li><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating to center the moment ocnditions before computing
+the weighting matrix.</li>
+<li><strong>use_cue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating to use continuously updating estimator</li>
 <li><strong>steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) &#8211; Number of steps to use when estimating parameters.  2 corresponds
 to the standard efficient gmm estimator. Higher values will
 iterate until convergence or up to the number of steps given</li>
@@ -384,7 +387,7 @@ and <code class="docutils literal"><span class="pre">bandwidth</span></code> (a 
         <li class="right" >
           <a href="reference.html" title="Module Reference"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+44.g1dedcfd documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+46.g8346e95 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Linear Factor Models for Asset Pricing</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" >Module Reference</a> &#187;</li> 
       </ul>

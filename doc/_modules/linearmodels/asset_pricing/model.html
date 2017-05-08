@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.asset_pricing.model &#8212; linearmodels 2.0+44.g1dedcfd documentation</title>
+    <title>linearmodels.asset_pricing.model &#8212; linearmodels 2.0+46.g8346e95 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.0+44.g1dedcfd',
+        VERSION:     '2.0+46.g8346e95',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+44.g1dedcfd documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+46.g8346e95 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 2.0 (+44, g1dedcfd)</a>
+    ../../../index.html" class="text-logo">linearmodels 2.0 (+46, g8346e95)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -497,7 +497,7 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factors</span><span class="p">,</span> <span class="n">portfolios</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">LinearFactorModelGMM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="n">portfolios</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LinearFactorModelGMM.fit"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModelGMM.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">excess_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+<div class="viewcode-block" id="LinearFactorModelGMM.fit"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModelGMM.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">excess_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_cue</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
             <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate model parameters</span>
@@ -507,6 +507,11 @@
 <span class="sd">        excess_returns : bool, optional</span>
 <span class="sd">            Flag indicating whether returns are excess or not.  If False, the </span>
 <span class="sd">            risk-free rate is jointly estimated with the other risk premia.</span>
+<span class="sd">        center : bool, optional</span>
+<span class="sd">            Flag indicating to center the moment ocnditions before computing</span>
+<span class="sd">            the weighting matrix.</span>
+<span class="sd">        use_cue : bool, optional</span>
+<span class="sd">            Flag indicating to use continuously updating estimator</span>
 <span class="sd">        steps : int, optional</span>
 <span class="sd">            Number of steps to use when estimating parameters.  2 corresponds </span>
 <span class="sd">            to the standard efficient gmm estimator. Higher values will</span>
@@ -544,6 +549,7 @@
         <span class="n">mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">sv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">betas</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">mu</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span>
         <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moments</span><span class="p">(</span><span class="n">sv</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">-=</span> <span class="n">g</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="k">if</span> <span class="n">center</span> <span class="k">else</span> <span class="mi">0</span>
         <span class="c1"># TODO: allow different weights type</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">g</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">excess_returns</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
@@ -555,21 +561,30 @@
         <span class="n">params</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
         <span class="n">last_obj</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">fun</span>
         <span class="c1"># 3. Step 2 using step 1 estimates</span>
-        <span class="c1"># TODO: Add convergence criteria</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moments</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">)</span>
-            <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">g</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">excess_returns</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cue</span><span class="p">:</span>
+            <span class="c1"># TODO: Add convergence criteria</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moments</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">)</span>
+                <span class="n">g</span> <span class="o">-=</span> <span class="n">g</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="k">if</span> <span class="n">center</span> <span class="k">else</span> <span class="mi">0</span>
+                <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">g</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">excess_returns</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
 
-            <span class="c1"># 2. Step 1 using w = inv(s) from SV</span>
-            <span class="n">callback</span> <span class="o">=</span> <span class="n">callback_factory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_j</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="n">disp</span><span class="p">)</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_j</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span>
+                <span class="c1"># 2. Step 1 using w = inv(s) from SV</span>
+                <span class="n">callback</span> <span class="o">=</span> <span class="n">callback_factory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_j</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="n">disp</span><span class="p">)</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_j</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span>
+                               <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;disp&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">disp</span><span class="p">),</span> <span class="s1">&#39;maxiter&#39;</span><span class="p">:</span> <span class="n">max_iter</span><span class="p">})</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">fun</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">obj</span> <span class="o">-</span> <span class="n">last_obj</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">last_obj</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">excess_returns</span><span class="p">,</span> <span class="n">center</span><span class="p">)</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_cue</span>
+            <span class="n">callback</span> <span class="o">=</span> <span class="n">callback_factory</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="n">disp</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span>
                            <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;disp&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">disp</span><span class="p">),</span> <span class="s1">&#39;maxiter&#39;</span><span class="p">:</span> <span class="n">max_iter</span><span class="p">})</span>
             <span class="n">params</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
-            <span class="n">obj</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">fun</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">obj</span> <span class="o">-</span> <span class="n">last_obj</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">:</span>
-                <span class="k">break</span>
-            <span class="n">last_obj</span> <span class="o">=</span> <span class="n">obj</span>
 
         <span class="c1"># 4. Compute final S and G for inference</span>
         <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moments</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">)</span>
@@ -579,8 +594,8 @@
         <span class="n">full_vcv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">jac</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">@</span> <span class="n">jac</span><span class="p">)</span> <span class="o">/</span> <span class="n">nobs</span>
         <span class="n">rp</span> <span class="o">=</span> <span class="n">params</span><span class="p">[(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span><span class="p">):(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="n">nrf</span><span class="p">)]</span>
         <span class="n">rp_cov</span> <span class="o">=</span> <span class="n">full_vcv</span><span class="p">[(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span><span class="p">):(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="n">nrf</span><span class="p">),</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span><span class="p">):(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="n">nrf</span><span class="p">)]</span>
-        <span class="n">alphas</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">:(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)):(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="kc">None</span><span class="p">]</span>
-        <span class="n">alpha_vcv</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">:(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)):(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">:(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)):(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">/</span> <span class="n">nobs</span>  <span class="c1"># TODO: Fix this</span>
+        <span class="n">alphas</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">:(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)):(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">alpha_vcv</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">:(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)):(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">:(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)):(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">/</span> <span class="n">nobs</span>  <span class="c1"># TODO: Fix this</span>
         <span class="n">stat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
         <span class="n">jstat</span> <span class="o">=</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="s1">&#39;All alphas are 0&#39;</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;J-statistic&#39;</span><span class="p">)</span>
 
@@ -641,6 +656,16 @@
         <span class="n">gbar</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">nobs</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">gbar</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">w</span> <span class="o">@</span> <span class="n">gbar</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_j_cue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">,</span> <span class="n">center</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;CUE Objective function&quot;&quot;&quot;</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moments</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">)</span>
+        <span class="n">gbar</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">nobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">center</span><span class="p">:</span>
+            <span class="n">g</span> <span class="o">-=</span> <span class="n">gbar</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">g</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">nobs</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">gbar</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">w</span> <span class="o">@</span> <span class="n">gbar</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Jacobian matrix for inference&quot;&quot;&quot;</span>
         <span class="n">nobs</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">shape</span>
@@ -693,7 +718,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+44.g1dedcfd documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+46.g8346e95 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
