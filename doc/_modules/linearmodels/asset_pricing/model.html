@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.asset_pricing.model &#8212; linearmodels 2.0+47.g184f678 documentation</title>
+    <title>linearmodels.asset_pricing.model &#8212; linearmodels 2.0+49.g92bfeec documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.0+47.g184f678',
+        VERSION:     '2.0+49.g92bfeec',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+47.g184f678 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+49.g92bfeec documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 2.0 (+47, g184f678)</a>
+    ../../../index.html" class="text-logo">linearmodels 2.0 (+49, g92bfeec)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -122,12 +122,15 @@
   <h1>Source code for linearmodels.asset_pricing.model</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">pinv</span>
+<span class="kn">from</span> <span class="nn">patsy.highlevel</span> <span class="k">import</span> <span class="n">dmatrix</span>
+<span class="kn">from</span> <span class="nn">patsy.missing</span> <span class="k">import</span> <span class="n">NAAction</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">minimize</span>
 
-<span class="kn">from</span> <span class="nn">linearmodels.asset_pricing.results</span> <span class="k">import</span> <span class="n">LinearFactorModelResults</span><span class="p">,</span> <span class="n">GMMFactorModelResults</span>
+<span class="kn">from</span> <span class="nn">linearmodels.asset_pricing.results</span> <span class="k">import</span> <span class="n">GMMFactorModelResults</span><span class="p">,</span> <span class="n">LinearFactorModelResults</span>
 <span class="kn">from</span> <span class="nn">linearmodels.iv.covariance</span> <span class="k">import</span> <span class="n">KERNEL_LOOKUP</span><span class="p">,</span> <span class="n">_cov_kernel</span>
 <span class="kn">from</span> <span class="nn">linearmodels.iv.data</span> <span class="k">import</span> <span class="n">IVData</span>
-<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">AttrDict</span><span class="p">,</span> <span class="n">WaldTestStatistic</span>
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">minimize</span>
+<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">AttrDict</span><span class="p">,</span> <span class="n">WaldTestStatistic</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> <span class="n">matrix_rank</span><span class="p">,</span> \
+    <span class="n">missing_warning</span>
 
 
 <span class="k">def</span> <span class="nf">callback_factory</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -145,28 +148,28 @@
 
 <div class="viewcode-block" id="TradedFactorModel"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.TradedFactorModel">[docs]</a><span class="k">class</span> <span class="nc">TradedFactorModel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Linear factor models estimator applicable to traded factors</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    portfolios : array-like</span>
 <span class="sd">        Test portfolio returns (nobs by nportfolio)</span>
 <span class="sd">    factors : array-like</span>
-<span class="sd">        Priced factor returns (nobs by nfactor </span>
-<span class="sd">   </span>
+<span class="sd">        Priced factor returns (nobs by nfactor)</span>
+
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    Implements both time-series estimators of risk premia, factor loadings </span>
+<span class="sd">    Implements both time-series estimators of risk premia, factor loadings</span>
 <span class="sd">    and zero-alpha tests.</span>
-<span class="sd">    </span>
-<span class="sd">    The model estimated is </span>
-<span class="sd">    </span>
+
+<span class="sd">    The model estimated is</span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">    </span>
+
 <span class="sd">        r_{it}^e = \alpha_i + f_t \beta_i + \epsilon_{it}</span>
-<span class="sd">    </span>
-<span class="sd">    where :math:`r_{it}^e` is the excess return on test portfolio i and </span>
-<span class="sd">    :math:`f_t` are the traded factor returns.  The model is directly </span>
-<span class="sd">    tested using the estimated values :math:`\hat{\alpha}_i`. Risk premia, </span>
+
+<span class="sd">    where :math:`r_{it}^e` is the excess return on test portfolio i and</span>
+<span class="sd">    :math:`f_t` are the traded factor returns.  The model is directly</span>
+<span class="sd">    tested using the estimated values :math:`\hat{\alpha}_i`. Risk premia,</span>
 <span class="sd">    :math:`\lambda_i` are estimated using the sample averages of the factors,</span>
 <span class="sd">    which must be excess returns on traded portfolios.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -175,36 +178,129 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span> <span class="o">=</span> <span class="n">IVData</span><span class="p">(</span><span class="n">portfolios</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;portfolio&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">factors</span> <span class="o">=</span> <span class="n">IVData</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;factor&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_drop_missing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="p">)</span>
+        <span class="n">missing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[[</span><span class="n">dh</span><span class="o">.</span><span class="n">isnull</span> <span class="k">for</span> <span class="n">dh</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;All observations contain missing data. &#39;</span>
+                                 <span class="s1">&#39;Model cannot be estimated.&#39;</span><span class="p">)</span>
+            <span class="n">missing_warning</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">missing</span>
+
+    <span class="k">def</span> <span class="nf">_validate_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The number of observations in portfolios and &#39;</span>
+                             <span class="s1">&#39;factors is not the same.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_drop_missing</span><span class="p">()</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="k">if</span> <span class="n">has_constant</span><span class="p">(</span><span class="n">p</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;portfolios must not contains a constant or equivalent.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">has_constant</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;factors must not contain a constant or equivalent.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">matrix_rank</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Model cannot be estimated. factors do not have full column rank.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">matrix_rank</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Model cannot be estimated. portfolios do not have full column rank.&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">formula</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span>
+
+    <span class="nd">@formula</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">formula</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="TradedFactorModel.from_formula"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.TradedFactorModel.from_formula">[docs]</a>    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">portfolios</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        formula : str</span>
+<span class="sd">            Patsy formula modified for the syntax described in the notes</span>
+<span class="sd">        data : DataFrame</span>
+<span class="sd">            DataFrame containing the variables used in the formula</span>
+<span class="sd">        portfolios : array-like, optional</span>
+<span class="sd">            Portfolios to be used in the model</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        model : TradedFactorModel</span>
+<span class="sd">            Model instance</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The formula can be used in one of two ways.  The first specified only the</span>
+<span class="sd">        factors and uses the data provided in ``portfolios`` as the test portfolios.</span>
+<span class="sd">        The second specified the portfolio using ``+`` to separate the test portfolios</span>
+<span class="sd">        and ``~`` to separate the test portfolios from the factors.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.datasets import french</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.asset_pricing import TradedFactorModel</span>
+<span class="sd">        &gt;&gt;&gt; data = french.load()</span>
+<span class="sd">        &gt;&gt;&gt; formula = &#39;S1M1 + S1M5 + S3M1 + S3M5 + S5M1 S5M5 ~ MktRF + SMB + HML&#39;</span>
+<span class="sd">        &gt;&gt;&gt; mod = TradedFactorModel.from_formula(formula, data)</span>
+
+<span class="sd">        # Using only factors</span>
+<span class="sd">        &gt;&gt;&gt; portfolios = data[[&#39;S1M1&#39;, &#39;S1M5&#39;, &#39;S3M1&#39;, &#39;S3M5&#39;, &#39;S5M1&#39;, &#39;S5M5&#39;]]</span>
+<span class="sd">        &gt;&gt;&gt; formula = &#39;MktRF + SMB + HML&#39;</span>
+<span class="sd">        &gt;&gt;&gt; mod = TradedFactorModel.from_formula(formula, data)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">na_action</span> <span class="o">=</span> <span class="n">NAAction</span><span class="p">(</span><span class="n">on_NA</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">,</span> <span class="n">NA_types</span><span class="o">=</span><span class="p">[])</span>
+        <span class="n">orig_formula</span> <span class="o">=</span> <span class="n">formula</span>
+        <span class="k">if</span> <span class="n">portfolios</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">factors</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">formula</span> <span class="o">+</span> <span class="s1">&#39; + 0&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;dataframe&#39;</span><span class="p">,</span> <span class="n">NA_action</span><span class="o">=</span><span class="n">na_action</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
+            <span class="n">portfolios</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">formula</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; + 0&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+                                 <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;dataframe&#39;</span><span class="p">,</span> <span class="n">NA_action</span><span class="o">=</span><span class="n">na_action</span><span class="p">)</span>
+            <span class="n">factors</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">formula</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; + 0&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+                              <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;dataframe&#39;</span><span class="p">,</span> <span class="n">NA_action</span><span class="o">=</span><span class="n">na_action</span><span class="p">)</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">portfolios</span><span class="p">,</span> <span class="n">factors</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">orig_formula</span>
+        <span class="k">return</span> <span class="n">mod</span></div>
 
 <div class="viewcode-block" id="TradedFactorModel.fit"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.TradedFactorModel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate model parameters</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        cov_type : str, optional</span>
 <span class="sd">            Name of covariance estimator</span>
 <span class="sd">        debiased : bool, optional</span>
-<span class="sd">            Flag indicating whether to debias the covariance estimator using </span>
+<span class="sd">            Flag indicating whether to debias the covariance estimator using</span>
 <span class="sd">            a degree of freedom adjustment</span>
 <span class="sd">        **cov_config : dict</span>
 <span class="sd">            Additional covariance-specific options.  See Notes.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        results : LinearFactorModelResults</span>
 <span class="sd">            Results class with parameter estimates, covariance and test statistics</span>
-<span class="sd">        </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Supported covariance estiamtors are:</span>
-<span class="sd">        </span>
+<span class="sd">        Supported covariance estimators are:</span>
+
 <span class="sd">        * &#39;robust&#39; - Heteroskedasticity-robust covariance estimator</span>
-<span class="sd">        * &#39;kernel&#39; - Heteroskedasticity and Autocorrelation consistent (HAC) </span>
+<span class="sd">        * &#39;kernel&#39; - Heteroskedasticity and Autocorrelation consistent (HAC)</span>
 <span class="sd">          covariance estimator</span>
-<span class="sd">          </span>
-<span class="sd">        The kernel covariance estimator takes the optional arguments </span>
-<span class="sd">        ``kernel``, one of &#39;bartlett&#39;, &#39;parzen&#39; or &#39;qs&#39; (quadratic spectral) </span>
+
+<span class="sd">        The kernel covariance estimator takes the optional arguments</span>
+<span class="sd">        ``kernel``, one of &#39;bartlett&#39;, &#39;parzen&#39; or &#39;qs&#39; (quadratic spectral)</span>
 <span class="sd">        and ``bandwidth`` (a positive integer).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: Homoskedastic covariance</span>
@@ -281,63 +377,134 @@
 
 
 <div class="viewcode-block" id="LinearFactorModel"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModel">[docs]</a><span class="k">class</span> <span class="nc">LinearFactorModel</span><span class="p">(</span><span class="n">TradedFactorModel</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Linear factor model estimator </span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Linear factor model estimator</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    portfolios : array-like</span>
 <span class="sd">        Test portfolio returns (nobs by nportfolio)</span>
 <span class="sd">    factors : array-like</span>
-<span class="sd">        Priced factorreturns (nobs by nfactor </span>
+<span class="sd">        Priced factor returns (nobs by nfactor)</span>
+<span class="sd">    risk_free : bool, optional</span>
+<span class="sd">        Flag indicating whether the risk-free rate should be estimated</span>
+<span class="sd">        from returns along other risk premia.  If False, the returns are</span>
+<span class="sd">        assumed to be excess returns using the correct risk-free rate.</span>
 <span class="sd">    sigma : array-like, optional</span>
-<span class="sd">        Positive definite residual covariance (nportfolio by nportfolio) </span>
+<span class="sd">        Positive definite residual covariance (nportfolio by nportfolio)</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    GLS estimation using ``sigma`` has not been implemented</span>
-<span class="sd">    </span>
+
 <span class="sd">    Suitable for traded or non-traded factors.</span>
-<span class="sd">    </span>
-<span class="sd">    Implements a 2-step estimator of risk premia, factor loadings and model </span>
+
+<span class="sd">    Implements a 2-step estimator of risk premia, factor loadings and model</span>
 <span class="sd">    tests.</span>
-<span class="sd">    </span>
-<span class="sd">    The first stage model estimated is </span>
-<span class="sd">    </span>
+
+<span class="sd">    The first stage model estimated is</span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">    </span>
+
 <span class="sd">        r_{it}^e = a_i + f_t \beta_i + \epsilon_{it}</span>
-<span class="sd">    </span>
-<span class="sd">    where :math:`r_{it}^e` is the excess return on test portfolio i and </span>
+
+<span class="sd">    where :math:`r_{it}^e` is the excess return on test portfolio i and</span>
 <span class="sd">    :math:`f_t` are the traded factor returns.  The parameters :math:`a_i`</span>
 <span class="sd">    are required to allow non-traded to be tested, but are not economically</span>
 <span class="sd">    interesting.  These are not reported.</span>
-<span class="sd">      </span>
-<span class="sd">    The second stage model uses the estimated factor loadings from the first </span>
-<span class="sd">    and is </span>
-<span class="sd">    </span>
+
+<span class="sd">    The second stage model uses the estimated factor loadings from the first</span>
+<span class="sd">    and is</span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">    </span>
+
 <span class="sd">        \bar{r}_i^e = \hat{\beta}_i^\prime \lambda + \eta_i</span>
-<span class="sd">    </span>
-<span class="sd">    where :math:`\bar{r}_i^e` is the average excess return to portfolio i.    </span>
-<span class="sd">    </span>
-<span class="sd">    The model is tested using the estimated values </span>
-<span class="sd">    :math:`\hat{\alpha}_i=\hat{\eta}_i`.     </span>
+
+<span class="sd">    where :math:`\bar{r}_i^e` is the average excess return to portfolio i.</span>
+
+<span class="sd">    The model is tested using the estimated values</span>
+<span class="sd">    :math:`\hat{\alpha}_i=\hat{\eta}_i`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portfolios</span><span class="p">,</span> <span class="n">factors</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">LinearFactorModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">portfolios</span><span class="p">,</span> <span class="n">factors</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portfolios</span><span class="p">,</span> <span class="n">factors</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">risk_free</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sigma</span> <span class="o">=</span> <span class="n">sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_risk_free</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">risk_free</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LinearFactorModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">portfolios</span><span class="p">,</span> <span class="n">factors</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LinearFactorModel.fit"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">excess_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_validate_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LinearFactorModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">()</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="n">nrp</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_risk_free</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">nrp</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Must have more observations then factors&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">nrp</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The number of test portfolio must be at least as &#39;</span>
+                             <span class="s1">&#39;large as the number of risk premia, including the &#39;</span>
+                             <span class="s1">&#39;risk free rate if estimated.&#39;</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="LinearFactorModel.from_formula"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModel.from_formula">[docs]</a>    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">portfolios</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">risk_free</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Estimate model parameters</span>
-<span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        excess_returns : bool, optional</span>
-<span class="sd">            Flag indicating whether returns are excess or not.  If False, the </span>
-<span class="sd">            risk-free rate is jointly estimated with the other risk premia.</span>
+<span class="sd">        formula : str</span>
+<span class="sd">            Patsy formula modified for the syntax described in the notes</span>
+<span class="sd">        data : DataFrame</span>
+<span class="sd">            DataFrame containing the variables used in the formula</span>
+<span class="sd">        portfolios : array-like, optional</span>
+<span class="sd">            Portfolios to be used in the model. If provided, must use formula</span>
+<span class="sd">            syntax containing only factors.</span>
+<span class="sd">        risk_free : bool, optional</span>
+<span class="sd">            Flag indicating whether the risk-free rate should be estimated</span>
+<span class="sd">            from returns along other risk premia.  If False, the returns are</span>
+<span class="sd">            assumed to be excess returns using the correct risk-free rate.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        model : TradedFactorModel</span>
+<span class="sd">            Model instance</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The formula can be used in one of two ways.  The first specified only the</span>
+<span class="sd">        factors and uses the data provided in ``portfolios`` as the test portfolios.</span>
+<span class="sd">        The second specified the portfolio using ``+`` to separate the test portfolios</span>
+<span class="sd">        and ``~`` to separate the test portfolios from the factors.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.datasets import french</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.asset_pricing import LinearFactorModel</span>
+<span class="sd">        &gt;&gt;&gt; data = french.load()</span>
+<span class="sd">        &gt;&gt;&gt; formula = &#39;S1M1 + S1M5 + S3M1 + S3M5 + S5M1 S5M5 ~ MktRF + SMB + HML&#39;</span>
+<span class="sd">        &gt;&gt;&gt; mod = LinearFactorModel.from_formula(formula, data)</span>
+
+<span class="sd">        # Using only factors</span>
+<span class="sd">        &gt;&gt;&gt; portfolios = data[[&#39;S1M1&#39;, &#39;S1M5&#39;, &#39;S3M1&#39;, &#39;S3M5&#39;, &#39;S5M1&#39;, &#39;S5M5&#39;]]</span>
+<span class="sd">        &gt;&gt;&gt; formula = &#39;MktRF + SMB + HML&#39;</span>
+<span class="sd">        &gt;&gt;&gt; mod = LinearFactorModel.from_formula(formula, data)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">na_action</span> <span class="o">=</span> <span class="n">NAAction</span><span class="p">(</span><span class="n">on_NA</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">,</span> <span class="n">NA_types</span><span class="o">=</span><span class="p">[])</span>
+        <span class="n">orig_formula</span> <span class="o">=</span> <span class="n">formula</span>
+        <span class="k">if</span> <span class="n">portfolios</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">factors</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">formula</span> <span class="o">+</span> <span class="s1">&#39; + 0&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;dataframe&#39;</span><span class="p">,</span> <span class="n">NA_action</span><span class="o">=</span><span class="n">na_action</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
+            <span class="n">portfolios</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">formula</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; + 0&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+                                 <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;dataframe&#39;</span><span class="p">,</span> <span class="n">NA_action</span><span class="o">=</span><span class="n">na_action</span><span class="p">)</span>
+            <span class="n">factors</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">(</span><span class="n">formula</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; + 0&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+                              <span class="n">return_type</span><span class="o">=</span><span class="s1">&#39;dataframe&#39;</span><span class="p">,</span> <span class="n">NA_action</span><span class="o">=</span><span class="n">na_action</span><span class="p">)</span>
+
+        <span class="n">mod</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">portfolios</span><span class="p">,</span> <span class="n">factors</span><span class="p">,</span> <span class="n">risk_free</span><span class="o">=</span><span class="n">risk_free</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">orig_formula</span>
+        <span class="k">return</span> <span class="n">mod</span></div>
+
+<div class="viewcode-block" id="LinearFactorModel.fit"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate model parameters</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 <span class="sd">        cov_type : str, optional</span>
 <span class="sd">            Name of covariance estimator</span>
 <span class="sd">        **cov_config</span>
@@ -350,13 +517,13 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        The kernel covariance estimator takes the optional arguments </span>
-<span class="sd">        ``kernel``, one of &#39;bartlett&#39;, &#39;parzen&#39; or &#39;qs&#39; (quadratic spectral) </span>
+<span class="sd">        The kernel covariance estimator takes the optional arguments</span>
+<span class="sd">        ``kernel``, one of &#39;bartlett&#39;, &#39;parzen&#39; or &#39;qs&#39; (quadratic spectral)</span>
 <span class="sd">        and ``bandwidth`` (a positive integer).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: Kernel estimator</span>
         <span class="c1"># TODO: Refactor commonalities in estimation</span>
-        <span class="n">excess_returns</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">excess_returns</span><span class="p">)</span>
+        <span class="n">excess_returns</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_free</span>
         <span class="n">nrf</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="n">excess_returns</span><span class="p">)</span>
         <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">ndarray</span>
         <span class="n">nobs</span><span class="p">,</span> <span class="n">nfactor</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span>
@@ -394,7 +561,7 @@
         <span class="n">S</span> <span class="o">=</span> <span class="n">moments</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">moments</span> <span class="o">/</span> <span class="n">nobs</span>
         <span class="c1"># Jacobian</span>
         <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">nfactor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">nportfolio</span><span class="p">,</span>
+        <span class="n">s2</span> <span class="o">=</span> <span class="p">(</span><span class="n">nfactor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">nportfolio</span>
         <span class="n">s3</span> <span class="o">=</span> <span class="n">s2</span> <span class="o">+</span> <span class="p">(</span><span class="n">nfactor</span> <span class="o">+</span> <span class="n">nrf</span><span class="p">)</span>
         <span class="n">fpf</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">fc</span> <span class="o">/</span> <span class="n">nobs</span>
         <span class="n">G</span><span class="p">[:</span><span class="n">s2</span><span class="p">,</span> <span class="p">:</span><span class="n">s2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">nportfolio</span><span class="p">),</span> <span class="n">fpf</span><span class="p">)</span>
@@ -455,24 +622,28 @@
         <span class="k">return</span> <span class="n">LinearFactorModelResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="LinearFactorModelGMM"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModelGMM">[docs]</a><span class="k">class</span> <span class="nc">LinearFactorModelGMM</span><span class="p">(</span><span class="n">TradedFactorModel</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;GMM estimator of Linear factor models </span>
+<div class="viewcode-block" id="LinearFactorModelGMM"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModelGMM">[docs]</a><span class="k">class</span> <span class="nc">LinearFactorModelGMM</span><span class="p">(</span><span class="n">LinearFactorModel</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;GMM estimator of Linear factor models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    portfolios : array-like</span>
 <span class="sd">        Test portfolio returns (nobs by nportfolio)</span>
 <span class="sd">    factors : array-like</span>
-<span class="sd">        Priced factorreturns (nobs by nfactor </span>
+<span class="sd">        Priced factors values (nobs by nfactor)</span>
+<span class="sd">    risk_free : bool, optional</span>
+<span class="sd">        Flag indicating whether the risk-free rate should be estimated</span>
+<span class="sd">        from returns along other risk premia.  If False, the returns are</span>
+<span class="sd">        assumed to be excess returns using the correct risk-free rate.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    Suitable for traded or non-traded factors.</span>
 
-<span class="sd">    Implements a GMM estimator of risk premia, factor loadings and model </span>
+<span class="sd">    Implements a GMM estimator of risk premia, factor loadings and model</span>
 <span class="sd">    tests.</span>
 
-<span class="sd">    The moments are  </span>
+<span class="sd">    The moments are</span>
 
 <span class="sd">    .. math::</span>
 
@@ -480,44 +651,87 @@
 <span class="sd">        \epsilon_{t}\otimes\left[1\:f_{t}^{\prime}\right]^{\prime}\\</span>
 <span class="sd">        f_{t}-\mu</span>
 <span class="sd">        \end{array}\right]</span>
-<span class="sd">    </span>
+
 <span class="sd">    and</span>
-<span class="sd">    </span>
+
 <span class="sd">    .. math::</span>
-<span class="sd">    </span>
+
 <span class="sd">      \epsilon_{t}=r_{t}-\left[1_{N}\;\beta\right]\lambda-\beta\left(f_{t}-\mu\right)</span>
 
-<span class="sd">    where :math:`r_{it}^e` is the excess return on test portfolio i and </span>
-<span class="sd">    :math:`f_t` are the traded factor returns.  </span>
-<span class="sd">    </span>
-<span class="sd">    The model is tested using the optimized objective function using the </span>
+<span class="sd">    where :math:`r_{it}^e` is the excess return on test portfolio i and</span>
+<span class="sd">    :math:`f_t` are the traded factor returns.</span>
+
+<span class="sd">    The model is tested using the optimized objective function using the</span>
 <span class="sd">    usual GMM J statistic.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factors</span><span class="p">,</span> <span class="n">portfolios</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">LinearFactorModelGMM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="n">portfolios</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factors</span><span class="p">,</span> <span class="n">portfolios</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">risk_free</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LinearFactorModelGMM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="n">portfolios</span><span class="p">,</span> <span class="n">risk_free</span><span class="o">=</span><span class="n">risk_free</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LinearFactorModelGMM.fit"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModelGMM.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">excess_returns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_cue</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="LinearFactorModelGMM.from_formula"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModelGMM.from_formula">[docs]</a>    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">portfolios</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">risk_free</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        formula : str</span>
+<span class="sd">            Patsy formula modified for the syntax described in the notes</span>
+<span class="sd">        data : DataFrame</span>
+<span class="sd">            DataFrame containing the variables used in the formula</span>
+<span class="sd">        portfolios : array-like, optional</span>
+<span class="sd">            Portfolios to be used in the model. If provided, must use formula</span>
+<span class="sd">            syntax containing only factors.</span>
+<span class="sd">        risk_free : bool, optional</span>
+<span class="sd">            Flag indicating whether the risk-free rate should be estimated</span>
+<span class="sd">            from returns along other risk premia.  If False, the returns are</span>
+<span class="sd">            assumed to be excess returns using the correct risk-free rate.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        model : TradedFactorModel</span>
+<span class="sd">            Model instance</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The formula can be used in one of two ways.  The first specified only the</span>
+<span class="sd">        factors and uses the data provided in ``portfolios`` as the test portfolios.</span>
+<span class="sd">        The second specified the portfolio using ``+`` to separate the test portfolios</span>
+<span class="sd">        and ``~`` to separate the test portfolios from the factors.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.datasets import french</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.asset_pricing import LinearFactorModel</span>
+<span class="sd">        &gt;&gt;&gt; data = french.load()</span>
+<span class="sd">        &gt;&gt;&gt; formula = &#39;S1M1 + S1M5 + S3M1 + S3M5 + S5M1 S5M5 ~ MktRF + SMB + HML&#39;</span>
+<span class="sd">        &gt;&gt;&gt; mod = LinearFactorModel.from_formula(formula, data)</span>
+
+<span class="sd">        # Using only factors</span>
+<span class="sd">        &gt;&gt;&gt; portfolios = data[[&#39;S1M1&#39;, &#39;S1M5&#39;, &#39;S3M1&#39;, &#39;S3M5&#39;, &#39;S5M1&#39;, &#39;S5M5&#39;]]</span>
+<span class="sd">        &gt;&gt;&gt; formula = &#39;MktRF + SMB + HML&#39;</span>
+<span class="sd">        &gt;&gt;&gt; mod = LinearFactorModel.from_formula(formula, data)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">LinearFactorModelGMM</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+                                                             <span class="n">portfolios</span><span class="o">=</span><span class="n">portfolios</span><span class="p">,</span>
+                                                             <span class="n">risk_free</span><span class="o">=</span><span class="n">risk_free</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinearFactorModelGMM.fit"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModelGMM.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_cue</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
             <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate model parameters</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        excess_returns : bool, optional</span>
-<span class="sd">            Flag indicating whether returns are excess or not.  If False, the </span>
-<span class="sd">            risk-free rate is jointly estimated with the other risk premia.</span>
 <span class="sd">        center : bool, optional</span>
-<span class="sd">            Flag indicating to center the moment ocnditions before computing</span>
+<span class="sd">            Flag indicating to center the moment conditions before computing</span>
 <span class="sd">            the weighting matrix.</span>
 <span class="sd">        use_cue : bool, optional</span>
 <span class="sd">            Flag indicating to use continuously updating estimator</span>
 <span class="sd">        steps : int, optional</span>
-<span class="sd">            Number of steps to use when estimating parameters.  2 corresponds </span>
+<span class="sd">            Number of steps to use when estimating parameters.  2 corresponds</span>
 <span class="sd">            to the standard efficient gmm estimator. Higher values will</span>
 <span class="sd">            iterate until convergence or up to the number of steps given</span>
 <span class="sd">        disp : int, optional</span>
-<span class="sd">            Number of iterations between printed update. 0 or negative values </span>
+<span class="sd">            Number of iterations between printed update. 0 or negative values</span>
 <span class="sd">            suppress iterative output</span>
 <span class="sd">        max_iter : int, positive, optional</span>
 <span class="sd">            Maximum number of iterations when minimizing objective</span>
@@ -533,17 +747,18 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        The kernel covariance estimator takes the optional arguments </span>
-<span class="sd">        ``kernel``, one of &#39;bartlett&#39;, &#39;parzen&#39; or &#39;qs&#39; (quadratic spectral) </span>
+<span class="sd">        The kernel covariance estimator takes the optional arguments</span>
+<span class="sd">        ``kernel``, one of &#39;bartlett&#39;, &#39;parzen&#39; or &#39;qs&#39; (quadratic spectral)</span>
 <span class="sd">        and ``bandwidth`` (a positive integer).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">nobs</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">excess_returns</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_free</span>
         <span class="n">nrf</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">excess_returns</span><span class="p">))</span>
         <span class="c1"># 1. Starting Values - use 2 pass</span>
-        <span class="n">mod</span> <span class="o">=</span> <span class="n">LinearFactorModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">excess_returns</span><span class="o">=</span><span class="n">excess_returns</span><span class="p">)</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">LinearFactorModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="p">,</span> <span class="n">risk_free</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_risk_free</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
         <span class="n">betas</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">betas</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
         <span class="n">lam</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">risk_premia</span><span class="o">.</span><span class="n">values</span>
         <span class="n">mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -718,7 +933,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+47.g184f678 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+49.g92bfeec documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
