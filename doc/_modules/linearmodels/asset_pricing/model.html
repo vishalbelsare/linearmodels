@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.asset_pricing.model &#8212; linearmodels 2.0+51.gfaca43e documentation</title>
+    <title>linearmodels.asset_pricing.model &#8212; linearmodels 2.0+53.gdcde22d documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.0+51.gfaca43e',
+        VERSION:     '2.0+53.gdcde22d',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+51.gfaca43e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+53.gdcde22d documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 2.0 (+51, gfaca43e)</a>
+    ../../../index.html" class="text-logo">linearmodels 2.0 (+53, gdcde22d)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -127,7 +127,8 @@
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">minimize</span>
 
 <span class="kn">from</span> <span class="nn">linearmodels.asset_pricing.results</span> <span class="k">import</span> <span class="n">GMMFactorModelResults</span><span class="p">,</span> <span class="n">LinearFactorModelResults</span>
-<span class="kn">from</span> <span class="nn">linearmodels.iv.covariance</span> <span class="k">import</span> <span class="n">KERNEL_LOOKUP</span><span class="p">,</span> <span class="n">_cov_kernel</span>
+<span class="kn">from</span> <span class="nn">linearmodels.asset_pricing.covariance</span> <span class="k">import</span> <span class="n">HeteroskedasticCovariance</span><span class="p">,</span> <span class="n">KernelCovariance</span><span class="p">,</span> <span class="n">KernelWeight</span><span class="p">,</span> \
+    <span class="n">HeteroskedasticWeight</span>
 <span class="kn">from</span> <span class="nn">linearmodels.iv.data</span> <span class="k">import</span> <span class="n">IVData</span>
 <span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">AttrDict</span><span class="p">,</span> <span class="n">WaldTestStatistic</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> <span class="n">matrix_rank</span><span class="p">,</span> \
     <span class="n">missing_warning</span>
@@ -327,22 +328,23 @@
         <span class="n">xe</span> <span class="o">=</span> <span class="n">f_rep</span> <span class="o">*</span> <span class="n">eps_rep</span>
         <span class="n">xe</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xe</span><span class="p">,</span> <span class="n">fe</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">cov_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">):</span>
-            <span class="n">xeex</span> <span class="o">=</span> <span class="n">xe</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">xe</span> <span class="o">/</span> <span class="n">nobs</span>
-            <span class="n">rp_cov</span> <span class="o">=</span> <span class="n">fe</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">fe</span> <span class="o">/</span> <span class="n">nobs</span>
+            <span class="n">cov_est</span> <span class="o">=</span> <span class="n">HeteroskedasticCovariance</span><span class="p">(</span><span class="n">xe</span><span class="p">,</span> <span class="n">inv_jacobian</span><span class="o">=</span><span class="n">xpxi</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                <span class="n">debiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">fc</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">rp_cov_est</span> <span class="o">=</span> <span class="n">HeteroskedasticCovariance</span><span class="p">(</span><span class="n">fe</span><span class="p">,</span> <span class="n">jacobian</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                   <span class="n">debiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">cov_type</span> <span class="o">==</span> <span class="s1">&#39;kernel&#39;</span><span class="p">:</span>
-            <span class="n">kernel</span> <span class="o">=</span> <span class="n">cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;kernel&#39;</span><span class="p">,</span> <span class="s1">&#39;bartlett&#39;</span><span class="p">)</span>
-            <span class="n">bw</span> <span class="o">=</span> <span class="n">cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bandwidth&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="n">bw</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">9</span><span class="p">)))</span> <span class="k">if</span> <span class="n">bw</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">bw</span>
-            <span class="n">w</span> <span class="o">=</span> <span class="n">KERNEL_LOOKUP</span><span class="p">[</span><span class="n">kernel</span><span class="p">](</span><span class="n">bw</span><span class="p">,</span> <span class="n">nobs</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="n">xeex</span> <span class="o">=</span> <span class="n">_cov_kernel</span><span class="p">(</span><span class="n">xe</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
-            <span class="n">rp_cov</span> <span class="o">=</span> <span class="n">_cov_kernel</span><span class="p">(</span><span class="n">fe</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+            <span class="n">cov_est</span> <span class="o">=</span> <span class="n">KernelCovariance</span><span class="p">(</span><span class="n">xe</span><span class="p">,</span> <span class="n">inv_jacobian</span><span class="o">=</span><span class="n">xpxi</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">fc</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                       <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
+            <span class="n">bw</span> <span class="o">=</span> <span class="n">cov_est</span><span class="o">.</span><span class="n">bandwidth</span>
+            <span class="n">_cov_config</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cov_config</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="n">_cov_config</span><span class="p">[</span><span class="s1">&#39;bandwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bw</span>
+            <span class="n">rp_cov_est</span> <span class="o">=</span> <span class="n">KernelCovariance</span><span class="p">(</span><span class="n">fe</span><span class="p">,</span> <span class="n">jacobian</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                          <span class="n">debiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">_cov_config</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown cov_type: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cov_type</span><span class="p">))</span>
-        <span class="n">debiased</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="n">debiased</span><span class="p">))</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">full_vcv</span> <span class="o">=</span> <span class="n">xpxi</span> <span class="o">@</span> <span class="n">xeex</span> <span class="o">@</span> <span class="n">xpxi</span> <span class="o">/</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">debiased</span> <span class="o">*</span> <span class="n">df</span><span class="p">)</span>
+        <span class="n">full_vcv</span> <span class="o">=</span> <span class="n">cov_est</span><span class="o">.</span><span class="n">cov</span>
+        <span class="n">rp_cov</span> <span class="o">=</span> <span class="n">rp_cov_est</span><span class="o">.</span><span class="n">cov</span>
         <span class="n">vcv</span> <span class="o">=</span> <span class="n">full_vcv</span><span class="p">[:</span><span class="n">nloading</span><span class="p">,</span> <span class="p">:</span><span class="n">nloading</span><span class="p">]</span>
-        <span class="n">rp_cov</span> <span class="o">=</span> <span class="n">rp_cov</span> <span class="o">/</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">debiased</span><span class="p">)</span>
 
         <span class="c1"># Rearrange VCV</span>
         <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">((</span><span class="n">nfactor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">nportfolio</span><span class="p">),</span> <span class="p">(</span><span class="n">nportfolio</span><span class="p">,</span> <span class="n">nfactor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
@@ -462,7 +464,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        model : TradedFactorModel</span>
+<span class="sd">        model : LinearFactorModel</span>
 <span class="sd">            Model instance</span>
 
 <span class="sd">        Notes</span>
@@ -501,7 +503,7 @@
         <span class="n">mod</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">orig_formula</span>
         <span class="k">return</span> <span class="n">mod</span></div>
 
-<div class="viewcode-block" id="LinearFactorModel.fit"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
+<div class="viewcode-block" id="LinearFactorModel.fit"><a class="viewcode-back" href="../../../asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Estimate model parameters</span>
 
@@ -560,9 +562,8 @@
         <span class="n">alphas</span> <span class="o">=</span> <span class="n">pricing_errors</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
 
         <span class="n">moments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">f_rep</span> <span class="o">*</span> <span class="n">eps_rep</span><span class="p">,</span> <span class="n">pricing_errors</span> <span class="o">@</span> <span class="n">betas</span><span class="p">,</span> <span class="n">pricing_errors</span> <span class="o">-</span> <span class="n">alphas</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
-        <span class="n">S</span> <span class="o">=</span> <span class="n">moments</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">moments</span> <span class="o">/</span> <span class="n">nobs</span>
         <span class="c1"># Jacobian</span>
-        <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">moments</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">s2</span> <span class="o">=</span> <span class="p">(</span><span class="n">nfactor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">nportfolio</span>
         <span class="n">s3</span> <span class="o">=</span> <span class="n">s2</span> <span class="o">+</span> <span class="p">(</span><span class="n">nfactor</span> <span class="o">+</span> <span class="n">nrf</span><span class="p">)</span>
         <span class="n">fpf</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">fc</span> <span class="o">/</span> <span class="n">nobs</span>
@@ -580,9 +581,18 @@
             <span class="n">G</span><span class="p">[</span><span class="n">s2</span><span class="p">:</span><span class="n">s3</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="n">nfactor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)):((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nfactor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))]</span> <span class="o">=</span> <span class="n">block</span>
         <span class="n">zero_lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[[[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">lam</span><span class="p">]</span> <span class="k">if</span> <span class="n">excess_returns</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[[[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">lam</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
         <span class="n">G</span><span class="p">[</span><span class="n">s3</span><span class="p">:,</span> <span class="p">:</span><span class="n">s2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">nportfolio</span><span class="p">),</span> <span class="n">zero_lam</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-        <span class="n">Ginv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">cov_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">):</span>
+            <span class="n">cov_est</span> <span class="o">=</span> <span class="n">HeteroskedasticCovariance</span>
+        <span class="k">elif</span> <span class="n">cov_type</span> <span class="o">==</span> <span class="s1">&#39;kernel&#39;</span><span class="p">:</span>
+            <span class="n">cov_est</span> <span class="o">=</span> <span class="n">KernelCovariance</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown cov_type: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cov_type</span><span class="p">))</span>
+        <span class="n">cov_est</span> <span class="o">=</span> <span class="n">cov_est</span><span class="p">(</span><span class="n">moments</span><span class="p">,</span> <span class="n">jacobian</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                          <span class="n">debiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">fc</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
+
         <span class="c1"># VCV</span>
-        <span class="n">full_vcv</span> <span class="o">=</span> <span class="n">Ginv</span> <span class="o">@</span> <span class="n">S</span> <span class="o">@</span> <span class="n">Ginv</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">nobs</span>
+        <span class="n">full_vcv</span> <span class="o">=</span> <span class="n">cov_est</span><span class="o">.</span><span class="n">cov</span>
         <span class="n">alpha_vcv</span> <span class="o">=</span> <span class="n">full_vcv</span><span class="p">[</span><span class="n">s3</span><span class="p">:,</span> <span class="n">s3</span><span class="p">:]</span>
         <span class="n">stat</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">alphas</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">alpha_vcv</span><span class="p">)</span> <span class="o">@</span> <span class="n">alphas</span><span class="p">)</span>
         <span class="n">jstat</span> <span class="o">=</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="s1">&#39;All alphas are 0&#39;</span><span class="p">,</span> <span class="n">nportfolio</span> <span class="o">-</span> <span class="n">nfactor</span><span class="p">,</span>
@@ -689,7 +699,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        model : TradedFactorModel</span>
+<span class="sd">        model : LinearFactorModelGMM</span>
 <span class="sd">            Model instance</span>
 
 <span class="sd">        Notes</span>
@@ -769,7 +779,17 @@
         <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moments</span><span class="p">(</span><span class="n">sv</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">)</span>
         <span class="n">g</span> <span class="o">-=</span> <span class="n">g</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="k">if</span> <span class="n">center</span> <span class="k">else</span> <span class="mi">0</span>
         <span class="c1"># TODO: allow different weights type</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">g</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cov_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">,</span> <span class="s1">&#39;kernel&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown weight: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cov_type</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">cov_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="s1">&#39;heteroskedastic&#39;</span><span class="p">):</span>
+            <span class="n">weight_est</span> <span class="o">=</span> <span class="n">HeteroskedasticWeight</span>
+            <span class="n">cov_est</span> <span class="o">=</span> <span class="n">HeteroskedasticCovariance</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># &#39;kernel&#39;:</span>
+            <span class="n">weight_est</span> <span class="o">=</span> <span class="n">KernelWeight</span>
+            <span class="n">cov_est</span> <span class="o">=</span> <span class="n">KernelCovariance</span>
+        <span class="n">weight_est</span> <span class="o">=</span> <span class="n">weight_est</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">weight_est</span><span class="o">.</span><span class="n">w</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+
         <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">excess_returns</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
 
         <span class="c1"># 2. Step 1 using w = inv(s) from SV</span>
@@ -783,8 +803,7 @@
             <span class="c1"># TODO: Add convergence criteria</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
                 <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moments</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">)</span>
-                <span class="n">g</span> <span class="o">-=</span> <span class="n">g</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="k">if</span> <span class="n">center</span> <span class="k">else</span> <span class="mi">0</span>
-                <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">g</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span>
+                <span class="n">w</span> <span class="o">=</span> <span class="n">weight_est</span><span class="o">.</span><span class="n">w</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
                 <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">excess_returns</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
 
                 <span class="c1"># 2. Step 1 using w = inv(s) from SV</span>
@@ -797,7 +816,7 @@
                     <span class="k">break</span>
                 <span class="n">last_obj</span> <span class="o">=</span> <span class="n">obj</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">excess_returns</span><span class="p">,</span> <span class="n">center</span><span class="p">)</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">excess_returns</span><span class="p">,</span> <span class="n">weight_est</span><span class="p">)</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_cue</span>
             <span class="n">callback</span> <span class="o">=</span> <span class="n">callback_factory</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="n">disp</span><span class="p">)</span>
             <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span>
@@ -809,7 +828,10 @@
         <span class="n">s</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">g</span> <span class="o">/</span> <span class="n">nobs</span>
         <span class="n">jac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jacobian</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">)</span>
 
-        <span class="n">full_vcv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">jac</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">@</span> <span class="n">jac</span><span class="p">)</span> <span class="o">/</span> <span class="n">nobs</span>
+        <span class="n">cov_est</span> <span class="o">=</span> <span class="n">cov_est</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">jacobian</span><span class="o">=</span><span class="n">jac</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">,</span>
+                          <span class="n">df</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
+
+        <span class="n">full_vcv</span> <span class="o">=</span> <span class="n">cov_est</span><span class="o">.</span><span class="n">cov</span>
         <span class="n">rp</span> <span class="o">=</span> <span class="n">params</span><span class="p">[(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span><span class="p">):(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="n">nrf</span><span class="p">)]</span>
         <span class="n">rp_cov</span> <span class="o">=</span> <span class="n">full_vcv</span><span class="p">[(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span><span class="p">):(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="n">nrf</span><span class="p">),</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span><span class="p">):(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="n">nrf</span><span class="p">)]</span>
         <span class="n">alphas</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">:(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)):(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="kc">None</span><span class="p">]</span>
@@ -874,14 +896,12 @@
         <span class="n">gbar</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">nobs</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">gbar</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">w</span> <span class="o">@</span> <span class="n">gbar</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_j_cue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">,</span> <span class="n">center</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_j_cue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">,</span> <span class="n">weight_est</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;CUE Objective function&quot;&quot;&quot;</span>
         <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moments</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">)</span>
         <span class="n">gbar</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
         <span class="n">nobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">center</span><span class="p">:</span>
-            <span class="n">g</span> <span class="o">-=</span> <span class="n">gbar</span><span class="o">.</span><span class="n">T</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">g</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">weight_est</span><span class="o">.</span><span class="n">w</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">nobs</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">gbar</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">w</span> <span class="o">@</span> <span class="n">gbar</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">):</span>
@@ -936,7 +956,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+51.gfaca43e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+53.gdcde22d documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
