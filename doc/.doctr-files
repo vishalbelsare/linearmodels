@@ -10,6 +10,8 @@ doc/_modules/linearmodels/panel/data.html
 doc/_modules/linearmodels/panel/model.html
 doc/_modules/linearmodels/panel/results.html
 doc/_modules/linearmodels/utility.html
+doc/_sources/asset-pricing/examples/examples.ipynb.txt
+doc/_sources/asset-pricing/examples/formulas.ipynb.txt
 doc/_sources/asset-pricing/index.rst.txt
 doc/_sources/asset-pricing/mathematical-formula.rst.txt
 doc/_sources/asset-pricing/models.rst.txt
@@ -152,6 +154,8 @@ doc/_static/underscore.js
 doc/_static/up-pressed.png
 doc/_static/up.png
 doc/_static/websupport.js
+doc/asset-pricing/examples/examples.html
+doc/asset-pricing/examples/formulas.html
 doc/asset-pricing/index.html
 doc/asset-pricing/mathematical-formula.html
 doc/asset-pricing/models.html
