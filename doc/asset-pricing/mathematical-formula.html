@@ -1,7 +1,7 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Formulas and Mathematical Detail &#8212; linearmodels 2.0+56.gc2dd40e documentation</title>
+    <title>Formulas and Mathematical Detail &#8212; linearmodels 2.0+58.g9f531a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+56.gc2dd40e',
+        VERSION:     '2.0+58.g9f531a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="results.html" title="Estimation Results"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Linear Factor Models for Asset Pricing</a> &#187;</li> 
       </ul>
     </div>
@@ -74,7 +74,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+56, gc2dd40e)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+58, g9f531a1)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -236,6 +236,39 @@ rate is 0, all terms of the form <span class="math">\([1_{N}\;\beta]\)</span> be
 <p><span class="math">\(S\)</span> is an estimator of the scores and its form is identical to
 either the heteroskedasticity consistent estimator or the HAC estimator
 in the previous section.</p>
+<div class="section" id="improved-specification-using-gls">
+<h3>Improved Specification using GLS<a class="headerlink" href="#improved-specification-using-gls" title="Permalink to this headline">¶</a></h3>
+<p>TODO: Should <span class="math">\(\alpha\)</span> use GLS? Probably.</p>
+<div class="math">
+\[\begin{split}\left[\begin{array}{c}
+\epsilon_{t}\otimes\left[1\,f_{t}^{\prime}\right]^{\prime}\\
+f_{t}-\mu\\
+\beta^{\prime}\Sigma^{-1}\left(r_{t}-\lambda_{0}-\beta\left(f_{t}-\mu+\tilde{\lambda}\right)\right)\\
+r_{t}-\lambda_{0}-\beta\left(f_{t}-\mu+\tilde{\lambda}\right)-\alpha
+\end{array}\right]\end{split}\]</div>
+<p>The Jacobian is than</p>
+<div class="math">
+\[\begin{split}-\left[\begin{array}{cccc}
+I_{N}\otimes f_{c,t}f_{c,t}^{\prime} &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; I_{K} &amp; 0 &amp; 0\\
+G_{13} &amp; -\beta_{c}^{\prime}\Sigma^{-1}\beta &amp; \beta_{c}^{\prime}\Sigma^{-1}\beta_{c} &amp; 0\\
+I_{N}\otimes\left[0\ \left(f_{t}-\mu+\lambda\right)\right] &amp; -\beta &amp; \beta_{c} &amp; I_{N}
+\end{array}\right]\end{split}\]</div>
+<p><span class="math">\(\beta_{c}=\left[1_{N}\,\beta\right]\)</span>.
+<span class="math">\(\lambda=\left[\lambda_{1},\ldots,\lambda_{K}\right]\)</span> and so does
+not include <span class="math">\(\lambda_{0}\)</span>. The final piece has the structure</p>
+<div class="math">
+\[G_{31}=\left[G_{31,1}\ G_{31,2}\:\ldots\ G_{31,N}\right]\]</div>
+<div class="math">
+\[ \begin{align}\begin{aligned}\begin{split}  G_{31,i}=\left[0_{\left(K+1\right)}\;\tilde{\beta}_{c,i}^{\prime}\left(f_{t}-\mu+\lambda\right)^{\prime}-\left[\begin{array}{c}
+  0_{K}^{\prime}\\
+  \tilde{\epsilon}_{it}I_{K}
+  \end{array}\right]\right]\end{split}\\where :math:`\tilde{\beta}_{c,i}` is row :math:`i` of\end{aligned}\end{align} \]</div>
+<p><span class="math">\(\Sigma^{-1}\beta_{c}\)</span> and <span class="math">\(\tilde{\epsilon}_{it}\)</span> is the
+element in position <span class="math">\(i\)</span> of
+<span class="math">\(\tilde{\epsilon}_{t}=\Sigma^{-1}\left(r_{t}-\lambda_{0}-\beta\left(f_{t}-\mu+\tilde{\lambda}\right)\right)\)</span>.
+Each block has a 0 columns corresponding to <span class="math">\(c_{i}\)</span> and</p>
+</div>
 <div class="section" id="id1">
 <h3>The J statistic<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>The J statistic is virtually identical except that it has a difference
@@ -335,7 +368,7 @@ I_{N}\otimes\left(\lambda+f_{t}-\mu\right)f_{t} &amp; \left[\begin{array}{c}
         <li class="right" >
           <a href="results.html" title="Estimation Results"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Linear Factor Models for Asset Pricing</a> &#187;</li> 
       </ul>
     </div>

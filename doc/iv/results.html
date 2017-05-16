@@ -1,7 +1,7 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Estimation Results &#8212; linearmodels 2.0+56.gc2dd40e documentation</title>
+    <title>Estimation Results &#8212; linearmodels 2.0+58.g9f531a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+56.gc2dd40e',
+        VERSION:     '2.0+58.g9f531a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="methods.html" title="Estimation Methods"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Instrumental Variable Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
@@ -75,7 +75,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+56, gc2dd40e)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+58, g9f531a1)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -152,7 +152,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -170,12 +170,12 @@ indicate the model is not overidentified. The test statistic is</p>
 <dl class="attribute">
 <dt id="linearmodels.iv.results.IVResults.basmann">
 <code class="descname">basmann</code><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVResults.basmann"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVResults.basmann" title="Permalink to this definition">¶</a></dt>
-<dd><p>Basmann&#8217;s test of overidentifying restrictions</p>
+<dd><p>Basmann’s test of overidentifying restrictions</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -183,7 +183,7 @@ indicate the model is not overidentified. The test statistic is</p>
 </table>
 <p class="rubric">Notes</p>
 <p>Requires more instruments than endogenous variables</p>
-<p>Tests is a small-sample version of Sargan&#8217;s test that has the same
+<p>Tests is a small-sample version of Sargan’s test that has the same
 distribution.</p>
 <div class="math">
 \[s (n - n_{instr}) / (n - s) \sim \chi^2_{v}\]</div>
@@ -199,19 +199,19 @@ endogenous regressors.</p>
 <dl class="attribute">
 <dt id="linearmodels.iv.results.IVResults.basmann_f">
 <code class="descname">basmann_f</code><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVResults.basmann_f"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVResults.basmann_f" title="Permalink to this definition">¶</a></dt>
-<dd><p>Basmann&#8217;s F test of overidentifying restrictions</p>
+<dd><p>Basmann’s F test of overidentifying restrictions</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>Banmann&#8217;s F test examines whether the value of <span class="math">\(\kappa\)</span>
+<p>Banmann’s F test examines whether the value of <span class="math">\(\kappa\)</span>
 computed for the LIML estimator is sufficiently close to one to
 indicate the model is not overidentified. The test statistic is</p>
 <div class="math">
@@ -227,9 +227,9 @@ indicate the model is not overidentified. The test statistic is</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) &#8211; Confidence level for interval</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Confidence level for interval</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>ci</strong> &#8211; Confidence interval of the form [lower, upper] for each parameters</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>ci</strong> – Confidence interval of the form [lower, upper] for each parameters</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">DataFrame</td>
 </tr>
@@ -284,15 +284,15 @@ indicate the model is not overidentified. The test statistic is</p>
 <dl class="method">
 <dt id="linearmodels.iv.results.IVResults.durbin">
 <code class="descname">durbin</code><span class="sig-paren">(</span><em>vars=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVResults.durbin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVResults.durbin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Durbin&#8217;s test of exogeneity</p>
+<dd><p>Durbin’s test of exogeneity</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em></em><em>, </em><em>optional</em>) &#8211; List of variables to test for exogeneity.  If None, all variables
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em>, </em><em>optional</em>) – List of variables to test for exogeneity.  If None, all variables
 are jointly tested.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -326,7 +326,7 @@ matrix onto the exogenous variables and instruments (<cite>z</cite>) as well as
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>f</strong> &#8211; Test statistic for null all coefficients excluding constant terms
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>f</strong> – Test statistic for null all coefficients excluding constant terms
 are zero.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
@@ -350,7 +350,7 @@ estimator and so is robust against the same specification issues.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>first</strong> &#8211; Object containing results for diagnosing instrument relevance issues.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>first</strong> – Object containing results for diagnosing instrument relevance issues.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#linearmodels.iv.results.FirstStageResults" title="linearmodels.iv.results.FirstStageResults">FirstStageResults</a></td>
 </tr>
@@ -438,7 +438,7 @@ estimator and so is robust against the same specification issues.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -479,13 +479,13 @@ of instruments and the number of endogenous regressors.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>restriction</strong> (<em>{ndarray</em><em>, </em><em>DataFrame}</em>) &#8211; q by nvar array containing linear weights to apply to parameters
+<li><strong>restriction</strong> (<em>{ndarray</em><em>, </em><em>DataFrame}</em>) – q by nvar array containing linear weights to apply to parameters
 when formin the restrictions.</li>
-<li><strong>value</strong> (<em>{ndarray</em><em>, </em><em>Series}</em>) &#8211; q element array containing the restircted values</li>
+<li><strong>value</strong> (<em>{ndarray</em><em>, </em><em>Series}</em>) – q element array containing the restircted values</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>t</strong> &#8211; Test statistic for null that restrictions are valid.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>t</strong> – Test statistic for null that restrictions are valid.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></p>
@@ -514,19 +514,19 @@ has a <span class="math">\(\chi^2_q\)</span> distribution where q is the number 
 <dl class="attribute">
 <dt id="linearmodels.iv.results.IVResults.wooldridge_overid">
 <code class="descname">wooldridge_overid</code><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVResults.wooldridge_overid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVResults.wooldridge_overid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wooldridge&#8217;s score test of overidentification</p>
+<dd><p>Wooldridge’s score test of overidentification</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>Wooldridge&#8217;s test examines whether there is correlation between the
+<p>Wooldridge’s test examines whether there is correlation between the
 model residuals and the component of the instruments that is
 orthogonal to the endogenous variables. Define <span class="math">\(\tilde{z}\)</span>
 to be the residuals of the instruments regressed on the exogenous
@@ -543,19 +543,19 @@ variables.  The test is computed as a regression</p>
 <dl class="attribute">
 <dt id="linearmodels.iv.results.IVResults.wooldridge_regression">
 <code class="descname">wooldridge_regression</code><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVResults.wooldridge_regression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVResults.wooldridge_regression" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wooldridge&#8217;s regression test of exogeneity</p>
+<dd><p>Wooldridge’s regression test of exogeneity</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>Wooldridge&#8217;s test examines whether there is correlation between the
+<p>Wooldridge’s test examines whether there is correlation between the
 components of the endogenous variables that cannot be explained by
 the instruments and the OLS regression residuals.</p>
 <p>The test is implemented as an OLS where</p>
@@ -572,19 +572,19 @@ identical to the covariance estimator used with <code class="docutils literal"><
 <dl class="attribute">
 <dt id="linearmodels.iv.results.IVResults.wooldridge_score">
 <code class="descname">wooldridge_score</code><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVResults.wooldridge_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVResults.wooldridge_score" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wooldridge&#8217;s score test of exogeneity</p>
+<dd><p>Wooldridge’s score test of exogeneity</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>Wooldridge&#8217;s test examines whether there is correlation between the
+<p>Wooldridge’s test examines whether there is correlation between the
 errors produced when the endogenous variable are treated as
 exogenous so that the model can be fit by OLS, and the component of
 the endogenous variables that cannot be explained by the instruments.</p>
@@ -612,10 +612,10 @@ variable <span class="math">\(x_j\)</span> on the exogenous variables and instru
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em></em><em>, </em><em>optional</em>) &#8211; List of variables to test for exogeneity.  If None, all variables
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em>, </em><em>optional</em>) – List of variables to test for exogeneity.  If None, all variables
 are jointly tested.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -657,10 +657,10 @@ matrix onto the exogenous variables and instruments (<cite>z</cite>) as well as
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em></em><em>, </em><em>optional</em>) &#8211; List of variables to test for exogeneity.  If None, all variables
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em>, </em><em>optional</em>) – List of variables to test for exogeneity.  If None, all variables
 are jointly tested.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> &#8211; Object containing test statistic, p-value, distribution and null</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -699,9 +699,9 @@ tested.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) &#8211; Confidence level for interval</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Confidence level for interval</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>ci</strong> &#8211; Confidence interval of the form [lower, upper] for each parameters</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>ci</strong> – Confidence interval of the form [lower, upper] for each parameters</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">DataFrame</td>
 </tr>
@@ -761,7 +761,7 @@ tested.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>f</strong> &#8211; Test statistic for null all coefficients excluding constant terms
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>f</strong> – Test statistic for null all coefficients excluding constant terms
 are zero.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
@@ -785,7 +785,7 @@ estimator and so is robust against the same specification issues.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>first</strong> &#8211; Object containing results for diagnosing instrument relevance issues.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>first</strong> – Object containing results for diagnosing instrument relevance issues.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#linearmodels.iv.results.FirstStageResults" title="linearmodels.iv.results.FirstStageResults">FirstStageResults</a></td>
 </tr>
@@ -813,7 +813,7 @@ estimator and so is robust against the same specification issues.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>j</strong> &#8211; J statistic  test of overidentifying restrictions</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>j</strong> – J statistic  test of overidentifying restrictions</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
 </tr>
@@ -919,13 +919,13 @@ freedom is <span class="math">\(q = n_{instr} - n_{endog}\)</span>.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>restriction</strong> (<em>{ndarray</em><em>, </em><em>DataFrame}</em>) &#8211; q by nvar array containing linear weights to apply to parameters
+<li><strong>restriction</strong> (<em>{ndarray</em><em>, </em><em>DataFrame}</em>) – q by nvar array containing linear weights to apply to parameters
 when formin the restrictions.</li>
-<li><strong>value</strong> (<em>{ndarray</em><em>, </em><em>Series}</em>) &#8211; q element array containing the restircted values</li>
+<li><strong>value</strong> (<em>{ndarray</em><em>, </em><em>Series}</em>) – q element array containing the restircted values</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>t</strong> &#8211; Test statistic for null that restrictions are valid.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>t</strong> – Test statistic for null that restrictions are valid.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></p>
@@ -988,9 +988,9 @@ has a <span class="math">\(\chi^2_q\)</span> distribution where q is the number 
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) &#8211; Confidence level for interval</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Confidence level for interval</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>ci</strong> &#8211; Confidence interval of the form [lower, upper] for each parameters</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>ci</strong> – Confidence interval of the form [lower, upper] for each parameters</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">DataFrame</td>
 </tr>
@@ -1050,7 +1050,7 @@ has a <span class="math">\(\chi^2_q\)</span> distribution where q is the number 
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>f</strong> &#8211; Test statistic for null all coefficients excluding constant terms
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>f</strong> – Test statistic for null all coefficients excluding constant terms
 are zero.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></td>
@@ -1159,13 +1159,13 @@ estimator and so is robust against the same specification issues.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>restriction</strong> (<em>{ndarray</em><em>, </em><em>DataFrame}</em>) &#8211; q by nvar array containing linear weights to apply to parameters
+<li><strong>restriction</strong> (<em>{ndarray</em><em>, </em><em>DataFrame}</em>) – q by nvar array containing linear weights to apply to parameters
 when formin the restrictions.</li>
-<li><strong>value</strong> (<em>{ndarray</em><em>, </em><em>Series}</em>) &#8211; q element array containing the restircted values</li>
+<li><strong>value</strong> (<em>{ndarray</em><em>, </em><em>Series}</em>) – q element array containing the restircted values</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>t</strong> &#8211; Test statistic for null that restrictions are valid.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>t</strong> – Test statistic for null that restrictions are valid.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="../utility.html#linearmodels.utility.WaldTestStatistic" title="linearmodels.utility.WaldTestStatistic">WaldTestStatistic</a></p>
@@ -1207,7 +1207,7 @@ has a <span class="math">\(\chi^2_q\)</span> distribution where q is the number 
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>results</strong> (<em>{list</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, </em><em>OrderedDict}</em>) &#8211; Set of results to compare.  If a dict, the keys will be used as model
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>results</strong> (<em>{list</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, </em><em>OrderedDict}</em>) – Set of results to compare.  If a dict, the keys will be used as model
 names.  An OrderedDict will preserve the model order the comparisons.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>comparison</strong></td>
@@ -1226,7 +1226,7 @@ names.  An OrderedDict will preserve the model order the comparisons.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>results</strong> (<em>{list</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, </em><em>OrderedDict}</em>) &#8211; Set of results to compare.  If a dict, the keys will be used as model
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>results</strong> (<em>{list</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em>, </em><em>OrderedDict}</em>) – Set of results to compare.  If a dict, the keys will be used as model
 names.  An OrderedDict will preserve the model order the comparisons.</td>
 </tr>
 </tbody>
@@ -1305,7 +1305,7 @@ names.  An OrderedDict will preserve the model order the comparisons.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>res</strong> &#8211; DataFrame where each endogenous variable appears as a row and
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>res</strong> – DataFrame where each endogenous variable appears as a row and
 the columns contain alternative measures.  The columns are:<ul class="simple">
 <li>rsquared - R-squared from regression of endogenous on exogenous
 and instruments</li>
@@ -1320,7 +1320,7 @@ Wald test statistic with a chi2 distribution.</li>
 <li>f.pval - P-value of the test that all coefficients are zero
 in the model used to estimate the partial R-squared</li>
 <li>f.dist - Distribution of f.stat</li>
-<li>shea.rsquared - Shea&#8217;s r-squared which measures the correlation
+<li>shea.rsquared - Shea’s r-squared which measures the correlation
 between the projected and orthogonalized instrument on the
 orthogonalized endogenous regressor where the orthogonalization
 is with respect to the other included variables in the model.</li>
@@ -1341,7 +1341,7 @@ is with respect to the other included variables in the model.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>res</strong> &#8211; Dictionary containing first stage estimation results. Keys are
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>res</strong> – Dictionary containing first stage estimation results. Keys are
 the variable names of the endogenous regressors.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
@@ -1393,7 +1393,7 @@ the variable names of the endogenous regressors.</td>
         <li class="right" >
           <a href="methods.html" title="Estimation Methods"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Instrumental Variable Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" >Module Reference</a> &#187;</li> 
       </ul>

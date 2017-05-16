@@ -1,7 +1,7 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Introduction &#8212; linearmodels 2.0+56.gc2dd40e documentation</title>
+    <title>Introduction &#8212; linearmodels 2.0+58.g9f531a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+56.gc2dd40e',
+        VERSION:     '2.0+58.g9f531a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="index.html" title="Instrumental Variable Estimation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Instrumental Variable Estimation</a> &#187;</li> 
       </ul>
     </div>
@@ -74,7 +74,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+56, gc2dd40e)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+58, g9f531a1)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -234,7 +234,7 @@ specifying both <code class="docutils literal"><span class="pre">endog</span></c
 <h4>LIML Estimation<a class="headerlink" href="#liml-estimation" title="Permalink to this headline">¶</a></h4>
 <p>Two optional arguments can be used to alter the estimation method when using IVLIML</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">fuller</span></code> allows Fuller&#8217;s <span class="math">\(\alpha\)</span> to be specified, which provides a
+<li><code class="docutils literal"><span class="pre">fuller</span></code> allows Fuller’s <span class="math">\(\alpha\)</span> to be specified, which provides a
 finite sample correction to the usual LIML estimator.</li>
 <li><code class="docutils literal"><span class="pre">kappa</span></code> allows a user-specified value of <span class="math">\(\kappa\)</span> to be provided in
 which case the LIML estimated value of <span class="math">\(\kappa\)</span> is ignored.</li>
@@ -247,14 +247,14 @@ which case the LIML estimated value of <span class="math">\(\kappa\)</span> is i
 matrix to use in the GMM estimation proceedure.  There are four classes
 if weighting matrices available:</p>
 <ul class="simple">
-<li>&#8216;unadjusted&#8217; - Assumes the GMM moment conditions are homoskedastic. See
+<li>‘unadjusted’ - Assumes the GMM moment conditions are homoskedastic. See
 <a class="reference internal" href="gmm.html#linearmodels.iv.gmm.HomoskedasticWeightMatrix" title="linearmodels.iv.gmm.HomoskedasticWeightMatrix"><code class="xref py py-class docutils literal"><span class="pre">HomoskedasticWeightMatrix</span></code></a>.</li>
-<li>&#8216;robust&#8217; - Allows the GMM moment conditions to be heteroskedastic while
+<li>‘robust’ - Allows the GMM moment conditions to be heteroskedastic while
 assuming they are not correlated across observations. See
 <a class="reference internal" href="gmm.html#linearmodels.iv.gmm.HeteroskedasticWeightMatrix" title="linearmodels.iv.gmm.HeteroskedasticWeightMatrix"><code class="xref py py-class docutils literal"><span class="pre">HeteroskedasticWeightMatrix</span></code></a>.</li>
-<li>&#8216;kernel&#8217; - Allows for both heteroskedasticity and autocorrrelation in the
+<li>‘kernel’ - Allows for both heteroskedasticity and autocorrrelation in the
 moment conditions. See <a class="reference internal" href="gmm.html#linearmodels.iv.gmm.KernelWeightMatrix" title="linearmodels.iv.gmm.KernelWeightMatrix"><code class="xref py py-class docutils literal"><span class="pre">KernelWeightMatrix</span></code></a>.</li>
-<li>&#8216;cluster&#8217; - Allows for a one- and two-way cluster structure where moment
+<li>‘cluster’ - Allows for a one- and two-way cluster structure where moment
 conditions within a cluster are correlated.
 See <code class="xref py py-class docutils literal"><span class="pre">ClusteredWeightMatrix</span></code>.</li>
 </ul>
@@ -271,27 +271,27 @@ those for the corresponding covariance estimator.</p>
 opportunity to customize the parameter covariance estimator used to
 perform inference. Four classes of covariance estimators are available:</p>
 <ul>
-<li><p class="first">&#8216;unadjusted&#8217; - Assumes the model scores are homoskedastic. See
+<li><p class="first">‘unadjusted’ - Assumes the model scores are homoskedastic. See
 <a class="reference internal" href="covariance.html#linearmodels.iv.covariance.HomoskedasticCovariance" title="linearmodels.iv.covariance.HomoskedasticCovariance"><code class="xref py py-class docutils literal"><span class="pre">HomoskedasticCovariance</span></code></a>.</p>
 </li>
-<li><p class="first">&#8216;robust&#8217;, &#8216;heteroskedastic&#8217; - Allows the model scores to be heteroskedastic
+<li><p class="first">‘robust’, ‘heteroskedastic’ - Allows the model scores to be heteroskedastic
 while assuming they are not correlated across observations. See
 <a class="reference internal" href="covariance.html#linearmodels.iv.covariance.HeteroskedasticCovariance" title="linearmodels.iv.covariance.HeteroskedasticCovariance"><code class="xref py py-class docutils literal"><span class="pre">HeteroskedasticCovariance</span></code></a>.</p>
 </li>
-<li><p class="first">&#8216;kernel&#8217; - Allows for both heteroskedasticity and autocorrrelation in the
+<li><p class="first">‘kernel’ - Allows for both heteroskedasticity and autocorrrelation in the
 model scores. The estimator allows the <code class="docutils literal"><span class="pre">kernel</span></code> to be selected from</p>
 <ul class="simple">
-<li>&#8216;bartlett&#8217;, &#8216;newey-west` - Triangular kernel utilized in the common
+<li>‘bartlett’, ‘newey-west` - Triangular kernel utilized in the common
 Newey-West estimator.</li>
-<li>&#8216;parzen&#8217; - Parzen&#8217;s kernel.</li>
-<li>&#8216;qs&#8217;, &#8216;quadratic-spectral&#8217; - The quadratic spectral kernel studied by
+<li>‘parzen’ - Parzen’s kernel.</li>
+<li>‘qs’, ‘quadratic-spectral’ - The quadratic spectral kernel studied by
 Andrews.</li>
 </ul>
 <p>The <code class="docutils literal"><span class="pre">bandwidth</span></code> can also be specified.  If not provided, an estimate of
 the optimal value is used.</p>
 <p>See <a class="reference internal" href="covariance.html#linearmodels.iv.covariance.KernelCovariance" title="linearmodels.iv.covariance.KernelCovariance"><code class="xref py py-class docutils literal"><span class="pre">KernelCovariance</span></code></a>.</p>
 </li>
-<li><p class="first">&#8216;clustered&#8217;, &#8216;one-way&#8217; - Allows for a one-way cluster structure where model
+<li><p class="first">‘clustered’, ‘one-way’ - Allows for a one-way cluster structure where model
 scores within a cluster are correlated.
 See <a class="reference internal" href="covariance.html#linearmodels.iv.covariance.ClusteredCovariance" title="linearmodels.iv.covariance.ClusteredCovariance"><code class="xref py py-class docutils literal"><span class="pre">ClusteredCovariance</span></code></a>. Using
 clustered covariance requires passing an array containing information
@@ -360,7 +360,7 @@ whether iterative output is printed during estimation.</p>
         <li class="right" >
           <a href="index.html" title="Instrumental Variable Estimation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Instrumental Variable Estimation</a> &#187;</li> 
       </ul>
     </div>

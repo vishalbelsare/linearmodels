@@ -1,7 +1,7 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Examples &#8212; linearmodels 2.0+56.gc2dd40e documentation</title>
+    <title>Examples &#8212; linearmodels 2.0+58.g9f531a1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.0+56.gc2dd40e',
+        VERSION:     '2.0+58.g9f531a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="data-formats.html" title="Data Formats for Panel Data Analysis"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Panel Data Model Estimation</a> &#187;</li> 
       </ul>
     </div>
@@ -74,7 +74,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../index.html" class="text-logo">linearmodels 2.0 (+56, gc2dd40e)</a>
+    ../../index.html" class="text-logo">linearmodels 2.0 (+58, g9f531a1)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -309,8 +309,8 @@ document.</p>
 <div class="section" id="Loading-data">
 <h2>Loading data<a class="headerlink" href="#Loading-data" title="Permalink to this headline">¶</a></h2>
 <p>These examples all make use of the wage panel from</p>
-<p>F. Vella and M. Verbeek (1998), &#8220;Whose Wages Do Unions Raise? A Dynamic
-Model of Unionism and Wage Rate Determination for Young Men,&#8221; <em>Journal
+<p>F. Vella and M. Verbeek (1998), “Whose Wages Do Unions Raise? A Dynamic
+Model of Unionism and Wage Rate Determination for Young Men,” <em>Journal
 of Applied Econometrics</em> 13, 163-183.</p>
 <p>The data set consists of wages and characteristics for men during the
 1980s. The entity identifier is <code class="docutils literal"><span class="pre">nr</span></code> and the time identified is
@@ -335,6 +335,15 @@ that can be understood as a panel. Before setting the index, a year
 <span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/miniconda3/envs/linearmodels-test/lib/python3.5/site-packages/xarray/core/formatting.py:16: FutureWarning: The pandas.tslib module is deprecated and will be removed in a future version.
+  from pandas.tslib import OutOfBoundsDatetime
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -398,6 +407,15 @@ using all of the variables and time dummies.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/miniconda3/envs/linearmodels-test/lib/python3.5/site-packages/statsmodels/compat/pandas.py:56: FutureWarning: The pandas.core.datetools module is deprecated and will be removed in a future version. Please use the pandas.tseries module instead.
+  from pandas.core import datetools
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
@@ -408,8 +426,8 @@ using all of the variables and time dummies.</p>
 Dep. Variable:                  lwage   R-squared:                        0.1893
 Estimator:                  PooledOLS   R-squared (Between):              0.2066
 No. Observations:                4360   R-squared (Within):               0.1692
-Date:                Sun, May 14 2017   R-squared (Overall):              0.1893
-Time:                        15:39:15   Log-likelihood                   -2982.0
+Date:                Tue, May 16 2017   R-squared (Overall):              0.1893
+Time:                        14:23:59   Log-likelihood                   -2982.0
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      72.459
 Entities:                         545   P-value                           0.0000
@@ -486,8 +504,8 @@ the common shock.</p>
 Dep. Variable:                  lwage   R-squared:                        0.1806
 Estimator:              RandomEffects   R-squared (Between):              0.1853
 No. Observations:                4360   R-squared (Within):               0.1799
-Date:                Sun, May 14 2017   R-squared (Overall):              0.1828
-Time:                        15:39:17   Log-likelihood                   -1622.5
+Date:                Tue, May 16 2017   R-squared (Overall):              0.1828
+Time:                        14:24:00   Log-likelihood                   -1622.5
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      68.409
 Entities:                         545   P-value                           0.0000
@@ -575,6 +593,19 @@ all values are the same.</p>
 </div>
 <div class="output_area docutils container">
 <div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -647,8 +678,8 @@ models.</p>
 Dep. Variable:                  lwage   R-squared:                        0.2155
 Estimator:                 BetweenOLS   R-squared (Between):              0.2155
 No. Observations:                 545   R-squared (Within):               0.1141
-Date:                Sun, May 14 2017   R-squared (Overall):              0.1686
-Time:                        15:39:18   Log-likelihood                   -194.54
+Date:                Tue, May 16 2017   R-squared (Overall):              0.1686
+Time:                        14:24:00   Log-likelihood                   -194.54
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      24.633
 Entities:                         545   P-value                           0.0000
@@ -731,8 +762,8 @@ excluded since once entity effects and time dummies are incorporated,
 Dep. Variable:                  lwage   R-squared:                        0.1806
 Estimator:                   PanelOLS   R-squared (Between):             -0.0052
 No. Observations:                4360   R-squared (Within):               0.1806
-Date:                Sun, May 14 2017   R-squared (Overall):              0.0807
-Time:                        15:39:20   Log-likelihood                   -1324.8
+Date:                Tue, May 16 2017   R-squared (Overall):              0.0807
+Time:                        14:24:00   Log-likelihood                   -1324.8
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      83.851
 Entities:                         545   P-value                           0.0000
@@ -776,12 +807,12 @@ Included effects: Entity
 <p>Time effect can be added using <code class="docutils literal"><span class="pre">time_effects=True</span></code>. Here the time
 dummies are removed. Note that the core coefficients are identical. The
 only change is in the test statistic for poolability since not the
-&#8220;effects&#8221; include both entity and time, whereas before only entity were
+“effects” include both entity and time, whereas before only entity were
 included.</p>
 <div class="section" id="Effects-vs-Dummies">
 <h4>Effects vs Dummies<a class="headerlink" href="#Effects-vs-Dummies" title="Permalink to this headline">¶</a></h4>
 <p>For variable which can be consistently estimated, such as time effects
-in the usual large N, fixed T panel, it isn&#8217;t necessary to include these
+in the usual large N, fixed T panel, it isn’t necessary to include these
 as effects. They can instead be implemented as dummy variables.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -808,8 +839,8 @@ as effects. They can instead be implemented as dummy variables.</p>
 Dep. Variable:                  lwage   R-squared:                        0.0216
 Estimator:                   PanelOLS   R-squared (Between):             -0.0052
 No. Observations:                4360   R-squared (Within):              -0.4809
-Date:                Sun, May 14 2017   R-squared (Overall):             -0.2253
-Time:                        15:39:21   Log-likelihood                   -1324.8
+Date:                Tue, May 16 2017   R-squared (Overall):             -0.2253
+Time:                        14:24:00   Log-likelihood                   -1324.8
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      27.959
 Entities:                         545   P-value                           0.0000
@@ -844,7 +875,7 @@ Included effects: Entity, Time
 <h4>Other Options<a class="headerlink" href="#Other-Options" title="Permalink to this headline">¶</a></h4>
 <p>Some additional options are available when using <code class="docutils literal"><span class="pre">PanelOLS</span></code> and
 effects. The <code class="docutils literal"><span class="pre">use_lsdv</span></code> can be used to force the mdoel to be estimated
-using dummy variables. This isn&#8217;t necessary and will be slower in most
+using dummy variables. This isn’t necessary and will be slower in most
 circumstances. This options is primarily included for testing.
 <code class="docutils literal"><span class="pre">auto_df</span></code> instructs <code class="docutils literal"><span class="pre">PanelOLS</span></code> to determine the degree of freedom
 adjustment to make. Unlike most other estimators, the treatment of
@@ -888,8 +919,8 @@ interpretations of these variable can be challenging.</p>
 Dep. Variable:                  lwage   R-squared:                        0.0268
 Estimator:         FirstDifferenceOLS   R-squared (Between):              0.5491
 No. Observations:                3815   R-squared (Within):               0.1763
-Date:                Sun, May 14 2017   R-squared (Overall):              0.5328
-Time:                        15:39:22   Log-likelihood                   -2305.5
+Date:                Tue, May 16 2017   R-squared (Overall):              0.5328
+Time:                        14:24:00   Log-likelihood                   -2305.5
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      26.208
 Entities:                         545   P-value                           0.0000
@@ -991,7 +1022,7 @@ T-stats reported in parentheses
 <h2>Covariance options<a class="headerlink" href="#Covariance-options" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="Heteroskedasticity-Robust-Covariance">
 <h3>Heteroskedasticity Robust Covariance<a class="headerlink" href="#Heteroskedasticity-Robust-Covariance" title="Permalink to this headline">¶</a></h3>
-<p>White&#8217;s robust covariance can be used by setting <code class="docutils literal"><span class="pre">cov_type='robust</span></code>.
+<p>White’s robust covariance can be used by setting <code class="docutils literal"><span class="pre">cov_type='robust</span></code>.
 This estimator adds some robustness against certain types of
 specification issues but should not be used when using fixed effects
 (entity effects) since it is no longer robust. Instead a clustered
@@ -1142,8 +1173,8 @@ Name: occupation, dtype: int64
 Dep. Variable:                  lwage   R-squared:                        0.1866
 Estimator:                  PooledOLS   R-squared (Between):              0.2027
 No. Observations:                4360   R-squared (Within):               0.1679
-Date:                Sun, May 14 2017   R-squared (Overall):              0.1866
-Time:                        15:39:26   Log-likelihood                   -2989.2
+Date:                Tue, May 16 2017   R-squared (Overall):              0.1866
+Time:                        14:24:01   Log-likelihood                   -2989.2
 Cov. Estimator:             Clustered
                                         F-statistic:                      142.61
 Entities:                         545   P-value                           0.0000
@@ -1208,7 +1239,7 @@ union          0.1801     0.0320     5.6323     0.0000      0.1174      0.2428
         <li class="right" >
           <a href="data-formats.html" title="Data Formats for Panel Data Analysis"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Panel Data Model Estimation</a> &#187;</li> 
       </ul>
     </div>

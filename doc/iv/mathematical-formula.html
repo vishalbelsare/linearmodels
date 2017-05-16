@@ -1,7 +1,7 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Formulas and Mathematical Detail &#8212; linearmodels 2.0+56.gc2dd40e documentation</title>
+    <title>Formulas and Mathematical Detail &#8212; linearmodels 2.0+58.g9f531a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+56.gc2dd40e',
+        VERSION:     '2.0+58.g9f531a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="gmm.html" title="GMM Weight and Covariance Estimation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Instrumental Variable Estimation</a> &#187;</li> 
       </ul>
     </div>
@@ -74,7 +74,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+56, gc2dd40e)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+58, g9f531a1)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -181,20 +181,20 @@ projection matrix for <span class="math">\(Z\)</span> is similarly defined only 
 <p>The 2SLS estimator is</p>
 <div class="math">
 \[\begin{aligned}
-\hat{\beta}_{2SLS} &amp; =\left(X^{\prime}P_{Z}X\right)\left(X^{\prime}P_{Z}y\right)\end{aligned}\]</div>
+\hat{\beta}_{2SLS} &amp; =\left(X^{\prime}P_{Z}X\right)^{-1}\left(X^{\prime}P_{Z}y\right)\end{aligned}\]</div>
 </div>
 <div class="section" id="limited-information-maximum-likelihood-and-k-class-estimators">
 <h3>Limited Information Maximum Likelihood and k-class Estimators<a class="headerlink" href="#limited-information-maximum-likelihood-and-k-class-estimators" title="Permalink to this headline">¶</a></h3>
 <p>The LIML or other k-class estimator is</p>
 <div class="math">
 \[\begin{aligned}
-\hat{\beta}_{\kappa} &amp; =\left(X^{\prime}\left(I-\kappa M_{Z}\right)X\right)\left(X^{\prime}\left(I-\kappa M_{Z}\right)y\right)\end{aligned}\]</div>
+\hat{\beta}_{\kappa} &amp; =\left(X^{\prime}\left(I-\kappa M_{Z}\right)X\right)^{-1}\left(X^{\prime}\left(I-\kappa M_{Z}\right)y\right)\end{aligned}\]</div>
 <p>where <span class="math">\(\kappa\)</span> is the parameter of the class. When
 <span class="math">\(\kappa=1\)</span> the 2SLS estimator is recovered. When <span class="math">\(\kappa=0\)</span>,
 the OLS estimator is recovered. The LIML estimator is recovered when
 <span class="math">\(\kappa\)</span> set to</p>
 <div class="math">
-\[\hat{\kappa}=\min\mathrm{eig\left[\left(W^{\prime}M_{z}W\right)^{-\frac{1}{2}}\left(W^{\prime}M_{X_{1}}W\right)\left(W^{\prime}M_{z}W\right)^{-\frac{1}{2}}\right]}\]</div>
+\[\hat{\kappa}=\min\mathrm{eig\left[\left(W^{\prime}M_{Z}W\right)^{-\frac{1}{2}}\left(W^{\prime}M_{X_{1}}W\right)\left(W^{\prime}M_{Z}W\right)^{-\frac{1}{2}}\right]}\]</div>
 <p>where <span class="math">\(W=\left[y\:X_{2}\right]\)</span> and <span class="math">\(\mathrm{eig}\)</span> returns
 the eigenvalues.</p>
 </div>
@@ -279,10 +279,10 @@ in the heteroskedasticity robust covariance estimator is</p>
 autocorrelation and is defined as</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\hat{B} &amp; =\hat{\Gamma}_{0}+\sum_{i=1}^{n-1}k\left(i/h\right)\left(\hat{\Gamma}_{i}+\hat{\Gamma}_{i}^{\prime}\right)\\
+\hat{B} &amp; =\hat{\Gamma}_{0}+\sum_{i=1}^{n-1}K\left(\frac{i}{h}\right)\left(\hat{\Gamma}_{i}+\hat{\Gamma}_{i}^{\prime}\right)\\
 \hat{\Gamma_{j}} &amp; =n^{-1}\sum_{i=j+1}^{n}\hat{\xi}_{i-j}\hat{\xi}_{i}^{\prime}\end{aligned}\end{split}\]</div>
-<p>where <span class="math">\(k\left(i/h\right)\)</span> is a kernel weighting function where
-<span class="math">\(h\)</span> is the kernel bandwidth.</p>
+<p>where <span class="math">\(K\left(\frac{i}{h}\right)\)</span> is a kernel weighting function
+where <span class="math">\(h\)</span> is the kernel bandwidth.</p>
 <p>The one-way clustered covariance estimator is defined as</p>
 <div class="math">
 \[\begin{aligned}
@@ -349,11 +349,12 @@ number of rows in <span class="math">\(R\)</span> . If the debiased flag is used
 the assumed covariance of the scores. In most applications these are the
 same and so the inefficient form,</p>
 <div class="math">
-\[\hat{\Sigma}=n^{-1}\left(\frac{X'Z}{n}W^{-1}\frac{Z'X}{n}\right)^{-1}\left(\frac{X'Z}{n}W^{-1}SW^{-1}\frac{Z'X}{n}\right)\left(\frac{X'Z}{n}W^{-1}\frac{Z'X}{n}\right)^{-1}\]</div>
+\[\hat{\Sigma}=n^{-1}\left(\left(\frac{X'Z}{n}\right)W\left(\frac{Z'X}{n}\right)\right)^{-1}\left(\left(\frac{X'Z}{n}\right)WSW\left(\frac{Z'X}{n}\right)\right)\left(\left(\frac{X'Z}{n}\right)W\left(\frac{Z'X}{n}\right)\right)^{-1}\]</div>
 <p>will collapse to the simpler form</p>
 <div class="math">
-\[\hat{\Sigma}=n^{-1}\left(\frac{X'Z}{n}W^{-1}\frac{Z'X}{n}\right)^{-1}\]</div>
-<p>when <span class="math">\(W=S\)</span>. When an unadjusted (homoskedastic) covariance is used,</p>
+\[\hat{\Sigma}=n^{-1}\left(\left(\frac{X'Z}{n}\right)W\left(\frac{Z'X}{n}\right)\right)^{-1}\]</div>
+<p>when <span class="math">\(W=S^{-1}\)</span>. When an unadjusted (homoskedastic) covariance is
+used,</p>
 <div class="math">
 \[\hat{S}=\tilde{s}^{2}n^{-1}\sum_{j=1}^{n}z_{j}^{\prime}z_{j}\]</div>
 <p>where
@@ -480,7 +481,7 @@ excluding one category of dummy.</td></tr>
         <li class="right" >
           <a href="gmm.html" title="GMM Weight and Covariance Estimation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Instrumental Variable Estimation</a> &#187;</li> 
       </ul>
     </div>

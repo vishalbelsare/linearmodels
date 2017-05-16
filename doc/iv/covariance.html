@@ -1,7 +1,7 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Instrumental Variable Covariance Estimation &#8212; linearmodels 2.0+56.gc2dd40e documentation</title>
+    <title>Instrumental Variable Covariance Estimation &#8212; linearmodels 2.0+58.g9f531a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+56.gc2dd40e',
+        VERSION:     '2.0+58.g9f531a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="results.html" title="Estimation Results"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Instrumental Variable Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
@@ -75,7 +75,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+56, gc2dd40e)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+58, g9f531a1)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -149,12 +149,12 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x</strong> (<em>ndarray</em>) &#8211; Model regressors (nobs by nvar)</li>
-<li><strong>y</strong> (<em>ndarray</em>) &#8211; Series modeled (nobs by 1)</li>
-<li><strong>z</strong> (<em>ndarray</em>) &#8211; Instruments used for endogenous regressors (nobs by ninstr)</li>
-<li><strong>params</strong> (<em>ndarray</em>) &#8211; Estimated model parameters (nvar by 1)</li>
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to use a small-sample adjustment</li>
-<li><strong>kappa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) &#8211; Value of kappa in k-class estimator</li>
+<li><strong>x</strong> (<em>ndarray</em>) – Model regressors (nobs by nvar)</li>
+<li><strong>y</strong> (<em>ndarray</em>) – Series modeled (nobs by 1)</li>
+<li><strong>z</strong> (<em>ndarray</em>) – Instruments used for endogenous regressors (nobs by ninstr)</li>
+<li><strong>params</strong> (<em>ndarray</em>) – Estimated model parameters (nvar by 1)</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to use a small-sample adjustment</li>
+<li><strong>kappa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Value of kappa in k-class estimator</li>
 </ul>
 </td>
 </tr>
@@ -207,12 +207,12 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x</strong> (<em>ndarray</em>) &#8211; Model regressors (nobs by nvar)</li>
-<li><strong>y</strong> (<em>ndarray</em>) &#8211; Series ,modeled (nobs by 1)</li>
-<li><strong>z</strong> (<em>ndarray</em>) &#8211; Instruments used for endogenous regressors (nobs by ninstr)</li>
-<li><strong>params</strong> (<em>ndarray</em>) &#8211; Estimated model parameters (nvar by 1)</li>
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to use a small-sample adjustment</li>
-<li><strong>kappa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) &#8211; Value of kappa in k-class estimator</li>
+<li><strong>x</strong> (<em>ndarray</em>) – Model regressors (nobs by nvar)</li>
+<li><strong>y</strong> (<em>ndarray</em>) – Series ,modeled (nobs by 1)</li>
+<li><strong>z</strong> (<em>ndarray</em>) – Instruments used for endogenous regressors (nobs by ninstr)</li>
+<li><strong>params</strong> (<em>ndarray</em>) – Estimated model parameters (nvar by 1)</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to use a small-sample adjustment</li>
+<li><strong>kappa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Value of kappa in k-class estimator</li>
 </ul>
 </td>
 </tr>
@@ -267,14 +267,14 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x</strong> (<em>ndarray</em>) &#8211; Model regressors (nobs by nvar)</li>
-<li><strong>y</strong> (<em>ndarray</em>) &#8211; Series ,modeled (nobs by 1)</li>
-<li><strong>z</strong> (<em>ndarray</em>) &#8211; Instruments used for endogenous regressors (nobs by ninstr)</li>
-<li><strong>params</strong> (<em>ndarray</em>) &#8211; Estimated model parameters (nvar by 1)</li>
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to use a small-sample adjustment</li>
-<li><strong>clusters</strong> (<em>ndarray</em><em>, </em><em>optional</em>) &#8211; Cluster group assignment.  If not provided, uses clusters of 1.
+<li><strong>x</strong> (<em>ndarray</em>) – Model regressors (nobs by nvar)</li>
+<li><strong>y</strong> (<em>ndarray</em>) – Series ,modeled (nobs by 1)</li>
+<li><strong>z</strong> (<em>ndarray</em>) – Instruments used for endogenous regressors (nobs by ninstr)</li>
+<li><strong>params</strong> (<em>ndarray</em>) – Estimated model parameters (nvar by 1)</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to use a small-sample adjustment</li>
+<li><strong>clusters</strong> (<em>ndarray</em><em>, </em><em>optional</em>) – Cluster group assignment.  If not provided, uses clusters of 1.
 Either nobs by ncluster where ncluster is 1 or 2.</li>
-<li><strong>kappa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) &#8211; Value of kappa in k-class estimator</li>
+<li><strong>kappa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Value of kappa in k-class estimator</li>
 </ul>
 </td>
 </tr>
@@ -325,28 +325,28 @@ of groups..</p>
 
 <dl class="class">
 <dt id="linearmodels.iv.covariance.KernelCovariance">
-<em class="property">class </em><code class="descname">KernelCovariance</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em>, <em>params</em>, <em>kernel='bartlett'</em>, <em>bandwidth=None</em>, <em>debiased=False</em>, <em>kappa=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/covariance.html#KernelCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.covariance.KernelCovariance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">KernelCovariance</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em>, <em>params</em>, <em>kernel=’bartlett’</em>, <em>bandwidth=None</em>, <em>debiased=False</em>, <em>kappa=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/covariance.html#KernelCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.covariance.KernelCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Kernel weighted (HAC) covariance estimation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x</strong> (<em>ndarray</em>) &#8211; Model regressors (nobs by nvar)</li>
-<li><strong>y</strong> (<em>ndarray</em>) &#8211; Series ,modeled (nobs by 1)</li>
-<li><strong>z</strong> (<em>ndarray</em>) &#8211; Instruments used for endogenous regressors (nobs by ninstr)</li>
-<li><strong>params</strong> (<em>ndarray</em>) &#8211; Estimated model parameters (nvar by 1)</li>
-<li><strong>kernel</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; <p>Kernel name. Supported kernels are:</p>
+<li><strong>x</strong> (<em>ndarray</em>) – Model regressors (nobs by nvar)</li>
+<li><strong>y</strong> (<em>ndarray</em>) – Series ,modeled (nobs by 1)</li>
+<li><strong>z</strong> (<em>ndarray</em>) – Instruments used for endogenous regressors (nobs by ninstr)</li>
+<li><strong>params</strong> (<em>ndarray</em>) – Estimated model parameters (nvar by 1)</li>
+<li><strong>kernel</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>Kernel name. Supported kernels are:</p>
 <ul>
-<li>&#8216;bartlett&#8217;, &#8216;newey-west&#8217; - Triangular kernel</li>
-<li>&#8216;qs&#8217;, &#8216;quadratic-spectral&#8217;, &#8216;andrews&#8217; - Quadratic spectral kernel</li>
-<li>&#8216;parzen&#8217;, &#8216;gallant&#8217; - Parzen&#8217;s kernel;</li>
+<li>’bartlett’, ‘newey-west’ - Triangular kernel</li>
+<li>’qs’, ‘quadratic-spectral’, ‘andrews’ - Quadratic spectral kernel</li>
+<li>’parzen’, ‘gallant’ - Parzen’s kernel;</li>
 </ul>
 </li>
-<li><strong>bandwidth</strong> (<em>{int</em><em>, </em><em>None}</em>) &#8211; Non-negative bandwidth to use with kernel. If None, automatic
+<li><strong>bandwidth</strong> (<em>{int</em><em>, </em><em>None}</em>) – Non-negative bandwidth to use with kernel. If None, automatic
 bandwidth selection is used.</li>
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to use a small-sample adjustment</li>
-<li><strong>kappa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) &#8211; Value of kappa in k-class estimator</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to use a small-sample adjustment</li>
+<li><strong>kappa</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>optional</em>) – Value of kappa in k-class estimator</li>
 </ul>
 </td>
 </tr>
@@ -412,9 +412,9 @@ by n / (n-k).</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bw</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; Maximum lag to used in kernel</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bw</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Maximum lag to used in kernel</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>weights</strong> &#8211; Weight array  ordered by lag position (maxlag + 1)</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>weights</strong> – Weight array  ordered by lag position (maxlag + 1)</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
 </tr>
@@ -433,9 +433,9 @@ by n / (n-k).</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bw</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; Maximum lag to used in kernel</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bw</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Maximum lag to used in kernel</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>weights</strong> &#8211; Weight array  ordered by lag position (maxlag + 1)</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>weights</strong> – Weight array  ordered by lag position (maxlag + 1)</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
 </tr>
@@ -457,12 +457,12 @@ w_i &amp;  = 2(1-z_i)^3, z &gt; 0.5\end{split}\]</div>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>bw</strong> (<em>{int</em><em>, </em><em>float}</em>) &#8211; Maximum lag to used in kernel</li>
-<li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; Positive number of weight to return</li>
+<li><strong>bw</strong> (<em>{int</em><em>, </em><em>float}</em>) – Maximum lag to used in kernel</li>
+<li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Positive number of weight to return</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>weights</strong> &#8211; Weight array  ordered by lag position (maxlag + 1)</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>weights</strong> – Weight array  ordered by lag position (maxlag + 1)</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
@@ -516,7 +516,7 @@ w_i &amp;  = 3(\sin(z_i)/z_i - cos(z_i))/z_i^ 2, \, i \geq 1\end{split}\]</div>
         <li class="right" >
           <a href="results.html" title="Estimation Results"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Instrumental Variable Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" >Module Reference</a> &#187;</li> 
       </ul>

@@ -1,7 +1,7 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Panel Model Covariance Estimators &#8212; linearmodels 2.0+56.gc2dd40e documentation</title>
+    <title>Panel Model Covariance Estimators &#8212; linearmodels 2.0+58.g9f531a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+56.gc2dd40e',
+        VERSION:     '2.0+58.g9f531a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="results.html" title="Estimation Results"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Panel Data Model Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
@@ -75,7 +75,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+56, gc2dd40e)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+58, g9f531a1)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -153,12 +153,12 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>y</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of dependent</li>
-<li><strong>x</strong> (<em>ndarray</em>) &#8211; (entity x time) by variables stacked array of exogenous</li>
-<li><strong>params</strong> (<em>ndarray</em>) &#8211; variables by 1 array of estimated model parameters</li>
-<li><strong>time_ids</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of time ids</li>
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debias the estimator</li>
-<li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) &#8211; Additional degrees of freedom consumed by models beyond the number of
+<li><strong>y</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of dependent</li>
+<li><strong>x</strong> (<em>ndarray</em>) – (entity x time) by variables stacked array of exogenous</li>
+<li><strong>params</strong> (<em>ndarray</em>) – variables by 1 array of estimated model parameters</li>
+<li><strong>time_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of time ids</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the estimator</li>
+<li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Additional degrees of freedom consumed by models beyond the number of
 columns in x, e.g., fixed effects.  Covariance estimators are always
 adjusted for extra_df irrespective of the setting of debiased</li>
 </ul>
@@ -192,12 +192,12 @@ adjusted for extra_df irrespective of the setting of debiased</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>y</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of dependent</li>
-<li><strong>x</strong> (<em>ndarray</em>) &#8211; (entity x time) by variables stacked array of exogenous</li>
-<li><strong>params</strong> (<em>ndarray</em>) &#8211; variables by 1 array of estimated model parameters</li>
-<li><strong>time_ids</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of time ids</li>
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debias the estimator</li>
-<li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) &#8211; Additional degrees of freedom consumed by models beyond the number of
+<li><strong>y</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of dependent</li>
+<li><strong>x</strong> (<em>ndarray</em>) – (entity x time) by variables stacked array of exogenous</li>
+<li><strong>params</strong> (<em>ndarray</em>) – variables by 1 array of estimated model parameters</li>
+<li><strong>time_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of time ids</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the estimator</li>
+<li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Additional degrees of freedom consumed by models beyond the number of
 columns in x, e.g., fixed effects.  Covariance estimators are always
 adjusted for extra_df irrespective of the setting of debiased</li>
 </ul>
@@ -231,20 +231,20 @@ adjusted for extra_df irrespective of the setting of debiased</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>y</strong> (<em>ndarray</em>) &#8211; nobs by 1 stacked array of dependent</li>
-<li><strong>x</strong> (<em>ndarray</em>) &#8211; nobs by variables stacked array of exogenous</li>
-<li><strong>params</strong> (<em>ndarray</em>) &#8211; variables by 1 array of estimated model parameters</li>
-<li><strong>time_ids</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of time ids</li>
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debias the estimator</li>
-<li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) &#8211; Additional degrees of freedom consumed by models beyond the number of
+<li><strong>y</strong> (<em>ndarray</em>) – nobs by 1 stacked array of dependent</li>
+<li><strong>x</strong> (<em>ndarray</em>) – nobs by variables stacked array of exogenous</li>
+<li><strong>params</strong> (<em>ndarray</em>) – variables by 1 array of estimated model parameters</li>
+<li><strong>time_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of time ids</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the estimator</li>
+<li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Additional degrees of freedom consumed by models beyond the number of
 columns in x, e.g., fixed effects.  Covariance estimators are always
 adjusted for extra_df irrespective of the setting of debiased</li>
-<li><strong>clusters</strong> (<em>ndarray</em><em>, </em><em>optional</em>) &#8211; nobs by 1 or nobs by 2 array of cluster group ids</li>
-<li><strong>group_debias</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to apply small-number of groups adjustment</li>
+<li><strong>clusters</strong> (<em>ndarray</em><em>, </em><em>optional</em>) – nobs by 1 or nobs by 2 array of cluster group ids</li>
+<li><strong>group_debias</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to apply small-number of groups adjustment</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>cov</strong> &#8211; Estimated parameter covariance</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>cov</strong> – Estimated parameter covariance</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)">array</a></p>
@@ -278,23 +278,23 @@ observations.</p>
 <h2>Driscoll-Kraay HAC Estimator<a class="headerlink" href="#driscoll-kraay-hac-estimator" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.covariance.DriscollKraay">
-<em class="property">class </em><code class="descname">DriscollKraay</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em>, <em>kernel='newey-west'</em>, <em>bandwidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#DriscollKraay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.DriscollKraay" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">DriscollKraay</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em>, <em>kernel=’newey-west’</em>, <em>bandwidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#DriscollKraay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.DriscollKraay" title="Permalink to this definition">¶</a></dt>
 <dd><p>Driscoll-Kraay heteroskedasticity-autocorrelation robust covariance estimation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>y</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of dependent</li>
-<li><strong>x</strong> (<em>ndarray</em>) &#8211; (entity x time) by variables stacked array of exogenous</li>
-<li><strong>params</strong> (<em>ndarray</em>) &#8211; variables by 1 array of estimated model parameters</li>
-<li><strong>time_ids</strong> (<em>ndarray</em>) &#8211; (entity x time) by 1 stacked array of time ids</li>
-<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) &#8211; Flag indicating whether to debias the estimator</li>
-<li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) &#8211; Additional degrees of freedom consumed by models beyond the number of
+<li><strong>y</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of dependent</li>
+<li><strong>x</strong> (<em>ndarray</em>) – (entity x time) by variables stacked array of exogenous</li>
+<li><strong>params</strong> (<em>ndarray</em>) – variables by 1 array of estimated model parameters</li>
+<li><strong>time_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of time ids</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the estimator</li>
+<li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Additional degrees of freedom consumed by models beyond the number of
 columns in x, e.g., fixed effects.  Covariance estimators are always
 adjusted for extra_df irrespective of the setting of debiased</li>
-<li><strong>kernel</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>options</em>) &#8211; Name of one of the supported kernels</li>
-<li><strong>bandwidth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) &#8211; Non-negative integer to use as bandwidth.  If not provided a rule-of-
+<li><strong>kernel</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>options</em>) – Name of one of the supported kernels</li>
+<li><strong>bandwidth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Non-negative integer to use as bandwidth.  If not provided a rule-of-
 thumb value is used.</li>
 </ul>
 </td>
@@ -304,9 +304,9 @@ thumb value is used.</li>
 <p class="rubric">Notes</p>
 <p>Supported kernels:</p>
 <ul class="simple">
-<li>&#8216;bartlett&#8217;, &#8216;newey-west&#8217; - Bartlett&#8217;s kernel</li>
-<li>&#8216;quadratic-spectral&#8217;, &#8216;qs&#8217;, &#8216;andrews&#8217; - Quadratic-Spectral Kernel</li>
-<li>&#8216;parzen&#8217;, &#8216;gallant&#8217; - Parzen kernel</li>
+<li>‘bartlett’, ‘newey-west’ - Bartlett’s kernel</li>
+<li>‘quadratic-spectral’, ‘qs’, ‘andrews’ - Quadratic-Spectral Kernel</li>
+<li>‘parzen’, ‘gallant’ - Parzen kernel</li>
 </ul>
 <p>Bandwidth is set to the common value for the Bartlett kernel if not
 provided.</p>
@@ -362,7 +362,7 @@ provided.</p>
         <li class="right" >
           <a href="results.html" title="Estimation Results"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Panel Data Model Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" >Module Reference</a> &#187;</li> 
       </ul>

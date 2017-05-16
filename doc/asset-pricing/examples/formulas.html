@@ -1,7 +1,7 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Using Formulas &#8212; linearmodels 2.0+56.gc2dd40e documentation</title>
+    <title>Using Formulas &#8212; linearmodels 2.0+58.g9f531a1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.0+56.gc2dd40e',
+        VERSION:     '2.0+58.g9f531a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="container-wrapper">
@@ -65,7 +65,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../index.html" class="text-logo">linearmodels 2.0 (+56, gc2dd40e)</a>
+    ../../index.html" class="text-logo">linearmodels 2.0 (+58, g9f531a1)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -280,14 +280,43 @@ div.nboutput div.output_area.stderr {
 </style>
 <div class="section" id="Using-Formulas">
 <h1>Using Formulas<a class="headerlink" href="#Using-Formulas" title="Permalink to this headline">¶</a></h1>
+<p>The asset pricing model estimators all all formulas. Since the models
+have multiple depedent variables (test portfolios) as well as multiple
+independent variables (factors), the standard Patsy syntax needs to be
+modified. There are two methods to use formulas. The first specified
+both the test portfolio and the factors. The secondspecified only the
+factors and the test portfolios are passed using an optional keyword
+argument. The second syntax exists since in many models the number of
+test portfolios might be large and interest is usually in modifying the
+factors.</p>
+<div class="section" id="Test-Portfolios-and-Factors">
+<h2>Test Portfolios and Factors<a class="headerlink" href="#Test-Portfolios-and-Factors" title="Permalink to this headline">¶</a></h2>
+<p>The first syntax can be expressed as</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s1">&#39;port1 + port2 + port3 + port4 + ... + portN ~ factor1 + ... + factorK&#39;</span>
+</pre></div>
+</div>
+<p>so that both the test portfolios and the factors are separated using
+<code class="docutils literal"><span class="pre">+</span></code>. The two sets are separated using the usual separator between LFS
+and RHS variables, <code class="docutils literal"><span class="pre">~</span></code>.</p>
+</div>
+<div class="section" id="Factors-Only">
+<h2>Factors Only<a class="headerlink" href="#Factors-Only" title="Permalink to this headline">¶</a></h2>
+<p>The second syntax specifies only factors and uses the keyword argument
+<code class="docutils literal"><span class="pre">portfolios</span></code> to pass the matrix of portfolio returns.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;factor1 + ... + factorK&#39;</span>
+<span class="n">LinearFactorModel</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">portfolios</span><span class="o">=</span><span class="n">portfolios</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Import-data">
+<h2>Import data<a class="headerlink" href="#Import-data" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">linearmodels.asset_pricing</span> <span class="kn">import</span> <span class="n">LinearFactorModel</span>
-<span class="kn">from</span> <span class="nn">linearmodels.datasets</span> <span class="kn">import</span> <span class="n">french</span>
+<span></span><span class="kn">from</span> <span class="nn">linearmodels.datasets</span> <span class="kn">import</span> <span class="n">french</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">french</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 <span class="k">print</span><span class="p">(</span><span class="n">french</span><span class="o">.</span><span class="n">DESCR</span><span class="p">)</span>
 </pre></div>
@@ -341,13 +370,22 @@ S5M5     Large firms, winners
 
 </pre></div></div>
 </div>
+</div>
+<div class="section" id="First-Syntax">
+<h2>First Syntax<a class="headerlink" href="#First-Syntax" title="Permalink to this headline">¶</a></h2>
+<p>This example shows the first syntax. The test portfolios are a
+combination of the industry, size-value, and size-momentum sorted
+portfolios. The factors are the market, value and momentum factors. This
+model is not adequate to price the assets.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;NoDur + Chems + S1V1 + S5V5 + S1M1 + S5M5 ~ MktRF + HML + Mom&#39;</span>
+<span></span><span class="kn">from</span> <span class="nn">linearmodels.asset_pricing</span> <span class="kn">import</span> <span class="n">LinearFactorModel</span><span class="p">,</span> <span class="n">TradedFactorModel</span>
+
+<span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;NoDur + Chems + S1V1 + S5V5 + S1M1 + S5M5 ~ MktRF + HML + Mom&#39;</span>
 <span class="n">mod</span> <span class="o">=</span> <span class="n">LinearFactorModel</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 <span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;kernel&#39;</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;parzen&#39;</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
@@ -364,8 +402,8 @@ S5M5     Large firms, winners
 No. Test Portfolios:                  6   R-squared:                      0.7198
 No. Factors:                          3   J-statistic:                    16.682
 No. Observations:                   819   P-value                         0.0008
-Date:                  Sun, May 14 2017   Distribution:                  chi2(3)
-Time:                          15:38:24
+Date:                  Thu, May 11 2017   Distribution:                  chi2(3)
+Time:                          17:42:42
 Cov. Estimator:                  kernel
 
                             Risk Premia Estimates
@@ -380,13 +418,17 @@ Mom            0.0088     0.0020     4.4517     0.0000      0.0049      0.0127
 See full_summary for complete results
 </pre></div></div>
 </div>
+</div>
+<div class="section" id="Second-Syntax">
+<h2>Second Syntax<a class="headerlink" href="#Second-Syntax" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">ports</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S{0}V{1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)]</span>
+<span class="n">ports</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;S{0}M{1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)]</span>
 <span class="n">portfolios</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ports</span><span class="p">]</span>
 <span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;MktRF + HML + Mom&#39;</span>
 <span class="n">mod</span> <span class="o">=</span> <span class="n">LinearFactorModel</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">portfolios</span><span class="o">=</span><span class="n">portfolios</span><span class="p">)</span>
@@ -402,33 +444,35 @@ See full_summary for complete results
 <div class="highlight"><pre>
                       LinearFactorModel Estimation Summary
 ================================================================================
-No. Test Portfolios:                  9   R-squared:                      0.7473
-No. Factors:                          3   J-statistic:                    5.8056
-No. Observations:                   819   P-value                         0.4453
-Date:                  Sun, May 14 2017   Distribution:                  chi2(6)
-Time:                          15:38:24
+No. Test Portfolios:                 18   R-squared:                      0.7691
+No. Factors:                          3   J-statistic:                    93.053
+No. Observations:                   819   P-value                         0.0000
+Date:                  Thu, May 11 2017   Distribution:                 chi2(15)
+Time:                          17:01:49
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
 ==============================================================================
             Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
 ------------------------------------------------------------------------------
-MktRF          0.0115     0.0017     6.8304     0.0000      0.0082      0.0148
-HML            0.0043     0.0013     3.4043     0.0007      0.0018      0.0068
-Mom            0.0478     0.0359     1.3294     0.1837     -0.0226      0.1182
+MktRF          0.0102     0.0017     6.0705     0.0000      0.0069      0.0134
+HML            0.0048     0.0010     4.6714     0.0000      0.0028      0.0068
+Mom            0.0085     0.0014     5.9594     0.0000      0.0057      0.0113
 ==============================================================================
 
 See full_summary for complete results
 </pre></div></div>
 </div>
+</div>
+<div class="section" id="Comparing-results">
+<h2>Comparing results<a class="headerlink" href="#Comparing-results" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">ports</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;S{0}M{1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)]</span>
-<span class="n">portfolios</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ports</span><span class="p">]</span>
+<span></span><span class="n">portfolios</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ports</span><span class="p">]</span>
 <span class="n">factors</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;MktRF&#39;</span><span class="p">,</span> <span class="s1">&#39;HML&#39;</span><span class="p">,</span> <span class="s1">&#39;Mom&#39;</span><span class="p">]]</span>
 <span class="n">mod</span> <span class="o">=</span> <span class="n">LinearFactorModel</span><span class="p">(</span><span class="n">portfolios</span><span class="p">,</span> <span class="n">factors</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">())</span>
@@ -445,8 +489,8 @@ See full_summary for complete results
 No. Test Portfolios:                 18   R-squared:                      0.7691
 No. Factors:                          3   J-statistic:                    93.053
 No. Observations:                   819   P-value                         0.0000
-Date:                  Sun, May 14 2017   Distribution:                 chi2(15)
-Time:                          15:38:24
+Date:                  Thu, May 11 2017   Distribution:                 chi2(15)
+Time:                          17:01:55
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -460,6 +504,7 @@ Mom            0.0085     0.0014     5.9594     0.0000      0.0057      0.0113
 
 See full_summary for complete results
 </pre></div></div>
+</div>
 </div>
 </div>
 
@@ -478,7 +523,7 @@ See full_summary for complete results
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+56.gc2dd40e documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+58.g9f531a1 documentation</a> &#187;</li> 
       </ul>
     </div>
 <script type="text/javascript">
