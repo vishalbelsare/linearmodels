@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Panel Model Covariance Estimators &#8212; linearmodels 2.0+65.g6df08b0 documentation</title>
+    <title>Panel Model Covariance Estimators &#8212; linearmodels 2.0+67.gf13e7a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+65.g6df08b0',
+        VERSION:     '2.0+67.gf13e7a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="results.html" title="Estimation Results"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+65.g6df08b0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+67.gf13e7a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Panel Data Model Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
@@ -75,7 +75,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+65, g6df08b0)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+67, gf13e7a1)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -146,7 +146,7 @@
 <h2>Classic covariance estimator<a class="headerlink" href="#classic-covariance-estimator" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.covariance.HomoskedasticCovariance">
-<em class="property">class </em><code class="descname">HomoskedasticCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HomoskedasticCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HomoskedasticCovariance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">HomoskedasticCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>entity_ids</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HomoskedasticCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HomoskedasticCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Homoskedastic covariance estimation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -156,6 +156,7 @@
 <li><strong>y</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of dependent</li>
 <li><strong>x</strong> (<em>ndarray</em>) – (entity x time) by variables stacked array of exogenous</li>
 <li><strong>params</strong> (<em>ndarray</em>) – variables by 1 array of estimated model parameters</li>
+<li><strong>entity_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of entity ids</li>
 <li><strong>time_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of time ids</li>
 <li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the estimator</li>
 <li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Additional degrees of freedom consumed by models beyond the number of
@@ -185,7 +186,7 @@ adjusted for extra_df irrespective of the setting of debiased</li>
 <h2>Heteroskedasticity robust covariance estimator<a class="headerlink" href="#heteroskedasticity-robust-covariance-estimator" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.covariance.HeteroskedasticCovariance">
-<em class="property">class </em><code class="descname">HeteroskedasticCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HeteroskedasticCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HeteroskedasticCovariance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">HeteroskedasticCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>entity_ids</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HeteroskedasticCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HeteroskedasticCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Covariance estimation using White estimator</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -195,6 +196,7 @@ adjusted for extra_df irrespective of the setting of debiased</li>
 <li><strong>y</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of dependent</li>
 <li><strong>x</strong> (<em>ndarray</em>) – (entity x time) by variables stacked array of exogenous</li>
 <li><strong>params</strong> (<em>ndarray</em>) – variables by 1 array of estimated model parameters</li>
+<li><strong>entity_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of entity ids</li>
 <li><strong>time_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of time ids</li>
 <li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the estimator</li>
 <li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Additional degrees of freedom consumed by models beyond the number of
@@ -224,7 +226,7 @@ adjusted for extra_df irrespective of the setting of debiased</li>
 <h2>One- and Two-way Clustered covariance estimator<a class="headerlink" href="#one-and-two-way-clustered-covariance-estimator" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.covariance.ClusteredCovariance">
-<em class="property">class </em><code class="descname">ClusteredCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em>, <em>clusters=None</em>, <em>group_debias=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#ClusteredCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.ClusteredCovariance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">ClusteredCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>entity_ids</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em>, <em>clusters=None</em>, <em>group_debias=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#ClusteredCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.ClusteredCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>One-way (Rogers) or two-way clustered covariance estimation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -234,6 +236,7 @@ adjusted for extra_df irrespective of the setting of debiased</li>
 <li><strong>y</strong> (<em>ndarray</em>) – nobs by 1 stacked array of dependent</li>
 <li><strong>x</strong> (<em>ndarray</em>) – nobs by variables stacked array of exogenous</li>
 <li><strong>params</strong> (<em>ndarray</em>) – variables by 1 array of estimated model parameters</li>
+<li><strong>entity_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of entity ids</li>
 <li><strong>time_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of time ids</li>
 <li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the estimator</li>
 <li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Additional degrees of freedom consumed by models beyond the number of
@@ -278,7 +281,7 @@ observations.</p>
 <h2>Driscoll-Kraay HAC Estimator<a class="headerlink" href="#driscoll-kraay-hac-estimator" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.covariance.DriscollKraay">
-<em class="property">class </em><code class="descname">DriscollKraay</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em>, <em>kernel=’newey-west’</em>, <em>bandwidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#DriscollKraay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.DriscollKraay" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">DriscollKraay</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>entity_ids</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em>, <em>kernel=’newey-west’</em>, <em>bandwidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#DriscollKraay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.DriscollKraay" title="Permalink to this definition">¶</a></dt>
 <dd><p>Driscoll-Kraay heteroskedasticity-autocorrelation robust covariance estimation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -288,6 +291,7 @@ observations.</p>
 <li><strong>y</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of dependent</li>
 <li><strong>x</strong> (<em>ndarray</em>) – (entity x time) by variables stacked array of exogenous</li>
 <li><strong>params</strong> (<em>ndarray</em>) – variables by 1 array of estimated model parameters</li>
+<li><strong>entity_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of entity ids</li>
 <li><strong>time_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of time ids</li>
 <li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the estimator</li>
 <li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Additional degrees of freedom consumed by models beyond the number of
@@ -362,7 +366,7 @@ provided.</p>
         <li class="right" >
           <a href="results.html" title="Estimation Results"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+65.g6df08b0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+67.gf13e7a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Panel Data Model Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" >Module Reference</a> &#187;</li> 
       </ul>

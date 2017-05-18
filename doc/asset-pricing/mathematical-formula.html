@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Formulas and Mathematical Detail &#8212; linearmodels 2.0+65.g6df08b0 documentation</title>
+    <title>Formulas and Mathematical Detail &#8212; linearmodels 2.0+67.gf13e7a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+65.g6df08b0',
+        VERSION:     '2.0+67.gf13e7a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="results.html" title="Estimation Results"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+65.g6df08b0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+67.gf13e7a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Linear Factor Models for Asset Pricing</a> &#187;</li> 
       </ul>
     </div>
@@ -74,7 +74,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+65, g6df08b0)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+67, gf13e7a1)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -135,40 +135,41 @@
             
   <div class="section" id="formulas-and-mathematical-detail">
 <span id="asset-pricing-mathematical-notation"></span><h1>Formulas and Mathematical Detail<a class="headerlink" href="#formulas-and-mathematical-detail" title="Permalink to this headline">¶</a></h1>
-<p>There are <span class="math">\(N\)</span> test portfolios, <span class="math">\(r_{t}^{e}\)</span> (<span class="math">\(p\)</span> by 1)
-which are assumed to be excess returns (zero-investment portfolios) and
-<span class="math">\(K\)</span> factors, <span class="math">\(f_{t}\)</span> (<span class="math">\(k\)</span> by 1). For each there are
-<span class="math">\(T\)</span> observations.</p>
+<p>There are <span class="math">\(N\)</span> test portfolios, <span class="math">\(r_{t}\)</span> (<span class="math">\(p\)</span> by 1)
+which are usually assumed to be excess returns (zero-investment
+portfolios) and <span class="math">\(K\)</span> factors, <span class="math">\(f_{t}\)</span> (<span class="math">\(k\)</span> by 1). For
+return series there are <span class="math">\(T\)</span> observations.</p>
 <div class="section" id="linear-factor-model-for-traded-factors">
 <h2>Linear Factor Model for Traded Factors<a class="headerlink" href="#linear-factor-model-for-traded-factors" title="Permalink to this headline">¶</a></h2>
 <p>This model is a Seemingly Unrelated Regression (SUR). All models share
 the same regressors so that the model for test portfolio <span class="math">\(i\)</span> is</p>
 <div class="math">
-\[r_{it}^{e}=\alpha_{i}+\beta_{i}f_{t}+\epsilon_{it}.\]</div>
+\[r_{it}=\alpha_{i}+\beta_{i}f_{t}+\epsilon_{it}.\]</div>
 <p>Inference is based on the sandwich covariance estimator</p>
 <div class="math">
-\[\hat{\Sigma}=\left(T-df\right)^{-1}A^{-1}BA^{-1}\]</div>
-<p>where</p>
+\[\hat{\Sigma}=\left(T-df\right)^{-1}G^{-1}SG^{-1}.\]</div>
+<p>Define <span class="math">\(f_{c,t}=\left[1\:f_{t}^{\prime}\right]^{\prime}\)</span>, then</p>
 <div class="math">
-\[\hat{A}=I_{N}\otimes\Sigma_{\left[1\:f^{\prime}\right]}\]</div>
+\[\hat{G}=I_{N}\otimes\Sigma_{f_{c}}\]</div>
 <p>and</p>
 <div class="math">
-\[\Sigma_{\left[1\:f^{\prime}\right]}=T^{-1}\sum_{t=1}^{T}\tilde{f}_{t}\tilde{f}_{t}^{\prime}\]</div>
-<p>where <span class="math">\(\tilde{f}_{t}=\left(1\:f^{\prime}\right)^{\prime}\)</span> is the
-set of factor returns augmented with a constant. Define the stacked
-vector of scores</p>
+\[\Sigma_{f_{c}}=T^{-1}\sum_{t=1}^{T}f_{c,t}f_{c,t}^{\prime}\]</div>
+<p>Define the stacked vector of scores (or moment conditions)</p>
 <div class="math">
-\[s_{t}=\left[\epsilon_{t}\otimes\tilde{f}_{t}^{\prime}\right].\]</div>
+\[g_{t}=\left[f_{c}\otimes\hat{\epsilon}_{t}\right].\]</div>
 <p>If the heteroskedasticity robust estimator is used,</p>
 <div class="math">
-\[\hat{B}=T^{-1}\sum_{t=1}^{T}s_{t}s_{t}^{\prime}.\]</div>
+\[\hat{S}=T^{-1}\sum_{t=1}^{T}g_{t}g_{t}^{\prime}.\]</div>
 <p>If the HAC estiamtor is used,</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\hat{B} &amp; =T^{-1}\left\{ \hat{\Gamma}_{0}+\sum_{i=1}^{bw}K\left(i,bw\right)\left(\hat{\Gamma}_{i}+\hat{\Gamma}_{i}^{\prime}\right)\right\} \\
-\hat{\Gamma}_{j} &amp; =\sum_{t=j+1}^{T}s_{t}s_{t-j}^{\prime}\end{aligned}\end{split}\]</div>
-<p>where <span class="math">\(K\left(i,bw\right)\)</span> is a kernel weighting function and
-<span class="math">\(bw\)</span> is the bandwidth.</p>
+\hat{S} &amp; =T^{-1}\left\{ \hat{\Gamma}_{0}+\sum_{i=1}^{bw}K\left(\frac{i}{bw}\right)\left(\hat{\Gamma}_{i}+\hat{\Gamma}_{i}^{\prime}\right)\right\} \\
+\hat{\Gamma}_{j} &amp; =\sum_{t=j+1}^{T}g_{t}g_{t-j}^{\prime}\end{aligned}\end{split}\]</div>
+<p>where <span class="math">\(K\left(\frac{i}{bw}\right)\)</span> is a kernel weighting function
+and <span class="math">\(bw\)</span> is the bandwidth. The reported risk premia are just the
+average returns on the factors, and the covariance of the risk premia
+estimates is based on the factor residuals after demeaning using either
+the simple estimator or the kernel estimator.</p>
 <div class="section" id="the-j-statistic">
 <h3>The J statistic<a class="headerlink" href="#the-j-statistic" title="Permalink to this headline">¶</a></h3>
 <p>The J statistic is implemented as</p>
@@ -182,11 +183,13 @@ columns<span class="math">\(1,(k+1)+1,2(k+1)+1,\ldots\)</span> of <span class="m
 <h2>Linear Factor Model for Non-traded Factors<a class="headerlink" href="#linear-factor-model-for-non-traded-factors" title="Permalink to this headline">¶</a></h2>
 <p>When factors are not traded, the SUR approach cannot be used since the
 expected value of the factor is not equal to its risk premium. One
-solution is to use a 2-step estimator. The first step regresses the test
-portfolio returns on the factors and a (throw-away) constant. This
+solution is to use a multi-step estimator. The first step regresses the
+test portfolio returns on the factors and a (throw-away) constant. This
 constant is included only to demean the factors to compute the correct
 factor loadings. The second stage then uses the estimated factor
-loadings and the average portfolio returns to estimate the risk premia.</p>
+loadings and the average portfolio returns to estimate the risk premia.
+This second stage can be (optionally) improved by removing the effects
+of the demeaned factors from returns when computing risk premia.</p>
 <p>The first stage regressions are virtually identical to the SUR
 regressions except the constant is no longer <span class="math">\(\alpha_{i}\)</span>,</p>
 <div class="math">
@@ -201,86 +204,86 @@ compensation test portfolio <span class="math">\(i\)</span> is generating. If th
 rate is assumed to be 0, then the column of 1s is not included and
 <span class="math">\(\lambda\)</span> is <span class="math">\(K\)</span> by 1.</p>
 <p>Inference is conducted by treating this as a 3-step GMM problem where
-the first two steps were jsut described and the third estimated the
+the first two steps were just described and the third estimated the
 model <span class="math">\(\hat{\alpha}\)</span>. The moment conditions corresponding to the
 FOC of these three steps are</p>
 <div class="math">
 \[\begin{split}g_{t}=\left[\begin{array}{c}
-\epsilon_{t}\otimes\left[1\,f_{t}^{\prime}\right]^{\prime}\\
+f_{c,t}\otimes\epsilon_{t}\\
 \beta^{\prime}\left(r_{t}-\left[1_{N}\,\beta\right]\lambda\right)\\
 r_{t}-\left[1_{N}\,\beta\right]\lambda-\alpha
 \end{array}\right]\end{split}\]</div>
-<p>where <span class="math">\(\epsilon_{it}=r_{it}^{e}-c_{i}-\beta_{i}f_{t}\)</span>,
-<span class="math">\(\beta\)</span> is <span class="math">\(N\)</span> by <span class="math">\(K\)</span>, <span class="math">\(f_{t}\)</span> is <span class="math">\(K\)</span> by
-1, <span class="math">\(\lambda\)</span> is <span class="math">\(K\)</span> by 1, <span class="math">\(r_{t}\)</span> is <span class="math">\(N\)</span> by 1,
-<span class="math">\(\epsilon_{t}\)</span> is <span class="math">\(N\)</span> by 1 and<span class="math">\(\alpha\)</span> is <span class="math">\(N\)</span>
-by 1. Inference is based on</p>
+<p>where <span class="math">\(\epsilon_{it}=r_{it}^{e}-c_{i}-\beta_{i}f_{t}\)</span> is <span class="math">\(N\)</span>
+by 1 , <span class="math">\(\beta\)</span> is <span class="math">\(N\)</span> by <span class="math">\(K\)</span>, <span class="math">\(\lambda\)</span> is
+<span class="math">\(K+1\)</span> by 1 and<span class="math">\(\alpha\)</span> is <span class="math">\(N\)</span> by 1. Inference is
+based on</p>
 <div class="math">
-\[\hat{\Sigma}=T^{-1}G^{-1}S\left(G^{-1}\right)^{\prime}\]</div>
+\[\hat{\Sigma}=\left(T-df\right)^{-1}G^{-1}S\left(G^{-1}\right)^{\prime}\]</div>
 <p>where the Jacobian <span class="math">\(G\)</span> is estimated by</p>
 <div class="math">
 \[\begin{split}\hat{G}=-\left[\begin{array}{ccc}
-I_{N}\otimes\Sigma_{\left[1\,f\right]} &amp; 0 &amp; 0\\
-G_{21} &amp; \left[1_{N}\,\beta\right]^{\prime}\left[1_{N}\,\beta\right] &amp; 0\\
-I_{N}\otimes\left[0\ \lambda\right] &amp; \left[1_{N}\,\beta\right] &amp; I_{N}
+I_{N}\otimes\Sigma_{f_{c}} &amp; 0 &amp; 0\\
+G_{21} &amp; \left[1_{N}\,\hat{\beta}\right]^{\prime}\left[1_{N}\,\hat{\beta}\right] &amp; 0\\
+I_{N}\otimes\left[0\ \hat{\lambda}\right] &amp; \left[1_{N}\,\hat{\beta}\right] &amp; I_{N}
 \end{array}\right]\end{split}\]</div>
 <p>The block <span class="math">\(G_{21}\)</span>is</p>
 <div class="math">
 \[G_{21}=\left[G_{21,1}\ G_{21,2}\:\ldots\ G_{21,N}\right]\]</div>
 <div class="math">
-\[G_{21,i}=\left[0_{\left(K+1\right)\times1}\;\left(\left[1\;\beta_{i}\right]^{\prime}\lambda^{\prime}-\left[0_{K}\;E_{T}\left[u_{it}\right]I_{K}\right]^{\prime}\right)\right]\]</div>
-<p>where expectations are replaced by sample averaged. When the risk free
-rate is 0, all terms of the form <span class="math">\([1_{N}\;\beta]\)</span> become
-<span class="math">\(\beta\)</span> and</p>
+\[G_{21,i}=\left[0_{\left(K+1\right)\times1}\;\left(\left[1\;\hat{\beta}_{i}\right]^{\prime}\lambda^{\prime}-\left[0_{K}\;\bar{u}_{i}I_{K}\right]^{\prime}\right)\right]\]</div>
+<p>When the risk free rate is 0, all terms of the form
+<span class="math">\([1_{N}\;\beta]\)</span> become <span class="math">\(\beta\)</span> and</p>
 <div class="math">
-\[G_{21,i}=\left[0_{K\times1}\;\left(\beta_{i}^{\prime}\lambda^{\prime}-E_{T}\left[u_{it}\right]I_{K}\right)\right]\]</div>
-<p><span class="math">\(S\)</span> is an estimator of the scores and its form is identical to
-either the heteroskedasticity consistent estimator or the HAC estimator
-in the previous section.</p>
+\[G_{21,i}=\left[0_{K\times1}\;\left(\hat{\beta}_{i}^{\prime}\lambda^{\prime}-\;\bar{u}_{i}I_{K}\right)\right]\]</div>
+<p><span class="math">\(S\)</span> is an estimator of the covariance of the moment conditions,
+<span class="math">\(g_{t}\)</span>, and its form is identical to either the
+heteroskedasticity consistent estimator or the HAC estimator in the
+previous section.</p>
 <div class="section" id="improved-specification-using-gls">
 <h3>Improved Specification using GLS<a class="headerlink" href="#improved-specification-using-gls" title="Permalink to this headline">¶</a></h3>
-<p>TODO: Should <span class="math">\(\alpha\)</span> use GLS? Probably.</p>
 <div class="math">
 \[\begin{split}\left[\begin{array}{c}
-\epsilon_{t}\otimes\left[1\,f_{t}^{\prime}\right]^{\prime}\\
-f_{t}-\mu\\
-\beta^{\prime}\Sigma^{-1}\left(r_{t}-\lambda_{0}-\beta\left(f_{t}-\mu+\tilde{\lambda}\right)\right)\\
-r_{t}-\lambda_{0}-\beta\left(f_{t}-\mu+\tilde{\lambda}\right)-\alpha
+f_{c,t}\otimes\epsilon_{t}\\
+\beta^{\prime}\Sigma^{-1}\left(r_{t}-\left[1_{N}\,\beta\right]\lambda\right)\\
+r_{t}-\left[1_{N}\,\beta\right]\lambda-\alpha
 \end{array}\right]\end{split}\]</div>
 <p>The Jacobian is than</p>
 <div class="math">
-\[\begin{split}-\left[\begin{array}{cccc}
-I_{N}\otimes f_{c,t}f_{c,t}^{\prime} &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; I_{K} &amp; 0 &amp; 0\\
-G_{13} &amp; -\beta_{c}^{\prime}\Sigma^{-1}\beta &amp; \beta_{c}^{\prime}\Sigma^{-1}\beta_{c} &amp; 0\\
-I_{N}\otimes\left[0\ \left(f_{t}-\mu+\lambda\right)\right] &amp; -\beta &amp; \beta_{c} &amp; I_{N}
+\[\begin{split}\hat{G}=-\left[\begin{array}{cccc}
+I_{N}\otimes\Sigma_{f_{c}} &amp; 0 &amp; 0 &amp; 0\\
+G_{12} &amp; -\hat{\beta}_{c}^{\prime}\Sigma^{-1}\hat{\beta} &amp; \hat{\beta}_{c}^{\prime}\Sigma^{-1}\hat{\beta}_{c} &amp; 0\\
+I_{N}\otimes\left[0\ \tilde{\lambda}\right] &amp; -\hat{\beta} &amp; \hat{\beta}_{c} &amp; I_{N}
 \end{array}\right]\end{split}\]</div>
 <p><span class="math">\(\beta_{c}=\left[1_{N}\,\beta\right]\)</span>.
-<span class="math">\(\lambda=\left[\lambda_{1},\ldots,\lambda_{K}\right]\)</span> and so does
-not include <span class="math">\(\lambda_{0}\)</span>. The final piece has the structure</p>
+<span class="math">\(\tilde{\lambda}=\left[\lambda_{1},\ldots,\lambda_{K}\right]\)</span> and
+so does not include the risk-free rate <span class="math">\(\lambda_{0}\)</span> when included
+in the model. The final piece has the structure</p>
 <div class="math">
-\[G_{31}=\left[G_{31,1}\ G_{31,2}\:\ldots\ G_{31,N}\right]\]</div>
+\[G_{21}=\left[G_{21,1}\ G_{21,2}\:\ldots\ G_{21,N}\right]\]</div>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  G_{31,i}=\left[0_{\left(K+1\right)}\;\tilde{\beta}_{c,i}^{\prime}\left(f_{t}-\mu+\lambda\right)^{\prime}-\left[\begin{array}{c}
-  0_{K}^{\prime}\\
-  \tilde{\epsilon}_{it}I_{K}
-  \end{array}\right]\right]\end{split}\\where :math:`\tilde{\beta}_{c,i}` is row :math:`i` of\end{aligned}\end{align} \]</div>
-<p><span class="math">\(\Sigma^{-1}\beta_{c}\)</span> and <span class="math">\(\tilde{\epsilon}_{it}\)</span> is the
-element in position <span class="math">\(i\)</span> of
-<span class="math">\(\tilde{\epsilon}_{t}=\Sigma^{-1}\left(r_{t}-\lambda_{0}-\beta\left(f_{t}-\mu+\tilde{\lambda}\right)\right)\)</span>.
-Each block has a 0 columns corresponding to <span class="math">\(c_{i}\)</span> and</p>
+\[G_{21,i}=\left[0_{\left(K+1\right)}\;\tilde{\beta}_{c,i}^{\prime}\tilde{\lambda}^{\prime}-\left[0_{K}\;\bar{u}_{i}I_{K}\right]^{\prime}\right]\]</div>
+<p>where <span class="math">\(\tilde{\beta}_{c,i}\)</span> is row <span class="math">\(i\)</span> of
+<span class="math">\(\Sigma^{-1}\beta_{c}\)</span>,
+<span class="math">\(\bar{u}_{i}=T^{-1}\sum_{t=1}^{T}\tilde{u}_{it}\)</span> and
+<span class="math">\(\tilde{u}_{it}\)</span> is the element in position <span class="math">\(i\)</span> of
+<span class="math">\(\tilde{u}_{t}=\Sigma^{-1}\left(r_{t}-\lambda_{0}-\beta\tilde{\lambda}\right)\)</span>.
+Each block has a 0 columns corresponding to <span class="math">\(c_{i}\)</span>.</p>
+<p><span class="math">\(S\)</span> is an estimator of the covariance of the moment conditions,
+<span class="math">\(g_{t}\)</span>, and its form is identical to either the
+heteroskedasticity consistent estimator or the HAC estimator in the
+previous section.</p>
 </div>
 <div class="section" id="id1">
 <h3>The J statistic<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<p>The J statistic is virtually identical except that it has a difference
-distribution.</p>
+<p>The J statistic is virtually identical to the <span class="math">\(J\)</span> statistic from
+traded factor model except that it has a difference distribution.</p>
 <div class="math">
 \[J=\hat{\alpha}^{\prime}\hat{\Sigma}_{\alpha}^{-1}\hat{\alpha}^{\prime}\sim\chi_{N-K}^{2}\]</div>
-<p>The loss of degrees of freedom is obvious since
+<p>The loss of degrees of freedom occurs since
 <span class="math">\(\hat{\alpha}=\hat{\eta}\)</span> which are regression residuals from a
 regression of <span class="math">\(N\)</span> average returns on <span class="math">\(K\)</span> factor loadings.
-<span class="math">\(\hat{\Sigma}_{\alpha}\)</span> is the bottom right block of
-<span class="math">\(\hat{\Sigma}\)</span>.</p>
+<span class="math">\(\hat{\Sigma}_{\alpha}\)</span> is the bottom right <span class="math">\(K\times K\)</span>
+block of <span class="math">\(\hat{\Sigma}\)</span>.</p>
 </div>
 </div>
 <div class="section" id="gmm-estimation-of-linear-factor-models">
@@ -289,50 +292,68 @@ regression of <span class="math">\(N\)</span> average returns on <span class="ma
 form</p>
 <div class="math">
 \[\begin{split}\left[\begin{array}{c}
-\epsilon_{t}\otimes\left[1\:f_{t}^{\prime}\right]^{\prime}\\
+\epsilon_{t}\otimes f_{c,t}\\
 f_{t}-\mu
 \end{array}\right]\end{split}\]</div>
 <p>where</p>
 <div class="math">
-\[\epsilon_{t}=r_{t}^{e}-\left[1_{N}\;\beta\right]\lambda-\beta\left(f_{t}-\mu\right)\]</div>
+\[\epsilon_{t}=r_{t}-\left[1_{N}\;\beta\right]\lambda-\beta\left(f_{t}-\mu\right)\]</div>
 <p>is the vector of pricing errors. The factors can be traded or
 non-traded. This assumes that the model for expected returns is</p>
 <div class="math">
-\[E\left[r_{it}^{e}\right]=\lambda_{0}+\sum_{i=1}^{k}\beta_{i}\lambda_{i}\]</div>
+\[E\left[r_{it}\right]=\lambda_{0}+\sum_{i=1}^{k}\beta_{i}\lambda_{i}\]</div>
 <p>so that the risk-free rate might not be zero. This form is sometimes
 used with excess returns if there is doubt about the risk-free rate
 used. The Jacobian is then</p>
 <div class="math">
-\[\begin{split}-\left[\begin{array}{ccc}
-I_{N}\otimes\left(\tilde{\lambda}+f_{t}-\mu\right)\left[1\:f_{t}^{\prime}\right]^{\prime} &amp; \left[\begin{array}{c}
-\left[1\:f_{t}^{\prime}\right]^{\prime}\left[1\!\beta_{1}\right]\\
+\[\begin{split}\hat{G}=T^{-1}\sum_{t=1}^{T}-\left[\begin{array}{ccc}
+I_{N}\otimes\left(f_{t}-\mu+\tilde{\lambda}\right)f_{c,t} &amp; \left[\begin{array}{c}
+f_{c,t}\left[1\!\hat{\beta}_{1}\right]\\
 \vdots\\
-\left[1\:f_{t}^{\prime}\right]^{\prime}\left[1\!\beta_{N}\right]
+f_{c,t}\left[1\!\hat{\beta}_{N}\right]
 \end{array}\right] &amp; \left[\begin{array}{c}
--\left[1\:f_{t}^{\prime}\right]^{\prime}\beta_{1}\\
+-f_{c,t}\hat{\beta}_{1}\\
 \vdots\\
--\left[1\:f_{t}^{\prime}\right]^{\prime}\beta_{N}
+-f_{c,t}\hat{\beta}_{N}
 \end{array}\right]\\
 0 &amp; 0 &amp; I_{K}
 \end{array}\right]\end{split}\]</div>
-<p>When the risk-free rate is not estimated (assumed to be 0), then the
-residuals are</p>
+<p><span class="math">\(S\)</span> is an estimator of the covariance of the moment conditions,
+<span class="math">\(g_{t}\)</span>, and its form is identical to either the
+heteroskedasticity consistent estimator or the HAC estimator in the
+previous section. The parameter covariance estimator uses the form
+appropriate for efficient GMM,</p>
 <div class="math">
-\[\epsilon_{t}=r_{t}-\beta\lambda-\beta\left(f_{t}-\mu\right)\]</div>
-<p>and the Jacobian is</p>
-<div class="math">
-\[\begin{split}-\left[\begin{array}{ccc}
-I_{N}\otimes\left(\lambda+f_{t}-\mu\right)f_{t} &amp; \left[\begin{array}{c}
-\left[1\:f_{t}^{\prime}\right]^{\prime}\beta_{1}\\
-\vdots\\
-\left[1\:f_{t}^{\prime}\right]^{\prime}\beta_{N}
-\end{array}\right] &amp; \left[\begin{array}{c}
--\left[1\:f_{t}^{\prime}\right]^{\prime}\beta_{1}\\
-\vdots\\
--\left[1\:f_{t}^{\prime}\right]^{\prime}\beta_{N}
-\end{array}\right]\\
-0 &amp; 0 &amp; I_{K}
-\end{array}\right].\end{split}\]</div>
+\[\hat{\Sigma}=\left(\hat{G}\hat{S}^{-1}\hat{G}\right)^{-1}.\]</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<p>99 Bryzgalova, Svetlana. Spurious factors in linear asset pricing
+models. Working Paper, 2016.</p>
+<p>Cochrane, John H. <em>Asset Pricing:(Revised Edition)</em>. Princeton
+university press, 2009.</p>
+<p>Jagannathan, Ravi, Georgios Skoulakis, and Zhenyu Wang. Generalized
+methods of moments: Applications in finance. <em>Journal of Business &amp;
+Economic Statistics</em> 20, no. 4 (2002): 470-481.</p>
+<p class="rubric">References</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>Bryzgalova, Svetlana. Spurious factors in linear asset pricing models. Working Paper, 2016.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td>Cochrane, John H. <em>Asset Pricing:(Revised Edition)</em>. Princeton University Press, 2009.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td>Jagannathan, Ravi, Georgios Skoulakis, and Zhenyu Wang. Generalized methods of moments: Applications in finance. <em>Journal of Business &amp; Economic Statistics</em> 20, no. 4 (2002): 470-481.</td></tr>
+</tbody>
+</table>
 </div>
 </div>
 
@@ -369,7 +390,7 @@ I_{N}\otimes\left(\lambda+f_{t}-\mu\right)f_{t} &amp; \left[\begin{array}{c}
         <li class="right" >
           <a href="results.html" title="Estimation Results"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+65.g6df08b0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+67.gf13e7a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Linear Factor Models for Asset Pricing</a> &#187;</li> 
       </ul>
     </div>

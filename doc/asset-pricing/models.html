@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Linear Asset Pricing Models &#8212; linearmodels 2.0+65.g6df08b0 documentation</title>
+    <title>Linear Asset Pricing Models &#8212; linearmodels 2.0+67.gf13e7a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+65.g6df08b0',
+        VERSION:     '2.0+67.gf13e7a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="reference.html" title="Module Reference"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+65.g6df08b0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+67.gf13e7a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Linear Factor Models for Asset Pricing</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
@@ -75,7 +75,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+65, g6df08b0)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+67, gf13e7a1)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -142,7 +142,7 @@
 <h2>Linear Factor Models (Traded or Non-traded Factors)<a class="headerlink" href="#linear-factor-models-traded-or-non-traded-factors" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.asset_pricing.model.LinearFactorModel">
-<em class="property">class </em><code class="descname">LinearFactorModel</code><span class="sig-paren">(</span><em>portfolios</em>, <em>factors</em>, <em>*</em>, <em>risk_free=False</em>, <em>sigma=None</em>, <em>use_improved=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/asset_pricing/model.html#LinearFactorModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.asset_pricing.model.LinearFactorModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">LinearFactorModel</code><span class="sig-paren">(</span><em>portfolios</em>, <em>factors</em>, <em>*</em>, <em>risk_free=False</em>, <em>sigma=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/asset_pricing/model.html#LinearFactorModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.asset_pricing.model.LinearFactorModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Linear factor model estimator</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -155,9 +155,6 @@
 from returns along other risk premia.  If False, the returns are
 assumed to be excess returns using the correct risk-free rate.</li>
 <li><strong>sigma</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Positive definite residual covariance (nportfolio by nportfolio)</li>
-<li><strong>use_improved</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to use the more powerful but less standard
-version of the test that estimates the pricing errors after
-removing for factor covariances</li>
 </ul>
 </td>
 </tr>
@@ -169,16 +166,18 @@ removing for factor covariances</li>
 tests.</p>
 <p>The first stage model estimated is</p>
 <div class="math">
-\[r_{it}^e = a_i + f_t \beta_i + \epsilon_{it}\]</div>
-<p>where <span class="math">\(r_{it}^e\)</span> is the excess return on test portfolio i and
-<span class="math">\(f_t\)</span> are the traded factor returns.  The parameters <span class="math">\(a_i\)</span>
+\[r_{it} = c_i + f_t \beta_i + \epsilon_{it}\]</div>
+<p>where <span class="math">\(r_{it}\)</span> is the return on test portfolio i and
+<span class="math">\(f_t\)</span> are the traded factor returns.  The parameters <span class="math">\(c_i\)</span>
 are required to allow non-traded to be tested, but are not economically
 interesting.  These are not reported.</p>
 <p>The second stage model uses the estimated factor loadings from the first
 and is</p>
 <div class="math">
-\[\bar{r}_i^e = \hat{\beta}_i^\prime \lambda + \eta_i\]</div>
-<p>where <span class="math">\(\bar{r}_i^e\)</span> is the average excess return to portfolio i.</p>
+\[\bar{r}_i = \lambda_0 + \hat{\beta}_i^\prime \lambda + \eta_i\]</div>
+<p>where <span class="math">\(\bar{r}_i\)</span> is the average excess return to portfolio i and
+<span class="math">\(\lambda_0\)</span> is only included if estimating the risk-free rate. GLS
+is used in the second stage if <code class="docutils literal"><span class="pre">sigma</span></code> is provided.</p>
 <p>The model is tested using the estimated values
 <span class="math">\(\hat{\alpha}_i=\hat{\eta}_i\)</span>.</p>
 <dl class="method">
@@ -191,6 +190,8 @@ and is</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Name of covariance estimator</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the covariance estimator using
+a degree of freedom adjustment</li>
 <li><strong>**cov_config</strong> – Additional covariance-specific options.  See Notes.</li>
 </ul>
 </td>
@@ -287,14 +288,14 @@ tests.</p>
 <p>The moments are</p>
 <div class="math">
 \[\begin{split}\left[\begin{array}{c}
-\epsilon_{t}\otimes\left[1\:f_{t}^{\prime}\right]^{\prime}\\
-f_{t}-\mu
+   \epsilon_{t}\otimes f_{c,t}\\
+   f_{t}-\mu
 \end{array}\right]\end{split}\]</div>
 <p>and</p>
 <div class="math">
 \[\epsilon_{t}=r_{t}-\left[1_{N}\;\beta\right]\lambda-\beta\left(f_{t}-\mu\right)\]</div>
-<p>where <span class="math">\(r_{it}^e\)</span> is the excess return on test portfolio i and
-<span class="math">\(f_t\)</span> are the traded factor returns.</p>
+<p>where <span class="math">\(r_{it}\)</span> is the return on test portfolio i and
+<span class="math">\(f_t\)</span> are the factor returns.</p>
 <p>The model is tested using the optimized objective function using the
 usual GMM J statistic.</p>
 <dl class="method">
@@ -316,6 +317,8 @@ iterate until convergence or up to the number of steps given</li>
 suppresses output</li>
 <li><strong>max_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>positive</em><em>, </em><em>optional</em>) – Maximum number of iterations when minimizing objective</li>
 <li><strong>cov_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) – Name of covariance estimator</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the covariance estimator using
+a degree of freedom adjustment</li>
 <li><strong>**cov_config</strong> – Additional covariance-specific options.  See Notes.</li>
 </ul>
 </td>
@@ -530,7 +533,7 @@ and <code class="docutils literal"><span class="pre">~</span></code> to separate
         <li class="right" >
           <a href="reference.html" title="Module Reference"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+65.g6df08b0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+67.gf13e7a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Linear Factor Models for Asset Pricing</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" >Module Reference</a> &#187;</li> 
       </ul>
