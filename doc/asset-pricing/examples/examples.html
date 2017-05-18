@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Examples &#8212; linearmodels 2.0+67.gf13e7a1 documentation</title>
+    <title>Examples &#8212; linearmodels 2.0+68.gd71575f documentation</title>
     
     <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.0+67.gf13e7a1',
+        VERSION:     '2.0+68.gd71575f',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="../index.html" title="Linear Factor Models for Asset Pricing"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+67.gf13e7a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+68.gd71575f documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Linear Factor Models for Asset Pricing</a> &#187;</li> 
       </ul>
     </div>
@@ -74,7 +74,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../index.html" class="text-logo">linearmodels 2.0 (+67, gf13e7a1)</a>
+    ../../index.html" class="text-logo">linearmodels 2.0 (+68, gd71575f)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -326,6 +326,15 @@ sort, and a subset of the size-momentum two way sort.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/miniconda3/envs/linearmodels-test/lib/python3.5/site-packages/xarray/core/formatting.py:16: FutureWarning: The pandas.tslib module is deprecated and will be removed in a future version.
+  from pandas.tslib import OutOfBoundsDatetime
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
@@ -429,7 +438,7 @@ No. Test Portfolios:                  9   R-squared:                      0.6910
 No. Factors:                          1   J-statistic:                    70.034
 No. Observations:                   819   P-value                         0.0000
 Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
-Time:                          13:50:28
+Time:                          15:14:21
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -470,7 +479,7 @@ No. Test Portfolios:                  9   R-squared:                      0.8971
 No. Factors:                          3   J-statistic:                    53.271
 No. Observations:                   819   P-value                         0.0000
 Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
-Time:                          13:50:28
+Time:                          15:14:21
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -513,7 +522,7 @@ No. Test Portfolios:                 12   R-squared:                      0.7118
 No. Factors:                          3   J-statistic:                    61.617
 No. Observations:                   819   P-value                         0.0000
 Date:                  Thu, May 18 2017   Distribution:                 chi2(12)
-Time:                          13:50:28
+Time:                          15:14:21
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -530,7 +539,8 @@ See full_summary for complete results
 </div>
 <p>The estimated factor loadings (<span class="math">\(\beta\)</span>s) can be displayed using
 the <code class="docutils literal"><span class="pre">betas</span></code> property. There is reasonable dispersion in the factor
-loadings for all of the factors.</p>
+loadings for all of the factors, except possibly the market which are
+all close to unity.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [6]:
@@ -561,12 +571,50 @@ Money  1.112368 -0.053364  0.378365
 Other  1.109851  0.304442  0.237830
 </pre></div></div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">betas</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/miniconda3/envs/linearmodels-test/lib/python3.5/site-packages/matplotlib/font_manager.py:1297: UserWarning: findfont: Font family [&#39;sans-serif&#39;] not found. Falling back to DejaVu Sans
+  (prop.get_family(), self.defaultFamily[fontext]))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[7]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2b3db69bb470&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/asset-pricing_examples_examples_14_2.png" src="../../_images/asset-pricing_examples_examples_14_2.png" />
+</div>
+</div>
 <p>Similarly the <span class="math">\(\alpha\)</span>s can be displayed. These are monthly
 returns, and so scaling by 12 shows annualized returns. Healthcare has
 the largest pricing error.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -576,7 +624,7 @@ the largest pricing error.</p>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[7]:
+<span></span>Out[8]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -607,7 +655,7 @@ factor loadings to estimate the risk premia.</p>
 portfolios.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [8]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -631,7 +679,7 @@ No. Test Portfolios:                  9   R-squared:                      0.9051
 No. Factors:                          4   J-statistic:                    24.402
 No. Observations:                   819   P-value                         0.0002
 Date:                  Thu, May 18 2017   Distribution:                  chi2(5)
-Time:                          13:50:28
+Time:                          15:14:22
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -649,7 +697,7 @@ See full_summary for complete results
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -682,7 +730,7 @@ non-dispersed and also correlated with both the market and size. This
 might make the inference unreliable.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -706,7 +754,7 @@ Mom   -0.253675 -0.015628  0.002744  1.000000
 much of an effect on the estimates.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -729,7 +777,7 @@ No. Test Portfolios:                  9   R-squared:                      0.7915
 No. Factors:                          3   J-statistic:                    25.292
 No. Observations:                   819   P-value                         0.0003
 Date:                  Thu, May 18 2017   Distribution:                  chi2(6)
-Time:                          13:50:28
+Time:                          15:14:23
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -751,7 +799,7 @@ construct the excess returns might be mis-specfied.</p>
 little impact on the model J-statistic.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -774,7 +822,7 @@ No. Test Portfolios:                  9   R-squared:                      0.7915
 No. Factors:                          3   J-statistic:                    20.979
 No. Observations:                   819   P-value                         0.0019
 Date:                  Thu, May 18 2017   Distribution:                  chi2(6)
-Time:                          13:50:28
+Time:                          15:14:23
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -798,7 +846,7 @@ setting <code class="docutils literal"><span class="pre">cov_type='kernel'</span
 correlation although the model is still firmly rejected.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [13]:
+<span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -818,7 +866,7 @@ No. Test Portfolios:                  9   R-squared:                      0.7915
 No. Factors:                          3   J-statistic:                    15.422
 No. Observations:                   819   P-value                         0.0172
 Date:                  Thu, May 18 2017   Distribution:                  chi2(6)
-Time:                          13:50:28
+Time:                          15:14:23
 Cov. Estimator:                  kernel
 
                             Risk Premia Estimates
@@ -847,7 +895,7 @@ iterations. Here the model is fit twice, which is the standard method to
 implement efficient GMM.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -863,32 +911,32 @@ implement efficient GMM.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Iteration: 0, Objective: 47.76903760223331
-Iteration: 10, Objective: 28.152457119477273
-Iteration: 20, Objective: 26.414301723949144
-Iteration: 30, Objective: 26.062288032929203
-Iteration: 40, Objective: 22.32534325295799
+Iteration: 0, Objective: 47.75791582807426
+Iteration: 10, Objective: 28.10258610617326
+Iteration: 20, Objective: 26.361384398478798
+Iteration: 30, Objective: 26.019665498091065
+Iteration: 40, Objective: 22.325343252979536
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.325343
          Iterations: 41
-         Function evaluations: 3021
-         Gradient evaluations: 86
-Iteration: 0, Objective: 22.51941425264349
-Iteration: 10, Objective: 22.303860848252913
-Iteration: 20, Objective: 22.226551472915233
-Iteration: 30, Objective: 22.192898215778612
+         Function evaluations: 2777
+         Gradient evaluations: 79
+Iteration: 0, Objective: 22.519350326010112
+Iteration: 10, Objective: 22.303730299087544
+Iteration: 20, Objective: 22.22642660308997
+Iteration: 30, Objective: 22.193079302560648
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.066871
          Iterations: 40
-         Function evaluations: 2217
-         Gradient evaluations: 63
+         Function evaluations: 3966
+         Gradient evaluations: 113
                     LinearFactorModelGMM Estimation Summary
 ================================================================================
 No. Test Portfolios:                  9   R-squared:                      0.7904
 No. Factors:                          3   J-statistic:                    22.067
 No. Observations:                   819   P-value                         0.0087
 Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
-Time:                          13:50:31
+Time:                          15:14:27
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -903,13 +951,15 @@ Mom            0.0094     0.0014     6.5139     0.0000      0.0066      0.0123
 See full_summary for complete results
 </pre></div></div>
 </div>
-<p>Kernel HAC estimators can be used with this estimator as well.</p>
+<p>Kernel HAC estimators can be used with this estimator as well. Using a
+kernel HAC covariance also implies a Kernel HAC weighting matrix
+estimator.</p>
 <p>Here the GMM estimator along with the HAC estimator indicates that these
 factors might be able to price this set of 9 test portfolios. <code class="docutils literal"><span class="pre">disp=0</span></code>
 is used to suppress iterative output.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -929,7 +979,7 @@ No. Test Portfolios:                  9   R-squared:                      0.7901
 No. Factors:                          3   J-statistic:                    13.833
 No. Observations:                   819   P-value                         0.1284
 Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
-Time:                          13:50:35
+Time:                          15:14:32
 Cov. Estimator:                  kernel
 
                             Risk Premia Estimates
@@ -944,62 +994,14 @@ Mom            0.0078     0.0013     6.0849     0.0000      0.0053      0.0103
 See full_summary for complete results
 </pre></div></div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [16]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">use_cue</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Iteration: 0, Objective: 47.76903760223331
-Iteration: 10, Objective: 28.152457119477273
-Iteration: 20, Objective: 26.414301723949144
-Iteration: 30, Objective: 26.062288032929203
-Iteration: 40, Objective: 22.32534325295799
-Warning: Desired error not necessarily achieved due to precision loss.
-         Current function value: 22.325343
-         Iterations: 41
-         Function evaluations: 3021
-         Gradient evaluations: 86
-Iteration: 0, Objective: 22.52920786515959
-Iteration: 10, Objective: 22.398210110788877
-Iteration: 20, Objective: 22.35192911369706
-Iteration: 30, Objective: 22.316964716517422
-Warning: Desired error not necessarily achieved due to precision loss.
-         Current function value: 22.077574
-         Iterations: 38
-         Function evaluations: 2812
-         Gradient evaluations: 80
-                    LinearFactorModelGMM Estimation Summary
-================================================================================
-No. Test Portfolios:                  9   R-squared:                      0.7903
-No. Factors:                          3   J-statistic:                    22.719
-No. Observations:                   819   P-value                         0.0069
-Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
-Time:                          13:50:40
-Cov. Estimator:                  robust
-
-                            Risk Premia Estimates
-==============================================================================
-            Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
-------------------------------------------------------------------------------
-MktRF          0.0067     0.0015     4.4157     0.0000      0.0037      0.0096
-HML            0.0136     0.0023     5.8881     0.0000      0.0090      0.0181
-Mom            0.0094     0.0014     6.4984     0.0000      0.0066      0.0123
-==============================================================================
-
-See full_summary for complete results
-</pre></div></div>
-</div>
+<div class="section" id="Iterating-until-convergence">
+<h3>Iterating until convergence<a class="headerlink" href="#Iterating-until-convergence" title="Permalink to this headline">¶</a></h3>
+<p>The standard approach is efficient and uses 2-steps. The first
+consistently estimates parameters using a sub-optimal weighting matrix,
+and the second uses the optimal weighting matrix conditional using the
+first stage estimates.</p>
+<p>This method can be repeated until convergence, or for a fixed number of
+steps usign the <code class="docutils literal"><span class="pre">steps</span></code> keyword argument.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [17]:
@@ -1016,53 +1018,53 @@ See full_summary for complete results
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Iteration: 0, Objective: 47.76903760223331
-Iteration: 25, Objective: 26.332862119844048
+Iteration: 0, Objective: 47.75791582807426
+Iteration: 25, Objective: 26.280319658878444
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.325343
          Iterations: 41
-         Function evaluations: 3021
-         Gradient evaluations: 86
-Iteration: 0, Objective: 22.51941425264349
-Iteration: 25, Objective: 22.22234157386908
+         Function evaluations: 2777
+         Gradient evaluations: 79
+Iteration: 0, Objective: 22.519350326010112
+Iteration: 25, Objective: 22.222217326897155
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.066871
          Iterations: 40
-         Function evaluations: 2217
-         Gradient evaluations: 63
-Iteration: 0, Objective: 22.09415736575328
-Iteration: 25, Objective: 22.091267003766422
+         Function evaluations: 3966
+         Gradient evaluations: 113
+Iteration: 0, Objective: 22.09415705549981
+Iteration: 25, Objective: 22.091266615193142
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.089908
          Iterations: 37
-         Function evaluations: 1937
-         Gradient evaluations: 55
-Iteration: 0, Objective: 22.088798294500112
-Iteration: 25, Objective: 22.088771431598015
+         Function evaluations: 3827
+         Gradient evaluations: 109
+Iteration: 0, Objective: 22.08879828848373
+Iteration: 25, Objective: 22.088771428238918
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.088753
-         Iterations: 42
-         Function evaluations: 2462
-         Gradient evaluations: 70
-Iteration: 0, Objective: 22.088622403048223
+         Iterations: 37
+         Function evaluations: 3897
+         Gradient evaluations: 111
+Iteration: 0, Objective: 22.088622399188523
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.088622
          Iterations: 4
-         Function evaluations: 430
-         Gradient evaluations: 12
-Iteration: 0, Objective: 22.08862232633756
+         Function evaluations: 2320
+         Gradient evaluations: 66
+Iteration: 0, Objective: 22.088622322451197
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.088622
          Iterations: 3
-         Function evaluations: 327
-         Gradient evaluations: 9
+         Function evaluations: 2777
+         Gradient evaluations: 79
                     LinearFactorModelGMM Estimation Summary
 ================================================================================
 No. Test Portfolios:                  9   R-squared:                      0.7904
 No. Factors:                          3   J-statistic:                    22.089
 No. Observations:                   819   P-value                         0.0086
 Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
-Time:                          13:50:46
+Time:                          15:14:44
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -1076,6 +1078,72 @@ Mom            0.0094     0.0014     6.5017     0.0000      0.0066      0.0123
 
 See full_summary for complete results
 </pre></div></div>
+</div>
+</div>
+<div class="section" id="Continuously-Updating-Estimator">
+<h3>Continuously Updating Estimator<a class="headerlink" href="#Continuously-Updating-Estimator" title="Permalink to this headline">¶</a></h3>
+<p>The Continuously Updating Estimator (CUE) is optionally available using
+the flag <code class="docutils literal"><span class="pre">use_cue</span></code>. CUE jointly minimizes the J-statistic as a
+function of the moment conditions and the weighting matrix, rather than
+iterating between minimizing the J-statistic for a fixed weighting
+matrix and updating the weighting matrix.</p>
+<p>Here the results are essentially the same as in the iterative approach.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">use_cue</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Iteration: 0, Objective: 47.75791582807426
+Iteration: 10, Objective: 28.10258610617326
+Iteration: 20, Objective: 26.361384398478798
+Iteration: 30, Objective: 26.019665498091065
+Iteration: 40, Objective: 22.325343252979536
+Warning: Desired error not necessarily achieved due to precision loss.
+         Current function value: 22.325343
+         Iterations: 41
+         Function evaluations: 2777
+         Gradient evaluations: 79
+Iteration: 0, Objective: 22.524478249459047
+Iteration: 10, Objective: 22.38605581516939
+Iteration: 20, Objective: 22.339806790762474
+Iteration: 30, Objective: 22.308309006332834
+Warning: Desired error not necessarily achieved due to precision loss.
+         Current function value: 22.077574
+         Iterations: 38
+         Function evaluations: 3722
+         Gradient evaluations: 106
+                    LinearFactorModelGMM Estimation Summary
+================================================================================
+No. Test Portfolios:                  9   R-squared:                      0.7903
+No. Factors:                          3   J-statistic:                    22.719
+No. Observations:                   819   P-value                         0.0069
+Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
+Time:                          15:14:50
+Cov. Estimator:                  robust
+
+                            Risk Premia Estimates
+==============================================================================
+            Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+------------------------------------------------------------------------------
+MktRF          0.0067     0.0015     4.4157     0.0000      0.0037      0.0096
+HML            0.0136     0.0023     5.8881     0.0000      0.0090      0.0181
+Mom            0.0094     0.0014     6.4984     0.0000      0.0066      0.0123
+==============================================================================
+
+See full_summary for complete results
+</pre></div></div>
+</div>
 </div>
 </div>
 </div>
@@ -1113,7 +1181,7 @@ See full_summary for complete results
         <li class="right" >
           <a href="../index.html" title="Linear Factor Models for Asset Pricing"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+67.gf13e7a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+68.gd71575f documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Linear Factor Models for Asset Pricing</a> &#187;</li> 
       </ul>
     </div>
