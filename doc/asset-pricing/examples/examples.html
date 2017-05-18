@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Examples &#8212; linearmodels 2.0+69.gf3fa82c documentation</title>
+    <title>Examples &#8212; linearmodels 2.0+70.g2c3ab31 documentation</title>
     
     <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.0+69.gf3fa82c',
+        VERSION:     '2.0+70.g2c3ab31',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Using Formulas" href="formulas.html" />
-    <link rel="prev" title="Linear Factor Models for Asset Pricing" href="../index.html" />
+    <link rel="prev" title="Introduction" href="../introduction.html" />
   
   
    
@@ -60,9 +60,9 @@
           <a href="formulas.html" title="Using Formulas"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../index.html" title="Linear Factor Models for Asset Pricing"
+          <a href="../introduction.html" title="Introduction"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+69.gf3fa82c documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+70.g2c3ab31 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Linear Factor Models for Asset Pricing</a> &#187;</li> 
       </ul>
     </div>
@@ -74,7 +74,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../index.html" class="text-logo">linearmodels 2.0 (+69, gf3fa82c)</a>
+    ../../index.html" class="text-logo">linearmodels 2.0 (+70, g2c3ab31)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../iv/index.html">Instrumental Variable Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../panel/index.html">Panel Data Model Estimation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Linear Factor Models for Asset Pricing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="formulas.html">Using Formulas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference.html">Module Reference</a></li>
@@ -302,7 +303,7 @@ div.nboutput div.output_area.stderr {
 <p>Models include factors and returns. Factors can be traded or non-traded.
 Common examples of traded assets include the excess return on the market
 and the size and value factors. Examples of non-traded assets include
-macroeconomic shocks and easures of uncertainty.</p>
+macroeconomic shocks and measures of uncertainty.</p>
 <p>Models are tested using a set of test portfolios. Test portfolios are
 often excess returns although they do not need to be.</p>
 </div>
@@ -325,6 +326,15 @@ sort, and a subset of the size-momentum two way sort.</p>
 <span class="k">print</span><span class="p">(</span><span class="n">french</span><span class="o">.</span><span class="n">DESCR</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/travis/miniconda3/envs/linearmodels-test/lib/python3.5/site-packages/xarray/core/formatting.py:16: FutureWarning: The pandas.tslib module is deprecated and will be removed in a future version.
+  from pandas.tslib import OutOfBoundsDatetime
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -377,7 +387,7 @@ S5M5     Large firms, winners
 </div>
 <div class="section" id="Transform-the-portfolios-to-be-excesses">
 <h2>Transform the portfolios to be excesses<a class="headerlink" href="#Transform-the-portfolios-to-be-excesses" title="Permalink to this headline">¶</a></h2>
-<p>Subtrace the risk-free rate from the test portfolios since these are not
+<p>Subtract the risk-free rate from the test portfolios since these are not
 zero-investment.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -429,7 +439,7 @@ No. Test Portfolios:                  9   R-squared:                      0.6910
 No. Factors:                          1   J-statistic:                    70.034
 No. Observations:                   819   P-value                         0.0000
 Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
-Time:                          20:43:34
+Time:                          21:48:00
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -470,7 +480,7 @@ No. Test Portfolios:                  9   R-squared:                      0.8971
 No. Factors:                          3   J-statistic:                    53.271
 No. Observations:                   819   P-value                         0.0000
 Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
-Time:                          20:43:34
+Time:                          21:48:00
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -485,8 +495,8 @@ HML            0.0035     0.0009     3.6993     0.0002      0.0016      0.0053
 See full_summary for complete results
 </pre></div></div>
 </div>
-<p>Changing the test portfolios to inluce only the industry portfolios does
-not allow factors to price the assets.</p>
+<p>Changing the test portfolios to include only the industry portfolios
+does not allow factors to price the assets.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [5]:
@@ -513,7 +523,7 @@ No. Test Portfolios:                 12   R-squared:                      0.7118
 No. Factors:                          3   J-statistic:                    61.617
 No. Observations:                   819   P-value                         0.0000
 Date:                  Thu, May 18 2017   Distribution:                 chi2(12)
-Time:                          20:43:34
+Time:                          21:48:00
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -589,7 +599,7 @@ Other  1.109851  0.304442  0.237830
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2b592fb79588&gt;
+<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x2b5110f1c438&gt;
 </pre></div>
 </div>
 </div>
@@ -639,10 +649,10 @@ Name: alpha, dtype: float64
 <div class="section" id="2-Step-Estimation">
 <h2>2-Step Estimation<a class="headerlink" href="#2-Step-Estimation" title="Permalink to this headline">¶</a></h2>
 <p>When one of more factors are not returns on traded assets, it is
-necessary to use a two-step proceedure (or GMM). In the 2-step
-estimator, the first estimates factor loadings and the second uses the
-factor loadings to estimate the risk premia.</p>
-<p>Here all four factors are used to attempt to ptice the size-momentum
+necessary to use a two-step procedure (or GMM). In the 2-step estimator,
+the first estimates factor loadings and the second uses the factor
+loadings to estimate the risk premia.</p>
+<p>Here all four factors are used to attempt to price the size-momentum
 portfolios.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -670,7 +680,7 @@ No. Test Portfolios:                  9   R-squared:                      0.9051
 No. Factors:                          4   J-statistic:                    24.402
 No. Observations:                   819   P-value                         0.0002
 Date:                  Thu, May 18 2017   Distribution:                  chi2(5)
-Time:                          20:43:37
+Time:                          21:48:01
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -768,7 +778,7 @@ No. Test Portfolios:                  9   R-squared:                      0.7915
 No. Factors:                          3   J-statistic:                    25.292
 No. Observations:                   819   P-value                         0.0003
 Date:                  Thu, May 18 2017   Distribution:                  chi2(6)
-Time:                          20:43:37
+Time:                          21:48:01
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -783,9 +793,9 @@ Mom            0.0084     0.0046     1.8370     0.0662     -0.0006      0.0174
 See full_summary for complete results
 </pre></div></div>
 </div>
-<p>The risk-free rate can be optionall estimated. This is useful in case
-excess returns are not avialable of if the risk-free rate used to
-construct the excess returns might be mis-specfied.</p>
+<p>The risk-free rate can be optionally estimated. This is useful in case
+excess returns are not available of if the risk-free rate used to
+construct the excess returns might be mis-specified.</p>
 <p>Here the estimated risk-free rate is small and insignificant and has
 little impact on the model J-statistic.</p>
 <div class="nbinput docutils container">
@@ -813,7 +823,7 @@ No. Test Portfolios:                  9   R-squared:                      0.7915
 No. Factors:                          3   J-statistic:                    20.979
 No. Observations:                   819   P-value                         0.0019
 Date:                  Thu, May 18 2017   Distribution:                  chi2(6)
-Time:                          20:43:37
+Time:                          21:48:01
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -829,9 +839,9 @@ Mom            0.0086     0.0046     1.8695     0.0616     -0.0004      0.0176
 See full_summary for complete results
 </pre></div></div>
 </div>
-<p>The defaul covariance estimator allows for heteroskedasticity but
+<p>The default covariance estimator allows for heteroskedasticity but
 assumes there is no autocorrelation in the model errors or factor
-returns. Kernel-based HAC estiamtors (e.g. Newey-West) can be used by
+returns. Kernel-based HAC estimators (e.g. Newey-West) can be used by
 setting <code class="docutils literal"><span class="pre">cov_type='kernel'</span></code>.</p>
 <p>This reduces the J-statistic indicating there might be some serial
 correlation although the model is still firmly rejected.</p>
@@ -857,7 +867,7 @@ No. Test Portfolios:                  9   R-squared:                      0.7915
 No. Factors:                          3   J-statistic:                    15.422
 No. Observations:                   819   P-value                         0.0172
 Date:                  Thu, May 18 2017   Distribution:                  chi2(6)
-Time:                          20:43:37
+Time:                          21:48:01
 Cov. Estimator:                  kernel
 
                             Risk Premia Estimates
@@ -902,32 +912,32 @@ implement efficient GMM.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Iteration: 0, Objective: 47.76903760223331
-Iteration: 10, Objective: 28.152457119477273
-Iteration: 20, Objective: 26.414301723949144
-Iteration: 30, Objective: 26.062288032929203
-Iteration: 40, Objective: 22.32534325295799
+Iteration: 0, Objective: 47.75791582807426
+Iteration: 10, Objective: 28.10258610617326
+Iteration: 20, Objective: 26.361384398478798
+Iteration: 30, Objective: 26.019665498091065
+Iteration: 40, Objective: 22.325343252979536
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.325343
          Iterations: 41
-         Function evaluations: 3021
-         Gradient evaluations: 86
-Iteration: 0, Objective: 22.51941425264349
-Iteration: 10, Objective: 22.303860848252913
-Iteration: 20, Objective: 22.226551472915233
-Iteration: 30, Objective: 22.192898215778612
+         Function evaluations: 2777
+         Gradient evaluations: 79
+Iteration: 0, Objective: 22.519350326010112
+Iteration: 10, Objective: 22.303730299087544
+Iteration: 20, Objective: 22.22642660308997
+Iteration: 30, Objective: 22.193079302560648
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.066871
          Iterations: 40
-         Function evaluations: 2217
-         Gradient evaluations: 63
+         Function evaluations: 3966
+         Gradient evaluations: 113
                     LinearFactorModelGMM Estimation Summary
 ================================================================================
 No. Test Portfolios:                  9   R-squared:                      0.7904
 No. Factors:                          3   J-statistic:                    22.067
 No. Observations:                   819   P-value                         0.0087
 Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
-Time:                          20:43:40
+Time:                          21:48:05
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -970,7 +980,7 @@ No. Test Portfolios:                  9   R-squared:                      0.7901
 No. Factors:                          3   J-statistic:                    13.833
 No. Observations:                   819   P-value                         0.1284
 Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
-Time:                          20:43:44
+Time:                          21:48:10
 Cov. Estimator:                  kernel
 
                             Risk Premia Estimates
@@ -992,7 +1002,7 @@ consistently estimates parameters using a sub-optimal weighting matrix,
 and the second uses the optimal weighting matrix conditional using the
 first stage estimates.</p>
 <p>This method can be repeated until convergence, or for a fixed number of
-steps usign the <code class="docutils literal"><span class="pre">steps</span></code> keyword argument.</p>
+steps using the <code class="docutils literal"><span class="pre">steps</span></code> keyword argument.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [17]:
@@ -1009,53 +1019,53 @@ steps usign the <code class="docutils literal"><span class="pre">steps</span></c
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Iteration: 0, Objective: 47.76903760223331
-Iteration: 25, Objective: 26.332862119844048
+Iteration: 0, Objective: 47.75791582807426
+Iteration: 25, Objective: 26.280319658878444
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.325343
          Iterations: 41
-         Function evaluations: 3021
-         Gradient evaluations: 86
-Iteration: 0, Objective: 22.51941425264349
-Iteration: 25, Objective: 22.22234157386908
+         Function evaluations: 2777
+         Gradient evaluations: 79
+Iteration: 0, Objective: 22.519350326010112
+Iteration: 25, Objective: 22.222217326897155
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.066871
          Iterations: 40
-         Function evaluations: 2217
-         Gradient evaluations: 63
-Iteration: 0, Objective: 22.09415736575328
-Iteration: 25, Objective: 22.091267003766422
+         Function evaluations: 3966
+         Gradient evaluations: 113
+Iteration: 0, Objective: 22.09415705549981
+Iteration: 25, Objective: 22.091266615193142
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.089908
          Iterations: 37
-         Function evaluations: 1937
-         Gradient evaluations: 55
-Iteration: 0, Objective: 22.088798294500112
-Iteration: 25, Objective: 22.088771431598015
+         Function evaluations: 3827
+         Gradient evaluations: 109
+Iteration: 0, Objective: 22.08879828848373
+Iteration: 25, Objective: 22.088771428238918
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.088753
-         Iterations: 42
-         Function evaluations: 2462
-         Gradient evaluations: 70
-Iteration: 0, Objective: 22.088622403048223
+         Iterations: 37
+         Function evaluations: 3897
+         Gradient evaluations: 111
+Iteration: 0, Objective: 22.088622399188523
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.088622
          Iterations: 4
-         Function evaluations: 430
-         Gradient evaluations: 12
-Iteration: 0, Objective: 22.08862232633756
+         Function evaluations: 2320
+         Gradient evaluations: 66
+Iteration: 0, Objective: 22.088622322451197
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.088622
          Iterations: 3
-         Function evaluations: 327
-         Gradient evaluations: 9
+         Function evaluations: 2777
+         Gradient evaluations: 79
                     LinearFactorModelGMM Estimation Summary
 ================================================================================
 No. Test Portfolios:                  9   R-squared:                      0.7904
 No. Factors:                          3   J-statistic:                    22.089
 No. Observations:                   819   P-value                         0.0086
 Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
-Time:                          20:43:50
+Time:                          21:48:21
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -1095,32 +1105,32 @@ matrix and updating the weighting matrix.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Iteration: 0, Objective: 47.76903760223331
-Iteration: 10, Objective: 28.152457119477273
-Iteration: 20, Objective: 26.414301723949144
-Iteration: 30, Objective: 26.062288032929203
-Iteration: 40, Objective: 22.32534325295799
+Iteration: 0, Objective: 47.75791582807426
+Iteration: 10, Objective: 28.10258610617326
+Iteration: 20, Objective: 26.361384398478798
+Iteration: 30, Objective: 26.019665498091065
+Iteration: 40, Objective: 22.325343252979536
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.325343
          Iterations: 41
-         Function evaluations: 3021
-         Gradient evaluations: 86
-Iteration: 0, Objective: 22.52920786515959
-Iteration: 10, Objective: 22.398210110788877
-Iteration: 20, Objective: 22.35192911369706
-Iteration: 30, Objective: 22.316964716517422
+         Function evaluations: 2777
+         Gradient evaluations: 79
+Iteration: 0, Objective: 22.524478249459047
+Iteration: 10, Objective: 22.38605581516939
+Iteration: 20, Objective: 22.339806790762474
+Iteration: 30, Objective: 22.308309006332834
 Warning: Desired error not necessarily achieved due to precision loss.
          Current function value: 22.077574
          Iterations: 38
-         Function evaluations: 2812
-         Gradient evaluations: 80
+         Function evaluations: 3722
+         Gradient evaluations: 106
                     LinearFactorModelGMM Estimation Summary
 ================================================================================
 No. Test Portfolios:                  9   R-squared:                      0.7903
 No. Factors:                          3   J-statistic:                    22.719
 No. Observations:                   819   P-value                         0.0069
 Date:                  Thu, May 18 2017   Distribution:                  chi2(9)
-Time:                          20:43:55
+Time:                          21:48:27
 Cov. Estimator:                  robust
 
                             Risk Premia Estimates
@@ -1145,7 +1155,7 @@ See full_summary for complete results
   <div class="footer-relations">
     
       <div class="pull-left">
-        <a class="btn btn-default" href="../index.html" title="previous chapter (use the left arrow)">Linear Factor Models for Asset Pricing</a>
+        <a class="btn btn-default" href="../introduction.html" title="previous chapter (use the left arrow)">Introduction</a>
       </div>
     
       <div class="pull-right">
@@ -1170,9 +1180,9 @@ See full_summary for complete results
           <a href="formulas.html" title="Using Formulas"
              >next</a> |</li>
         <li class="right" >
-          <a href="../index.html" title="Linear Factor Models for Asset Pricing"
+          <a href="../introduction.html" title="Introduction"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+69.gf3fa82c documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 2.0+70.g2c3ab31 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Linear Factor Models for Asset Pricing</a> &#187;</li> 
       </ul>
     </div>

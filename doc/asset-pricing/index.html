@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Linear Factor Models for Asset Pricing &#8212; linearmodels 2.0+69.gf3fa82c documentation</title>
+    <title>Linear Factor Models for Asset Pricing &#8212; linearmodels 2.0+70.g2c3ab31 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+69.gf3fa82c',
+        VERSION:     '2.0+70.g2c3ab31',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -37,7 +37,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Examples" href="examples/examples.html" />
+    <link rel="next" title="Introduction" href="introduction.html" />
     <link rel="prev" title="Implementation Choices" href="../panel/faq.html" />
   
   
@@ -57,12 +57,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="examples/examples.html" title="Examples"
+          <a href="introduction.html" title="Introduction"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../panel/faq.html" title="Implementation Choices"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+69.gf3fa82c documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+70.g2c3ab31 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="container-wrapper">
@@ -73,7 +73,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+69, gf3fa82c)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+70, g2c3ab31)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -87,6 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../iv/index.html">Instrumental Variable Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../panel/index.html">Panel Data Model Estimation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Linear Factor Models for Asset Pricing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/examples.html">Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/formulas.html">Using Formulas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference.html">Module Reference</a></li>
@@ -136,9 +137,10 @@
 the market (CAP-M) or the Fama-French 3 (Market, Size and Value) can explain
 the return in a set of test portfolio.  The economic hypothesis tested is that</p>
 <div class="math">
-\[E[r_{it}] = \beta_i \lambda\]</div>
+\[E[r_{it}] = \lambda_0 + \beta_i \lambda\]</div>
 <p>where <span class="math">\(\beta_i\)</span> is a set of factor loadings and <span class="math">\(\lambda\)</span> are the
-risk premia associated with the factors.</p>
+risk premia associated with the factors. <span class="math">\(\lambda_0\)</span> is the risk-free
+rate.</p>
 <p>When all of the factors are traded, a simple Seemingly Unrelated Regression
 (SUR) approach can be used to test whether the factors price the test
 portfolios.  This is possible since the expected average return on a factor
@@ -160,7 +162,9 @@ has a different distribution,</p>
 \[J = \hat{\alpha}^{\prime} \hat{\Sigma}_{\alpha} \hat{\alpha} \sim \chi^2_{P-K}\]</div>
 <p>where K is the number of factors.
 <a class="reference internal" href="models.html#linearmodels.asset_pricing.model.LinearFactorModel" title="linearmodels.asset_pricing.model.LinearFactorModel"><code class="xref py py-class docutils literal"><span class="pre">LinearFactorModel</span></code></a> implements this
-two-step estimator.</p>
+two-step estimator.
+<a class="reference internal" href="models.html#linearmodels.asset_pricing.model.LinearFactorModelGMM" title="linearmodels.asset_pricing.model.LinearFactorModelGMM"><code class="xref py py-class docutils literal"><span class="pre">LinearFactorModelGMM</span></code></a> contains a more
+efficient estimator of the same model using over-identified GMM.</p>
 <p>Both estimators can be used with either a heteroskedasticity-robust covariance
 by setting <code class="docutils literal"><span class="pre">cov_type='robust'</span></code> or a HAC covariance estimator using
 <code class="docutils literal"><span class="pre">cov_type='kernel'</span></code>.  The HAC estimator supports three kernel weight generators,
@@ -171,6 +175,7 @@ the formulas used in estimating parameters, estimating covariances and
 implementing hypothesis tests.</p>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/formulas.html">Using Formulas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Module Reference</a></li>
@@ -189,7 +194,7 @@ implementing hypothesis tests.</p>
       </div>
     
       <div class="pull-right">
-        <a class="btn btn-default" href="examples/examples.html" title="next chapter (use the right arrow)">Examples</a>
+        <a class="btn btn-default" href="introduction.html" title="next chapter (use the right arrow)">Introduction</a>
       </div>
     </div>
     <div class="clearer"></div>
@@ -207,12 +212,12 @@ implementing hypothesis tests.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="examples/examples.html" title="Examples"
+          <a href="introduction.html" title="Introduction"
              >next</a> |</li>
         <li class="right" >
           <a href="../panel/faq.html" title="Implementation Choices"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+69.gf3fa82c documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+70.g2c3ab31 documentation</a> &#187;</li> 
       </ul>
     </div>
 <script type="text/javascript">

@@ -14,6 +14,7 @@ doc/_modules/linearmodels/utility.html
 doc/_sources/asset-pricing/examples/examples.ipynb.txt
 doc/_sources/asset-pricing/examples/formulas.ipynb.txt
 doc/_sources/asset-pricing/index.rst.txt
+doc/_sources/asset-pricing/introduction.rst.txt
 doc/_sources/asset-pricing/mathematical-formula.rst.txt
 doc/_sources/asset-pricing/models.rst.txt
 doc/_sources/asset-pricing/reference.rst.txt
@@ -158,6 +159,7 @@ doc/_static/websupport.js
 doc/asset-pricing/examples/examples.html
 doc/asset-pricing/examples/formulas.html
 doc/asset-pricing/index.html
+doc/asset-pricing/introduction.html
 doc/asset-pricing/mathematical-formula.html
 doc/asset-pricing/models.html
 doc/asset-pricing/reference.html
