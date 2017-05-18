@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Formulas and Mathematical Detail &#8212; linearmodels 2.0+68.gd71575f documentation</title>
+    <title>Formulas and Mathematical Detail &#8212; linearmodels 2.0+69.gf3fa82c documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+68.gd71575f',
+        VERSION:     '2.0+69.gf3fa82c',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="gmm.html" title="GMM Weight and Covariance Estimation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+68.gd71575f documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+69.gf3fa82c documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Instrumental Variable Estimation</a> &#187;</li> 
       </ul>
     </div>
@@ -74,7 +74,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+68, gd71575f)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+69, gf3fa82c)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -402,33 +402,100 @@ option has no effect.</p>
 <h2>Post-estimation<a class="headerlink" href="#post-estimation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="sls-and-liml-post-estimation-results">
 <h3>2SLS and LIML Post-estimation Results<a class="headerlink" href="#sls-and-liml-post-estimation-results" title="Permalink to this headline">¶</a></h3>
-<p>sargan</p>
-<p>basman</p>
-<p>wu haussman</p>
-<p>wooldridge score</p>
-<p>wooldridge regression</p>
-<p>wooldridge overid</p>
-<p>anderson rubin</p>
-<p>basmann f</p>
+<p><strong>Sargan</strong></p>
+<p>Sargan’s test of over-identifying restrictions examines whether the
+variance of the IV residuals is similar to that of the OLS residuals.
+The test statistic is computed</p>
+<div class="math">
+\[s=n(1-\hat{\epsilon}^{\prime}M_{Z}\hat{\epsilon}/\hat{\epsilon}^{\prime}\hat{\epsilon})\sim\chi_{v}^{2}\]</div>
+<p>where <span class="math">\(\hat{\epsilon}\)</span> are the IV residuals and <span class="math">\(M_{Z}\)</span> is
+the annihilator matrix using all exogenous variables.<span class="math">\(\nu\)</span> is
+the number of overidentifying restrictions, which is the number of
+instruments minus the number of endogenous variables, <span class="math">\(p-k_{2}\)</span>.</p>
+<p><strong>Basman</strong></p>
+<p>Basman’s test is a small-sample corrected version of Sargan’s test of
+over-identifying restrictions. It has the same distribution. Let
+<span class="math">\(s\)</span> be Sargan’s test statistic, then Basman’s test statistic is</p>
+<div class="math">
+\[s(n-p)/(n-s)\sim\chi_{v}^{2}\]</div>
+<p>TODO: Remove ME</p>
+<p><strong>Wu-Haussman</strong></p>
+<p><strong>Wooldridge score</strong></p>
+<p><strong>Wooldridge regression</strong></p>
+<p><strong>Wooldridge’s Test of Overidentifying restrictions</strong></p>
+<p><strong>Anderson-Rubin</strong></p>
+<p><strong>Basmann’s f</strong></p>
 </div>
 <div class="section" id="gmm-post-estimation-results">
 <h3>GMM Post-estimation Results<a class="headerlink" href="#gmm-post-estimation-results" title="Permalink to this headline">¶</a></h3>
-<p>J-stat</p>
-<p>C-stat</p>
+<p><strong>J-stat</strong></p>
+<p><strong>C-stat</strong></p>
 </div>
 </div>
 <div class="section" id="first-stage-estimation-analysis">
 <h2>First-stage Estimation Analysis<a class="headerlink" href="#first-stage-estimation-analysis" title="Permalink to this headline">¶</a></h2>
-<p>First Stage Results -&gt; partial r2, shea r2, f-stat</p>
+<p><strong>Partial R2 and Partial F-statistic</strong></p>
+<p>The <span class="math">\(R^{2}\)</span> is reported after orthogonalizing the instruments from
+included exogenous variables, so that the model estimated is</p>
+<div class="math">
+\[x_{2i}=\gamma_{0}+\tilde{z}_{2i}\gamma+\eta_{i}\]</div>
+<p>where <span class="math">\(\tilde{Z}_{2}=M_{X_{1}}\tilde{Z}\)</span>. The partial
+<span class="math">\(F\)</span>-statistic is the F-statistic from this regression. It is
+implemented as a standard <span class="math">\(F\)</span>-statistic when the data is assumed
+to be homoskedastic with an <span class="math">\(F_{p_{2},n-p_{2}}\)</span> distribution. In
+all other cases, a quadratic form is used with an asymptoic
+<span class="math">\(\chi_{p_{2}}^{2}\)</span> distribution testing <span class="math">\(H_{0}:\gamma=0\)</span>.</p>
+<p><strong>Shea’s R2</strong></p>
+<p>Shea’s <span class="math">\(R^{2}\)</span> is defined as the ratio of the parameter variances
+under OLS and 2SLS estimation standardized by the unexplained variance
+under each,</p>
+<div class="math">
+\[\frac{\frac{\hat{\sigma}_{OLS,\beta_{i}}^{2}}{1-R_{OLS}^{2}}}{\frac{\hat{\sigma}_{IV,\beta_{i}}^{2}}{1-R_{IV}^{2}}}=\frac{\hat{\sigma}_{OLS,\beta_{i}}^{2}}{\hat{\sigma}_{IV,\beta_{i}}^{2}}\times\frac{1-R_{IV}^{2}}{1-R_{OLS}^{2}}\]</div>
+<p>If the estimator under 2SLS was as good as under OLS, both ratios would
+be 1 and Shea’s <span class="math">\(R^{2}=1\)</span>. On the other hand, the worse the
+<span class="math">\(IV\)</span> fit in terms of either <span class="math">\(R^{2}\)</span> or the parameter
+variances, the lower the value reported by Shea’s <span class="math">\(R^{2}\)</span>.</p>
 </div>
 <div class="section" id="kernel-weights-and-bandwidth-selection">
 <h2>Kernel Weights and Bandwidth Selection<a class="headerlink" href="#kernel-weights-and-bandwidth-selection" title="Permalink to this headline">¶</a></h2>
-<p>Kernel weights</p>
-<p>Optimal BW selection</p>
+<p><strong>Kernel weights</strong></p>
+<p>In all formulas, <span class="math">\(m\)</span> is the kernel bandwidth parameter.</p>
+<ul>
+<li><p class="first">Bartlett</p>
+<div class="math">
+\[w_{i}=1-\frac{i}{m+1},\,i&lt;m\]</div>
+</li>
+<li><p class="first">Parzen</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+z_{i} &amp; =\frac{i}{m+1},\,i&lt;m\\
+w_{i} &amp; =1-6z_{i}^{2}+6z_{i}^{3},z\leq0.5\\
+w_{i} &amp; =2(1-z_{i})^{3},z&gt;0.5\end{aligned}\end{split}\]</div>
+</li>
+<li><p class="first">Quadratic-Spectral</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+z_{i} &amp; =\frac{6\pi i}{5m}\\
+w_{0} &amp; =1\\
+w_{i} &amp; =3(\sin(z_{i})/z_{i}-\cos(z_{i}))/z_{i}^{2},\:i\geq1\end{aligned}\end{split}\]</div>
+</li>
+</ul>
+<p><strong>Optimal BW selection</strong></p>
 </div>
 <div class="section" id="constant-detection">
 <h2>Constant Detection<a class="headerlink" href="#constant-detection" title="Permalink to this headline">¶</a></h2>
-<p>Constant detection</p>
+<p>Whether a model contains a constant or equivalent is tested using three
+tests. These are executed in order and so once a constant is detected,
+the others are not executed. The simplest method to ensure that a
+constant is correctly detected is to include a columns of 1s.</p>
+<ol class="arabic simple">
+<li>A column with only 1.0s</li>
+<li>A column with a maximum minus minimum equal to 0 and that is not all
+0s.</li>
+<li>Whether the rank of <span class="math">\(X\)</span> is the same as
+<span class="math">\(\left[1_{N}\:X\right]\)</span>. If these are the same, then the model
+contains a constant equivalent (e.g., dummies for all categories).</li>
+</ol>
 <table class="docutils footnote" frame="void" id="id3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -442,7 +509,70 @@ excluding one category of dummy.</td></tr>
 <table class="docutils footnote" frame="void" id="id4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>This somewhat non-obvious choice is drive by Stata compatibility.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>This somewhat non-obvious choice is driven by Stata compatibility.</td></tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Sources used in writing the code include <a class="reference internal" href="#baltagi" id="id5">[Baltagi]</a>, <a class="reference internal" href="#baumetal" id="id6">[BaumEtAl]</a> and <a class="reference internal" href="#cametal" id="id7">[CamEtAl]</a>,
+<a class="reference internal" href="#camtri05" id="id8">[CamTri05]</a>, <a class="reference internal" href="#camtri09" id="id9">[CamTri09]</a>, <a class="reference internal" href="#greene" id="id10">[Greene]</a>, <a class="reference internal" href="#newwes94" id="id11">[NewWes94]</a>, <a class="reference internal" href="#stata" id="id12">[Stata]</a>, <a class="reference internal" href="#wool10" id="id13">[Wool10]</a> and <a class="reference internal" href="#wool12" id="id14">[Wool12]</a>.</p>
+<table class="docutils citation" frame="void" id="baltagi" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[Baltagi]</a></td><td>Baltagi, Badi. <em>Econometric analysis of panel data</em>. John Wiley &amp; Sons, 2008.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="baumetal" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[BaumEtAl]</a></td><td>Baum, Christopher F., Mark E. Schaffer, and Steven Stillman. “Enhanced routines for instrumental variables/GMM estimation and testing.” <em>Stata Journal</em> 7, no. 4 (2007): 465-506.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="cametal" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[CamEtAl]</a></td><td>Cameron, A. Colin, Jonah B. Gelbach, and Douglas L. Miller. “Robust inference with multiway clustering.” <em>Journal of Business &amp; Economic Statistics</em> 29, no. 2 (2011): 238-249.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="camtri05" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[CamTri05]</a></td><td>Cameron, A. Colin, and Pravin K. Trivedi. <em>Microeconometrics: methods and applications</em>. Cambridge university press, 2005.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="camtri09" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[CamTri09]</a></td><td>Cameron, Adrian Colin, and Pravin K. Trivedi. <em>Microeconometrics using stata</em>. Vol. 5. College Station, TX: Stata press, 2009.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="greene" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id10">[Greene]</a></td><td>Greene, William H. <em>Econometric analysis</em>. Pearson Education, 2003.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="newwes94" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id11">[NewWes94]</a></td><td>Newey, Whitney K., and Kenneth D. West. “Automatic Lag Selection in Covariance Matrix Estimation.” <em>The Review of Economic Studies</em> (1994): 631-653.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="stata" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id12">[Stata]</a></td><td>StataCorp. 2013. <em>Stata 13 Base Reference Manual</em>. College Station, TX: Stata Press.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="wool10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id13">[Wool10]</a></td><td>Wooldridge, Jeffrey M. <em>Econometric analysis of cross section and panel data</em>. MIT press, 2010.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="wool12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id14">[Wool12]</a></td><td>Wooldridge, Jeffrey M. <em>Introductory Econometrics: A Modern Approach</em>. South-Western College Pub, 2012.</td></tr>
 </tbody>
 </table>
 </div>
@@ -481,7 +611,7 @@ excluding one category of dummy.</td></tr>
         <li class="right" >
           <a href="gmm.html" title="GMM Weight and Covariance Estimation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+68.gd71575f documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+69.gf3fa82c documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Instrumental Variable Estimation</a> &#187;</li> 
       </ul>
     </div>
