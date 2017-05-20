@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.asset_pricing.model &#8212; linearmodels 2.0+74.g8f6f908 documentation</title>
+    <title>linearmodels.asset_pricing.model &#8212; linearmodels 2.0+75.g321e241 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.0+74.g8f6f908',
+        VERSION:     '2.0+75.g321e241',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+74.g8f6f908 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+75.g321e241 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 2.0 (+74, g8f6f908)</a>
+    ../../../index.html" class="text-logo">linearmodels 2.0 (+75, g321e241)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -374,7 +374,8 @@
                        <span class="n">rsquared</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span>
                        <span class="n">param_names</span><span class="o">=</span><span class="n">param_names</span><span class="p">,</span> <span class="n">portfolio_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="o">.</span><span class="n">cols</span><span class="p">,</span>
                        <span class="n">factor_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">cols</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span>
-                       <span class="n">cov_type</span><span class="o">=</span><span class="n">cov_type</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">,</span> <span class="n">rp_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span>
+                       <span class="n">cov_type</span><span class="o">=</span><span class="n">cov_type</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">,</span> <span class="n">rp_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">cols</span><span class="p">,</span>
+                       <span class="n">cov_est</span><span class="o">=</span><span class="n">cov_est</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">LinearFactorModelResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div></div>
 
@@ -540,7 +541,6 @@
 <span class="sd">        and ``bandwidth`` (a positive integer).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: Refactor commonalities in estimation</span>
-        <span class="c1"># TODO: Verify GLS implementation</span>
         <span class="n">nobs</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">nport</span><span class="p">,</span> <span class="n">nrf</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">s3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_boundaries</span><span class="p">()</span>
         <span class="n">excess_returns</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_risk_free</span>
         <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">ndarray</span>
@@ -615,7 +615,8 @@
                        <span class="n">rsquared</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span>
                        <span class="n">param_names</span><span class="o">=</span><span class="n">param_names</span><span class="p">,</span> <span class="n">portfolio_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="o">.</span><span class="n">cols</span><span class="p">,</span>
                        <span class="n">factor_names</span><span class="o">=</span><span class="n">factor_names</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span>
-                       <span class="n">cov_type</span><span class="o">=</span><span class="n">cov_type</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">,</span> <span class="n">rp_names</span><span class="o">=</span><span class="n">rp_names</span><span class="p">)</span>
+                       <span class="n">cov_type</span><span class="o">=</span><span class="n">cov_type</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">,</span> <span class="n">rp_names</span><span class="o">=</span><span class="n">rp_names</span><span class="p">,</span>
+                       <span class="n">cov_est</span><span class="o">=</span><span class="n">cov_est</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">LinearFactorModelResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
@@ -841,9 +842,11 @@
                        <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;disp&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">disp</span><span class="p">),</span> <span class="s1">&#39;maxiter&#39;</span><span class="p">:</span> <span class="n">max_iter</span><span class="p">})</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
         <span class="n">last_obj</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">fun</span>
+        <span class="nb">iter</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="c1"># 3. Step 2 using step 1 estimates</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cue</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="nb">iter</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_moments</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">excess_returns</span><span class="p">)</span>
                 <span class="n">w</span> <span class="o">=</span> <span class="n">weight_est</span><span class="o">.</span><span class="n">w</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
                 <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">excess_returns</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
@@ -857,6 +860,7 @@
                 <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">obj</span> <span class="o">-</span> <span class="n">last_obj</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">:</span>
                     <span class="k">break</span>
                 <span class="n">last_obj</span> <span class="o">=</span> <span class="n">obj</span>
+
         <span class="k">else</span><span class="p">:</span>
             <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">excess_returns</span><span class="p">,</span> <span class="n">weight_est</span><span class="p">)</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_cue</span>
@@ -874,7 +878,6 @@
                           <span class="n">df</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
 
         <span class="n">full_vcv</span> <span class="o">=</span> <span class="n">cov_est</span><span class="o">.</span><span class="n">cov</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_testing</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="n">cov_est</span><span class="o">.</span><span class="n">s</span><span class="p">}</span>
         <span class="n">sel</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">((</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span><span class="p">),</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="n">nrf</span><span class="p">))</span>
         <span class="n">rp</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">sel</span><span class="p">]</span>
         <span class="n">rp_cov</span> <span class="o">=</span> <span class="n">full_vcv</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="n">sel</span><span class="p">]</span>
@@ -911,7 +914,8 @@
                        <span class="n">rsquared</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">total_ss</span><span class="o">=</span><span class="n">total_ss</span><span class="p">,</span> <span class="n">residual_ss</span><span class="o">=</span><span class="n">residual_ss</span><span class="p">,</span>
                        <span class="n">param_names</span><span class="o">=</span><span class="n">param_names</span><span class="p">,</span> <span class="n">portfolio_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">portfolios</span><span class="o">.</span><span class="n">cols</span><span class="p">,</span>
                        <span class="n">factor_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">cols</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span>
-                       <span class="n">cov_type</span><span class="o">=</span><span class="n">cov_type</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">,</span> <span class="n">rp_names</span><span class="o">=</span><span class="n">rp_names</span><span class="p">)</span>
+                       <span class="n">cov_type</span><span class="o">=</span><span class="n">cov_type</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">,</span> <span class="n">rp_names</span><span class="o">=</span><span class="n">rp_names</span><span class="p">,</span>
+                       <span class="nb">iter</span><span class="o">=</span><span class="nb">iter</span><span class="p">,</span> <span class="n">cov_est</span><span class="o">=</span><span class="n">cov_est</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">GMMFactorModelResults</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
@@ -1003,7 +1007,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+74.g8f6f908 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 2.0+75.g321e241 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
