@@ -17,7 +17,7 @@
   <link rel="stylesheet" type="text/css" href="_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Index &#8212; linearmodels 2.0+76.g895e010 documentation</title>
+    <title>Index &#8212; linearmodels 2.0+76.gd7e9ec0 documentation</title>
     
     <link rel="stylesheet" href="_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,7 +25,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '2.0+76.g895e010',
+        VERSION:     '2.0+76.gd7e9ec0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -55,7 +55,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 2.0+76.g895e010 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 2.0+76.gd7e9ec0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="container-wrapper">
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    index.html" class="text-logo">linearmodels 2.0 (+76, g895e010)</a>
+    index.html" class="text-logo">linearmodels 2.0 (+76, gd7e9ec0)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -147,10 +147,12 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.alphas">alphas (LinearFactorModelResults attribute)</a>
+      <li><a href="panel/covariance.html#linearmodels.panel.covariance.ACCovariance">ACCovariance (class in linearmodels.panel.covariance)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.alphas">alphas (LinearFactorModelResults attribute)</a>
+</li>
       <li><a href="iv/results.html#linearmodels.iv.results.IVResults.anderson_rubin">anderson_rubin (IVResults attribute)</a>
 </li>
   </ul></td>
@@ -159,12 +161,18 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="iv/results.html#linearmodels.iv.results.IVResults.basmann">basmann (IVResults attribute)</a>
+      <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethKernelCovariance.bandwidth">bandwidth (FamaMacBethKernelCovariance attribute)</a>
+
+      <ul>
+        <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.KernelCovariance.bandwidth">(KernelCovariance attribute)</a>
 </li>
-      <li><a href="iv/results.html#linearmodels.iv.results.IVResults.basmann_f">basmann_f (IVResults attribute)</a>
+      </ul></li>
+      <li><a href="iv/results.html#linearmodels.iv.results.IVResults.basmann">basmann (IVResults attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="iv/results.html#linearmodels.iv.results.IVResults.basmann_f">basmann_f (IVResults attribute)</a>
+</li>
       <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.betas">betas (LinearFactorModelResults attribute)</a>
 </li>
       <li><a href="panel/models.html#linearmodels.panel.model.BetweenOLS">BetweenOLS (class in linearmodels.panel.model)</a>
@@ -217,18 +225,26 @@
 </li>
       <li><a href="panel/data.html#linearmodels.panel.data.PanelData.count">count() (PanelData method)</a>
 </li>
-      <li><a href="iv/covariance.html#linearmodels.iv.covariance.ClusteredCovariance.cov">cov (ClusteredCovariance attribute)</a>
+      <li><a href="panel/covariance.html#linearmodels.panel.covariance.ACCovariance.cov">cov (ACCovariance attribute)</a>
 
       <ul>
-        <li><a href="iv/covariance.html#linearmodels.iv.covariance.HeteroskedasticCovariance.cov">(HeteroskedasticCovariance attribute)</a>
+        <li><a href="iv/covariance.html#linearmodels.iv.covariance.ClusteredCovariance.cov">(ClusteredCovariance attribute)</a>, <a href="panel/covariance.html#linearmodels.panel.covariance.ClusteredCovariance.cov">[1]</a>
 </li>
-        <li><a href="iv/covariance.html#linearmodels.iv.covariance.HomoskedasticCovariance.cov">(HomoskedasticCovariance attribute)</a>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.DriscollKraay.cov">(DriscollKraay attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethCovariance.cov">(FamaMacBethCovariance attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethKernelCovariance.cov">(FamaMacBethKernelCovariance attribute)</a>
+</li>
+        <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.HeteroskedasticCovariance.cov">(HeteroskedasticCovariance attribute)</a>, <a href="iv/covariance.html#linearmodels.iv.covariance.HeteroskedasticCovariance.cov">[1]</a>, <a href="panel/covariance.html#linearmodels.panel.covariance.HeteroskedasticCovariance.cov">[2]</a>
+</li>
+        <li><a href="iv/covariance.html#linearmodels.iv.covariance.HomoskedasticCovariance.cov">(HomoskedasticCovariance attribute)</a>, <a href="panel/covariance.html#linearmodels.panel.covariance.HomoskedasticCovariance.cov">[1]</a>
 </li>
         <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.cov">(IVGMMResults attribute)</a>
 </li>
         <li><a href="iv/results.html#linearmodels.iv.results.IVResults.cov">(IVResults attribute)</a>
 </li>
-        <li><a href="iv/covariance.html#linearmodels.iv.covariance.KernelCovariance.cov">(KernelCovariance attribute)</a>
+        <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.KernelCovariance.cov">(KernelCovariance attribute)</a>, <a href="iv/covariance.html#linearmodels.iv.covariance.KernelCovariance.cov">[1]</a>
 </li>
         <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.cov">(LinearFactorModelResults attribute)</a>
 </li>
@@ -305,8 +321,26 @@
         <li><a href="iv/results.html#linearmodels.iv.results.OLSResults.debiased">(OLSResults attribute)</a>
 </li>
       </ul></li>
+      <li><a href="panel/covariance.html#linearmodels.panel.covariance.ACCovariance.deferred_cov">deferred_cov() (ACCovariance method)</a>
+
+      <ul>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.ClusteredCovariance.deferred_cov">(ClusteredCovariance method)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.DriscollKraay.deferred_cov">(DriscollKraay method)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethCovariance.deferred_cov">(FamaMacBethCovariance method)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethKernelCovariance.deferred_cov">(FamaMacBethKernelCovariance method)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.HeteroskedasticCovariance.deferred_cov">(HeteroskedasticCovariance method)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.HomoskedasticCovariance.deferred_cov">(HomoskedasticCovariance method)</a>
+</li>
+      </ul></li>
       <li><a href="panel/data.html#linearmodels.panel.data.PanelData.demean">demean() (PanelData method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.df_model">df_model (IVGMMResults attribute)</a>
 
       <ul>
@@ -321,8 +355,6 @@
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.df_model">(RandomEffectsResults attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.df_resid">df_resid (IVGMMResults attribute)</a>
 
       <ul>
@@ -365,6 +397,22 @@
         <li><a href="panel/results.html#linearmodels.panel.results.PanelResults.entity_info">(PanelResults attribute)</a>
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.entity_info">(RandomEffectsResults attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="panel/covariance.html#linearmodels.panel.covariance.ACCovariance.eps">eps (ACCovariance attribute)</a>
+
+      <ul>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.ClusteredCovariance.eps">(ClusteredCovariance attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.DriscollKraay.eps">(DriscollKraay attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethCovariance.eps">(FamaMacBethCovariance attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethKernelCovariance.eps">(FamaMacBethKernelCovariance attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.HeteroskedasticCovariance.eps">(HeteroskedasticCovariance attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.HomoskedasticCovariance.eps">(HomoskedasticCovariance attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -422,6 +470,10 @@
 </li>
       </ul></li>
       <li><a href="panel/models.html#linearmodels.panel.model.FamaMacBeth">FamaMacBeth (class in linearmodels.panel.model)</a>
+</li>
+      <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethCovariance">FamaMacBethCovariance (class in linearmodels.panel.covariance)</a>
+</li>
+      <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethKernelCovariance">FamaMacBethKernelCovariance (class in linearmodels.panel.covariance)</a>
 </li>
       <li><a href="panel/data.html#linearmodels.panel.data.PanelData.first_difference">first_difference() (PanelData method)</a>
 </li>
@@ -559,9 +611,11 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="iv/covariance.html#linearmodels.iv.covariance.HeteroskedasticCovariance">HeteroskedasticCovariance (class in linearmodels.iv.covariance)</a>
+      <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.HeteroskedasticCovariance">HeteroskedasticCovariance (class in linearmodels.asset_pricing.covariance)</a>
 
       <ul>
+        <li><a href="iv/covariance.html#linearmodels.iv.covariance.HeteroskedasticCovariance">(class in linearmodels.iv.covariance)</a>
+</li>
         <li><a href="panel/covariance.html#linearmodels.panel.covariance.HeteroskedasticCovariance">(class in linearmodels.panel.covariance)</a>
 </li>
       </ul></li>
@@ -587,6 +641,12 @@
 </li>
       <li><a href="iv/results.html#linearmodels.iv.results.FirstStageResults.individual">individual (FirstStageResults attribute)</a>
 </li>
+      <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.HeteroskedasticCovariance.inv_jacobian">inv_jacobian (HeteroskedasticCovariance attribute)</a>
+
+      <ul>
+        <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.KernelCovariance.inv_jacobian">(KernelCovariance attribute)</a>
+</li>
+      </ul></li>
       <li><a href="utility.html#linearmodels.utility.InvalidTestStatistic">InvalidTestStatistic (class in linearmodels.utility)</a>
 </li>
       <li><a href="iv/methods.html#linearmodels.iv.model.IV2SLS.isnull">isnull (IV2SLS attribute)</a>
@@ -629,12 +689,18 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="iv/methods.html#linearmodels.iv.model.IVGMMCUE.j">j() (IVGMMCUE method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.j_stat">j_stat (IVGMMResults attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.j_statistic">j_statistic (LinearFactorModelResults attribute)</a>
 </li>
+      <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.HeteroskedasticCovariance.jacobian">jacobian (HeteroskedasticCovariance attribute)</a>
+
+      <ul>
+        <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.KernelCovariance.jacobian">(KernelCovariance attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -649,6 +715,8 @@
         <li><a href="iv/results.html#linearmodels.iv.results.OLSResults.kappa">(OLSResults attribute)</a>
 </li>
       </ul></li>
+      <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.KernelCovariance.kernel">kernel (KernelCovariance attribute)</a>
+</li>
       <li><a href="iv/covariance.html#linearmodels.iv.covariance.kernel_weight_bartlett">kernel_weight_bartlett() (covariance method)</a>
 </li>
   </ul></td>
@@ -657,8 +725,12 @@
 </li>
       <li><a href="iv/covariance.html#linearmodels.iv.covariance.kernel_weight_quadratic_spectral">kernel_weight_quadratic_spectral() (covariance method)</a>
 </li>
-      <li><a href="iv/covariance.html#linearmodels.iv.covariance.KernelCovariance">KernelCovariance (class in linearmodels.iv.covariance)</a>
+      <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.KernelCovariance">KernelCovariance (class in linearmodels.asset_pricing.covariance)</a>
+
+      <ul>
+        <li><a href="iv/covariance.html#linearmodels.iv.covariance.KernelCovariance">(class in linearmodels.iv.covariance)</a>
 </li>
+      </ul></li>
       <li><a href="iv/gmm.html#linearmodels.iv.gmm.KernelWeightMatrix">KernelWeightMatrix (class in linearmodels.iv.gmm)</a>
 </li>
   </ul></td>
@@ -673,6 +745,8 @@
 </li>
       <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults">LinearFactorModelResults (class in linearmodels.asset_pricing.results)</a>
 </li>
+      <li><a href="asset-pricing/covariance.html#module-linearmodels.asset_pricing.covariance">linearmodels.asset_pricing.covariance (module)</a>
+</li>
       <li><a href="asset-pricing/models.html#module-linearmodels.asset_pricing.model">linearmodels.asset_pricing.model (module)</a>
 </li>
       <li><a href="asset-pricing/results.html#module-linearmodels.asset_pricing.results">linearmodels.asset_pricing.results (module)</a>
@@ -681,10 +755,10 @@
 </li>
       <li><a href="iv/gmm.html#module-linearmodels.iv.gmm">linearmodels.iv.gmm (module)</a>
 </li>
-      <li><a href="iv/methods.html#module-linearmodels.iv.model">linearmodels.iv.model (module)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="iv/methods.html#module-linearmodels.iv.model">linearmodels.iv.model (module)</a>
+</li>
       <li><a href="panel/covariance.html#module-linearmodels.panel.covariance">linearmodels.panel.covariance (module)</a>
 </li>
       <li><a href="panel/data.html#module-linearmodels.panel.data">linearmodels.panel.data (module)</a>
@@ -739,9 +813,23 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.name">name (LinearFactorModelResults attribute)</a>
+      <li><a href="panel/covariance.html#linearmodels.panel.covariance.ACCovariance.name">name (ACCovariance attribute)</a>
 
       <ul>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.ClusteredCovariance.name">(ClusteredCovariance attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.DriscollKraay.name">(DriscollKraay attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethCovariance.name">(FamaMacBethCovariance attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethKernelCovariance.name">(FamaMacBethKernelCovariance attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.HeteroskedasticCovariance.name">(HeteroskedasticCovariance attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.HomoskedasticCovariance.name">(HomoskedasticCovariance attribute)</a>
+</li>
+        <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.name">(LinearFactorModelResults attribute)</a>
+</li>
         <li><a href="panel/results.html#linearmodels.panel.results.PanelEffectsResults.name">(PanelEffectsResults attribute)</a>
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.PanelResults.name">(PanelResults attribute)</a>
@@ -1030,21 +1118,29 @@
       <li><a href="iv/covariance.html#linearmodels.iv.covariance.ClusteredCovariance.s">s (ClusteredCovariance attribute)</a>
 
       <ul>
-        <li><a href="iv/covariance.html#linearmodels.iv.covariance.HeteroskedasticCovariance.s">(HeteroskedasticCovariance attribute)</a>
+        <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.HeteroskedasticCovariance.s">(HeteroskedasticCovariance attribute)</a>, <a href="iv/covariance.html#linearmodels.iv.covariance.HeteroskedasticCovariance.s">[1]</a>
 </li>
         <li><a href="iv/covariance.html#linearmodels.iv.covariance.HomoskedasticCovariance.s">(HomoskedasticCovariance attribute)</a>
 </li>
         <li><a href="iv/gmm.html#linearmodels.iv.gmm.IVGMMCovariance.s">(IVGMMCovariance attribute)</a>
 </li>
-        <li><a href="iv/covariance.html#linearmodels.iv.covariance.KernelCovariance.s">(KernelCovariance attribute)</a>
+        <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.KernelCovariance.s">(KernelCovariance attribute)</a>, <a href="iv/covariance.html#linearmodels.iv.covariance.KernelCovariance.s">[1]</a>
 </li>
       </ul></li>
-      <li><a href="iv/covariance.html#linearmodels.iv.covariance.ClusteredCovariance.s2">s2 (ClusteredCovariance attribute)</a>
+      <li><a href="panel/covariance.html#linearmodels.panel.covariance.ACCovariance.s2">s2 (ACCovariance attribute)</a>
 
       <ul>
-        <li><a href="iv/covariance.html#linearmodels.iv.covariance.HeteroskedasticCovariance.s2">(HeteroskedasticCovariance attribute)</a>
+        <li><a href="iv/covariance.html#linearmodels.iv.covariance.ClusteredCovariance.s2">(ClusteredCovariance attribute)</a>, <a href="panel/covariance.html#linearmodels.panel.covariance.ClusteredCovariance.s2">[1]</a>
 </li>
-        <li><a href="iv/covariance.html#linearmodels.iv.covariance.HomoskedasticCovariance.s2">(HomoskedasticCovariance attribute)</a>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.DriscollKraay.s2">(DriscollKraay attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethCovariance.s2">(FamaMacBethCovariance attribute)</a>
+</li>
+        <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethKernelCovariance.s2">(FamaMacBethKernelCovariance attribute)</a>
+</li>
+        <li><a href="iv/covariance.html#linearmodels.iv.covariance.HeteroskedasticCovariance.s2">(HeteroskedasticCovariance attribute)</a>, <a href="panel/covariance.html#linearmodels.panel.covariance.HeteroskedasticCovariance.s2">[1]</a>
+</li>
+        <li><a href="iv/covariance.html#linearmodels.iv.covariance.HomoskedasticCovariance.s2">(HomoskedasticCovariance attribute)</a>, <a href="panel/covariance.html#linearmodels.panel.covariance.HomoskedasticCovariance.s2">[1]</a>
 </li>
         <li><a href="iv/gmm.html#linearmodels.iv.gmm.IVGMMCovariance.s2">(IVGMMCovariance attribute)</a>
 </li>
@@ -1065,10 +1161,16 @@
       </ul></li>
       <li><a href="iv/results.html#linearmodels.iv.results.IVResults.sargan">sargan (IVResults attribute)</a>
 </li>
-      <li><a href="panel/data.html#linearmodels.panel.data.PanelData.shape">shape (PanelData attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="panel/data.html#linearmodels.panel.data.PanelData.shape">shape (PanelData attribute)</a>
+</li>
+      <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.HeteroskedasticCovariance.square">square (HeteroskedasticCovariance attribute)</a>
+
+      <ul>
+        <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.KernelCovariance.square">(KernelCovariance attribute)</a>
+</li>
+      </ul></li>
       <li><a href="utility.html#linearmodels.utility.WaldTestStatistic.stat">stat (WaldTestStatistic attribute)</a>
 </li>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.std_errors">std_errors (IVGMMResults attribute)</a>
@@ -1276,7 +1378,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 2.0+76.g895e010 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 2.0+76.gd7e9ec0 documentation</a> &#187;</li> 
       </ul>
     </div>
 <script type="text/javascript">

@@ -1,5 +1,6 @@
 doc/_images/asset-pricing_examples_examples_14_2.png
 doc/_modules/index.html
+doc/_modules/linearmodels/asset_pricing/covariance.html
 doc/_modules/linearmodels/asset_pricing/model.html
 doc/_modules/linearmodels/asset_pricing/results.html
 doc/_modules/linearmodels/iv/covariance.html
@@ -11,6 +12,7 @@ doc/_modules/linearmodels/panel/data.html
 doc/_modules/linearmodels/panel/model.html
 doc/_modules/linearmodels/panel/results.html
 doc/_modules/linearmodels/utility.html
+doc/_sources/asset-pricing/covariance.rst.txt
 doc/_sources/asset-pricing/examples/examples.ipynb.txt
 doc/_sources/asset-pricing/examples/formulas.ipynb.txt
 doc/_sources/asset-pricing/index.rst.txt
@@ -156,6 +158,7 @@ doc/_static/underscore.js
 doc/_static/up-pressed.png
 doc/_static/up.png
 doc/_static/websupport.js
+doc/asset-pricing/covariance.html
 doc/asset-pricing/examples/examples.html
 doc/asset-pricing/examples/formulas.html
 doc/asset-pricing/index.html

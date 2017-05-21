@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Panel Model Covariance Estimators &#8212; linearmodels 2.0+76.g895e010 documentation</title>
+    <title>Panel Model Covariance Estimators &#8212; linearmodels 2.0+76.gd7e9ec0 documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0+76.g895e010',
+        VERSION:     '2.0+76.gd7e9ec0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="results.html" title="Estimation Results"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+76.g895e010 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+76.gd7e9ec0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Panel Data Model Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
@@ -75,7 +75,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 2.0 (+76, g895e010)</a>
+    ../index.html" class="text-logo">linearmodels 2.0 (+76, gd7e9ec0)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -92,7 +92,7 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/data-formats.html">Data Formats for Panel Data Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/examples.html">Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/using-formulas.html">Using formulas to specify models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pandas.html">Comparison with pandas PanelOLS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pandas.html">Comparison with pandas PanelOLS and FamaMacBeth</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="reference.html">Module Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mathematical-formula.html">Formulas and Mathematical Detail</a></li>
 <li class="toctree-l2"><a class="reference internal" href="faq.html">Implementation Choices</a></li>
@@ -179,6 +179,36 @@ adjusted for extra_df irrespective of the setting of debiased</li>
 \[s^2 = (n-df)^{-1} \hat{\epsilon}'\hat{\epsilon}\]</div>
 <p>where df is <code class="docutils literal"><span class="pre">extra_df</span></code> and n-df is replace by n-df-k if <code class="docutils literal"><span class="pre">debiased</span></code> is
 <code class="docutils literal"><span class="pre">True</span></code>.</p>
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.HomoskedasticCovariance.cov">
+<code class="descname">cov</code><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HomoskedasticCovariance.cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HomoskedasticCovariance.cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimated covariance</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.panel.covariance.HomoskedasticCovariance.deferred_cov">
+<code class="descname">deferred_cov</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HomoskedasticCovariance.deferred_cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HomoskedasticCovariance.deferred_cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance calculation deferred until executed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.HomoskedasticCovariance.eps">
+<code class="descname">eps</code><a class="headerlink" href="#linearmodels.panel.covariance.HomoskedasticCovariance.eps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model residuals</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.HomoskedasticCovariance.name">
+<code class="descname">name</code><a class="headerlink" href="#linearmodels.panel.covariance.HomoskedasticCovariance.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance estimator name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.HomoskedasticCovariance.s2">
+<code class="descname">s2</code><a class="headerlink" href="#linearmodels.panel.covariance.HomoskedasticCovariance.s2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error variance</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -219,6 +249,36 @@ adjusted for extra_df irrespective of the setting of debiased</li>
 \[\hat{S} = (n-df)^{-1} \sum_{i=1}^n \hat{\epsilon}_i^2 x_i'x_i\]</div>
 <p>where df is <code class="docutils literal"><span class="pre">extra_df</span></code> and n-df is replace by n-df-k if <code class="docutils literal"><span class="pre">debiased</span></code> is
 <code class="docutils literal"><span class="pre">True</span></code>.</p>
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.HeteroskedasticCovariance.cov">
+<code class="descname">cov</code><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#HeteroskedasticCovariance.cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.HeteroskedasticCovariance.cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimated covariance</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.panel.covariance.HeteroskedasticCovariance.deferred_cov">
+<code class="descname">deferred_cov</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.covariance.HeteroskedasticCovariance.deferred_cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance calculation deferred until executed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.HeteroskedasticCovariance.eps">
+<code class="descname">eps</code><a class="headerlink" href="#linearmodels.panel.covariance.HeteroskedasticCovariance.eps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model residuals</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.HeteroskedasticCovariance.name">
+<code class="descname">name</code><a class="headerlink" href="#linearmodels.panel.covariance.HeteroskedasticCovariance.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance estimator name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.HeteroskedasticCovariance.s2">
+<code class="descname">s2</code><a class="headerlink" href="#linearmodels.panel.covariance.HeteroskedasticCovariance.s2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error variance</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -274,6 +334,36 @@ small sample adjustment for the number of clusters of the form</p>
 \[(g / (g- 1)) ((n - 1) / n)\]</div>
 <p>where g is the number of distinct groups and n is the number of
 observations.</p>
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.ClusteredCovariance.cov">
+<code class="descname">cov</code><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#ClusteredCovariance.cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.ClusteredCovariance.cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimated covariance</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.panel.covariance.ClusteredCovariance.deferred_cov">
+<code class="descname">deferred_cov</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.covariance.ClusteredCovariance.deferred_cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance calculation deferred until executed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.ClusteredCovariance.eps">
+<code class="descname">eps</code><a class="headerlink" href="#linearmodels.panel.covariance.ClusteredCovariance.eps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model residuals</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.ClusteredCovariance.name">
+<code class="descname">name</code><a class="headerlink" href="#linearmodels.panel.covariance.ClusteredCovariance.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance estimator name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.ClusteredCovariance.s2">
+<code class="descname">s2</code><a class="headerlink" href="#linearmodels.panel.covariance.ClusteredCovariance.s2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error variance</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -328,6 +418,244 @@ provided.</p>
 \hat{S}   &amp; = (n-df)^{-1} \sum_{j=0}^{bw} K(j, bw) \hat{S}_j\end{split}\]</div>
 <p>where df is <code class="docutils literal"><span class="pre">extra_df</span></code> and n-df is replace by n-df-k if <code class="docutils literal"><span class="pre">debiased</span></code> is
 <code class="docutils literal"><span class="pre">True</span></code>. <span class="math">\(K(i, bw)\)</span> is the kernel weighting function.</p>
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.DriscollKraay.cov">
+<code class="descname">cov</code><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#DriscollKraay.cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.DriscollKraay.cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimated covariance</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.panel.covariance.DriscollKraay.deferred_cov">
+<code class="descname">deferred_cov</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.covariance.DriscollKraay.deferred_cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance calculation deferred until executed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.DriscollKraay.eps">
+<code class="descname">eps</code><a class="headerlink" href="#linearmodels.panel.covariance.DriscollKraay.eps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model residuals</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.DriscollKraay.name">
+<code class="descname">name</code><a class="headerlink" href="#linearmodels.panel.covariance.DriscollKraay.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance estimator name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.DriscollKraay.s2">
+<code class="descname">s2</code><a class="headerlink" href="#linearmodels.panel.covariance.DriscollKraay.s2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error variance</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ac-robust-estimator">
+<h2>AC Robust Estimator<a class="headerlink" href="#ac-robust-estimator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="linearmodels.panel.covariance.ACCovariance">
+<em class="property">class </em><code class="descname">ACCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>entity_ids</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em>, <em>kernel=’newey-west’</em>, <em>bandwidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#ACCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.ACCovariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Autocorrelation robust covariance estimation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>y</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of dependent</li>
+<li><strong>x</strong> (<em>ndarray</em>) – (entity x time) by variables stacked array of exogenous</li>
+<li><strong>params</strong> (<em>ndarray</em>) – variables by 1 array of estimated model parameters</li>
+<li><strong>entity_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of entity ids</li>
+<li><strong>time_ids</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of time ids</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the estimator</li>
+<li><strong>extra_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Additional degrees of freedom consumed by models beyond the number of
+columns in x, e.g., fixed effects.  Covariance estimators are always
+adjusted for extra_df irrespective of the setting of debiased</li>
+<li><strong>kernel</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>options</em>) – Name of one of the supported kernels</li>
+<li><strong>bandwidth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Non-negative integer to use as bandwidth.  If not provided a rule-of-
+thumb value is used.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Estimator is robust to autocorrelation but no cross-sectional correlation.</p>
+<p>Supported kernels:</p>
+<ul class="simple">
+<li>‘bartlett’, ‘newey-west’ - Bartlett’s kernel</li>
+<li>‘quadratic-spectral’, ‘qs’, ‘andrews’ - Quadratic-Spectral Kernel</li>
+<li>‘parzen’, ‘gallant’ - Parzen kernel</li>
+</ul>
+<p>Bandwidth is set to the common value for the Bartlett kernel if not
+provided.</p>
+<p>The estimator of the covariance is</p>
+<div class="math">
+\[n^{-1}\hat{\Sigma}_{xx}^{-1}\hat{S}\hat{\Sigma}_{xx}^{-1}\]</div>
+<p>where</p>
+<div class="math">
+\[\hat{\Sigma}_{xx} = n^{-1}X'X\]</div>
+<p>and</p>
+<div class="math">
+\[\begin{split}\xi_t &amp; = \epsilon_{it} x_{it} \\
+\hat{S} &amp; = n / (N(n-df))  \sum_{i=1}^N S_i \\
+\hat{S}_i &amp; = \sum_{j=0}^{bw} K(j, bw) \hat{S}_{ij} \\
+\hat{S}_{i0} &amp; = \sum_{t=1}^{T} \xi'_{it} \xi_{it} \\
+\hat{S}_{ij} &amp; = \sum_{t=1}^{T-j} \xi'_{it} \xi_{it+j} + \xi'_{it+j} \xi_{it}\end{split}\]</div>
+<p>where df is <code class="docutils literal"><span class="pre">extra_df</span></code> and n-df is replace by n-df-k if <code class="docutils literal"><span class="pre">debiased</span></code> is
+<code class="docutils literal"><span class="pre">True</span></code>. <span class="math">\(K(i, bw)\)</span> is the kernel weighting function.</p>
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.ACCovariance.cov">
+<code class="descname">cov</code><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#ACCovariance.cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.ACCovariance.cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimated covariance</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.panel.covariance.ACCovariance.deferred_cov">
+<code class="descname">deferred_cov</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.covariance.ACCovariance.deferred_cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance calculation deferred until executed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.ACCovariance.eps">
+<code class="descname">eps</code><a class="headerlink" href="#linearmodels.panel.covariance.ACCovariance.eps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model residuals</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.ACCovariance.name">
+<code class="descname">name</code><a class="headerlink" href="#linearmodels.panel.covariance.ACCovariance.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance estimator name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.ACCovariance.s2">
+<code class="descname">s2</code><a class="headerlink" href="#linearmodels.panel.covariance.ACCovariance.s2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error variance</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="fama-macbeth-covariance-estimator">
+<h2>Fama-MacBeth Covariance Estimator<a class="headerlink" href="#fama-macbeth-covariance-estimator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="linearmodels.panel.covariance.FamaMacBethCovariance">
+<em class="property">class </em><code class="descname">FamaMacBethCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>all_params</em>, <em>*</em>, <em>debiased=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#FamaMacBethCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethCovariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Heteroskedasticty robust covariance estimator for Fama-MacBeth</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>y</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of dependent</li>
+<li><strong>x</strong> (<em>ndarray</em>) – (entity x time) by variables stacked array of exogenous</li>
+<li><strong>params</strong> (<em>ndarray</em>) – (variables by 1) array of estimated model parameters</li>
+<li><strong>all_params</strong> (<em>ndarray</em>) – (nobs by variables) array of all estimated model parameters</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the estimator</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Covariance is the sample covariance of the set of all estimated
+parameters.</p>
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.FamaMacBethCovariance.cov">
+<code class="descname">cov</code><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#FamaMacBethCovariance.cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethCovariance.cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimated covariance</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.panel.covariance.FamaMacBethCovariance.deferred_cov">
+<code class="descname">deferred_cov</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethCovariance.deferred_cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance calculation deferred until executed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.FamaMacBethCovariance.eps">
+<code class="descname">eps</code><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethCovariance.eps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model residuals</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.FamaMacBethCovariance.name">
+<code class="descname">name</code><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethCovariance.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance estimator name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.FamaMacBethCovariance.s2">
+<code class="descname">s2</code><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethCovariance.s2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error variance</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="fama-macbeth-hac-covariance-estimator">
+<h2>Fama-MacBeth HAC Covariance Estimator<a class="headerlink" href="#fama-macbeth-hac-covariance-estimator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="linearmodels.panel.covariance.FamaMacBethKernelCovariance">
+<em class="property">class </em><code class="descname">FamaMacBethKernelCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>all_params</em>, <em>*</em>, <em>debiased=False</em>, <em>kernel=’newey-west’</em>, <em>bandwidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#FamaMacBethKernelCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethKernelCovariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>HAC estimator for Fama-MacBeth estimator</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>y</strong> (<em>ndarray</em>) – (entity x time) by 1 stacked array of dependent</li>
+<li><strong>x</strong> (<em>ndarray</em>) – (entity x time) by variables stacked array of exogenous</li>
+<li><strong>params</strong> (<em>ndarray</em>) – (variables by 1) array of estimated model parameters</li>
+<li><strong>all_params</strong> (<em>ndarray</em>) – (nobs by variables) array of all estimated model parameters</li>
+<li><strong>debiased</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag indicating whether to debias the estimator</li>
+<li><strong>kernel</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>options</em>) – Name of one of the supported kernels</li>
+<li><strong>bandwidth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><em>optional</em>) – Non-negative integer to use as bandwidth.  If not provided a rule-of-
+thumb value is used.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Covariance is a Kernel covariance of all estimated parameters.</p>
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.FamaMacBethKernelCovariance.bandwidth">
+<code class="descname">bandwidth</code><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#FamaMacBethKernelCovariance.bandwidth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethKernelCovariance.bandwidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimator bandwidth</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.FamaMacBethKernelCovariance.cov">
+<code class="descname">cov</code><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#FamaMacBethKernelCovariance.cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethKernelCovariance.cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimated covariance</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="linearmodels.panel.covariance.FamaMacBethKernelCovariance.deferred_cov">
+<code class="descname">deferred_cov</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethKernelCovariance.deferred_cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance calculation deferred until executed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.FamaMacBethKernelCovariance.eps">
+<code class="descname">eps</code><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethKernelCovariance.eps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model residuals</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.FamaMacBethKernelCovariance.name">
+<code class="descname">name</code><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethKernelCovariance.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance estimator name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="linearmodels.panel.covariance.FamaMacBethKernelCovariance.s2">
+<code class="descname">s2</code><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethKernelCovariance.s2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error variance</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -366,7 +694,7 @@ provided.</p>
         <li class="right" >
           <a href="results.html" title="Estimation Results"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+76.g895e010 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 2.0+76.gd7e9ec0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Panel Data Model Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" >Module Reference</a> &#187;</li> 
       </ul>
