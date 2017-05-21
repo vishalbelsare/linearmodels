@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Module Plans &#8212; linearmodels 2.0+76.gd670573 documentation</title>
+    <title>Module Plans &#8212; linearmodels 2.0+76.g5e3544e documentation</title>
     
     <link rel="stylesheet" href="_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '2.0+76.gd670573',
+        VERSION:     '2.0+76.g5e3544e',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="utility.html" title="Utilities"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 2.0+76.gd670573 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 2.0+76.g5e3544e documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="container-wrapper">
@@ -73,7 +73,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    index.html" class="text-logo">linearmodels 2.0 (+76, gd670573)</a>
+    index.html" class="text-logo">linearmodels 2.0 (+76, g5e3544e)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -131,7 +131,7 @@
   <div class="section" id="module-plans">
 <h1>Module Plans<a class="headerlink" href="#module-plans" title="Permalink to this headline">¶</a></h1>
 <p>The plan for this modules is to add some key missing linear models.  This plan is intentionally
-limited since there is no intention to statsmodels.</p>
+limited since there is no intention to replicate estimators available in statsmodels.</p>
 <div class="section" id="univariate">
 <h2>Univariate<a class="headerlink" href="#univariate" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -143,13 +143,6 @@ limited since there is no intention to statsmodels.</p>
 <li>GMM IV Estimation - <a class="reference internal" href="iv/methods.html#linearmodels.iv.model.IVGMM" title="linearmodels.iv.model.IVGMM"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.iv.model.IVGMM</span></code></a></li>
 <li>GMM-CUE Estimation - <a class="reference internal" href="iv/methods.html#linearmodels.iv.model.IVGMMCUE" title="linearmodels.iv.model.IVGMMCUE"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.iv.model.IVGMMCUE</span></code></a></li>
 </ul>
-<div class="section" id="in-progress">
-<h3>In Progress<a class="headerlink" href="#in-progress" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>2-step Linear Asset Pricing Model Estimation - <a class="reference internal" href="asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModel" title="linearmodels.asset_pricing.model.LinearFactorModel"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.asset_pricing.model.LinearFactorModel</span></code></a></li>
-<li>Linear Asset Pricing Model Estimation for Traded Factors - <a class="reference internal" href="asset-pricing/models.html#linearmodels.asset_pricing.model.TradedFactorModel" title="linearmodels.asset_pricing.model.TradedFactorModel"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.asset_pricing.model.TradedFactorModel</span></code></a></li>
-</ul>
-</div>
 </div>
 <div class="section" id="panel">
 <h2>Panel<a class="headerlink" href="#panel" title="Permalink to this headline">¶</a></h2>
@@ -162,6 +155,14 @@ limited since there is no intention to statsmodels.</p>
 <li>Between - <a class="reference internal" href="panel/models.html#linearmodels.panel.model.BetweenOLS" title="linearmodels.panel.model.BetweenOLS"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.panel.model.BetweenOLS</span></code></a></li>
 <li>First Difference - <a class="reference internal" href="panel/models.html#linearmodels.panel.model.FirstDifferenceOLS" title="linearmodels.panel.model.FirstDifferenceOLS"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.panel.model.FirstDifferenceOLS</span></code></a></li>
 <li>Fama-MacBeth - <a class="reference internal" href="panel/models.html#linearmodels.panel.model.FamaMacBeth" title="linearmodels.panel.model.FamaMacBeth"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.panel.model.FamaMacBeth</span></code></a></li>
+</ul>
+</div>
+<div class="section" id="asset-pricing">
+<h3>Asset Pricing<a class="headerlink" href="#asset-pricing" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>2-step Linear Asset Pricing Model Estimation - <a class="reference internal" href="asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModel" title="linearmodels.asset_pricing.model.LinearFactorModel"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.asset_pricing.model.LinearFactorModel</span></code></a></li>
+<li>GMM Linear Asset Pricing Model Estimation - <a class="reference internal" href="asset-pricing/models.html#linearmodels.asset_pricing.model.LinearFactorModelGMM" title="linearmodels.asset_pricing.model.LinearFactorModelGMM"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.asset_pricing.model.LinearFactorModelGMM</span></code></a></li>
+<li>Linear Asset Pricing Model Estimation for Traded Factors - <a class="reference internal" href="asset-pricing/models.html#linearmodels.asset_pricing.model.TradedFactorModel" title="linearmodels.asset_pricing.model.TradedFactorModel"><code class="xref py py-class docutils literal"><span class="pre">linearmodels.asset_pricing.model.TradedFactorModel</span></code></a></li>
 </ul>
 </div>
 <div class="section" id="instrumental-variable-estimators">
@@ -210,7 +211,7 @@ limited since there is no intention to statsmodels.</p>
         <li class="right" >
           <a href="utility.html" title="Utilities"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 2.0+76.gd670573 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 2.0+76.g5e3544e documentation</a> &#187;</li> 
       </ul>
     </div>
 <script type="text/javascript">
