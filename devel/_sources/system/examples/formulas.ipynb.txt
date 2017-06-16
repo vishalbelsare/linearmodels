@@ -17,7 +17,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": null,
    "metadata": {
     "collapsed": true
    },
@@ -40,7 +40,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": null,
    "metadata": {
     "collapsed": true
    },
@@ -54,50 +54,9 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": null,
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "                        System GLS Estimation Summary                         \n",
-      "==============================================================================\n",
-      "Estimator:                        GLS   Overall R-squared:              0.6765\n",
-      "No. Equations.:                     2   Cov. Estimator:             unadjusted\n",
-      "No. Observations:                 616   Num. Constraints:                 None\n",
-      "Date:                Fri, Jun 16 2017                                         \n",
-      "Time:                        10:04:14                                         \n",
-      "                                                                              \n",
-      "                                                                              \n",
-      "                Equation: benefits, Dependent Variable: hrbens                \n",
-      "==============================================================================\n",
-      "            Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI\n",
-      "------------------------------------------------------------------------------\n",
-      "educ           0.0346     0.0050     6.8605     0.0000      0.0247      0.0445\n",
-      "exper          0.0350     0.0063     5.5974     0.0000      0.0228      0.0473\n",
-      "expersq       -0.0006     0.0001    -4.4326     0.0000     -0.0009     -0.0003\n",
-      "union          0.3682     0.0474     7.7659     0.0000      0.2753      0.4612\n",
-      "south         -0.1775     0.0586    -3.0289     0.0025     -0.2923     -0.0626\n",
-      "nrtheast      -0.1224     0.0714    -1.7132     0.0867     -0.2624      0.0176\n",
-      "nrthcen       -0.1433     0.0621    -2.3074     0.0210     -0.2650     -0.0216\n",
-      "male           0.2518     0.0490     5.1435     0.0000      0.1559      0.3478\n",
-      "                                                                              \n",
-      "                Equation: earnings, Dependent Variable: hrearn                \n",
-      "==============================================================================\n",
-      "            Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI\n",
-      "------------------------------------------------------------------------------\n",
-      "educ           0.3547     0.0357     9.9280     0.0000      0.2847      0.4247\n",
-      "exper         -0.0750     0.0492    -1.5260     0.1270     -0.1714      0.0213\n",
-      "expersq        0.0038     0.0011     3.4600     0.0005      0.0016      0.0059\n",
-      "nrtheast      -0.7127     0.4473    -1.5934     0.1111     -1.5894      0.1640\n",
-      "married        0.4472     0.3920     1.1410     0.2539     -0.3210      1.2155\n",
-      "male           1.8899     0.3904     4.8408     0.0000      1.1247      2.6551\n",
-      "                                                                              \n",
-      "==============================================================================\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "from linearmodels.system import SUR\n",
     "mod = SUR.from_formula(formula, data)\n",
@@ -115,50 +74,9 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": null,
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "                        System GLS Estimation Summary                         \n",
-      "==============================================================================\n",
-      "Estimator:                        GLS   Overall R-squared:              0.6765\n",
-      "No. Equations.:                     2   Cov. Estimator:             unadjusted\n",
-      "No. Observations:                 616   Num. Constraints:                 None\n",
-      "Date:                Fri, Jun 16 2017                                         \n",
-      "Time:                        10:04:54                                         \n",
-      "                                                                              \n",
-      "                                                                              \n",
-      "                 Equation: hrbens, Dependent Variable: hrbens                 \n",
-      "==============================================================================\n",
-      "            Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI\n",
-      "------------------------------------------------------------------------------\n",
-      "educ           0.0346     0.0050     6.8605     0.0000      0.0247      0.0445\n",
-      "exper          0.0350     0.0063     5.5974     0.0000      0.0228      0.0473\n",
-      "expersq       -0.0006     0.0001    -4.4326     0.0000     -0.0009     -0.0003\n",
-      "union          0.3682     0.0474     7.7659     0.0000      0.2753      0.4612\n",
-      "south         -0.1775     0.0586    -3.0289     0.0025     -0.2923     -0.0626\n",
-      "nrtheast      -0.1224     0.0714    -1.7132     0.0867     -0.2624      0.0176\n",
-      "nrthcen       -0.1433     0.0621    -2.3074     0.0210     -0.2650     -0.0216\n",
-      "male           0.2518     0.0490     5.1435     0.0000      0.1559      0.3478\n",
-      "                                                                              \n",
-      "                 Equation: hrearn, Dependent Variable: hrearn                 \n",
-      "==============================================================================\n",
-      "            Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI\n",
-      "------------------------------------------------------------------------------\n",
-      "educ           0.3547     0.0357     9.9280     0.0000      0.2847      0.4247\n",
-      "exper         -0.0750     0.0492    -1.5260     0.1270     -0.1714      0.0213\n",
-      "expersq        0.0038     0.0011     3.4600     0.0005      0.0016      0.0059\n",
-      "nrtheast      -0.7127     0.4473    -1.5934     0.1111     -1.5894      0.1640\n",
-      "married        0.4472     0.3920     1.1410     0.2539     -0.3210      1.2155\n",
-      "male           1.8899     0.3904     4.8408     0.0000      1.1247      2.6551\n",
-      "                                                                              \n",
-      "==============================================================================\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "braces_formula = '''\n",
     "{hrbens ~ educ + exper + expersq + union + south + nrtheast + nrthcen + male}\n",
@@ -178,20 +96,9 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": null,
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "Unlabeled\n",
-      "['hrbens', 'hrearn']\n",
-      "Labeled\n",
-      "['benefits', 'earnings']\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "labeled_formula = '''\n",
     "{benefits: hrbens ~ educ + exper + expersq + union + south + nrtheast + nrthcen + male}\n",
@@ -230,50 +137,9 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": null,
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "                        System GLS Estimation Summary                         \n",
-      "==============================================================================\n",
-      "Estimator:                        GLS   Overall R-squared:              0.7233\n",
-      "No. Equations.:                     2   Cov. Estimator:                 robust\n",
-      "No. Observations:                 616   Num. Constraints:                 None\n",
-      "Date:                Fri, Jun 16 2017                                         \n",
-      "Time:                        10:04:15                                         \n",
-      "                                                                              \n",
-      "                                                                              \n",
-      "                Equation: benefits, Dependent Variable: hrbens                \n",
-      "==============================================================================\n",
-      "            Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI\n",
-      "------------------------------------------------------------------------------\n",
-      "educ           0.0377     0.0060     6.2313     0.0000      0.0258      0.0495\n",
-      "exper          0.0403     0.0073     5.5083     0.0000      0.0259      0.0546\n",
-      "expersq       -0.0007     0.0002    -4.1124     0.0000     -0.0011     -0.0004\n",
-      "union          0.3603     0.0555     6.4940     0.0000      0.2516      0.4691\n",
-      "south         -0.2662     0.0645    -4.1284     0.0000     -0.3925     -0.1398\n",
-      "nrtheast      -0.1859     0.0823    -2.2589     0.0239     -0.3473     -0.0246\n",
-      "nrthcen       -0.2176     0.0688    -3.1619     0.0016     -0.3525     -0.0827\n",
-      "male           0.2388     0.0565     4.2257     0.0000      0.1280      0.3496\n",
-      "                                                                              \n",
-      "                Equation: earnings, Dependent Variable: hrearn                \n",
-      "==============================================================================\n",
-      "            Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI\n",
-      "------------------------------------------------------------------------------\n",
-      "educ           0.2891     0.0446     6.4876     0.0000      0.2018      0.3764\n",
-      "exper          0.0930     0.0931     0.9984     0.3181     -0.0895      0.2755\n",
-      "expersq       -0.0008     0.0024    -0.3404     0.7336     -0.0054      0.0038\n",
-      "nrtheast      -0.5355     0.3336    -1.6053     0.1084     -1.1893      0.1183\n",
-      "married        0.2324     0.2850     0.8153     0.4149     -0.3262      0.7909\n",
-      "male           1.7649     0.2870     6.1503     0.0000      1.2025      2.3274\n",
-      "                                                                              \n",
-      "==============================================================================\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "random_weights = np.random.chisquare(5, size=(616,2))\n",
     "random_weights = pd.DataFrame(random_weights, columns=['benefits', 'earnings'])\n",
