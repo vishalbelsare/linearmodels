@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.system.model &#8212; linearmodels 3.0+15.gd0e6ac3 documentation</title>
+    <title>linearmodels.system.model &#8212; linearmodels 3.0+17.gb64fca2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.0+15.gd0e6ac3',
+        VERSION:     '3.0+17.gb64fca2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.0+15.gd0e6ac3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.0+17.gb64fca2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 3.0 (+15, gd0e6ac3)</a>
+    ../../../index.html" class="text-logo">linearmodels 3.0 (+17, gb64fca2)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -140,7 +140,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="p">(</span><span class="n">asarray</span><span class="p">,</span> <span class="n">cumsum</span><span class="p">,</span> <span class="n">diag</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">hstack</span><span class="p">,</span> <span class="n">inf</span><span class="p">,</span> <span class="n">nanmean</span><span class="p">,</span>
                    <span class="n">ones_like</span><span class="p">,</span> <span class="n">reshape</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">zeros</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">inv</span><span class="p">,</span> <span class="n">lstsq</span><span class="p">,</span> <span class="n">solve</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">inv</span><span class="p">,</span> <span class="n">solve</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="k">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
 <span class="kn">from</span> <span class="nn">patsy.highlevel</span> <span class="k">import</span> <span class="n">dmatrices</span>
 <span class="kn">from</span> <span class="nn">patsy.missing</span> <span class="k">import</span> <span class="n">NAAction</span>
@@ -243,14 +243,14 @@
 
 <span class="sd">    where :math:`\Sigma` is the covariance matrix of the residuals.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">equations</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">equations</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;dependent must be a dictionary-like&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">equations</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Equation lebels (keys) must be strings&#39;</span><span class="p">)</span>
-        
+
         <span class="c1"># Ensure nearly deterministic equation ordering</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">equations</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">):</span>
             <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">equations</span><span class="p">]</span>
@@ -259,7 +259,7 @@
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
                 <span class="n">ordered_eqn</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">equations</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
             <span class="n">equations</span> <span class="o">=</span> <span class="n">ordered_eqn</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_equations</span> <span class="o">=</span> <span class="n">equations</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sigma</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span> <span class="k">if</span> <span class="n">sigma</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_param_names</span> <span class="o">=</span> <span class="p">[]</span>
@@ -271,14 +271,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_wy</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_wx</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_w</span> <span class="o">=</span> <span class="p">[]</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_constant_loc</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_has_constant</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_common_exog</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">()</span>
-    
+
     <span class="k">def</span> <span class="nf">_validate_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_equations</span><span class="p">):</span>
@@ -295,7 +295,7 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">dep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dependent</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">IVData</span><span class="p">(</span><span class="n">ones_like</span><span class="p">(</span><span class="n">dep</span><span class="p">)))</span>
-            
+
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">eq_data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_dependent</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">IVData</span><span class="p">(</span><span class="n">eq_data</span><span class="p">[</span><span class="s1">&#39;dependent&#39;</span><span class="p">],</span> <span class="n">var_name</span><span class="o">=</span><span class="n">dep_name</span><span class="p">))</span>
                 <span class="n">ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">eq_data</span><span class="p">[</span><span class="s1">&#39;exog&#39;</span><span class="p">]))</span>
@@ -305,7 +305,7 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">dep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dependent</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">IVData</span><span class="p">(</span><span class="n">ones_like</span><span class="p">(</span><span class="n">dep</span><span class="p">)))</span>
-            
+
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="n">UNKNOWN_EQ_TYPE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="nb">vars</span><span class="p">))</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
@@ -315,7 +315,7 @@
             <span class="k">if</span> <span class="n">lhs_a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">rhs_a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Dependent and exogenous do not have the same&#39;</span>
                                  <span class="s1">&#39; number of observations&#39;</span><span class="p">)</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_drop_missing</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_common_exog</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span>
         <span class="n">constant</span> <span class="o">=</span> <span class="p">[]</span>
@@ -335,7 +335,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_has_constant</span> <span class="o">=</span> <span class="n">Series</span><span class="p">(</span><span class="n">constant</span><span class="p">,</span>
                                     <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dependent</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_constant_loc</span> <span class="o">=</span> <span class="n">constant_loc</span>
-        
+
         <span class="k">for</span> <span class="n">dep</span><span class="p">,</span> <span class="n">exog</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dependent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">):</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">dep</span><span class="o">.</span><span class="n">ndarray</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span>
@@ -347,29 +347,29 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_wy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span> <span class="o">*</span> <span class="n">w_sqrt</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_wx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">w_sqrt</span><span class="p">)</span>
-    
+
     <span class="k">def</span> <span class="nf">_drop_missing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dependent</span><span class="p">)</span>
         <span class="n">nobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dependent</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">missing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nobs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
-        
+
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
             <span class="n">missing</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dependent</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span>
             <span class="n">missing</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exog</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span>
             <span class="n">missing</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span>
-        
+
         <span class="n">missing_warning</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_dependent</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_exog</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
-    
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">has_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Vector indicating which equations contain constants&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_constant</span>
-    
+
 <div class="viewcode-block" id="SUR.multivariate_ls"><a class="viewcode-back" href="../../../system/models.html#linearmodels.system.model.SUR.multivariate_ls">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">multivariate_ls</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dependent</span><span class="p">,</span> <span class="n">exog</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -411,7 +411,7 @@
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">dependent</span><span class="o">.</span><span class="n">pandas</span><span class="p">:</span>
             <span class="n">equations</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dependent</span><span class="o">.</span><span class="n">pandas</span><span class="p">[[</span><span class="n">col</span><span class="p">]],</span> <span class="n">exog</span><span class="o">.</span><span class="n">pandas</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">equations</span><span class="p">)</span></div>
-    
+
 <div class="viewcode-block" id="SUR.from_formula"><a class="viewcode-back" href="../../../system/models.html#linearmodels.system.model.SUR.from_formula">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -464,7 +464,7 @@
         <span class="n">na_action</span> <span class="o">=</span> <span class="n">NAAction</span><span class="p">(</span><span class="n">on_NA</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">,</span> <span class="n">NA_types</span><span class="o">=</span><span class="p">[])</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="p">(</span><span class="n">Mapping</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;formula must be a string or dictionary-like&#39;</span><span class="p">)</span>
-        
+
         <span class="n">missing_weight_keys</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">eqns</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
@@ -481,7 +481,7 @@
                         <span class="n">missing_weight_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
             <span class="n">_missing_weights</span><span class="p">(</span><span class="n">missing_weight_keys</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">SUR</span><span class="p">(</span><span class="n">eqns</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
-        
+
         <span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="n">parts</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">parts</span><span class="p">):</span>
@@ -509,11 +509,11 @@
                     <span class="n">eqns</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;weights&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">missing_weight_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-        
+
         <span class="n">_missing_weights</span><span class="p">(</span><span class="n">missing_weight_keys</span><span class="p">)</span>
-        
+
         <span class="k">return</span> <span class="n">SUR</span><span class="p">(</span><span class="n">eqns</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span></div>
-    
+
     <span class="k">def</span> <span class="nf">_multivariate_ls_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">wy</span><span class="p">,</span> <span class="n">wx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wx</span>
         <span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">wx</span><span class="p">)</span>
@@ -537,7 +537,7 @@
             <span class="n">xpy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">xpy</span><span class="p">)</span>
             <span class="n">xpx</span><span class="p">,</span> <span class="n">xpy</span> <span class="o">=</span> <span class="n">xpx</span><span class="p">,</span> <span class="n">xpy</span>
             <span class="n">params</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">xpx</span><span class="p">,</span> <span class="n">xpy</span><span class="p">)</span>
-        
+
         <span class="n">beta</span> <span class="o">=</span> <span class="n">params</span>
         <span class="n">loc</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">eps</span> <span class="o">=</span> <span class="p">[]</span>
@@ -547,13 +547,12 @@
             <span class="n">eps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">wx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">@</span> <span class="n">b</span><span class="p">)</span>
             <span class="n">loc</span> <span class="o">+=</span> <span class="n">nb</span>
         <span class="n">eps</span> <span class="o">=</span> <span class="n">hstack</span><span class="p">(</span><span class="n">eps</span><span class="p">)</span>
-        
+
         <span class="k">return</span> <span class="n">beta</span><span class="p">,</span> <span class="n">eps</span>
-    
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_f_stat</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">debiased</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_f_stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">debiased</span><span class="p">):</span>
         <span class="n">cov</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">cov</span>
-        <span class="n">nvar</span> <span class="o">=</span> <span class="n">k</span> <span class="o">=</span> <span class="n">cov</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">cov</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">sel</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">stats</span><span class="o">.</span><span class="n">has_constant</span><span class="p">:</span>
             <span class="n">sel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">constant_loc</span><span class="p">)</span>
@@ -571,16 +570,18 @@
                                         <span class="s1">&#39;to constraints.&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">debiased</span><span class="p">:</span>
-            <span class="n">wald</span> <span class="o">=</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span> <span class="o">/</span> <span class="n">df</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">nobs</span> <span class="o">-</span> <span class="n">nvar</span><span class="p">,</span>
+            <span class="n">total_reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wx</span><span class="p">)))</span>
+            <span class="n">df_denom</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wx</span><span class="p">)</span> <span class="o">*</span> <span class="n">nobs</span> <span class="o">-</span> <span class="n">total_reg</span>
+            <span class="n">wald</span> <span class="o">=</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span> <span class="o">/</span> <span class="n">df</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">df_denom</span><span class="o">=</span><span class="n">df_denom</span><span class="p">,</span>
                                      <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-        
+
         <span class="k">return</span> <span class="n">wald</span>
-    
+
     <span class="k">def</span> <span class="nf">_multivariate_ls_finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wx</span><span class="p">)</span>
-        
+
         <span class="c1"># Covariance estimation</span>
         <span class="k">if</span> <span class="n">cov_type</span> <span class="o">==</span> <span class="s1">&#39;unadjusted&#39;</span><span class="p">:</span>
             <span class="n">cov_est</span> <span class="o">=</span> <span class="n">HomoskedasticCovariance</span>
@@ -588,7 +589,7 @@
             <span class="n">cov_est</span> <span class="o">=</span> <span class="n">HeteroskedasticCovariance</span>
         <span class="n">cov</span> <span class="o">=</span> <span class="n">cov_est</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wx</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">gls</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                       <span class="n">constraints</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span><span class="o">.</span><span class="n">cov</span>
-        
+
         <span class="n">individual</span> <span class="o">=</span> <span class="n">AttrDict</span><span class="p">()</span>
         <span class="n">debiased</span> <span class="o">=</span> <span class="n">cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;debiased&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
@@ -599,19 +600,19 @@
                 <span class="n">wc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">wy</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
                 <span class="n">wye</span> <span class="o">=</span> <span class="n">wy</span> <span class="o">-</span> <span class="n">wc</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">wc</span><span class="p">,</span> <span class="n">wy</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">total_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wye</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">wye</span><span class="p">)</span>
-            
+
             <span class="n">stats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_common_indiv_results</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="s1">&#39;OLS&#39;</span><span class="p">,</span>
                                                <span class="n">cov_type</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">debiased</span><span class="p">,</span> <span class="n">cons</span><span class="p">,</span> <span class="n">total_ss</span><span class="p">)</span>
             <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eq_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="n">individual</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">stats</span>
-        
+
         <span class="n">nobs</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">size</span>
         <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_common_results</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="s1">&#39;OLS&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">cov_type</span><span class="p">,</span>
                                        <span class="n">sigma</span><span class="p">,</span> <span class="n">individual</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
         <span class="n">results</span><span class="p">[</span><span class="s1">&#39;wresid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">resid</span>
-        
+
         <span class="k">return</span> <span class="n">SURResults</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-    
+
     <span class="k">def</span> <span class="nf">_common_indiv_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">wresid</span><span class="p">,</span> <span class="n">resid</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span>
                               <span class="n">cov_type</span><span class="p">,</span> <span class="n">iter_count</span><span class="p">,</span> <span class="n">debiased</span><span class="p">,</span> <span class="n">constant</span><span class="p">,</span> <span class="n">total_ss</span><span class="p">):</span>
         <span class="n">loc</span> <span class="o">=</span> <span class="mi">0</span>
@@ -629,7 +630,7 @@
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;debiased&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">debiased</span>
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;has_constant&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">constant</span><span class="p">)</span>
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;constant_loc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant_loc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        
+
         <span class="c1"># Parameters, errors and measures of fit</span>
         <span class="n">wxi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="n">nobs</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="n">wxi</span><span class="o">.</span><span class="n">shape</span>
@@ -638,27 +639,27 @@
         <span class="n">nobs</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">df_c</span> <span class="o">=</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">constant</span><span class="p">)</span>
         <span class="n">df_r</span> <span class="o">=</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">df</span><span class="p">)</span>
-        
+
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span>
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;cov&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cov</span><span class="p">[</span><span class="n">loc</span><span class="p">:</span><span class="n">loc</span> <span class="o">+</span> <span class="n">df</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span><span class="n">loc</span> <span class="o">+</span> <span class="n">df</span><span class="p">]</span>
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;wresid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span>
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;nobs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nobs</span>
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;df_model&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;resid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resid</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span><span class="p">]]</span>
-        <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;resid_ss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">e</span><span class="p">)</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;resid_ss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">resid</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">resid</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span><span class="p">]])</span>
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;total_ss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_ss</span>
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;r2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">resid_ss</span> <span class="o">/</span> <span class="n">stats</span><span class="o">.</span><span class="n">total_ss</span>
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;r2a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">resid_ss</span> <span class="o">/</span> <span class="n">df_r</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">total_ss</span> <span class="o">/</span> <span class="n">df_c</span><span class="p">)</span>
-        
+
         <span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_names</span><span class="p">[</span><span class="n">loc</span><span class="p">:</span><span class="n">loc</span> <span class="o">+</span> <span class="n">df</span><span class="p">]</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">eq_label</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;param_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">[</span><span class="n">offset</span><span class="p">:]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
-        
+
         <span class="c1"># F-statistic</span>
         <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;f_stat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f_stat</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
-        
+
         <span class="k">return</span> <span class="n">stats</span>
-    
+
     <span class="k">def</span> <span class="nf">_common_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">iter_count</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">cov_type</span><span class="p">,</span>
                         <span class="n">sigma</span><span class="p">,</span> <span class="n">individual</span><span class="p">,</span> <span class="n">debiased</span><span class="p">):</span>
         <span class="n">results</span> <span class="o">=</span> <span class="n">AttrDict</span><span class="p">()</span>
@@ -674,7 +675,7 @@
         <span class="n">results</span><span class="p">[</span><span class="s1">&#39;param_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_names</span>
         <span class="n">results</span><span class="p">[</span><span class="s1">&#39;cov&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cov</span>
         <span class="n">results</span><span class="p">[</span><span class="s1">&#39;debiased&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">debiased</span>
-        
+
         <span class="n">total_ss</span> <span class="o">=</span> <span class="n">resid_ss</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="n">resid</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">individual</span><span class="p">:</span>
@@ -682,24 +683,22 @@
             <span class="n">resid_ss</span> <span class="o">+=</span> <span class="n">individual</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">resid_ss</span>
             <span class="n">resid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">individual</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">resid</span><span class="p">)</span>
         <span class="n">resid</span> <span class="o">=</span> <span class="n">hstack</span><span class="p">(</span><span class="n">resid</span><span class="p">)</span>
-        
+
         <span class="n">results</span><span class="p">[</span><span class="s1">&#39;resid_ss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resid_ss</span>
         <span class="n">results</span><span class="p">[</span><span class="s1">&#39;total_ss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_ss</span>
         <span class="n">results</span><span class="p">[</span><span class="s1">&#39;r2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">results</span><span class="o">.</span><span class="n">resid_ss</span> <span class="o">/</span> <span class="n">results</span><span class="o">.</span><span class="n">total_ss</span>
         <span class="n">results</span><span class="p">[</span><span class="s1">&#39;resid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resid</span>
         <span class="n">results</span><span class="p">[</span><span class="s1">&#39;constraints&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span>
         <span class="n">results</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
-        
+
         <span class="k">return</span> <span class="n">results</span>
-    
+
     <span class="k">def</span> <span class="nf">_gls_finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">full_sigma</span><span class="p">,</span> <span class="n">sigma_m12</span><span class="p">,</span> <span class="n">gls_eps</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span>
                       <span class="n">cov_type</span><span class="p">,</span> <span class="n">iter_count</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Collect results to return after GLS estimation&quot;&quot;&quot;</span>
-        <span class="n">wy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wy</span>
         <span class="n">wx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wx</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_w</span>
         <span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wy</span><span class="p">)</span>
-        
+
         <span class="c1"># Covariance estimation</span>
         <span class="k">if</span> <span class="n">cov_type</span> <span class="o">==</span> <span class="s1">&#39;unadjusted&#39;</span><span class="p">:</span>
             <span class="n">cov_est</span> <span class="o">=</span> <span class="n">HomoskedasticCovariance</span>
@@ -709,58 +708,61 @@
         <span class="n">eps</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">eps</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="n">k</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
         <span class="n">cov</span> <span class="o">=</span> <span class="n">cov_est</span><span class="p">(</span><span class="n">wx</span><span class="p">,</span> <span class="n">gls_eps</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">full_sigma</span><span class="p">,</span> <span class="n">gls</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                       <span class="n">constraints</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span><span class="o">.</span><span class="n">cov</span>
-        
-        <span class="c1"># Const-only residual estimatio for TSS</span>
-        <span class="n">wcs</span> <span class="o">=</span> <span class="p">[</span><span class="n">ones_like</span><span class="p">(</span><span class="n">wy</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span>
-        <span class="n">block_wy</span> <span class="o">=</span> <span class="n">blocked_column_product</span><span class="p">(</span><span class="n">wy</span><span class="p">,</span> <span class="n">sigma_m12</span><span class="p">)</span>
-        <span class="n">block_wc</span> <span class="o">=</span> <span class="n">blocked_diag_product</span><span class="p">(</span><span class="n">wcs</span><span class="p">,</span> <span class="n">sigma_m12</span><span class="p">)</span>
-        <span class="n">const_gls_eps</span> <span class="o">=</span> <span class="n">block_wy</span> <span class="o">-</span> <span class="n">block_wc</span> <span class="o">@</span> <span class="n">lstsq</span><span class="p">(</span><span class="n">block_wc</span><span class="p">,</span> <span class="n">block_wy</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        
+
         <span class="c1"># Repackage results for individual equations</span>
         <span class="n">individual</span> <span class="o">=</span> <span class="n">AttrDict</span><span class="p">()</span>
-        <span class="n">nobs</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">debiased</span> <span class="o">=</span> <span class="n">cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;debiased&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;Iterative GLS&#39;</span> <span class="k">if</span> <span class="n">iter_count</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39;GLS&#39;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
             <span class="n">cons</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">has_constant</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            
-            <span class="n">sel</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">nobs</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">nobs</span><span class="p">)</span>
+
             <span class="k">if</span> <span class="n">cons</span><span class="p">:</span>
-                <span class="n">ye</span> <span class="o">=</span> <span class="n">const_gls_eps</span><span class="p">[</span><span class="n">sel</span><span class="p">]</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_w</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">ye</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wy</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">ye</span> <span class="o">=</span> <span class="n">block_wy</span><span class="p">[</span><span class="n">sel</span><span class="p">]</span>
+                <span class="n">ye</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="n">total_ss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">ye</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">ye</span><span class="p">)</span>
             <span class="n">stats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_common_indiv_results</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">gls_eps</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span>
                                                <span class="n">method</span><span class="p">,</span> <span class="n">cov_type</span><span class="p">,</span> <span class="n">iter_count</span><span class="p">,</span>
                                                <span class="n">debiased</span><span class="p">,</span> <span class="n">cons</span><span class="p">,</span> <span class="n">total_ss</span><span class="p">)</span>
-            
+
             <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eq_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="n">individual</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">stats</span>
-        
+
         <span class="c1"># Populate results dictionary</span>
         <span class="n">nobs</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">size</span>
         <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_common_results</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">iter_count</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span>
                                        <span class="n">cov_type</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">individual</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
-        
+
         <span class="c1"># wresid is different between GLS and OLS</span>
         <span class="n">wresid</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">individual</span><span class="p">:</span>
             <span class="n">wresid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">individual</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">wresid</span><span class="p">)</span>
         <span class="n">wresid</span> <span class="o">=</span> <span class="n">hstack</span><span class="p">(</span><span class="n">wresid</span><span class="p">)</span>
         <span class="n">results</span><span class="p">[</span><span class="s1">&#39;wresid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wresid</span>
-        
+
         <span class="k">return</span> <span class="n">SURResults</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-    
-    <span class="k">def</span> <span class="nf">_gls_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">total_cols</span><span class="p">,</span> <span class="n">ci</span><span class="p">,</span> <span class="n">full_cov</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_sigma_scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debiased</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">debiased</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">1.0</span>
+        <span class="n">nobs</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">scales</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wx</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">scales</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nobs</span> <span class="o">/</span> <span class="n">scales</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">scales</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">@</span> <span class="n">scales</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="k">def</span> <span class="nf">_gls_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">total_cols</span><span class="p">,</span> <span class="n">ci</span><span class="p">,</span> <span class="n">full_cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Core estimation routine for iterative GLS&quot;&quot;&quot;</span>
         <span class="n">wx</span><span class="p">,</span> <span class="n">wy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wy</span>
         <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sigma</span>
         <span class="k">if</span> <span class="n">sigma</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 <div class="viewcode-block" id="SUR.fit"><a class="viewcode-back" href="../../../system/models.html#linearmodels.system.model.SUR.fit">[docs]</a>            <span class="n">sigma</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">eps</span> <span class="o">/</span> <span class="n">nobs</span>
+            <span class="n">sigma</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sigma_scale</span><span class="p">(</span><span class="n">debiased</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">full_cov</span><span class="p">:</span>
             <span class="n">sigma</span> <span class="o">=</span> <span class="n">diag</span><span class="p">(</span><span class="n">diag</span><span class="p">(</span><span class="n">sigma</span><span class="p">))</span>
         <span class="n">sigma_inv</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
-        
+
         <span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">wy</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">cons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span>
@@ -780,11 +782,11 @@
                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
                     <span class="n">sy</span> <span class="o">+=</span> <span class="n">sigma_inv</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">wy</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
                 <span class="n">xpy</span><span class="p">[</span><span class="n">ci</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">ci</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">wx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">sy</span>
-            
+
             <span class="n">params</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">xpx</span><span class="p">,</span> <span class="n">xpy</span><span class="p">)</span>
-        
+
         <span class="n">beta</span> <span class="o">=</span> <span class="n">params</span>
-        
+
         <span class="n">loc</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
             <span class="n">_wx</span> <span class="o">=</span> <span class="n">wx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
@@ -792,9 +794,9 @@
             <span class="n">kx</span> <span class="o">=</span> <span class="n">_wx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">eps</span><span class="p">[:,</span> <span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="n">_wy</span> <span class="o">-</span> <span class="n">_wx</span> <span class="o">@</span> <span class="n">beta</span><span class="p">[</span><span class="n">loc</span><span class="p">:</span><span class="n">loc</span> <span class="o">+</span> <span class="n">kx</span><span class="p">]</span>
             <span class="n">loc</span> <span class="o">+=</span> <span class="n">kx</span>
-        
+
         <span class="k">return</span> <span class="n">beta</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">sigma</span>
-    
+
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">full_cov</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">iterate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">iter_limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
             <span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -842,33 +844,35 @@
         <span class="n">total_cols</span> <span class="o">=</span> <span class="n">col_idx</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">beta</span><span class="p">,</span> <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multivariate_ls_fit</span><span class="p">()</span>
         <span class="n">nobs</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">full_sigma</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">eps</span> <span class="o">/</span> <span class="n">nobs</span>
-        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_common_exog</span> <span class="ow">and</span> <span class="n">method</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;ols&#39;</span><span class="p">:</span>
+        <span class="n">debiased</span> <span class="o">=</span> <span class="n">cov_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;debiased&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">full_sigma</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">=</span> <span class="p">(</span><span class="n">eps</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">eps</span> <span class="o">/</span> <span class="n">nobs</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sigma_scale</span><span class="p">(</span><span class="n">debiased</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_common_exog</span> <span class="ow">and</span> <span class="n">method</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;ols&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multivariate_ls_finalize</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span>
-        
+
         <span class="n">beta_hist</span> <span class="o">=</span> <span class="p">[</span><span class="n">beta</span><span class="p">]</span>
         <span class="n">nobs</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">iter_count</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">delta</span> <span class="o">=</span> <span class="n">inf</span>
         <span class="k">while</span> <span class="p">((</span><span class="n">iter_count</span> <span class="o">&lt;</span> <span class="n">iter_limit</span> <span class="ow">and</span> <span class="n">iterate</span><span class="p">)</span> <span class="ow">or</span> <span class="n">iter_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="n">delta</span> <span class="o">&gt;=</span> <span class="n">tol</span><span class="p">:</span>
-            <span class="n">beta</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gls_estimate</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">total_cols</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">,</span> <span class="n">full_cov</span><span class="p">)</span>
+            <span class="n">beta</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gls_estimate</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">total_cols</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">,</span>
+                                                  <span class="n">full_cov</span><span class="p">,</span> <span class="n">debiased</span><span class="p">)</span>
             <span class="n">beta_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
             <span class="n">delta</span> <span class="o">=</span> <span class="n">beta_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">beta_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
             <span class="n">delta</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">delta</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
             <span class="n">iter_count</span> <span class="o">+=</span> <span class="mi">1</span>
-        
+
         <span class="n">sigma_m12</span> <span class="o">=</span> <span class="n">inv_matrix_sqrt</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
         <span class="n">wy</span> <span class="o">=</span> <span class="n">blocked_column_product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wy</span><span class="p">,</span> <span class="n">sigma_m12</span><span class="p">)</span>
         <span class="n">wx</span> <span class="o">=</span> <span class="n">blocked_diag_product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wx</span><span class="p">,</span> <span class="n">sigma_m12</span><span class="p">)</span>
         <span class="n">gls_eps</span> <span class="o">=</span> <span class="n">wy</span> <span class="o">-</span> <span class="n">wx</span> <span class="o">@</span> <span class="n">beta</span>
-        
+
         <span class="n">y</span> <span class="o">=</span> <span class="n">blocked_column_product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span> <span class="n">eye</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">blocked_diag_product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="n">eye</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
         <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">beta</span>
-        
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gls_finalize</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">full_sigma</span><span class="p">,</span> <span class="n">sigma_m12</span><span class="p">,</span> <span class="n">gls_eps</span><span class="p">,</span>
                                   <span class="n">eps</span><span class="p">,</span> <span class="n">cov_type</span><span class="p">,</span> <span class="n">iter_count</span><span class="p">,</span> <span class="o">**</span><span class="n">cov_config</span><span class="p">)</span></div>
-    
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -880,7 +884,7 @@
 <span class="sd">            Constraint object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span>
-    
+
 <div class="viewcode-block" id="SUR.add_constraints"><a class="viewcode-back" href="../../../system/models.html#linearmodels.system.model.SUR.add_constraints">[docs]</a>    <span class="k">def</span> <span class="nf">add_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -903,11 +907,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span> <span class="o">=</span> <span class="n">LinearConstraint</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">num_params</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_param_names</span><span class="p">),</span>
                                              <span class="n">require_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-    
+
 <div class="viewcode-block" id="SUR.reset_constraints"><a class="viewcode-back" href="../../../system/models.html#linearmodels.system.model.SUR.reset_constraints">[docs]</a>    <span class="k">def</span> <span class="nf">reset_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Remove all model constraints&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span> <span class="o">=</span> <span class="kc">None</span></div>
-    
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">param_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -935,7 +939,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.0+15.gd0e6ac3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.0+17.gb64fca2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
