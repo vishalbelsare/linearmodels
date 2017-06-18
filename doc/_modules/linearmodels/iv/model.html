@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.iv.model &#8212; linearmodels 3.0 documentation</title>
+    <title>linearmodels.iv.model &#8212; linearmodels 3.5 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.0',
+        VERSION:     '3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 3.0</a>
+    ../../../index.html" class="text-logo">linearmodels 3.5</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -80,10 +80,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../iv/index.html">Instrumental Variable Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../panel/index.html">Panel Data Model Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../asset-pricing/index.html">Linear Factor Models for Asset Pricing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../system/index.html">System Regression Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utility.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plan.html">Module Plans</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../changes.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../references.html">References</a></li>
 </ul>
 
     
@@ -125,22 +127,25 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="nb">any</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">asarray</span><span class="p">,</span> <span class="n">average</span><span class="p">,</span> <span class="n">c_</span><span class="p">,</span> <span class="n">isscalar</span><span class="p">,</span> <span class="n">logical_not</span><span class="p">,</span> <span class="n">ones</span><span class="p">,</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="p">(</span><span class="nb">any</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">asarray</span><span class="p">,</span> <span class="n">average</span><span class="p">,</span> <span class="n">c_</span><span class="p">,</span> <span class="n">isscalar</span><span class="p">,</span> <span class="n">logical_not</span><span class="p">,</span>
+                   <span class="n">ones</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">nanmean</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">eigvalsh</span><span class="p">,</span> <span class="n">inv</span><span class="p">,</span> <span class="n">matrix_rank</span><span class="p">,</span> <span class="n">pinv</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="k">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">minimize</span>
 
 <span class="kn">from</span> <span class="nn">linearmodels.iv._utility</span> <span class="k">import</span> <span class="n">parse_formula</span>
-<span class="kn">from</span> <span class="nn">linearmodels.iv.covariance</span> <span class="k">import</span> <span class="p">(</span><span class="n">HeteroskedasticCovariance</span><span class="p">,</span>
-                                        <span class="n">HomoskedasticCovariance</span><span class="p">,</span> <span class="n">KernelCovariance</span><span class="p">,</span>
-                                        <span class="n">ClusteredCovariance</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">linearmodels.iv.covariance</span> <span class="k">import</span> <span class="p">(</span><span class="n">ClusteredCovariance</span><span class="p">,</span>
+                                        <span class="n">HeteroskedasticCovariance</span><span class="p">,</span>
+                                        <span class="n">HomoskedasticCovariance</span><span class="p">,</span>
+                                        <span class="n">KernelCovariance</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">linearmodels.iv.data</span> <span class="k">import</span> <span class="n">IVData</span>
 <span class="kn">from</span> <span class="nn">linearmodels.iv.gmm</span> <span class="k">import</span> <span class="p">(</span><span class="n">HeteroskedasticWeightMatrix</span><span class="p">,</span>
                                  <span class="n">HomoskedasticWeightMatrix</span><span class="p">,</span> <span class="n">IVGMMCovariance</span><span class="p">,</span>
-                                 <span class="n">KernelWeightMatrix</span><span class="p">,</span> <span class="n">OneWayClusteredWeightMatrix</span><span class="p">)</span>
+                                 <span class="n">KernelWeightMatrix</span><span class="p">,</span>
+                                 <span class="n">OneWayClusteredWeightMatrix</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">linearmodels.iv.results</span> <span class="k">import</span> <span class="n">IVGMMResults</span><span class="p">,</span> <span class="n">IVResults</span><span class="p">,</span> <span class="n">OLSResults</span>
-<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="n">WaldTestStatistic</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> <span class="n">inv_sqrth</span><span class="p">,</span> \
-    <span class="n">missing_warning</span>
+<span class="kn">from</span> <span class="nn">linearmodels.utility</span> <span class="k">import</span> <span class="p">(</span><span class="n">WaldTestStatistic</span><span class="p">,</span> <span class="n">has_constant</span><span class="p">,</span> <span class="n">inv_sqrth</span><span class="p">,</span>
+                                  <span class="n">missing_warning</span><span class="p">)</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;COVARIANCE_ESTIMATORS&#39;</span><span class="p">,</span> <span class="s1">&#39;WEIGHT_MATRICES&#39;</span><span class="p">,</span> <span class="s1">&#39;IVGMM&#39;</span><span class="p">,</span> <span class="s1">&#39;IVLIML&#39;</span><span class="p">,</span> <span class="s1">&#39;IV2SLS&#39;</span><span class="p">,</span>
            <span class="s1">&#39;IVGMMCUE&#39;</span><span class="p">,</span> <span class="s1">&#39;_OLS&#39;</span><span class="p">]</span>
@@ -239,7 +244,7 @@
         <span class="n">weights</span> <span class="o">=</span> <span class="n">IVData</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">weights</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;weights must be strictly positive.&#39;</span><span class="p">)</span>
-        <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">weights</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">nanmean</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">IVData</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;weights&#39;</span><span class="p">,</span> <span class="n">nobs</span><span class="o">=</span><span class="n">nobs</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_drop_locs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_drop_missing</span><span class="p">()</span>
@@ -375,13 +380,13 @@
             <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;All observations contain missing data. &#39;</span>
                                  <span class="s1">&#39;Model cannot be estimated.&#39;</span><span class="p">)</span>
-            <span class="n">missing_warning</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
 
+        <span class="n">missing_warning</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">missing</span>
 
 <div class="viewcode-block" id="IVLIML.estimate_parameters"><a class="viewcode-back" href="../../../iv/methods.html#linearmodels.iv.model.IVLIML.estimate_parameters">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -539,7 +544,7 @@
         <span class="n">test_stat</span> <span class="o">=</span> <span class="n">test_params</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">inv</span><span class="p">(</span><span class="n">test_cov</span><span class="p">)</span> <span class="o">@</span> <span class="n">test_params</span>
         <span class="n">test_stat</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">test_stat</span><span class="p">)</span>
         <span class="n">nobs</span><span class="p">,</span> <span class="n">nvar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="o">.</span><span class="n">shape</span>
-        <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;All parameters ex. constant not zero&#39;</span>
+        <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;All parameters ex. constant are zero&#39;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Model F-statistic&#39;</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">test_params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">debiased</span><span class="p">:</span>
@@ -1210,7 +1215,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

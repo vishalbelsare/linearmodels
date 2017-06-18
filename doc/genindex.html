@@ -17,7 +17,7 @@
   <link rel="stylesheet" type="text/css" href="_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Index &#8212; linearmodels 3.0 documentation</title>
+    <title>Index &#8212; linearmodels 3.5 documentation</title>
     
     <link rel="stylesheet" href="_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,7 +25,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.0',
+        VERSION:     '3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -55,7 +55,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 3.5 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="container-wrapper">
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    index.html" class="text-logo">linearmodels 3.0</a>
+    index.html" class="text-logo">linearmodels 3.5</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -80,10 +80,12 @@
 <li class="toctree-l1"><a class="reference internal" href="iv/index.html">Instrumental Variable Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="panel/index.html">Panel Data Model Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="asset-pricing/index.html">Linear Factor Models for Asset Pricing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system/index.html">System Regression Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plan.html">Module Plans</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changes.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 </ul>
 
     
@@ -149,6 +151,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="panel/covariance.html#linearmodels.panel.covariance.ACCovariance">ACCovariance (class in linearmodels.panel.covariance)</a>
 </li>
+      <li><a href="system/models.html#linearmodels.system.model.SUR.add_constraints">add_constraints() (SUR method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.alphas">alphas (LinearFactorModelResults attribute)</a>
@@ -210,6 +214,8 @@
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.conf_int">(RandomEffectsResults method)</a>
 </li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.conf_int">(SURResults method)</a>
+</li>
       </ul></li>
       <li><a href="iv/gmm.html#linearmodels.iv.gmm.HeteroskedasticWeightMatrix.config">config (HeteroskedasticWeightMatrix attribute)</a>
 
@@ -221,6 +227,8 @@
         <li><a href="iv/gmm.html#linearmodels.iv.gmm.OneWayClusteredWeightMatrix.config">(OneWayClusteredWeightMatrix attribute)</a>
 </li>
       </ul></li>
+      <li><a href="system/models.html#linearmodels.system.model.SUR.constraints">constraints (SUR attribute)</a>
+</li>
       <li><a href="panel/data.html#linearmodels.panel.data.PanelData.copy">copy() (PanelData method)</a>
 </li>
       <li><a href="panel/data.html#linearmodels.panel.data.PanelData.count">count() (PanelData method)</a>
@@ -236,9 +244,9 @@
 </li>
         <li><a href="panel/covariance.html#linearmodels.panel.covariance.FamaMacBethKernelCovariance.cov">(FamaMacBethKernelCovariance attribute)</a>
 </li>
-        <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.HeteroskedasticCovariance.cov">(HeteroskedasticCovariance attribute)</a>, <a href="iv/covariance.html#linearmodels.iv.covariance.HeteroskedasticCovariance.cov">[1]</a>, <a href="panel/covariance.html#linearmodels.panel.covariance.HeteroskedasticCovariance.cov">[2]</a>
+        <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.HeteroskedasticCovariance.cov">(HeteroskedasticCovariance attribute)</a>, <a href="iv/covariance.html#linearmodels.iv.covariance.HeteroskedasticCovariance.cov">[1]</a>, <a href="panel/covariance.html#linearmodels.panel.covariance.HeteroskedasticCovariance.cov">[2]</a>, <a href="system/covariance.html#linearmodels.system.covariance.HeteroskedasticCovariance.cov">[3]</a>
 </li>
-        <li><a href="iv/covariance.html#linearmodels.iv.covariance.HomoskedasticCovariance.cov">(HomoskedasticCovariance attribute)</a>, <a href="panel/covariance.html#linearmodels.panel.covariance.HomoskedasticCovariance.cov">[1]</a>
+        <li><a href="iv/covariance.html#linearmodels.iv.covariance.HomoskedasticCovariance.cov">(HomoskedasticCovariance attribute)</a>, <a href="panel/covariance.html#linearmodels.panel.covariance.HomoskedasticCovariance.cov">[1]</a>, <a href="system/covariance.html#linearmodels.system.covariance.HomoskedasticCovariance.cov">[2]</a>
 </li>
         <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.cov">(IVGMMResults attribute)</a>
 </li>
@@ -255,6 +263,8 @@
         <li><a href="panel/results.html#linearmodels.panel.results.PanelResults.cov">(PanelResults attribute)</a>
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.cov">(RandomEffectsResults attribute)</a>
+</li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.cov">(SURResults attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -279,6 +289,8 @@
         <li><a href="iv/results.html#linearmodels.iv.results.OLSResults.cov_estimator">(OLSResults attribute)</a>
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.PanelModelComparison.cov_estimator">(PanelModelComparison attribute)</a>
+</li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.cov_estimator">(SURResults attribute)</a>
 </li>
       </ul></li>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.cov_type">cov_type (IVGMMResults attribute)</a>
@@ -320,6 +332,8 @@
 </li>
         <li><a href="iv/results.html#linearmodels.iv.results.OLSResults.debiased">(OLSResults attribute)</a>
 </li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.debiased">(SURResults attribute)</a>
+</li>
       </ul></li>
       <li><a href="panel/covariance.html#linearmodels.panel.covariance.ACCovariance.deferred_cov">deferred_cov() (ACCovariance method)</a>
 
@@ -354,6 +368,8 @@
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.df_model">(RandomEffectsResults attribute)</a>
 </li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.df_model">(SURResults attribute)</a>
+</li>
       </ul></li>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.df_resid">df_resid (IVGMMResults attribute)</a>
 
@@ -367,6 +383,8 @@
         <li><a href="panel/results.html#linearmodels.panel.results.PanelResults.df_resid">(PanelResults attribute)</a>
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.df_resid">(RandomEffectsResults attribute)</a>
+</li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.df_resid">(SURResults attribute)</a>
 </li>
       </ul></li>
       <li><a href="iv/results.html#linearmodels.iv.results.FirstStageResults.diagnostics">diagnostics (FirstStageResults attribute)</a>
@@ -417,6 +435,10 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="system/results.html#linearmodels.system.results.SURResults.equation_labels">equation_labels (SURResults attribute)</a>
+</li>
+      <li><a href="system/results.html#linearmodels.system.results.SURResults.equations">equations (SURResults attribute)</a>
+</li>
       <li><a href="iv/methods.html#linearmodels.iv.model.IV2SLS.estimate_parameters">estimate_parameters() (IV2SLS method)</a>
 
       <ul>
@@ -510,6 +532,8 @@
 </li>
         <li><a href="panel/models.html#linearmodels.panel.model.PooledOLS.fit">(PooledOLS method)</a>
 </li>
+        <li><a href="system/models.html#linearmodels.system.model.SUR.fit">(SUR method)</a>
+</li>
         <li><a href="asset-pricing/models.html#linearmodels.asset_pricing.model.TradedFactorModel.fit">(TradedFactorModel method)</a>
 </li>
       </ul></li>
@@ -564,6 +588,8 @@
 </li>
         <li><a href="panel/models.html#linearmodels.panel.model.RandomEffects.from_formula">(linearmodels.panel.model.RandomEffects class method)</a>
 </li>
+        <li><a href="system/models.html#linearmodels.system.model.SUR.from_formula">(linearmodels.system.model.SUR class method)</a>
+</li>
       </ul></li>
       <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.full_summary">full_summary (LinearFactorModelResults attribute)</a>
 </li>
@@ -608,6 +634,8 @@
 </li>
         <li><a href="panel/models.html#linearmodels.panel.model.RandomEffects.has_constant">(RandomEffects attribute)</a>
 </li>
+        <li><a href="system/models.html#linearmodels.system.model.SUR.has_constant">(SUR attribute)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -618,6 +646,8 @@
 </li>
         <li><a href="panel/covariance.html#linearmodels.panel.covariance.HeteroskedasticCovariance">(class in linearmodels.panel.covariance)</a>
 </li>
+        <li><a href="system/covariance.html#linearmodels.system.covariance.HeteroskedasticCovariance">(class in linearmodels.system.covariance)</a>
+</li>
       </ul></li>
       <li><a href="iv/gmm.html#linearmodels.iv.gmm.HeteroskedasticWeightMatrix">HeteroskedasticWeightMatrix (class in linearmodels.iv.gmm)</a>
 </li>
@@ -625,6 +655,8 @@
 
       <ul>
         <li><a href="panel/covariance.html#linearmodels.panel.covariance.HomoskedasticCovariance">(class in linearmodels.panel.covariance)</a>
+</li>
+        <li><a href="system/covariance.html#linearmodels.system.covariance.HomoskedasticCovariance">(class in linearmodels.system.covariance)</a>
 </li>
       </ul></li>
       <li><a href="iv/gmm.html#linearmodels.iv.gmm.HomoskedasticWeightMatrix">HomoskedasticWeightMatrix (class in linearmodels.iv.gmm)</a>
@@ -664,7 +696,11 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.iterations">iterations (IVGMMResults attribute)</a>
+
+      <ul>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.iterations">(SURResults attribute)</a>
 </li>
+      </ul></li>
       <li><a href="iv/methods.html#linearmodels.iv.model.IV2SLS">IV2SLS (class in linearmodels.iv.model)</a>
 </li>
       <li><a href="iv/methods.html#linearmodels.iv.model.IVGMM">IVGMM (class in linearmodels.iv.model)</a>
@@ -755,17 +791,23 @@
 </li>
       <li><a href="iv/gmm.html#module-linearmodels.iv.gmm">linearmodels.iv.gmm (module)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="iv/methods.html#module-linearmodels.iv.model">linearmodels.iv.model (module)</a>
 </li>
       <li><a href="panel/covariance.html#module-linearmodels.panel.covariance">linearmodels.panel.covariance (module)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="panel/data.html#module-linearmodels.panel.data">linearmodels.panel.data (module)</a>
 </li>
       <li><a href="panel/models.html#module-linearmodels.panel.model">linearmodels.panel.model (module)</a>
 </li>
       <li><a href="panel/results.html#module-linearmodels.panel.results">linearmodels.panel.results (module)</a>
+</li>
+      <li><a href="system/covariance.html#module-linearmodels.system.covariance">linearmodels.system.covariance (module)</a>
+</li>
+      <li><a href="system/models.html#module-linearmodels.system.model">linearmodels.system.model (module)</a>
+</li>
+      <li><a href="system/results.html#module-linearmodels.system.results">linearmodels.system.results (module)</a>
 </li>
       <li><a href="utility.html#module-linearmodels.utility">linearmodels.utility (module)</a>
 </li>
@@ -792,7 +834,11 @@
 </li>
         <li><a href="iv/results.html#linearmodels.iv.results.OLSResults.method">(OLSResults attribute)</a>
 </li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.method">(SURResults attribute)</a>
+</li>
       </ul></li>
+      <li><a href="system/results.html#linearmodels.system.results.SURResults.model">model (SURResults attribute)</a>
+</li>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.model_ss">model_ss (IVGMMResults attribute)</a>
 
       <ul>
@@ -806,7 +852,13 @@
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.model_ss">(RandomEffectsResults attribute)</a>
 </li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.model_ss">(SURResults attribute)</a>
+</li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="system/models.html#linearmodels.system.model.SUR.multivariate_ls">multivariate_ls() (linearmodels.system.model.SUR class method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -861,6 +913,8 @@
         <li><a href="panel/results.html#linearmodels.panel.results.PanelResults.nobs">(PanelResults attribute)</a>
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.nobs">(RandomEffectsResults attribute)</a>
+</li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.nobs">(SURResults attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -927,6 +981,8 @@
 </li>
       <li><a href="panel/results.html#linearmodels.panel.results.PanelResults">PanelResults (class in linearmodels.panel.results)</a>
 </li>
+      <li><a href="system/models.html#linearmodels.system.model.SUR.param_names">param_names (SUR attribute)</a>
+</li>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.params">params (IVGMMResults attribute)</a>
 
       <ul>
@@ -945,6 +1001,8 @@
         <li><a href="panel/results.html#linearmodels.panel.results.PanelResults.params">(PanelResults attribute)</a>
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.params">(RandomEffectsResults attribute)</a>
+</li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.params">(SURResults attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -974,6 +1032,8 @@
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.pvalues">(RandomEffectsResults attribute)</a>
 </li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.pvalues">(SURResults attribute)</a>
+</li>
       </ul></li>
   </ul></td>
 </tr></table>
@@ -999,6 +1059,8 @@
         <li><a href="panel/models.html#linearmodels.panel.model.RandomEffects.reformat_clusters">(RandomEffects method)</a>
 </li>
       </ul></li>
+      <li><a href="system/models.html#linearmodels.system.model.SUR.reset_constraints">reset_constraints() (SUR method)</a>
+</li>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.resid_ss">resid_ss (IVGMMResults attribute)</a>
 
       <ul>
@@ -1011,6 +1073,8 @@
         <li><a href="panel/results.html#linearmodels.panel.results.PanelResults.resid_ss">(PanelResults attribute)</a>
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.resid_ss">(RandomEffectsResults attribute)</a>
+</li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.resid_ss">(SURResults attribute)</a>
 </li>
       </ul></li>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.resids">resids (IVGMMResults attribute)</a>
@@ -1025,6 +1089,8 @@
         <li><a href="panel/results.html#linearmodels.panel.results.PanelResults.resids">(PanelResults attribute)</a>
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.resids">(RandomEffectsResults attribute)</a>
+</li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.resids">(SURResults attribute)</a>
 </li>
       </ul></li>
       <li><a href="iv/methods.html#linearmodels.iv.model.IV2SLS.resids">resids() (IV2SLS method)</a>
@@ -1041,10 +1107,10 @@
 </li>
       <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.risk_premia">risk_premia (LinearFactorModelResults attribute)</a>
 </li>
-      <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.risk_premia_se">risk_premia_se (LinearFactorModelResults attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.risk_premia_se">risk_premia_se (LinearFactorModelResults attribute)</a>
+</li>
       <li><a href="asset-pricing/results.html#linearmodels.asset_pricing.results.LinearFactorModelResults.risk_premia_tstats">risk_premia_tstats (LinearFactorModelResults attribute)</a>
 </li>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.rsquared">rsquared (IVGMMResults attribute)</a>
@@ -1065,6 +1131,8 @@
         <li><a href="panel/results.html#linearmodels.panel.results.PanelResults.rsquared">(PanelResults attribute)</a>
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.rsquared">(RandomEffectsResults attribute)</a>
+</li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.rsquared">(SURResults attribute)</a>
 </li>
       </ul></li>
       <li><a href="iv/results.html#linearmodels.iv.results.IVGMMResults.rsquared_adj">rsquared_adj (IVGMMResults attribute)</a>
@@ -1161,10 +1229,18 @@
       </ul></li>
       <li><a href="iv/results.html#linearmodels.iv.results.IVResults.sargan">sargan (IVResults attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="panel/data.html#linearmodels.panel.data.PanelData.shape">shape (PanelData attribute)</a>
 </li>
+      <li><a href="system/covariance.html#linearmodels.system.covariance.HeteroskedasticCovariance.sigma">sigma (HeteroskedasticCovariance attribute)</a>
+
+      <ul>
+        <li><a href="system/covariance.html#linearmodels.system.covariance.HomoskedasticCovariance.sigma">(HomoskedasticCovariance attribute)</a>
+</li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.sigma">(SURResults attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="asset-pricing/covariance.html#linearmodels.asset_pricing.covariance.HeteroskedasticCovariance.square">square (HeteroskedasticCovariance attribute)</a>
 
       <ul>
@@ -1188,6 +1264,8 @@
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.std_errors">(RandomEffectsResults attribute)</a>
 </li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.std_errors">(SURResults attribute)</a>
+</li>
       </ul></li>
       <li><a href="iv/results.html#linearmodels.iv.results.FirstStageResults.summary">summary (FirstStageResults attribute)</a>
 
@@ -1210,7 +1288,13 @@
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.summary">(RandomEffectsResults attribute)</a>
 </li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.summary">(SURResults attribute)</a>
+</li>
       </ul></li>
+      <li><a href="system/models.html#linearmodels.system.model.SUR">SUR (class in linearmodels.system.model)</a>
+</li>
+      <li><a href="system/results.html#linearmodels.system.results.SURResults">SURResults (class in linearmodels.system.results)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1256,6 +1340,8 @@
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.total_ss">(RandomEffectsResults attribute)</a>
 </li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.total_ss">(SURResults attribute)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -1279,6 +1365,8 @@
         <li><a href="panel/results.html#linearmodels.panel.results.PanelResults.tstats">(PanelResults attribute)</a>
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.tstats">(RandomEffectsResults attribute)</a>
+</li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.tstats">(SURResults attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1346,6 +1434,8 @@
 </li>
         <li><a href="panel/results.html#linearmodels.panel.results.RandomEffectsResults.wresids">(RandomEffectsResults attribute)</a>
 </li>
+        <li><a href="system/results.html#linearmodels.system.results.SURResults.wresids">(SURResults attribute)</a>
+</li>
       </ul></li>
       <li><a href="iv/methods.html#linearmodels.iv.model.IV2SLS.wresids">wresids() (IV2SLS method)</a>
 
@@ -1378,7 +1468,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">linearmodels 3.5 documentation</a> &#187;</li> 
       </ul>
     </div>
 <script type="text/javascript">
