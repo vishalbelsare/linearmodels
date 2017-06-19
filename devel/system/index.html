@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>System Regression Models &#8212; linearmodels 3.5 documentation</title>
+    <title>System Regression Models &#8212; linearmodels 3.5+1.g340e64c documentation</title>
     
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '3.5',
+        VERSION:     '3.5+1.g340e64c',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -62,7 +62,7 @@
         <li class="right" >
           <a href="../asset-pricing/mathematical-formula.html" title="Formulas and Mathematical Detail"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 3.5 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 3.5+1.g340e64c documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="container-wrapper">
@@ -73,7 +73,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 3.5</a>
+    ../index.html" class="text-logo">linearmodels 3.5 (+1, g340e64c)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -134,8 +134,8 @@
             
   <div class="section" id="system-regression-models">
 <h1>System Regression Models<a class="headerlink" href="#system-regression-models" title="Permalink to this headline">¶</a></h1>
-<p>System regression estimates multiple regressions simulteneously.  There are
-three reasons to consider system estimation in stread of equation by
+<p>System regression estimates multiple regressions simultaneously.  There are
+three reasons to consider system estimation instead of equation by
 equation estimation</p>
 <ul class="simple">
 <li>Joint inference on parameters across models</li>
@@ -145,8 +145,9 @@ equation estimation</p>
 <p>The main model is the Seemingly Unrelated Regression (<a class="reference internal" href="models.html#linearmodels.system.model.SUR" title="linearmodels.system.model.SUR"><code class="xref py py-class docutils literal"><span class="pre">SUR</span></code></a>)
 Estimator.  This estimator uses a modified syntax since the class allow
 multiple models to be specified, each with it own dependent and exogenous
-variablces. The preferred syntax uses an (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a>) or preferrable
-an (<a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.OrderedDict" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">OrderedDict</span></code></a>) where each entry is a complete model
+variables. The more structured syntax uses a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a> or preferably
+an <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.OrderedDict" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">OrderedDict</span></code></a>, which ensures that the order of the
+equations in the results is preserved, where each entry is a complete model
 with a dependent and exogenous (stored as a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a> with keys
 <code class="docutils literal"><span class="pre">dependent</span></code> and <code class="docutils literal"><span class="pre">exog</span></code>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
@@ -159,6 +160,8 @@ with a dependent and exogenous (stored as a <a class="reference external" href="
                          <span class="s1">&#39;exog&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;const&#39;</span><span class="p">,</span> <span class="s1">&#39;exper&#39;</span><span class="p">,</span> <span class="s1">&#39;tenure&#39;</span><span class="p">]]}</span>
 <span class="n">equations</span><span class="p">[</span><span class="s1">&#39;benefits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dependent&#39;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">hrbens</span><span class="p">,</span>
                          <span class="s1">&#39;exog&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;const&#39;</span><span class="p">,</span> <span class="s1">&#39;exper&#39;</span><span class="p">,</span> <span class="s1">&#39;tenure&#39;</span><span class="p">]]}</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">SUR</span><span class="p">(</span><span class="n">equations</span><span class="p">)</span>
+<span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">&#39;unadjusted&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span>                        <span class="n">System</span> <span class="n">GLS</span> <span class="n">Estimation</span> <span class="n">Summary</span>
@@ -233,7 +236,7 @@ with a dependent and exogenous (stored as a <a class="reference external" href="
         <li class="right" >
           <a href="../asset-pricing/mathematical-formula.html" title="Formulas and Mathematical Detail"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 3.5 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 3.5+1.g340e64c documentation</a> &#187;</li> 
       </ul>
     </div>
 <script type="text/javascript">
