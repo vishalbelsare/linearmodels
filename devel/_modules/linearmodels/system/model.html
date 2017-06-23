@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.system.model &#8212; linearmodels 3.5+3.g482a938 documentation</title>
+    <title>linearmodels.system.model &#8212; linearmodels 3.5+4.g664b619 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.5+3.g482a938',
+        VERSION:     '3.5+4.g664b619',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -54,7 +54,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5+3.g482a938 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5+4.g664b619 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,7 +66,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 3.5 (+3, g482a938)</a>
+    ../../../index.html" class="text-logo">linearmodels 3.5 (+4, g664b619)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -532,16 +532,15 @@
         <span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">wx</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">cons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">blocked_diag_product</span><span class="p">(</span><span class="n">wx</span><span class="p">,</span> <span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">wx</span><span class="p">)))</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">wy</span><span class="p">)</span>
-            <span class="n">xt</span> <span class="o">=</span> <span class="n">x</span> <span class="o">@</span> <span class="n">cons</span><span class="o">.</span><span class="n">t</span>
-            <span class="c1"># TODO: Make more memory efficient</span>
-            <span class="c1"># Replace with t.T @ xpx @ t</span>
-            <span class="n">xpx</span> <span class="o">=</span> <span class="n">xt</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">xt</span>
-            <span class="c1"># Replace with t.T @ xpy - t.T @ xpx @ a.T</span>
-            <span class="n">xpy</span> <span class="o">=</span> <span class="n">xt</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">@</span> <span class="n">cons</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-            <span class="n">paramsc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">xpx</span><span class="p">,</span> <span class="n">xpy</span><span class="p">)</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="n">cons</span><span class="o">.</span><span class="n">t</span> <span class="o">@</span> <span class="n">paramsc</span> <span class="o">+</span> <span class="n">cons</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">xpx_full</span> <span class="o">=</span> <span class="n">blocked_inner_prod</span><span class="p">(</span><span class="n">wx</span><span class="p">,</span> <span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">wx</span><span class="p">)))</span>
+            <span class="n">xpy</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+                <span class="n">xpy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">wy</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">xpy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">xpy</span><span class="p">)</span>
+            <span class="n">xpy</span> <span class="o">=</span> <span class="n">cons</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">xpy</span> <span class="o">-</span> <span class="n">cons</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">xpx_full</span> <span class="o">@</span> <span class="n">cons</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">xpx</span> <span class="o">=</span> <span class="n">cons</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">xpx_full</span> <span class="o">@</span> <span class="n">cons</span><span class="o">.</span><span class="n">t</span>
+            <span class="n">params_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">xpx</span><span class="p">,</span> <span class="n">xpy</span><span class="p">)</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">cons</span><span class="o">.</span><span class="n">t</span> <span class="o">@</span> <span class="n">params_c</span> <span class="o">+</span> <span class="n">cons</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">T</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">xpx</span> <span class="o">=</span> <span class="n">blocked_inner_prod</span><span class="p">(</span><span class="n">wx</span><span class="p">,</span> <span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">wx</span><span class="p">)))</span>
             <span class="n">xpy</span> <span class="o">=</span> <span class="p">[]</span>
@@ -952,7 +951,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5+3.g482a938 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5+4.g664b619 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
