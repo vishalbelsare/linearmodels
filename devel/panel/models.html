@@ -6,7 +6,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
   
   <!-- Licensed under the Apache 2.0 License -->
   <link rel="stylesheet" type="text/css" href="../_static/fonts/open-sans/stylesheet.css" />
@@ -17,10 +16,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
     <title>Models for Panel Data &#8212; linearmodels 3.5+4.g664b619 documentation</title>
-    
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -34,7 +31,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Estimation Results" href="results.html" />
@@ -183,7 +180,7 @@ can be described</p>
 <div class="math">
 \[y_{it}=\alpha_i + \gamma_t + \beta^{\prime}x_{it} + \epsilon_{it}\]</div>
 <p>Additionally , arbitrary effects can be specified using categorical variables.</p>
-<p>If both <code class="docutils literal"><span class="pre">entity_effect</span></code>  and“time_effects“ are <code class="docutils literal"><span class="pre">False</span></code>, and no other
+<p>If both <code class="docutils literal"><span class="pre">entity_effect</span></code>  and``time_effects`` are <code class="docutils literal"><span class="pre">False</span></code>, and no other
 effects are included, the model reduces to <a class="reference internal" href="#linearmodels.panel.model.PooledOLS" title="linearmodels.panel.model.PooledOLS"><code class="xref py py-class docutils literal"><span class="pre">PooledOLS</span></code></a>.</p>
 <p>Model supports at most 2 effects.  These can be entity-time, entity-other, time-other or
 2 other.</p>
@@ -195,7 +192,7 @@ effects are included, the model reduces to <a class="reference internal" href="#
 
 <dl class="method">
 <dt id="linearmodels.panel.model.PanelOLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>use_lsdv=False</em>, <em>cov_type=’unadjusted’</em>, <em>debiased=True</em>, <em>auto_df=True</em>, <em>count_effects=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>use_lsdv=False</em>, <em>cov_type='unadjusted'</em>, <em>debiased=True</em>, <em>auto_df=True</em>, <em>count_effects=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PanelOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PanelOLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -489,7 +486,7 @@ the weight should be homoskedastic.</li>
 <p>where <span class="math">\(\bar{z}\)</span> is the time-average.</p>
 <dl class="method">
 <dt id="linearmodels.panel.model.BetweenOLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>reweight=False</em>, <em>cov_type=’unadjusted’</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>reweight=False</em>, <em>cov_type='unadjusted'</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#BetweenOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.BetweenOLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -644,7 +641,7 @@ the weight should be homoskedastic.</li>
 \[\Delta y_{it}=\beta^{\prime}\Delta x_{it}+\Delta\epsilon_{it}\]</div>
 <dl class="method">
 <dt id="linearmodels.panel.model.FirstDifferenceOLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type=’unadjusted’</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FirstDifferenceOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='unadjusted'</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FirstDifferenceOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FirstDifferenceOLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -808,7 +805,7 @@ the weight should be homoskedastic.</li>
 \[y_{it}=\beta^{\prime}x_{it}+\epsilon_{it}\]</div>
 <dl class="method">
 <dt id="linearmodels.panel.model.PooledOLS.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type=’unadjusted’</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PooledOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>*</em>, <em>cov_type='unadjusted'</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#PooledOLS.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.PooledOLS.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -981,7 +978,7 @@ either the standard covariance estiamtor or a kernel-based covariance,
 depending on <code class="docutils literal"><span class="pre">cov_type</span></code>.</p>
 <dl class="method">
 <dt id="linearmodels.panel.model.FamaMacBeth.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>cov_type=’unadjusted’</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FamaMacBeth.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FamaMacBeth.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>cov_type='unadjusted'</em>, <em>debiased=True</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/model.html#FamaMacBeth.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.model.FamaMacBeth.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate model parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

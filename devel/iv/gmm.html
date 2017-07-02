@@ -6,7 +6,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
   
   <!-- Licensed under the Apache 2.0 License -->
   <link rel="stylesheet" type="text/css" href="../_static/fonts/open-sans/stylesheet.css" />
@@ -17,10 +16,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
     <title>GMM Weight and Covariance Estimation &#8212; linearmodels 3.5+4.g664b619 documentation</title>
-    
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -34,7 +31,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Formulas and Mathematical Detail" href="mathematical-formula.html" />
@@ -144,7 +141,7 @@
 <span id="gmm-weight-and-covariance-estimation"></span><h1>GMM Weight and Covariance Estimation<a class="headerlink" href="#module-linearmodels.iv.gmm" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="linearmodels.iv.gmm.IVGMMCovariance">
-<em class="property">class </em><code class="descname">IVGMMCovariance</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em>, <em>params</em>, <em>w</em>, <em>cov_type=’robust’</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#IVGMMCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.IVGMMCovariance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">IVGMMCovariance</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em>, <em>params</em>, <em>w</em>, <em>cov_type='robust'</em>, <em>debiased=False</em>, <em>**cov_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#IVGMMCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.IVGMMCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Covariance estimation for GMM models</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -345,7 +342,7 @@ W &amp; =n^{-1}\sum_{i=1}^{n}g'_ig_i\end{split}\]</div>
 
 <dl class="class">
 <dt id="linearmodels.iv.gmm.KernelWeightMatrix">
-<em class="property">class </em><code class="descname">KernelWeightMatrix</code><span class="sig-paren">(</span><em>kernel=’bartlett’</em>, <em>bandwidth=None</em>, <em>center=False</em>, <em>debiased=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#KernelWeightMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.KernelWeightMatrix" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">KernelWeightMatrix</code><span class="sig-paren">(</span><em>kernel='bartlett'</em>, <em>bandwidth=None</em>, <em>center=False</em>, <em>debiased=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/gmm.html#KernelWeightMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.gmm.KernelWeightMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Heteroskedasticity, autocorrelation robust weight estimation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

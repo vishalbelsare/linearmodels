@@ -6,7 +6,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
   
   <!-- Licensed under the Apache 2.0 License -->
   <link rel="stylesheet" type="text/css" href="../_static/fonts/open-sans/stylesheet.css" />
@@ -17,10 +16,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
     <title>Panel Model Covariance Estimators &#8212; linearmodels 3.5+4.g664b619 documentation</title>
-    
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -34,7 +31,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Panel Data Structures" href="data.html" />
@@ -373,7 +370,7 @@ observations.</p>
 <h2>Driscoll-Kraay HAC Estimator<a class="headerlink" href="#driscoll-kraay-hac-estimator" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.covariance.DriscollKraay">
-<em class="property">class </em><code class="descname">DriscollKraay</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>entity_ids</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em>, <em>kernel=’newey-west’</em>, <em>bandwidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#DriscollKraay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.DriscollKraay" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">DriscollKraay</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>entity_ids</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em>, <em>kernel='newey-west'</em>, <em>bandwidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#DriscollKraay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.DriscollKraay" title="Permalink to this definition">¶</a></dt>
 <dd><p>Driscoll-Kraay heteroskedasticity-autocorrelation robust covariance estimation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -457,7 +454,7 @@ provided.</p>
 <h2>AC Robust Estimator<a class="headerlink" href="#ac-robust-estimator" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.covariance.ACCovariance">
-<em class="property">class </em><code class="descname">ACCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>entity_ids</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em>, <em>kernel=’newey-west’</em>, <em>bandwidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#ACCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.ACCovariance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">ACCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>entity_ids</em>, <em>time_ids</em>, <em>*</em>, <em>debiased=False</em>, <em>extra_df=0</em>, <em>kernel='newey-west'</em>, <em>bandwidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#ACCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.ACCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Autocorrelation robust covariance estimation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -600,7 +597,7 @@ parameters.</p>
 <h2>Fama-MacBeth HAC Covariance Estimator<a class="headerlink" href="#fama-macbeth-hac-covariance-estimator" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="linearmodels.panel.covariance.FamaMacBethKernelCovariance">
-<em class="property">class </em><code class="descname">FamaMacBethKernelCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>all_params</em>, <em>*</em>, <em>debiased=False</em>, <em>kernel=’newey-west’</em>, <em>bandwidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#FamaMacBethKernelCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethKernelCovariance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">FamaMacBethKernelCovariance</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>params</em>, <em>all_params</em>, <em>*</em>, <em>debiased=False</em>, <em>kernel='newey-west'</em>, <em>bandwidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/covariance.html#FamaMacBethKernelCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.covariance.FamaMacBethKernelCovariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>HAC estimator for Fama-MacBeth estimator</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

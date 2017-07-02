@@ -6,7 +6,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
   
   <!-- Licensed under the Apache 2.0 License -->
   <link rel="stylesheet" type="text/css" href="../_static/fonts/open-sans/stylesheet.css" />
@@ -17,10 +16,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
     <title>Panel Data Structures &#8212; linearmodels 3.5+4.g664b619 documentation</title>
-    
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -34,7 +31,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Formulas and Mathematical Detail" href="mathematical-formula.html" />
@@ -146,7 +143,7 @@
 <span id="panel-data-structures"></span><span id="panel-module-reference-data"></span><h1>Panel Data Structures<a class="headerlink" href="#module-linearmodels.panel.data" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="linearmodels.panel.data.PanelData">
-<em class="property">class </em><code class="descname">PanelData</code><span class="sig-paren">(</span><em>x</em>, <em>var_name=’x’</em>, <em>convert_dummies=True</em>, <em>drop_first=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">PanelData</code><span class="sig-paren">(</span><em>x</em>, <em>var_name='x'</em>, <em>convert_dummies=True</em>, <em>drop_first=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Abstraction to handle alternative formats for panel data</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -202,7 +199,7 @@ DataFrame does not have 2 levels</li>
 
 <dl class="method">
 <dt id="linearmodels.panel.data.PanelData.count">
-<code class="descname">count</code><span class="sig-paren">(</span><em>group=’entity’</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.count" title="Permalink to this definition">¶</a></dt>
+<code class="descname">count</code><span class="sig-paren">(</span><em>group='entity'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Count number of observations by entity or time</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -226,7 +223,7 @@ DataFrame does not have 2 levels</li>
 
 <dl class="method">
 <dt id="linearmodels.panel.data.PanelData.demean">
-<code class="descname">demean</code><span class="sig-paren">(</span><em>group=’entity’</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.demean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.demean" title="Permalink to this definition">¶</a></dt>
+<code class="descname">demean</code><span class="sig-paren">(</span><em>group='entity'</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.demean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.demean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Demeans data by either entity or time group</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -267,7 +264,7 @@ the dataframe view of the data</td>
 
 <dl class="method">
 <dt id="linearmodels.panel.data.PanelData.dummies">
-<code class="descname">dummies</code><span class="sig-paren">(</span><em>group=’entity’</em>, <em>drop_first=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.dummies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.dummies" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dummies</code><span class="sig-paren">(</span><em>group='entity'</em>, <em>drop_first=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.dummies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.dummies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate entity or time dummies</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -368,7 +365,7 @@ entity or time period should be dropped</li>
 
 <dl class="method">
 <dt id="linearmodels.panel.data.PanelData.mean">
-<code class="descname">mean</code><span class="sig-paren">(</span><em>group=’entity’</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.mean" title="Permalink to this definition">¶</a></dt>
+<code class="descname">mean</code><span class="sig-paren">(</span><em>group='entity'</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/panel/data.html#PanelData.mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.panel.data.PanelData.mean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute data mean by either entity or time group</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
