@@ -15,13 +15,13 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.system.model &#8212; linearmodels 3.5+8.gba5c098 documentation</title>
+    <title>linearmodels.system.model &#8212; linearmodels 3.5+9.gaf3228a documentation</title>
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.5+8.gba5c098',
+        VERSION:     '3.5+9.gaf3228a',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -51,7 +51,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5+8.gba5c098 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5+9.gaf3228a documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -63,7 +63,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 3.5 (+8, gba5c098)</a>
+    ../../../index.html" class="text-logo">linearmodels 3.5 (+9, gaf3228a)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -132,8 +132,8 @@
 <span class="sd">    Systems of Simultaneous Equations in R. Journal of Statistical Software,</span>
 <span class="sd">    23(4), 1 - 40. doi:http://dx.doi.org/10.18637/jss.v023.i04</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">OrderedDict</span>
 <span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">OrderedDict</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="p">(</span><span class="n">asarray</span><span class="p">,</span> <span class="n">cumsum</span><span class="p">,</span> <span class="n">diag</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">hstack</span><span class="p">,</span> <span class="n">inf</span><span class="p">,</span> <span class="n">nanmean</span><span class="p">,</span>
@@ -409,9 +409,10 @@
 <span class="sd">        A simple CAP-M can be estimated as a multivariate regression</span>
 
 <span class="sd">        &gt;&gt;&gt; from linearmodels.datasets import french</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.system import SUR</span>
 <span class="sd">        &gt;&gt;&gt; data = french.load()</span>
 <span class="sd">        &gt;&gt;&gt; portfolios = data[[&#39;S1V1&#39;,&#39;S1V5&#39;,&#39;S5V1&#39;,&#39;S5V5&#39;]]</span>
-<span class="sd">        &gt;&gt;&gt; factors = data[&#39;MktRf&#39;].copy()</span>
+<span class="sd">        &gt;&gt;&gt; factors = data[[&#39;MktRF&#39;]].copy()</span>
 <span class="sd">        &gt;&gt;&gt; factors[&#39;alpha&#39;] = 1</span>
 <span class="sd">        &gt;&gt;&gt; mod = SUR.multivariate_ls(portfolios, factors)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -458,6 +459,10 @@
 <span class="sd">        The simplest format uses standard Patsy formulas for each equation</span>
 <span class="sd">        in a dictionary.  Best practice is to use an Ordered Dictionary</span>
 
+<span class="sd">        &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; data = pd.DataFrame(np.random.randn(500, 4), columns=[&#39;y1&#39;, &#39;x1_1&#39;, &#39;y2&#39;, &#39;x2_1&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; from linearmodels.system import SUR</span>
 <span class="sd">        &gt;&gt;&gt; formula = {&#39;eq1&#39;: &#39;y1 ~ 1 + x1_1&#39;, &#39;eq2&#39;: &#39;y2 ~ 1 + x2_1&#39;}</span>
 <span class="sd">        &gt;&gt;&gt; mod = SUR.from_formula(formula, data)</span>
 
@@ -948,7 +953,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5+8.gba5c098 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5+9.gaf3228a documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
