@@ -15,13 +15,13 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Estimation Results &#8212; linearmodels 3.5+7.g86c93d8 documentation</title>
+    <title>Estimation Results &#8212; linearmodels 3.5+8.gba5c098 documentation</title>
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '3.5+7.g86c93d8',
+        VERSION:     '3.5+8.gba5c098',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -59,7 +59,7 @@
         <li class="right" >
           <a href="methods.html" title="Estimation Methods"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 3.5+7.g86c93d8 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 3.5+8.gba5c098 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Instrumental Variable Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
@@ -72,7 +72,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../index.html" class="text-logo">linearmodels 3.5 (+7, g86c93d8)</a>
+    ../index.html" class="text-logo">linearmodels 3.5 (+8, gba5c098)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -282,13 +282,13 @@ indicate the model is not overidentified. The test statistic is</p>
 
 <dl class="method">
 <dt id="linearmodels.iv.results.IVResults.durbin">
-<code class="descname">durbin</code><span class="sig-paren">(</span><em>vars=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVResults.durbin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVResults.durbin" title="Permalink to this definition">¶</a></dt>
+<code class="descname">durbin</code><span class="sig-paren">(</span><em>variables=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVResults.durbin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVResults.durbin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Durbin’s test of exogeneity</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em>, </em><em>optional</em>) – List of variables to test for exogeneity.  If None, all variables
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em>, </em><em>optional</em>) – List of variables to test for exogeneity.  If None, all variables
 are jointly tested.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
@@ -480,8 +480,8 @@ of instruments and the number of endogenous regressors.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>restriction</strong> (<em>{ndarray</em><em>, </em><em>DataFrame}</em>) – q by nvar array containing linear weights to apply to parameters
-when formin the restrictions.</li>
-<li><strong>value</strong> (<em>{ndarray</em><em>, </em><em>Series}</em>) – q element array containing the restircted values</li>
+when forming the restrictions.</li>
+<li><strong>value</strong> (<em>{ndarray</em><em>, </em><em>Series}</em>) – q element array containing the restricted values</li>
 </ul>
 </td>
 </tr>
@@ -494,7 +494,7 @@ when formin the restrictions.</li>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>Hypothesis test examines whether <span class="math">\(H_0:C   heta=v\)</span> where the
+<p>Hypothesis test examines whether <span class="math">\(H_0:C\theta=v\)</span> where the
 matrix C is <code class="docutils literal"><span class="pre">restriction</span></code> and v is <code class="docutils literal"><span class="pre">value</span></code>. The test statistic
 has a <span class="math">\(\chi^2_q\)</span> distribution where q is the number of rows in C.</p>
 </dd></dl>
@@ -606,13 +606,13 @@ variable <span class="math">\(x_j\)</span> on the exogenous variables and instru
 
 <dl class="method">
 <dt id="linearmodels.iv.results.IVResults.wu_hausman">
-<code class="descname">wu_hausman</code><span class="sig-paren">(</span><em>vars=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVResults.wu_hausman"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVResults.wu_hausman" title="Permalink to this definition">¶</a></dt>
+<code class="descname">wu_hausman</code><span class="sig-paren">(</span><em>variables=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVResults.wu_hausman"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVResults.wu_hausman" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wu-Hausman test of exogeneity</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em>, </em><em>optional</em>) – List of variables to test for exogeneity.  If None, all variables
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em>, </em><em>optional</em>) – List of variables to test for exogeneity.  If None, all variables
 are jointly tested.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
@@ -651,13 +651,13 @@ matrix onto the exogenous variables and instruments (<cite>z</cite>) as well as
 <dd><p>Results from GMM estimation of IV models</p>
 <dl class="method">
 <dt id="linearmodels.iv.results.IVGMMResults.c_stat">
-<code class="descname">c_stat</code><span class="sig-paren">(</span><em>vars=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVGMMResults.c_stat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVGMMResults.c_stat" title="Permalink to this definition">¶</a></dt>
+<code class="descname">c_stat</code><span class="sig-paren">(</span><em>variables=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/linearmodels/iv/results.html#IVGMMResults.c_stat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linearmodels.iv.results.IVGMMResults.c_stat" title="Permalink to this definition">¶</a></dt>
 <dd><p>C-test of endogeneity</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em>, </em><em>optional</em>) – List of variables to test for exogeneity.  If None, all variables
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>)</em><em>, </em><em>optional</em>) – List of variables to test for exogeneity.  If None, all variables
 are jointly tested.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>t</strong> – Object containing test statistic, p-value, distribution and null</td>
@@ -920,8 +920,8 @@ freedom is <span class="math">\(q = n_{instr} - n_{endog}\)</span>.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>restriction</strong> (<em>{ndarray</em><em>, </em><em>DataFrame}</em>) – q by nvar array containing linear weights to apply to parameters
-when formin the restrictions.</li>
-<li><strong>value</strong> (<em>{ndarray</em><em>, </em><em>Series}</em>) – q element array containing the restircted values</li>
+when forming the restrictions.</li>
+<li><strong>value</strong> (<em>{ndarray</em><em>, </em><em>Series}</em>) – q element array containing the restricted values</li>
 </ul>
 </td>
 </tr>
@@ -934,7 +934,7 @@ when formin the restrictions.</li>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>Hypothesis test examines whether <span class="math">\(H_0:C   heta=v\)</span> where the
+<p>Hypothesis test examines whether <span class="math">\(H_0:C\theta=v\)</span> where the
 matrix C is <code class="docutils literal"><span class="pre">restriction</span></code> and v is <code class="docutils literal"><span class="pre">value</span></code>. The test statistic
 has a <span class="math">\(\chi^2_q\)</span> distribution where q is the number of rows in C.</p>
 </dd></dl>
@@ -1160,8 +1160,8 @@ estimator and so is robust against the same specification issues.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>restriction</strong> (<em>{ndarray</em><em>, </em><em>DataFrame}</em>) – q by nvar array containing linear weights to apply to parameters
-when formin the restrictions.</li>
-<li><strong>value</strong> (<em>{ndarray</em><em>, </em><em>Series}</em>) – q element array containing the restircted values</li>
+when forming the restrictions.</li>
+<li><strong>value</strong> (<em>{ndarray</em><em>, </em><em>Series}</em>) – q element array containing the restricted values</li>
 </ul>
 </td>
 </tr>
@@ -1174,7 +1174,7 @@ when formin the restrictions.</li>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>Hypothesis test examines whether <span class="math">\(H_0:C   heta=v\)</span> where the
+<p>Hypothesis test examines whether <span class="math">\(H_0:C\theta=v\)</span> where the
 matrix C is <code class="docutils literal"><span class="pre">restriction</span></code> and v is <code class="docutils literal"><span class="pre">value</span></code>. The test statistic
 has a <span class="math">\(\chi^2_q\)</span> distribution where q is the number of rows in C.</p>
 </dd></dl>
@@ -1393,7 +1393,7 @@ the variable names of the endogenous regressors.</td>
         <li class="right" >
           <a href="methods.html" title="Estimation Methods"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 3.5+7.g86c93d8 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">linearmodels 3.5+8.gba5c098 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Instrumental Variable Estimation</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="reference.html" >Module Reference</a> &#187;</li> 
       </ul>

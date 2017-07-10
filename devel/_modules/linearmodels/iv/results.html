@@ -15,13 +15,13 @@
   <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>linearmodels.iv.results &#8212; linearmodels 3.5+7.g86c93d8 documentation</title>
+    <title>linearmodels.iv.results &#8212; linearmodels 3.5+8.gba5c098 documentation</title>
     <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.5+7.g86c93d8',
+        VERSION:     '3.5+8.gba5c098',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -51,7 +51,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5+7.g86c93d8 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5+8.gba5c098 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -63,7 +63,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../../index.html" class="text-logo">linearmodels 3.5 (+7, g86c93d8)</a>
+    ../../../index.html" class="text-logo">linearmodels 3.5 (+8, gba5c098)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -440,16 +440,16 @@
         <span class="k">return</span> <span class="n">smry</span>
 
 <div class="viewcode-block" id="OLSResults.test_linear_constraint"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.OLSResults.test_linear_constraint">[docs]</a>    <span class="k">def</span> <span class="nf">test_linear_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">restriction</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Test linear equality constraints using a Wald test</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        restriction : {ndarray, DataFrame}</span>
 <span class="sd">            q by nvar array containing linear weights to apply to parameters</span>
-<span class="sd">            when formin the restrictions.</span>
+<span class="sd">            when forming the restrictions.</span>
 <span class="sd">        value : {ndarray, Series}</span>
-<span class="sd">            q element array containing the restircted values</span>
+<span class="sd">            q element array containing the restricted values</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -597,20 +597,20 @@
         <span class="n">stat</span> <span class="o">=</span> <span class="n">s</span> <span class="o">*</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">nz</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nobs</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">sargan_test</span><span class="o">.</span><span class="n">null</span><span class="p">,</span> <span class="n">sargan_test</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_endogeneity_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_endogeneity_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Setup function for some endogeneity iv&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">vars</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">var_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var_names</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">var_names</span><span class="p">]</span>
         <span class="n">nobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dependent</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">e2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resids</span><span class="o">.</span><span class="n">values</span>
         <span class="n">nendog</span><span class="p">,</span> <span class="n">nexog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">var_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">assumed_exog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">ndarray</span>
             <span class="n">aug_exog</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">assumed_exog</span><span class="p">]</span>
             <span class="n">still_endog</span> <span class="o">=</span> <span class="n">empty</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">assumed_exog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-            <span class="n">ex</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">]</span>
+            <span class="n">assumed_exog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[</span><span class="n">var_names</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">ex</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">var_names</span><span class="p">]</span>
             <span class="n">still_endog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[</span><span class="n">ex</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
             <span class="n">aug_exog</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">assumed_exog</span><span class="p">]</span>
         <span class="n">ntested</span> <span class="o">=</span> <span class="n">assumed_exog</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -627,13 +627,13 @@
         <span class="n">e2</span> <span class="o">=</span> <span class="n">proj</span><span class="p">(</span><span class="n">e2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">e0</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">nexog</span><span class="p">,</span> <span class="n">nendog</span><span class="p">,</span> <span class="n">ntested</span>
 
-<div class="viewcode-block" id="IVResults.durbin"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults.durbin">[docs]</a>    <span class="k">def</span> <span class="nf">durbin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="IVResults.durbin"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults.durbin">[docs]</a>    <span class="k">def</span> <span class="nf">durbin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Durbin&#39;s test of exogeneity</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        vars : list(str), optional</span>
+<span class="sd">        variables : list(str), optional</span>
 <span class="sd">            List of variables to test for exogeneity.  If None, all variables</span>
 <span class="sd">            are jointly tested.</span>
 
@@ -671,10 +671,10 @@
 <span class="sd">        where :math:`q` is the number of variables tested.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;All endogenous variables are exogenous&#39;</span>
-        <span class="k">if</span> <span class="nb">vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;Variables </span><span class="si">{0}</span><span class="s1"> are exogenous&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">vars</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">variables</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;Variables </span><span class="si">{0}</span><span class="s1"> are exogenous&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">variables</span><span class="p">))</span>
 
-        <span class="n">e0</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">nexog</span><span class="p">,</span> <span class="n">nendog</span><span class="p">,</span> <span class="n">ntested</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_endogeneity_setup</span><span class="p">(</span><span class="nb">vars</span><span class="p">)</span>
+        <span class="n">e0</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">nexog</span><span class="p">,</span> <span class="n">nendog</span><span class="p">,</span> <span class="n">ntested</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_endogeneity_setup</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span>
 <div class="viewcode-block" id="IVResults.wu_hausman"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVResults.wu_hausman">[docs]</a>        <span class="n">stat</span> <span class="o">=</span> <span class="n">e1</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">e1</span> <span class="o">-</span> <span class="n">e2</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">e2</span>
         <span class="n">stat</span> <span class="o">/=</span> <span class="p">(</span><span class="n">e0</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">e0</span><span class="p">)</span> <span class="o">/</span> <span class="n">nobs</span>
 
@@ -682,13 +682,13 @@
         <span class="n">df</span> <span class="o">=</span> <span class="n">ntested</span>
         <span class="k">return</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">stat</span><span class="p">),</span> <span class="n">null</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">wu_hausman</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">wu_hausman</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Wu-Hausman test of exogeneity</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        vars : list(str), optional</span>
+<span class="sd">        variables : list(str), optional</span>
 <span class="sd">            List of variables to test for exogeneity.  If None, all variables</span>
 <span class="sd">            are jointly tested.</span>
 
@@ -728,10 +728,10 @@
 <span class="sd">        :math:`F_{q, v}` distribution.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;All endogenous variables are exogenous&#39;</span>
-        <span class="k">if</span> <span class="nb">vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;Variables </span><span class="si">{0}</span><span class="s1"> are exogenous&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">vars</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">variables</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;Variables </span><span class="si">{0}</span><span class="s1"> are exogenous&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">variables</span><span class="p">))</span>
 
-        <span class="n">e0</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">nexog</span><span class="p">,</span> <span class="n">nendog</span><span class="p">,</span> <span class="n">ntested</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_endogeneity_setup</span><span class="p">(</span><span class="nb">vars</span><span class="p">)</span>
+        <span class="n">e0</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">nobs</span><span class="p">,</span> <span class="n">nexog</span><span class="p">,</span> <span class="n">nendog</span><span class="p">,</span> <span class="n">ntested</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_endogeneity_setup</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="n">ntested</span>
         <span class="n">df_denom</span> <span class="o">=</span> <span class="n">nobs</span> <span class="o">-</span> <span class="n">nexog</span> <span class="o">-</span> <span class="n">nendog</span> <span class="o">-</span> <span class="n">ntested</span>
@@ -1012,13 +1012,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_j_stat</span>
 
-<div class="viewcode-block" id="IVGMMResults.c_stat"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVGMMResults.c_stat">[docs]</a>    <span class="k">def</span> <span class="nf">c_stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="IVGMMResults.c_stat"><a class="viewcode-back" href="../../../iv/results.html#linearmodels.iv.results.IVGMMResults.c_stat">[docs]</a>    <span class="k">def</span> <span class="nf">c_stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        C-test of endogeneity</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        vars : list(str), optional</span>
+<span class="sd">        variables : list(str), optional</span>
 <span class="sd">            List of variables to test for exogeneity.  If None, all variables</span>
 <span class="sd">            are jointly tested.</span>
 
@@ -1060,18 +1060,18 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dependent</span><span class="p">,</span> <span class="n">instruments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dependent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">instruments</span>
         <span class="n">exog</span><span class="p">,</span> <span class="n">endog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span>
-        <span class="k">if</span> <span class="nb">vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">variables</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">exog_e</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">endog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
             <span class="n">nobs</span> <span class="o">=</span> <span class="n">exog_e</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">endog_e</span> <span class="o">=</span> <span class="n">empty</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
             <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;All endogenous variables are exogenous&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-                <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">vars</span><span class="p">]</span>
-            <span class="n">exog_e</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[</span><span class="nb">vars</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
-            <span class="n">ex</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">endog</span><span class="o">.</span><span class="n">pandas</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">variables</span><span class="p">]</span>
+            <span class="n">exog_e</span> <span class="o">=</span> <span class="n">c_</span><span class="p">[</span><span class="n">exog</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[</span><span class="n">variables</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+            <span class="n">ex</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">endog</span><span class="o">.</span><span class="n">pandas</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">]</span>
             <span class="n">endog_e</span> <span class="o">=</span> <span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[</span><span class="n">ex</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-            <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;Variables </span><span class="si">{0}</span><span class="s1"> are exogenous&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">vars</span><span class="p">))</span>
+            <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;Variables </span><span class="si">{0}</span><span class="s1"> are exogenous&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">variables</span><span class="p">))</span>
         <span class="kn">from</span> <span class="nn">linearmodels.iv</span> <span class="k">import</span> <span class="n">IVGMM</span>
         <span class="n">mod</span> <span class="o">=</span> <span class="n">IVGMM</span><span class="p">(</span><span class="n">dependent</span><span class="p">,</span> <span class="n">exog_e</span><span class="p">,</span> <span class="n">endog_e</span><span class="p">,</span> <span class="n">instruments</span><span class="p">)</span>
         <span class="n">res_e</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cov_type</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">cov_config</span><span class="p">)</span>
@@ -1151,21 +1151,20 @@
         <span class="n">out</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="n">individual_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">individual</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">:</span>
-            <span class="n">inner</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="n">inner</span><span class="p">[</span><span class="s1">&#39;rsquared&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">individual_results</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">rsquared</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">endog</span><span class="o">.</span><span class="n">pandas</span><span class="p">[[</span><span class="n">col</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
             <span class="n">ey</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">px</span> <span class="o">@</span> <span class="n">y</span>
             <span class="n">mod</span> <span class="o">=</span> <span class="n">_OLS</span><span class="p">(</span><span class="n">ey</span><span class="p">,</span> <span class="n">ez</span><span class="p">)</span>
             <span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cov_type</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_cov_config</span><span class="p">)</span>
-            <span class="n">inner</span><span class="p">[</span><span class="s1">&#39;partial.rsquared&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">rsquared</span>
             <span class="n">params</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span>
             <span class="n">params</span> <span class="o">=</span> <span class="n">params</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
             <span class="n">stat</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">inv</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">cov</span><span class="p">)</span> <span class="o">@</span> <span class="n">params</span>
             <span class="n">stat</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">stat</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
             <span class="n">w_test</span> <span class="o">=</span> <span class="n">WaldTestStatistic</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">inner</span><span class="p">[</span><span class="s1">&#39;f.stat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">w_test</span><span class="o">.</span><span class="n">stat</span>
-            <span class="n">inner</span><span class="p">[</span><span class="s1">&#39;f.pval&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">w_test</span><span class="o">.</span><span class="n">pval</span>
-            <span class="n">inner</span><span class="p">[</span><span class="s1">&#39;f.dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">w_test</span><span class="o">.</span><span class="n">dist_name</span>
+            <span class="n">inner</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;rsquared&#39;</span><span class="p">:</span> <span class="n">individual_results</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">rsquared</span><span class="p">,</span>
+                     <span class="s1">&#39;partial.rsquared&#39;</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">rsquared</span><span class="p">,</span>
+                     <span class="s1">&#39;f.stat&#39;</span><span class="p">:</span> <span class="n">w_test</span><span class="o">.</span><span class="n">stat</span><span class="p">,</span>
+                     <span class="s1">&#39;f.pval&#39;</span><span class="p">:</span> <span class="n">w_test</span><span class="o">.</span><span class="n">pval</span><span class="p">,</span>
+                     <span class="s1">&#39;f.dist&#39;</span><span class="p">:</span> <span class="n">w_test</span><span class="o">.</span><span class="n">dist_name</span><span class="p">}</span>
             <span class="n">out</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">Series</span><span class="p">(</span><span class="n">inner</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
@@ -1386,7 +1385,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5+7.g86c93d8 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">linearmodels 3.5+8.gba5c098 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
