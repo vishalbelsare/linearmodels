@@ -15,13 +15,13 @@
   <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>Data Formats for Panel Data Analysis &#8212; linearmodels 3.5+4.g664b619 documentation</title>
+    <title>Data Formats for Panel Data Analysis &#8212; linearmodels 3.5+7.g86c93d8 documentation</title>
     <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.5+4.g664b619',
+        VERSION:     '3.5+7.g86c93d8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -59,7 +59,7 @@
         <li class="right" >
           <a href="../introduction.html" title="Introduction"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 3.5+4.g664b619 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 3.5+7.g86c93d8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Panel Data Model Estimation</a> &#187;</li> 
       </ul>
     </div>
@@ -71,7 +71,7 @@
   <div id="left-column">
     <div class="sphinxsidebar">
         <a href="
-    ../../index.html" class="text-logo">linearmodels 3.5 (+4, g664b619)</a>
+    ../../index.html" class="text-logo">linearmodels 3.5 (+7, g86c93d8)</a>
         
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
@@ -441,8 +441,8 @@ Inputs contain missing values. Dropping rows with missing observations.
 Dep. Variable:                 lscrap   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
-Date:                Sat, Jul 08 2017   R-squared (Overall):             -0.0288
-Time:                        16:01:13   Log-likelihood                   -90.459
+Date:                Mon, Jul 10 2017   R-squared (Overall):             -0.0288
+Time:                        11:11:47   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
@@ -558,8 +558,8 @@ Inputs contain missing values. Dropping rows with missing observations.
 Dep. Variable:                 lscrap   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
-Date:                Sat, Jul 08 2017   R-squared (Overall):             -0.0288
-Time:                        16:01:13   Log-likelihood                   -90.459
+Date:                Mon, Jul 10 2017   R-squared (Overall):             -0.0288
+Time:                        11:11:47   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
@@ -609,8 +609,8 @@ Included effects: Entity
 Dep. Variable:                    Dep   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
-Date:                Sat, Jul 08 2017   R-squared (Overall):             -0.0288
-Time:                        16:01:13   Log-likelihood                   -90.459
+Date:                Mon, Jul 10 2017   R-squared (Overall):             -0.0288
+Time:                        11:11:47   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
@@ -675,8 +675,8 @@ is that NumPy loses all label information.</p>
 Dep. Variable:                    Dep   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
-Date:                Sat, Jul 08 2017   R-squared (Overall):             -0.0288
-Time:                        16:01:13   Log-likelihood                   -90.459
+Date:                Mon, Jul 10 2017   R-squared (Overall):             -0.0288
+Time:                        11:11:47   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
@@ -717,12 +717,12 @@ Inputs contain missing values. Dropping rows with missing observations.
 <div class="section" id="xarray-DataArrays">
 <h2>xarray DataArrays<a class="headerlink" href="#xarray-DataArrays" title="Permalink to this headline">¶</a></h2>
 <p>xarray is a relatively new entrant into the set of packages used for
-data structures. The data structures provied by xarray are relevant in
-the context of panel models since pandas <code class="docutils literal"><span class="pre">Panel</span></code> is scheduled for
+data structures. The data structures provided by <code class="docutils literal"><span class="pre">xarray</span></code> are relevant
+in the context of panel models since pandas <code class="docutils literal"><span class="pre">Panel</span></code> is scheduled for
 removal in the futures, and so the only 3d data format that will remain
-viable is an xarray <code class="docutils literal"><span class="pre">DataArray</span></code>. <code class="docutils literal"><span class="pre">DataArray``s</span> <span class="pre">are</span> <span class="pre">similar</span> <span class="pre">to</span> <span class="pre">pandas</span>
-<span class="pre">``Panel</span></code> although <code class="docutils literal"><span class="pre">DataArrays</span></code> use some difference notation. In
-principle it is possible to express the same information in a
+viable is an <code class="docutils literal"><span class="pre">xarray</span></code> <code class="docutils literal"><span class="pre">DataArray</span></code>. <code class="docutils literal"><span class="pre">DataArray``s</span> <span class="pre">are</span> <span class="pre">similar</span> <span class="pre">to</span>
+<span class="pre">pandas</span> <span class="pre">``Panel</span></code> although <code class="docutils literal"><span class="pre">DataArrays</span></code> use some difference notation.
+In principle it is possible to express the same information in a
 <code class="docutils literal"><span class="pre">DataArray</span></code> as one can in a <code class="docutils literal"><span class="pre">Panel</span></code></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -777,8 +777,8 @@ Coordinates:
 Dep. Variable:                 lscrap   R-squared:                        0.0528
 Estimator:                   PanelOLS   R-squared (Between):             -0.0379
 No. Observations:                 140   R-squared (Within):               0.0528
-Date:                Sat, Jul 08 2017   R-squared (Overall):             -0.0288
-Time:                        16:01:14   Log-likelihood                   -90.459
+Date:                Mon, Jul 10 2017   R-squared (Overall):             -0.0288
+Time:                        11:11:48   Log-likelihood                   -90.459
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      5.0751
 Entities:                          48   P-value                           0.0267
@@ -876,8 +876,8 @@ dtype: object
 Dep. Variable:                 lscrap   R-squared:                        0.1985
 Estimator:                   PanelOLS   R-squared (Between):             -0.1240
 No. Observations:                 140   R-squared (Within):               0.1985
-Date:                Sat, Jul 08 2017   R-squared (Overall):             -0.0934
-Time:                        16:01:14   Log-likelihood                   -78.765
+Date:                Mon, Jul 10 2017   R-squared (Overall):             -0.0934
+Time:                        11:11:48   Log-likelihood                   -78.765
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      7.3496
 Entities:                          48   P-value                           0.0002
@@ -916,7 +916,7 @@ Inputs contain missing values. Dropping rows with missing observations.
   warnings.warn(missing_value_warning_msg, MissingValueWarning)
 </pre></div></div>
 </div>
-<p>Using categoricals has the same effect.</p>
+<p>Using <a href="#id1"><span class="problematic" id="id2">``</span></a>categorical``s has the same effect.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [12]:
@@ -953,8 +953,8 @@ dtype: object
 Dep. Variable:                 lscrap   R-squared:                        0.1985
 Estimator:                   PanelOLS   R-squared (Between):             -0.1240
 No. Observations:                 140   R-squared (Within):               0.1985
-Date:                Sat, Jul 08 2017   R-squared (Overall):             -0.0934
-Time:                        16:01:14   Log-likelihood                   -78.765
+Date:                Mon, Jul 10 2017   R-squared (Overall):             -0.0934
+Time:                        11:11:48   Log-likelihood                   -78.765
 Cov. Estimator:            Unadjusted
                                         F-statistic:                      7.3496
 Entities:                          48   P-value                           0.0002
@@ -1029,7 +1029,7 @@ Inputs contain missing values. Dropping rows with missing observations.
         <li class="right" >
           <a href="../introduction.html" title="Introduction"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 3.5+4.g664b619 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">linearmodels 3.5+7.g86c93d8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Panel Data Model Estimation</a> &#187;</li> 
       </ul>
     </div>
